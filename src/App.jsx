@@ -17,6 +17,7 @@ import {connect} from "react-redux";
 //my modules
 import TopHeader from "./components/TopHeader.jsx";
 import Menu from "./components/Menu.jsx";
+import Footer from "./components/Footer.jsx";
 
 class App extends Component {
 	//dispatch methods on event
@@ -32,6 +33,7 @@ class App extends Component {
 							{this.props.children}
 						</div>
 					</div>
+					<Footer />
 				</div>
 			</MuiThemeProvider>
 		);
