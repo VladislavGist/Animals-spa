@@ -1,0 +1,191 @@
+@import ../../styles/vars
+@import ../../styles/theme
+
+.cardItem.horizontalBig
+	width: 100%
+	max-width: 652px
+	height: 267px
+	border-radius: 4px
+	padding: 19px 15px
+	margin-bottom: 30px
+	position: relative
+	overflow: hidden
+	position: relative
+	z-index: 3
+	@extend .transition
+	@extend .shadowMaterial1
+	&:after
+		content: ""
+		width: 100%
+		height: 100%
+		position: absolute
+		left: 0
+		top: 0
+		background: rgba(0,0,0,.20)
+		z-index: 3
+	&:before
+		content: ""
+		width: 300px
+		height: 500px
+		position: absolute
+		top: -70px
+		left: 60%
+		background: white
+		opacity: .1
+		transform: rotate(40deg)
+		z-index: 4
+	.contentWrap
+		display: flex
+		flex-direction: column
+		height: 100%
+		position: relative
+		z-index: 5
+		cursor: pointer
+		.top
+			display: flex
+			justify-content: space-between
+			flex-grow: 1
+			.price
+				color: white
+				font-size: 16px
+				font-family: 'RobotoBold'
+			.info
+				display: flex
+				justify-content: flex-end
+				align-items: center
+				margin-bottom: 2px
+				.fa
+					color: white
+					margin-right: 8px
+					font-size: 25px
+				.categoty
+					color: white
+					font-size: 16px
+					font-family: 'RobotoBold'
+					text-align: right
+			.number
+				color: white
+				font-size: 15px
+				font-family: 'Roboto'
+				text-align: right
+				margin-bottom: 2px
+			.city
+				color: white
+				font-size: 15px
+				font-family: 'Roboto'
+				text-align: right
+				line-height: 15px
+			.userItem
+				display: flex
+				align-items: center
+				justify-content: flex-end
+				margin-top: 10px
+				.fa-star
+					color: #fff176
+					margin-left: 10px
+				.userName
+					color: white
+					font-size: 16px
+					font-family: 'RobotoBold'
+					margin-left: 10px
+					text-align: right
+					&.gold
+						color: #fff176
+		.bottom
+			display: flex
+			flex-direction: row
+			justify-content: space-between
+			.title
+				font-size: 25.6px
+				color: white
+				font-family: 'RobotoBold'
+				line-height: 22px
+				margin-bottom: 11px
+			.subTitle
+				max-width: 362px
+				font-size: 16px
+				line-height: 18px
+				color: white
+				font-family: 'Roboto'
+			& > div
+				display: flex
+				flex-direction: column
+				justify-content: flex-end
+	.img
+		position: absolute
+		top: 0
+		left: 0
+		z-index: 1
+		width: 100%
+	.reverseFace
+		display: flex
+		& > div:first-child
+			width: 48%
+		& > div:last-child
+			width: 52%
+		.sliderItem
+			.slick-prev
+				left: 0
+			.slick-next
+				right: 0
+
+			.slick-next, .slick-prev
+				top: 55%
+			.imgCard
+				img
+					min-width: 314px
+			.slick-arrow.slick-next
+				width: 40px
+				height: 40px
+			.slick-arrow.slick-prev
+				width: 40px
+				height: 40px
+
+			.slick-next::before, .slick-prev::before
+				font-size: 40px
+				@extend .shadowMaterial1Text
+				@extend .transition
+
+			.slick-list
+				height: 267px !important
+				overflow: hidden
+				position: relative
+				z-index: -1
+
+			.slick-dots
+				bottom: 0
+		.textItem
+			display: flex
+			flex-direction: column
+			padding: 30px 30px 19px 30px
+			.subTitleReverse
+				flex: 1
+			.buttonsList
+				display: flex
+				justify-content: space-between
+				align-items: center
+				.button1
+					padding: 6px 13px
+					line-height: 18px
+				.visibles
+					display: flex
+					align-items: center
+					i
+						margin-right: 8px
+						opacity: .60
+						font-size: 25px
+					p
+						font-size: 15px
+						line-height: 18px
+						color: #868787
+						font-family: "Roboto", sans-serif
+				.btnReverse
+					background: none
+					padding: 0
+					&:hover
+						cursor: pointer
+					&:focus
+						border: none
+					i
+						color: $colorLead
+						font-size: 33px

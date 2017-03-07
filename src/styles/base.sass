@@ -1,0 +1,138 @@
+@import vars
+
+/****RESET + CLEAR FIX*****/
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6,  
+pre, form, fieldset, input, textarea, p, blockquote, th, td 
+  padding: 0
+  margin: 0
+
+fieldset, img 
+  border: 0
+  
+table  
+  border-collapse: collapse
+  border-spacing: 0
+  
+ol
+  margin-left: 17px
+
+ul  
+  list-style: none
+
+ul > li:before
+  content: ""
+  float: left
+  margin-top: 8px
+  width: 10px
+  height: 10px
+  border-radius: 50%
+  margin-right: 7px
+  background: #34495e
+  
+address, caption, cite, code, dfn, em, strong, th, var 
+  font-weight: normal 
+  font-style: normal
+  
+caption, th 
+  text-align: left
+  
+h1, h2, h3, h4, h5, h6 
+  font-weight: normal
+  font-size: 100% 
+   
+*
+  box-sizing: border-box
+  outline: none !important
+
+button
+  border: none
+
+q
+  &:after
+    content: ''
+
+  &:before
+    content: ''
+  
+.clearfix
+  &:before
+    content: ''
+    display:block
+    height: 0
+    clear:both
+    overflow:hidden
+
+  &:after
+    content: ''
+    display:block
+    height: 0
+    clear:both
+    overflow:hidden
+
+header
+  @extend .clearfix
+
+nav
+  @extend .clearfix
+
+section
+  @extend .clearfix
+
+article
+  @extend .clearfix
+
+footer
+  @extend .clearfix
+
+html
+  height: 100%
+
+body
+  color: $colorSpace1
+  line-height: 24px
+  font: normal 16px 'UbuntuRegular', sans-serif
+  margin: 0 auto
+  position: relative
+  width: 100%
+  height: 100% !important
+  -webkit-backface-visibility: hidden
+  min-width: 320px
+  background: white
+  padding: 0 !important
+  
+h1
+  color: $colorSpace2
+  font-size: $fsizeh1
+  font-family: 'UbuntuBold', sans-serif
+  text-transform: uppercase
+
+h2
+  color: #4d4d4d
+  font-size: $fsizeh2
+  font-family: 'RobotoBold', sans-serif
+  text-transform: uppercase
+
+h3
+  color: $colorSpace2
+  font-size: $fsizeh3
+  font-family: 'RobotoBold', sans-serif
+
+h4
+  color: $colorSpace2
+  font-size: $fsizeh4
+  font-family: sans-serif
+
+p
+  color: #969494
+  font-size: 16px
+  line-height: 18px
+  font-family: 'Roboto', sans-serif
+
+a
+  color: #3d99c8
+  text-decoration: none
+  cursor: pointer
+  &:hover
+    color: #2c7093
+    text-decoration: none
