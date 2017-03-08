@@ -96,7 +96,7 @@ class CardItems extends Component {
 							$(elem).addClass("fa-eur");
 							break;
 						case "Продать":
-							$(elem).addClass("");
+							$(elem).addClass("fa-eur");
 							break;
 						case "Даром":
 							$(elem).addClass("fa-globe");
@@ -113,6 +113,8 @@ class CardItems extends Component {
 				});
 				//сохранил текущую часть Store чтобы карточки корректно работали 
 				this.elem = store.getState().serverReducer;
+
+				this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname);
 			}
 		});
 	}
@@ -149,7 +151,6 @@ class CardItems extends Component {
 			"briefDescription=" + $("#newAnimalForm").find("input[name='briefDescription']")[0].value + "&" +
 			"price=" + $("#newAnimalForm").find("input[name='price']")[0].value
 			;
-		console.log(paramsUrl);
 		let req = this.getXMLHttpRequest();
 		req.onreadystatechange = () => {
 			if(req.readyState !== 4) {
@@ -164,8 +165,9 @@ class CardItems extends Component {
 	};
 
 	render() {
+		//если нет параметров в url то добавить оберке классс .indexPageClass
 		return (
-			<div className="cardItems">
+			<div className={`cardItems ${this.props.state.allParamsUrl === '/' ? 'indexPageClass' : ""}`}>
 				{
 					this.props.datas.length > 0 ?
 					this.props.datas.map((elem, idx) => {
@@ -181,7 +183,7 @@ class CardItems extends Component {
 								rating={elem.rating}
 								price={elem.price}
 								imgPath={elem.imgPath}
-								category={elem.category}
+								advType={elem.advType}
 							/>
 						);
 					}) : <p>Объявлений нет</p>
@@ -216,13 +218,20 @@ class CardItems extends Component {
 	}
 }
 
+let mapStateToProps;
+
 export default connect(
-	state => ({
-		state: state
-	}),
+	mapStateToProps = state => {
+		return {
+			state: state
+		}
+	},
 	dispatch => ({
 		onHandleClearState: () => {
 			dispatch({type: "CLEAR_STATE", payload: {advertisementList: []}})
+		},
+		onReplaceAllUrl: e => {
+			dispatch({type: "CHANGE_URL", payload: e ? e : {}})
 		}
 	})
-	)(CardItems);
+)(CardItems);

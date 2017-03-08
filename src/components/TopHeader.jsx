@@ -21,12 +21,11 @@ class TopHeader extends Component {
 	}
 
 	render() {
-		
 		const loginFalse = () => {
 			return (
 				<div className="userBtns">
 					<p className="userName">Константин</p>
-					<Link to="/" className="personalArea">Личный кабинет</Link>
+					<Link to="/personalArea" className="personalArea">Личный кабинет</Link>
 					<input type="button" value="выход" className="exitBtn" onClick={this.handleExit} />
 				</div>
 			);

@@ -13,14 +13,54 @@ import {connect} from "react-redux";
 import {store} from "../store.jsx";
 
 class AnimalCard extends Component {
+	getXMLHttpRequest = () => {
+		if(window.XMLHttpRequest) {			
+			try{ return new XMLHttpRequest(); }
+			catch(e) {}
+
+		} else if(window.ActiveXObject) {
+			try{ return new ActiveXObject("Microsoft.XMLHTTP"); }	
+			catch(e) {}
+
+			try{ return new ActiveXObject("Msxml2.XMLHTTP"); }	
+			catch(e) {}
+		}
+		return null;
+	};
+
 	componentDidMount() {
-		$.ajax({
-			url: "http://localhost:8091/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment,
-			dataType: "json",
-			success: data => {
-				this.props.getServerData(data);
-			}
-		});
+		//выводит объявлений на главной странице
+		if(this.props.animal_type === undefined) {
+			let req = this.getXMLHttpRequest();
+			req.onreadystatechange = () => {
+				if(req.readyState !== 4) {
+					console.log(req.status);
+				} else {
+					let obj = new Object();
+					obj.advertisementList = JSON.parse(req.responseText);
+					this.props.getServerData(obj);
+				}
+			};
+			req.open("GET", "http://localhost:8091/list-hot-adv", true);
+			req.send(null);
+
+		} else {
+			//вывод объявлений на всех других страницах
+			let req = this.getXMLHttpRequest();
+			req.onreadystatechange = () => {
+				if(req.readyState !== 4) {
+					console.log(req.status);
+				} else {
+					let obj = new Object();
+					obj = JSON.parse(req.responseText);
+					this.props.getServerData(obj);
+				}
+			};
+
+			let url = "http://localhost:8091/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
+			req.open("GET", url, true);
+			req.send(null);
+		}
 	}
 
 	render() {

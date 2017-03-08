@@ -7,6 +7,7 @@ import serverReducer from "./serverReducer.jsx";
 import updateState from "./updateState.jsx";
 import loginUser from "./loginReducer.jsx";
 import sendData from "./sendData.jsx";
+import allParamsUrl from "./allParamsUrl.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
 	serverReducer,
 	updateState,
 	loginUser,
-	sendData
+	sendData,
+	allParamsUrl
 });

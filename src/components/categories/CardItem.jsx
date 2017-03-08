@@ -16,6 +16,7 @@ class CardItem extends Component {
 		for(let i = 0; i < this.props.rating; i++) {
 			mass.push(<i className="fa fa-star" aria-hidden="true" key={i}></i>);	
 		}
+		
 		return (
 			<div className="cardItem horizontalBig">	
 				<div className="contentWrap">
@@ -26,7 +27,7 @@ class CardItem extends Component {
 						<div>
 							<div className="info">
 								<i className="fa" aria-hidden="true"></i>
-								<span className="categoty">{this.props.category}</span>
+								<span className="categoty">{this.props.advType}</span>
 							</div>
 							<p className="number">{this.props.phoneNumber}</p>
 							<p className="city">г. {this.props.city}</p>

@@ -20,20 +20,21 @@ import Menu from "./components/Menu.jsx";
 import Footer from "./components/Footer.jsx";
 
 class App extends Component {
-	//dispatch methods on event
-
+	
 	render() {
 		return (
 			<MuiThemeProvider>
 				<div className="container">
 					<TopHeader />
 					<div className="wrapBackground">
-						<Menu />
-						<div className="spaContent">
-							{this.props.children}
+						<div className="wrapper">
+							<Menu />
+							<div className="spaContent">
+								{this.props.children}
+							</div>
 						</div>
+						<Footer />
 					</div>
-					<Footer />
 				</div>
 			</MuiThemeProvider>
 		);

@@ -6,8 +6,7 @@ import {Router, Route, IndexRoute} from "react-router";
 
 //components
 import NotFound from "./components/NotFound.jsx";
-import Home from "./components/Home.jsx";
-
+import PersonalArea from "./components/PersonalArea.jsx";
 import WrapAnimalCard from "./components/categories/WrapAnimalCard.jsx";
 import AnimalCard from "./components/categories/AnimalCard.jsx";
 
@@ -23,8 +22,9 @@ ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>
 			<Route path="/" component={App}>
-				<IndexRoute component={Home} />
+				<IndexRoute component={WrapAnimalCard} />
 				<Route path="/animals/:type/:advertisment" component={WrapAnimalCard}/>
+				<Route path="/personalArea" component={PersonalArea} />
 			</Route>
 			<Route path="*" component={NotFound} />
 		</Router>
