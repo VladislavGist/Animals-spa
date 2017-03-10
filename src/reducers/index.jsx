@@ -8,6 +8,7 @@ import updateState from "./updateState.jsx";
 import loginUser from "./loginReducer.jsx";
 import sendData from "./sendData.jsx";
 import allParamsUrl from "./allParamsUrl.jsx";
+import photosReducer from "./photosReducer.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
 	updateState,
 	loginUser,
 	sendData,
-	allParamsUrl
+	allParamsUrl,
+	photosReducer
 });

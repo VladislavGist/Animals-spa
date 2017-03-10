@@ -56,7 +56,7 @@ export default class LoginModal extends React.Component {
 
     return (
       <div>
-        <a href="javascript:void(0)" onTouchTap={this.handleOpen} className="button1">Вход / регистрация</a>
+        <a href="javascript:void(0)" onTouchTap={this.handleOpen} className={`button1 ${this.props.classesBtn}`}>{this.props.titleBtn}</a>
         <Dialog actions={actions} modal={true} repositionOnUpdate={true} autoDetectWindowHeight={true} open={this.state.open} contentStyle={styles.contentStyle} actionsContainerStyle={styles.actionsContainerStyle} bodyStyle={styles.overlayStyle} >
 
           <SendAndRegistrationsTabs className="sendAndRegDialog" />

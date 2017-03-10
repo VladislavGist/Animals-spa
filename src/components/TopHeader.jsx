@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
 import "./TopHeader.sass";
+import $ from "jquery";
 
 //redux
 import {connect} from "react-redux";
@@ -12,6 +13,18 @@ class TopHeader extends Component {
 	componentWillMount() {
 		if(localStorage.getItem("user") == "logining") {
 			this.props.loginTrue();
+		}
+	}
+
+	componentDidMount() {
+		console.log("did mount");
+
+		let elem = $(".needLogin");
+
+		if(this.props.state.loginUser === false) {
+			$(elem).click(function() {
+				return false;
+			});
 		}
 	}
 
@@ -41,7 +54,7 @@ class TopHeader extends Component {
 					</div>
 					<a href="javascript:void(0)" className="button1">Ваш город</a>
 					{
-						this.props.state.loginUser === false && localStorage.getItem("user") == null ? <LoginModal /> : loginFalse()
+						this.props.state.loginUser === false && localStorage.getItem("user") == null ? <LoginModal titleBtn="Вход / регистрация" /> : loginFalse()
 					}
 					<div className="button3">
 						<a href="javascript:void(0)" className="buttonCircle">
@@ -53,7 +66,10 @@ class TopHeader extends Component {
 						</span>
 					</div>
 
-					<a href="javascript:void(0)" className="button2">Подать объявление</a>
+					{
+						this.props.state.loginUser === false ? <LoginModal titleBtn="Подать объявление" classesBtn="button2 needLogin" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
+					}
+					
 				</div>
 				
 			</header>

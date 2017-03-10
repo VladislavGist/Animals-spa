@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound.jsx";
 import PersonalArea from "./components/PersonalArea.jsx";
 import WrapAnimalCard from "./components/categories/WrapAnimalCard.jsx";
 import AnimalCard from "./components/categories/AnimalCard.jsx";
+import PlaceAnAd from "./components/PlaceAnAd.jsx";
 
 import App from "./App.jsx";
 
@@ -25,6 +26,7 @@ ReactDOM.render(
 				<IndexRoute component={WrapAnimalCard} />
 				<Route path="/animals/:type/:advertisment" component={WrapAnimalCard}/>
 				<Route path="/personalArea" component={PersonalArea} />
+				<Route path="/placeAnAd" component={PlaceAnAd} />
 			</Route>
 			<Route path="*" component={NotFound} />
 		</Router>
