@@ -71,7 +71,6 @@ class TopHeader extends Component {
 					}
 					
 				</div>
-				
 			</header>
 		);
 	}
@@ -81,10 +80,10 @@ export default connect(
 	state => ({state: state}),
 	dispatch => ({
 		loginTrue: () => {
-	      dispatch({type: "LOGIN_TRUE", payload: true});
+	      		dispatch({type: "LOGIN_TRUE", payload: true});
 	    },
 	    loginFalse: () => {
-	    	dispatch({type: "LOGIN_FALSE", payload: false});
+	    		dispatch({type: "LOGIN_FALSE", payload: false});
 	    }
 	})
-	)(TopHeader);
+)(TopHeader);

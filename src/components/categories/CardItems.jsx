@@ -124,46 +124,6 @@ class CardItems extends Component {
 		this.props.onHandleClearState();
 	}
 
-	//AJAX функция
-	getXMLHttpRequest = () => {
-		if(window.XMLHttpRequest) {			
-			try{ return new XMLHttpRequest(); }
-			catch(e) {}
-
-		} else if(window.ActiveXObject) {
-			try{ return new ActiveXObject("Microsoft.XMLHTTP"); }	
-			catch(e) {}
-
-			try{ return new ActiveXObject("Msxml2.XMLHTTP"); }	
-			catch(e) {}
-		}
-		return null;
-	};
-
-	//Добавление объявления
-	postMethodAddCard = () => {
-		let paramsUrl = 
-			"animalType=" + $(".animalType")[0].value + "&" +
-			"advertisementType=" + $(".advertisementType")[0].value + "&" +
-			"city=" + $(".selectCity")[0].value + "&" +
-			"title=" + $("#newAnimalForm").find("input[name='title']")[0].value + "&" +
-			"phoneNumber=" + $("#newAnimalForm").find("input[name='phoneNumber']")[0].value + "&" +
-			"briefDescription=" + $("#newAnimalForm").find("input[name='briefDescription']")[0].value + "&" +
-			"price=" + $("#newAnimalForm").find("input[name='price']")[0].value
-			;
-		let req = this.getXMLHttpRequest();
-		req.onreadystatechange = () => {
-			if(req.readyState !== 4) {
-				console.log(req.status);
-			} else {
-				console.log("yes");
-			}
-		};
-
-		req.open("POST", "http://localhost:8091/add-advertisement?", true);
-		req.send(paramsUrl);
-	};
-
 	render() {
 		//если нет параметров в url то добавить оберке классс .indexPageClass
 		return (
@@ -188,31 +148,6 @@ class CardItems extends Component {
 						);
 					}) : <p>Объявлений нет</p>
 				}
-				
-				<div>
-					<form id="newAnimalForm">
-						<select className="animalType">
-							<option value="cat" name="cat">Кошки</option>
-							<option value="dog" name="dog">Собаки</option>
-						</select>
-						<select className="advertisementType">
-							<option value="sale" name="sale">Продать</option>
-							<option value="gift" name="gift">Даром</option>
-							<option value="missing" name="missing">Пропажа</option>
-							<option value="find" name="find">Находка</option>
-						</select>
-						<select className="selectCity">
-							<option value="moscow" name="moscow">Москва</option>
-							<option value="voronez" name="voronez">Воронеж</option>
-							<option value="piter" name="piter">Санкт-Петербургы</option>
-						</select>
-						<input type="text" placeholder="Название объявления" name="title" />
-						<input type="text" placeholder="Ваш номер телефона" name="phoneNumber" />
-						<input type="text" placeholder="Описание объявления" name="briefDescription" />
-						<input type="text" placeholder="Цена" name="price" />
-						<input type="button" value="Отправить" onClick={this.postMethodAddCard} />
-					</form>
-				</div>
 			</div>
 		);
 	}

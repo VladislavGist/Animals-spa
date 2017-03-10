@@ -9,6 +9,7 @@ import loginUser from "./loginReducer.jsx";
 import sendData from "./sendData.jsx";
 import allParamsUrl from "./allParamsUrl.jsx";
 import photosReducer from "./photosReducer.jsx";
+import validarePlaceAnAd from "./validarePlaceAnAd.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
 	loginUser,
 	sendData,
 	allParamsUrl,
-	photosReducer
+	photosReducer,
+	validarePlaceAnAd
 });
