@@ -2,13 +2,30 @@
 @import ../styles/theme
 
 .placeAnAd
-	.modifyTitle
-		font-family: "RobotoBold"
-		text-transform: uppercase
-		width: 290px
-		font-size: 40.96px
-		line-height: 38px
-		color: #7c7c7c
+	.placeTop
+		display: flex
+		justify-content: space-between
+		.mesagePlace
+			display: flex
+			align-items: center
+			i
+				color: $colorLead
+				margin-right: 15px
+				font-size: 25px
+			p
+				font-family: "RobotoBold"
+				text-transform: uppercase
+				font-size: 20px
+				color: $colorLead
+		.modifyTitle
+			font-family: "RobotoBold"
+			text-transform: uppercase
+			width: 290px
+			font-size: 40.96px
+			line-height: 38px
+			color: #7c7c7c
+
+
 	.placeContent
 		display: flex
 		justify-content: space-between
