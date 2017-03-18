@@ -12,6 +12,7 @@ import photosReducer from "./photosReducer.jsx";
 import validarePlaceAnAd from "./validarePlaceAnAd.jsx";
 import accountType from "./accountType.jsx";
 import userPersonalDatas from "./userPersonalDatas.jsx";
+import jsonDatas from "./jsonDatas.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -24,5 +25,6 @@ export default combineReducers({
 	photosReducer,
 	validarePlaceAnAd,
 	accountType,
-	userPersonalDatas
+	userPersonalDatas,
+	jsonDatas
 });

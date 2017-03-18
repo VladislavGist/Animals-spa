@@ -23,7 +23,7 @@ let userPersonalDatas,
 					phoneNumber: "+7 999 787 13 90",
 					rating: "",
 					price: "5400",
-					imgPath: "",
+					imgPath: "uploads/cats/cat-sale-01.jpg",
 					advType: "buy"
 				},
 				{
@@ -36,7 +36,7 @@ let userPersonalDatas,
 					phoneNumber: "+7 950 584 13 54",
 					rating: "",
 					price: "5400",
-					imgPath: "",
+					imgPath: "uploads/cats/cat-sale-02.jpg",
 					advType: "gift"
 				},
 				{
@@ -49,7 +49,7 @@ let userPersonalDatas,
 					phoneNumber: "+7 989 775 43 90",
 					rating: "",
 					price: "5400",
-					imgPath: "",
+					imgPath: "uploads/cats/cat-sale-01.jpg",
 					advType: "find"
 				}
 			],

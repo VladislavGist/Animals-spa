@@ -29,6 +29,9 @@ class AnimalCard extends Component {
 	};
 
 	componentDidMount() {
+		//обновляет store после рендеринга
+		this.props.updateJsonDatas();
+
 		//выводит объявлений на главной странице
 		if(this.props.animal_type === undefined) {
 			let req = this.getXMLHttpRequest();
@@ -73,11 +76,13 @@ class AnimalCard extends Component {
 }
 
 export default connect(state => ({
-	state: state
-	
+		state: state
 	}),
 	dispatch => ({
 		getServerData: e => {
 			dispatch({type: "GET_DATA_SERVER", payload: e});
+		},
+		updateJsonDatas: () => {
+			dispatch({type: "UPDATE_JSONDATAS"});
 		}
 	}))(AnimalCard);
