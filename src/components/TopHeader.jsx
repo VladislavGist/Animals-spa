@@ -28,24 +28,18 @@ class TopHeader extends Component {
 		}
 	}
 
-	handleExit = () => {
-		localStorage.removeItem("user");
-		this.props.loginFalse();
-	}
-
 	render() {
 		const loginFalse = () => {
 			return (
 				<div className="userBtns">
 					<p className="userName">Константин</p>
 					<Link to="/personalArea" className="personalArea">Личный кабинет</Link>
-					<input type="button" value="выход" className="exitBtn" onClick={this.handleExit} />
 				</div>
 			);
 		};
 		return (
 			<header>
-				<div className="menu">
+				<div className="menuHeader">
 					<div className="top_logo">
 						<Link to="/">
 							<img src="uploads/logo2.png" width="120" alt="logotype" />
@@ -81,9 +75,6 @@ export default connect(
 	dispatch => ({
 		loginTrue: () => {
 	      		dispatch({type: "LOGIN_TRUE", payload: true});
-	    },
-	    loginFalse: () => {
-	    		dispatch({type: "LOGIN_FALSE", payload: false});
 	    }
 	})
 )(TopHeader);
