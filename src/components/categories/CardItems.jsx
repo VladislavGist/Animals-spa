@@ -127,27 +127,33 @@ class CardItems extends Component {
 	render() {
 		//если нет параметров в url то добавить оберке классс .indexPageClass
 		return (
-			<div className={`cardItems ${this.props.state.allParamsUrl === '/' ? 'indexPageClass' : ""}`}>
-				{
-					this.props.datas.length > 0 ?
-					this.props.datas.map((elem, idx) => {
-						return (
-							<CardItem 
-								key={elem.id} 
-								title={elem.title} 
-								briefDescription={elem.briefDescription}
-								city={elem.city}
-								userName={elem.userName}
-								userStatus={elem.userStatus}
-								phoneNumber={elem.phoneNumber}
-								rating={elem.rating}
-								price={elem.price}
-								imgPath={elem.imgPath}
-								advType={elem.advType}
-							/>
-						);
-					}) : <p>Объявлений нет</p>
-				}
+			<div className={`wrapCardsContent ${this.props.state.allParamsUrl === '/' ? 'indexPageClassWrap' : ""}`}>
+				<div className={`cardItems ${this.props.state.allParamsUrl === '/' ? 'indexPageClass' : ""}`}>
+					{
+						this.props.datas.length > 0 ?
+						this.props.datas.map((elem, idx) => {
+							return (
+								<CardItem 
+									key={elem.id} 
+									title={elem.title} 
+									briefDescription={elem.briefDescription}
+									city={elem.city}
+									userName={elem.userName}
+									userStatus={elem.userStatus}
+									phoneNumber={elem.phoneNumber}
+									rating={elem.rating}
+									price={elem.price}
+									imgPath={elem.imgPath}
+									advType={elem.advType}
+								/>
+							);
+						}) : <p>Объявлений нет</p>
+					}
+					{this.props.datas.length > 0 && this.props.state.allParamsUrl != '/' ? <a href="javascript:void(0)" className="addMore button2">Ещё объявления</a> : ""}
+				</div>
+				<div className="cardsBanners">
+					Здесь будет реклама Яндекс.Директ
+				</div>
 			</div>
 		);
 	}

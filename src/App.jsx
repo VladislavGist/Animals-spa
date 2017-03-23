@@ -11,29 +11,42 @@ import "./App.sass";
 //redux
 import {connect} from "react-redux";
 
-//actions
-
-
 //my modules
+import LinearProgressExampleDeterminate from "./components/ProgressBar.jsx";
 import TopHeader from "./components/TopHeader.jsx";
 import Menu from "./components/Menu.jsx";
 import Footer from "./components/Footer.jsx";
 
 class App extends Component {
-	
+
+	componentWillUpdate(data) {
+		if(this.props.state.loginUser === false) {
+			if(location.hash == "#/personalArea") {
+				location.pathname = "/";
+			}
+
+			if(location.hash == "#/placeAnAd") {
+				location.pathname = "/";
+			}
+		}
+	}
+
 	render() {
 		return (
 			<MuiThemeProvider>
-				<div className="container">
-					<TopHeader />
-					<div className="wrapBackground">
-						<div className="wrapper">
-							<Menu />
-							<div className="spaContent">
-								{this.props.children}
+				<div className="wrapApp">
+					{this.props.state.preloader.loading > 0 &&  this.props.state.preloader.loading != 100 ? <LinearProgressExampleDeterminate className="progressBar" /> : ""}
+					<div className="container">
+						<TopHeader />
+						<div className="wrapBackground">
+							<div className="wrapper">
+								<Menu />
+								<div className="spaContent">
+									{this.props.children}
+								</div>
 							</div>
+							<Footer />
 						</div>
-						<Footer />
 					</div>
 				</div>
 			</MuiThemeProvider>

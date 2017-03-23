@@ -1,13 +1,23 @@
+@import ../../styles/vars
+@import ../../styles/theme
 
 .cardItems.indexPageClass
-	.cardItem
+	.cardItemWrap
 		float: left
 		&:first-child
 			height: 566px
 			width: 378px
 			margin-right: 30px
-			&:before
-				top: 290px
+			.cardItem
+				height: 566px
+				&:before
+					height: 590px
+					top: 190px
+			.img
+				img
+					height: 100%
+					width: auto
+					margin-left: -480px
 			.reverseFace
 				flex-direction: column
 				.sliderItem
@@ -24,7 +34,44 @@
 			height: 267px
 			width: 378px
 			margin-right: 30px
+			.img
+				img
+					width: 141%
 			.sliderItem
 				display: none
 			.textItem
 				width: 100%
+
+.wrapCardsContent
+	display: flex
+	&.indexPageClassWrap
+		flex-direction: column
+		.cardItems
+			max-width: 100%
+		.cardsBanners
+			margin-left: 0
+			height: 268px
+			border: 1px solid $colorLead
+			border-radius: 4px
+			color: $colorLead
+			text-align: center
+
+	.cardItems
+		max-width: 642px
+		min-width: 642px
+		width: 100%
+		.addMore
+			width: 100%	
+			display: block
+			text-align: center		
+
+	.cardsBanners
+		display: flex
+		justify-content: center
+		align-items: center
+		margin-left: 30px	
+		width: 100%
+		border: 1px solid $colorLead
+		border-radius: 4px
+		color: $colorLead
+		text-align: center

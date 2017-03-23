@@ -12,6 +12,10 @@ class WrapAnimalCard extends Component {
 		this.advertisment;
 	}
 
+	componentWillUnmount() {
+		this.props.onHandleClearState();
+	}
+
 	render() {
 		this.animal_type = this.props.params.type;
 		this.advertisment = this.props.params.advertisment;
@@ -24,4 +28,13 @@ class WrapAnimalCard extends Component {
 	}
 }
 
-export default WrapAnimalCard;
+export default connect(
+	state => ({
+		state: state
+	}),
+	dispatch => ({
+		onHandleClearState: () => {
+			dispatch({type: "CLEAR_STATE", payload: {advertisementList: []}})
+		},
+	})
+)(WrapAnimalCard);

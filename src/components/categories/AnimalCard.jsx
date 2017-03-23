@@ -29,30 +29,30 @@ class AnimalCard extends Component {
 	};
 
 	componentDidMount() {
-		//обновляет store после рендеринга
-		this.props.updateJsonDatas();
 
 		//выводит объявлений на главной странице
 		if(this.props.animal_type === undefined) {
 			let req = this.getXMLHttpRequest();
 			req.onreadystatechange = () => {
+				this.props.handleUpdateStateLoading(req.readyState * 25);
 				if(req.readyState !== 4) {
-					console.log(req.status);
+				
 				} else {
 					let obj = new Object();
-					obj.advertisementList = JSON.parse(req.responseText);
+					obj = JSON.parse(req.responseText);
 					this.props.getServerData(obj);
 				}
 			};
-			req.open("GET", "http://localhost:8091/list-hot-adv", true);
+			req.open("GET", "http://localhost:8080/list-hot-adv", true);
 			req.send(null);
 
 		} else {
 			//вывод объявлений на всех других страницах
 			let req = this.getXMLHttpRequest();
 			req.onreadystatechange = () => {
+				this.props.handleUpdateStateLoading(req.readyState * 25);
 				if(req.readyState !== 4) {
-					console.log(req.status);
+					
 				} else {
 					let obj = new Object();
 					obj = JSON.parse(req.responseText);
@@ -60,7 +60,8 @@ class AnimalCard extends Component {
 				}
 			};
 
-			let url = "http://localhost:8091/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
+			//let url = "http://localhost:8091/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
+			let url = "http://localhost:8080/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
 			req.open("GET", url, true);
 			req.send(null);
 		}
@@ -84,5 +85,8 @@ export default connect(state => ({
 		},
 		updateJsonDatas: () => {
 			dispatch({type: "UPDATE_JSONDATAS"});
+		},
+		handleUpdateStateLoading: e => {
+			dispatch({type: "UPDATE_LOADING", payload: e});
 		}
 	}))(AnimalCard);

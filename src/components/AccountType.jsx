@@ -85,6 +85,8 @@ class AccountType extends Component {
 	handleExit = () => {
 		localStorage.removeItem("user");
 		this.props.loginFalse();
+
+		location.pathname = "/";
 	}
 
 	render() {

@@ -19,13 +19,18 @@ class MaterialLink extends Component {
 }
 
 class Menu extends Component {
+	constructor() {
+		super();
+	}
 	componentDidMount() {
 		$(".moreInfo").click(() => {
 			$(".accordionContent").slideToggle(300);
+			$(".accordionContent").toggleClass("visible");
 		});
 
 		$(".accordionContent a").click(() => {
 			$(".accordionContent").slideToggle(300);
+			$(".accordionContent").toggleClass("visible");
 		});
 	}
 
@@ -42,14 +47,37 @@ class Menu extends Component {
 		this.props.onHandleAnother01();
 	}
 
+	componentWillUpdate() {
+		//убирает линию над кнопкой разворота меню на опр. страницах при обновлении компонента
+		if(location.hash == "#/placeAnAd" || location.hash == "#/personalArea") {
+			$(".moreInfo").css({"border-top": "none"});
+		} else {
+			$(".moreInfo").css({"border-top": "1px solid rgba(0,0,0,.1)"});
+		}
+	}
+
+	//убирает линию над кнопкой разворота меню на опр. страницах по клику
+	handleOpenMenu() {
+		if(location.hash == "#/placeAnAd" || location.hash == "#/personalArea") {
+			if($(".accordionContent").hasClass("visible")) {
+				$(".moreInfo").css({"border-top":"1px solid rgba(0,0,0,.1)"});
+			
+			} else {
+				$(".moreInfo").css({"border-top": "none"});
+				
+			}
+		}
+	}
+
 	render() {
 		let lin = this.props.state.menuReducer[0].categoryNames.myLinks,
 			name = this.props.state.menuReducer[0].categoryNames.names,
 			icons = this.props.state.menuReducer[0].categoryNames.icons,
 			key = this.props.state.menuReducer[0].categoryNames.key;
+
 		return (
 			<div>
-				<div className="menu">
+				<div className={`menu ${location.hash == "#/placeAnAd" || location.hash == "#/personalArea" ? "hidden" : ""}`}>
 					<div className="img">
 						<img src={this.props.state.menuReducer[0].img} />
 					</div>
@@ -63,10 +91,9 @@ class Menu extends Component {
 								return <MaterialLink valueLink={lin[idx]} icons={icons[idx]} key={key[idx]}> {name[idx]} </MaterialLink>
 							})
 						}
-						
 					</div>
 				</div>
-				<div className="accordionContent">
+				<div className={`accordionContent ${this.border === false ? "hiddenBorder" : ""}`}>
 					<div>
 						<div>
 							<Link to="/animals/cat/buy" onClick={this.handleCat}>
@@ -88,7 +115,7 @@ class Menu extends Component {
 						</div>
 					</div>
 				</div>
-				<a href="javascript:void(0)" className="moreInfo">Все животные
+				<a href="javascript:void(0)" className="moreInfo" onClick={this.handleOpenMenu}>Все животные
 					<i className="fa fa-angle-down" aria-hidden="true"></i>
 				</a>
 			</div>

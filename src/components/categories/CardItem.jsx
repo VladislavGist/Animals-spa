@@ -36,7 +36,7 @@ class CardItem extends Component {
 					<div className="contentWrap">
 						<div className="top">
 							<div>
-								<p className="price">{this.props.price} руб.</p>
+								<p className="price">{this.props.price.length > 0 ? this.props.price + " руб." : ""}</p>
 							</div>
 							<div>
 								<div className="info">
@@ -69,7 +69,9 @@ class CardItem extends Component {
 							</div>
 						</div>
 					</div>
-					<img src={this.props.imgPath} className="img" />
+					<div className="img">
+						<img src={this.props.imgPath} />
+					</div>	
 					<div className="reverseFace">
 						<div className="sliderItem">
 							<SlickSlider imagesItems={["uploads/dogMenu.jpg", "uploads/catMenu.jpg"]} key={this.keyNum} />
@@ -87,7 +89,7 @@ class CardItem extends Component {
 						</div>
 					</div>
 				</div>
-				<p>{this.props.deleted === true ? <a href="javascript:void(0)" className="button1" onClick={this.handlerDelete}>Удалить</a> : ""}</p> 
+				{this.props.deleted === true ? <a href="javascript:void(0)" className="button1" onClick={this.handlerDelete}>Завершить</a> : ""}
 			</div>
 		);
 	}

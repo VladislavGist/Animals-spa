@@ -17,7 +17,6 @@ class TopHeader extends Component {
 	}
 
 	componentDidMount() {
-		console.log("did mount");
 
 		let elem = $(".needLogin");
 
@@ -32,7 +31,6 @@ class TopHeader extends Component {
 		const loginFalse = () => {
 			return (
 				<div className="userBtns">
-					<p className="userName">Константин</p>
 					<Link to="/personalArea" className="personalArea">Личный кабинет</Link>
 				</div>
 			);
@@ -44,11 +42,11 @@ class TopHeader extends Component {
 						<Link to="/">
 							<img src="uploads/logo2.png" width="120" alt="logotype" />
 						</Link>
-						<h1 className="h1">Сервис по продаже и покупке животных. Для частных лиц и постоянных продовцов</h1>
+						<h1 className="h1">Продажа, покупка, пропавшие и найденные, животные в дар. Для частных и постоянных продавцов, приютов. </h1>
 					</div>
-					<a href="javascript:void(0)" className="button1">Ваш город</a>
+					<LoginModal titleBtn={this.props.state.filterCity.cityTopHeader} dialogModal="02" />
 					{
-						this.props.state.loginUser === false && localStorage.getItem("user") == null ? <LoginModal titleBtn="Вход / регистрация" /> : loginFalse()
+						this.props.state.loginUser === false && localStorage.getItem("user") == null ? <LoginModal titleBtn="Вход / регистрация" dialogModal="01" /> : loginFalse()
 					}
 					<div className="button3">
 						<a href="javascript:void(0)" className="buttonCircle">
@@ -61,7 +59,7 @@ class TopHeader extends Component {
 					</div>
 
 					{
-						this.props.state.loginUser === false ? <LoginModal titleBtn="Подать объявление" classesBtn="button2 needLogin" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
+						this.props.state.loginUser === false ? <LoginModal titleBtn="Подать объявление" classesBtn="button2 needLogin" dialogModal="01" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
 					}
 					
 				</div>

@@ -5,8 +5,8 @@ require("babel-polyfill");
 module.exports = {
 	entry: ["babel-polyfill", "./src/index.jsx"],
 	output: {
-		path: __dirname + "/public/build",
-		publicPath: "build/",
+		path: __dirname + "/public/",
+		publicPath: "/",
 		filename: "bundle.js"
 	},
 	devtool: "#cheap-module-source-map",
@@ -24,7 +24,7 @@ module.exports = {
 			},
 			{
 				test: /\.sass$/,
-				loader: ExtractTextPlugin.extract("style" ,"css-loader!autoprefixer-loader!resolve-url!sass-loader?sourceMap"),
+				loader: ExtractTextPlugin.extract("style", "css-loader!autoprefixer-loader!resolve-url-loader!sass-loader?sourceMap"),
 				exclude: ["/node_modules/", "/public/"]
 			},
 			{
@@ -32,13 +32,11 @@ module.exports = {
 				loader: "react-hot-loader!babel",
 				exclude: ["/node_modules/", "/public/"]
 			},
+			{ test: /\.((woff2?|svg)(\?v=[0-9]\.[0-9]\.[0-9]))|(woff2?|svg|jpe?g|png|gif|ico)$/, loader: 'url?limit=10000' },
+			{ test: /\.((ttf|eot|woff)(\?v=[0-9]\.[0-9]\.[0-9]))|(ttf|eot|woff)$/, loader: "file?publicPath=./&name=fonts/[name].[ext]" },
 			{
 				test: /\.json$/,
 				loader: "json-loader"
-			},
-			{
-				test: /\.(png|jpg|svg|gif|ttf|eot|woff|woff2)$/,
-				loader: "file?name=[path][name].[ext]?[hash]"
 			}
 		]
 	},
@@ -46,6 +44,12 @@ module.exports = {
 		new ExtractTextPlugin("bundle.css", {
 			allChunks: true,
 			disable: process.env.NODE_ENV == "development"
-		})
+		}),
+		new webpack.DefinePlugin({
+			'process.env': {
+					NODE_ENV: JSON.stringify('production')
+			}
+		}),
+		new webpack.optimize.UglifyJsPlugin()
 	]
 }

@@ -140,9 +140,8 @@ class PlaceAnAd extends Component {
 			document.querySelectorAll(".loadingPhoto input")[3].value = "";
 			document.querySelectorAll(".loadingPhoto input")[4].value = "";
 
-			console.log("Отправлено");
 		} else {
-			console.log("Не отправлено");
+			
 		}
 	};
 
