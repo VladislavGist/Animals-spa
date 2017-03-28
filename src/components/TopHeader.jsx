@@ -9,6 +9,9 @@ import {connect} from "react-redux";
 //modal SendDialog
 import LoginModal from "./SendDialog.jsx";
 
+//mobile menu
+import DrawerUndockedExample from "./DrawerUndockedExample.jsx";
+
 class TopHeader extends Component {
 	componentWillMount() {
 		if(localStorage.getItem("user") == "logining") {
@@ -48,7 +51,7 @@ class TopHeader extends Component {
 					{
 						this.props.state.loginUser === false && localStorage.getItem("user") == null ? <LoginModal titleBtn="Вход / регистрация" dialogModal="01" /> : loginFalse()
 					}
-					<div className="button3">
+					<div className="button3 repostBtn">
 						<a href="javascript:void(0)" className="buttonCircle">
 							<i className="fa fa-bullhorn" aria-hidden="true"></i>
 						</a>
@@ -59,8 +62,10 @@ class TopHeader extends Component {
 					</div>
 
 					{
-						this.props.state.loginUser === false ? <LoginModal titleBtn="Подать объявление" classesBtn="button2 needLogin" dialogModal="01" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
+						this.props.state.loginUser === false ? <LoginModal titleBtn="Подать объявление" classNameMobile="needLoginMobile" classesBtn="button2 needLoginMobile" dialogModal="01" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
 					}
+
+					<DrawerUndockedExample />
 					
 				</div>
 			</header>

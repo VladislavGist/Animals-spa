@@ -101,10 +101,10 @@ body
 	min-width: 320px
 	background: white
 	padding: 0 !important
-	
+
 h1
 	color: $colorSpace2
-	font-size: $fsizeh1
+	font-size: 15px !important
 	font-family: 'RobotoRegular', sans-serif
 	text-transform: uppercase
 
@@ -129,6 +129,9 @@ p
 	font-size: 16px
 	line-height: 18px
 	font-family: 'Roboto', sans-serif
+	@media screen and (max-width: 768px)
+		font-size: 15px
+		line-height: 16px
 
 a
 	color: #3d99c8

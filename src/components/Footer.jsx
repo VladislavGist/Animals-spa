@@ -12,10 +12,12 @@ class Footer extends Component {
 				<Link to="/">
 					<img src="uploads/logo2.png" width="120" alt="logotype" />
 				</Link>
-				<Link to="/">Главная</Link>
-				<Link to="/">Дать объявление</Link>
-				<Link to="/">Помощь</Link>
-				<Link to="/">Контакты</Link>
+				<div className="linksFooter">
+					<Link to="/">Главная</Link>
+					<Link to="/">Дать объявление</Link>
+					<Link to="/">Помощь</Link>
+					<Link to="/">Контакты</Link>
+				</div>
 			</footer>
 		);
 	}

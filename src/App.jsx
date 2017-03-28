@@ -8,6 +8,8 @@ import "./styles/styles.sass";
 import "./styles/base.sass";
 import "./App.sass";
 
+import $ from "jquery";
+
 //redux
 import {connect} from "react-redux";
 
@@ -18,6 +20,15 @@ import Menu from "./components/Menu.jsx";
 import Footer from "./components/Footer.jsx";
 
 class App extends Component {
+
+	componentDidMount() {
+		//запрет переворота объявление по клику на кнопку
+		$(".button3").each((idx, elem) => {
+			$(elem).click(function(e) {
+				e.stopPropagation();
+			});
+		});
+	}
 
 	componentWillUpdate(data) {
 		if(this.props.state.loginUser === false) {
@@ -41,7 +52,7 @@ class App extends Component {
 						<div className="wrapBackground">
 							<div className="wrapper">
 								<Menu />
-								<div className="spaContent">
+								<div className={`spaContent ${location.hash == "#/personalArea" ? "modileModificator" : ""}`}>
 									{this.props.children}
 								</div>
 							</div>

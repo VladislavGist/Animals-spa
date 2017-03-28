@@ -96,7 +96,7 @@
 								color: $colorLead
 						&.activeLabel
 							border: 1px solid $colorLead
-							box-shadow: none
+							box-shadow: none !important
 							input
 								&:hover
 									cursor: default
@@ -123,3 +123,52 @@
 				i
 					font-size: 90px
 					@extend .shadowMaterial1Text
+
+@media screen and (max-width: 1200px)
+	.placeAnAd
+		.placeContent
+			flex-direction: column
+
+	.placeAnAd .placeContent > div .wrapForm,
+	#newAnimalForm
+		max-width: 100%
+		width: 100% !important
+
+	#newAnimalForm > div
+		width: 90% !important
+
+	.placeAnAd .placeContent > div .wrapPhotos
+		max-width: 100%
+		margin-top: 40px
+
+	.btnPlace
+		margin-top: 40px
+
+@media screen and (max-width: 992px)
+	.placeAnAd
+		.placeTop
+			flex-direction: column
+			.mesagePlace
+				margin-top: 15px
+
+@media screen and (max-width: 600px)
+	#newAnimalForm > div
+		width: 80% !important
+
+	.placeAnAd .placeContent > div .btnPlace
+		width: 100%
+
+@media screen and (max-width: 480px)
+	.placeAnAd .placeTop .modifyTitle
+		line-height: 25px
+		font-size: 25.6px
+
+	.placeAnAd .placeContent > div .wrapPhotos .buttonsAddPhoto .loadingPhoto input,
+	.placeAnAd .placeContent > div .wrapPhotos .buttonsAddPhoto .loadingPhoto
+		max-width: 100px
+		min-width: 100px
+		width: 100px
+		height: 100px
+		&:nth-child(2),
+		&:nth-child(4)
+			margin-right: 0

@@ -54,6 +54,12 @@
 				width: auto
 				&>div
 					margin-bottom: 15px !important
+				.cardItemWrap
+					.button3
+						display: none
+					.buttonsList
+						& > a
+							display: none
 
 	.accountType
 		width: 100%
@@ -126,3 +132,77 @@
 			margin-top: 20px
 		.button1
 			margin-left: 16px
+
+@media screen and (max-width: 1200px)	
+	.personalArea
+		flex-direction: column
+		.personalDatasAccount
+			order: 2
+			max-width: 100%	
+			margin-top: 30px
+		.accountType
+			order: 1
+			max-width: 100%	
+
+@media screen and (max-width: 768px)
+	.sendAndRegTabs
+		.cardItemWrap
+			margin-bottom: 80px
+			&:last-child
+				margin-bottom: 40px
+
+@media screen and (max-width: 600px)
+	.personalArea .accountType,
+	.personalDatasAccount
+		.buttons .typeBtn
+			height: 107px
+			width: 107px
+			i
+				font-size: 40px
+			p
+				text-transform: none
+
+		.subTitle, .title, .price
+			font-size: 25.6px
+		.subTitle, .inMonth
+			margin-top: 10px
+		td
+			font-size: 15px
+
+	.personalArea .personalDatasAccount
+		padding: 30px 15px
+
+	.personalArea .accountType
+		padding: 34px 20px
+
+@media screen and (max-width: 480px)
+	.personalArea .accountType
+		.buttons 
+			flex-wrap: wrap
+			.typeBtn
+				height: 107px
+				width: 100%
+
+	.personalDatasAccount
+		table
+			margin-top: 10px
+			tr
+				flex-direction: column !important
+				td
+					text-align: left !important
+					padding: 16px 16px
+			.trToggle
+				align-items: left !important
+				& > td:first-child
+					padding-bottom: 0
+					div
+						width: 100% !important
+		
+
+	.tabsBlock > p
+		margin-bottom: 25px !important
+
+	.sendAndRegTabs
+		.tabBtn
+			text-transform: none !important
+			font-size: 15px !important

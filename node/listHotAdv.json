@@ -1,0 +1,71 @@
+{
+	"animal-type": "",
+	"advertisment-type": "another",
+	"advertisementList": [
+		{
+			"id": "4t34gg43",
+			"title": "Сеамская кошка",
+			"briefDescription": "Описание объявления будет находиться здесь",
+			"city": "Москва",
+			"userName": "Leonardo",
+			"userStatus": "default",
+			"phoneNumber": "+7 999 787 13 90",
+			"rating": 0,
+			"price": "5000",
+			"imgPath": "uploads/cats/cat-sale-01.jpg",
+			"advType": "buy"
+		},
+		{
+			"id": "4t3443retgg43",
+			"title": "Сеамская кошка 2",
+			"briefDescription": "Описание объявления будет находиться здесь",
+			"city": "Москва",
+			"userName": "Leonardo",
+			"userStatus": "default",
+			"phoneNumber": "+7 999 787 13 90",
+			"rating": 0,
+			"price": "5000",
+			"imgPath": "uploads/cats/cat-sale-02.jpg",
+			"advType": "buy"
+		},
+		{
+			"id": "4t3443tgg43",
+			"title": "Сеамская кошка 2",
+			"briefDescription": "Описание объявления будет находиться здесь",
+			"city": "Москва",
+			"userName": "Leonardo",
+			"userStatus": "default",
+			"phoneNumber": "+7 999 787 13 90",
+			"rating": 0,
+			"price": "5000",
+			"imgPath": "uploads/cats/cat-sale-01.jpg",
+			"advType": "gift"
+		},
+		{
+			"id": "4t3443435tgg43",
+			"title": "Сеамская кошка 2",
+			"briefDescription": "Описание объявления будет находиться здесь",
+			"city": "Москва",
+			"userName": "Leonardo",
+			"userStatus": "default",
+			"phoneNumber": "+7 999 787 13 90",
+			"rating": 0,
+			"price": "5000",
+			"imgPath": "uploads/cats/cat-sale-01.jpg",
+			"advType": "missing"
+		},
+		{
+			"id": "4t3443543435tgg43",
+			"title": "Сеамская кошка 3",
+			"briefDescription": "Описание объявления будет находиться здесь",
+			"city": "Москва",
+			"userName": "Leonardo",
+			"userStatus": "default",
+			"phoneNumber": "+7 999 787 13 90",
+			"rating": 0,
+			"price": "5500",
+			"imgPath": "uploads/cats/cat-sale-02.jpg",
+			"advType": "missing"
+		}
+	]
+}

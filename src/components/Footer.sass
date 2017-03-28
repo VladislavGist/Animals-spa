@@ -12,3 +12,31 @@ footer
 		margin-right: 27px
 		font-family: "Roboto"
 		line-height: 18px
+
+@media screen and (max-width: 768px)
+	footer
+		margin-top: 15px
+		padding: 15px
+		display: block
+		& > a
+				display: block
+				width: 100%
+				margin-right: 0
+				text-align: center
+				font-size: 15px
+		.linksFooter
+			margin-top: 10px
+			display: flex
+			justify-content: space-between
+			a
+				text-align: left
+				margin-right: 0
+				font-size: 15px
+
+@media screen and (max-width: 480px)
+	footer
+		.linksFooter
+			flex-direction: column
+			a
+				text-align: center
+				margin: 5px 0

@@ -63,7 +63,10 @@
 		.addMore
 			width: 100%	
 			display: block
-			text-align: center		
+			text-align: center	
+		@media screen and (max-width: 992px)
+			max-width: 100%
+			min-width: 100%
 
 	.cardsBanners
 		display: flex
@@ -75,3 +78,201 @@
 		border-radius: 4px
 		color: $colorLead
 		text-align: center
+
+.sendAndRegTabs .cardItem.horizontalBig .img
+	width: 102%
+
+@media screen and (max-width: 1200px)
+	.cardItems.indexPageClass
+		.cardItemWrap
+			&:first-child
+				width: 342px
+				
+			&:nth-child(4)
+				width: 342px
+			width: 478px
+			.img
+				img
+					width: 112%
+					margin-left: -30px
+			&:nth-child(4)
+				.img
+					img
+						width: 156%
+						margin-left: -80px
+			.buttonsList
+				a
+					display: none
+
+@media screen and (max-width: 992px)
+	.wrapCardsContent
+		flex-direction: column
+
+		.cardsBanners
+			margin: 0
+			min-height: 268px
+
+		.addMore
+			margin-bottom: 30px
+
+	.cardItems.indexPageClass .cardItemWrap:first-child .reverseFace .sliderItem .slick-list
+		height: 267px !important
+
+	.cardItems.indexPageClass
+		.cardItemWrap
+			.buttonsList
+				a
+					display: block
+			@extend .adaptiveCards
+			&:first-child, &:nth-child(4)
+				@extend .adaptiveCards
+			&:last-child
+				margin-bottom: 30px
+
+	.adaptiveCards
+		height: 267px
+		width: 100%
+		.cardItem
+			&:before
+				top: -90px !important
+			height: 267px !important
+		.img
+			img
+				height: auto !important
+				width: 100% !important
+				margin-left: 0 !important
+		.reverseFace
+			flex-direction: row !important
+			.sliderItem
+				display: block
+				width: 50% !important
+				.slick-list
+					height: 267px
+				.imgCard img
+					min-width: 321px !important
+			.textItem
+				width: 50%
+
+	.noCardsTitle
+		margin-bottom: 30px
+
+@media screen and (max-width: 768px)
+	.cardItems.indexPageClass .cardItemWrap .cardItem,
+	.cardItems .cardItemWrap .cardItem,
+	.cardItemWrap,
+	.cardItemWrap .cardItem
+		height: 220px !important
+
+	.cardItems.indexPageClass,
+	.cardItems .cardItemWrap, 
+	.cardItems .cardItemWrap .cardItem,
+	.sendAndRegTabs .cardItemWrap .cardItem
+		.reverseFace
+			flex-direction: row
+			.sliderItem
+				display: block
+				width: 50%
+				.slick-list
+					height: 219px !important
+				.imgCard img
+					min-width: 241px !important
+			.textItem
+				width: 50%
+
+
+	.cardItems.indexPageClass .cardItemWrap:first-child .reverseFace .sliderItem .slick-list,
+	.cardItems.indexPageClass .cardItemWrap:nth-child(4) .reverseFace .sliderItem .slick-list,
+	.cardItems.indexPageClass .cardItemWrap .reverseFace .sliderItem .slick-list,
+	.cardItems .cardItemWrap .reverseFace .sliderItem .slick-list,
+	.cardItemWrap .reverseFace .sliderItem .slick-list
+		height: 220px !important
+
+	.cardItem.horizontalBig .reverseFace .textItem .buttonsList
+		a
+			display: none
+
+	.cardItem.horizontalBig .reverseFace .textItem
+		padding: 15px
+
+	.cardItem.horizontalBig .reverseFace .textItem .buttonsList .btnReverse i
+		font-size: 30px
+
+.priceMobile
+	display: none
+
+@media screen and (max-width: 600px)
+	.cardItems.indexPageClass .cardItemWrap .img img,
+	.cardItems .cardItemWrap .img img
+		width: 122% !important
+		margin-left: -24px !important
+
+	.sendAndRegTabs .cardItemWrap .img img
+		width: 120% !important
+		margin-left: -24px !important
+
+	.spaContent.modileModificator
+		padding: 0 !important
+
+@media screen and (max-width: 480px)
+	.cardItems.indexPageClass .cardItemWrap .cardItem,
+	.cardItems .cardItemWrap .cardItem
+		height: 392px !important
+		&:before
+			top: 70px !important
+
+	.cardItems.indexPageClass .cardItemWrap:first-child, 
+	.cardItems.indexPageClass .cardItemWrap:nth-child(4),
+	.cardItems.indexPageClass .cardItemWrap,
+	.cardItems .cardItemWrap,
+	.sendAndRegTabs .cardItemWrap .cardItem,
+	.sendAndRegTabs .cardItemWrap
+		height: 392px !important
+		.contentWrap
+			.price, .categoty, .number, .userName 
+				font-size: 15px !important
+			.title
+				font-size: 20px
+			.subTitle
+				font-size: 15px
+				line-height: 18px
+		.reverseFace
+			flex-direction: column !important
+
+	.cardItems.indexPageClass .cardItemWrap .img img,
+	.cardItems .cardItemWrap .img img,
+	.sendAndRegTabs .cardItemWrap .img img
+		width: 346% !important
+		margin-left: -344px !important
+
+	.cardItem.horizontalBig .contentWrap .top .info .fa
+		font-size: 18px	
+
+	.cardItem
+		.price	
+			display: none
+
+	.priceMobile
+		display: block
+		margin-top: 15px
+		.price
+			display: block
+			text-align: right
+
+
+	.cardItems.indexPageClass .cardItemWrap .reverseFace,
+	.cardItems .cardItemWrap .reverseFace,
+	.sendAndRegTabs .cardItemWrap .cardItem
+		.sliderItem 
+			width: 100% !important
+			.slick-list
+				height: 161px !important
+
+	.cardItems.indexPageClass .cardItemWrap .reverseFace .sliderItem .imgCard img,
+	.cardItems .cardItemWrap .reverseFace .sliderItem .imgCard img
+		min-width: 231px !important
+
+	.cardItems.indexPageClass .cardItemWrap .reverseFace .textItem,
+	.cardItems .cardItemWrap .reverseFace .textItem,
+	.sendAndRegTabs .cardItemWrap .reverseFace .textItem
+		width: 100% !important
+		height: 100%

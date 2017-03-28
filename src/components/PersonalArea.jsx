@@ -25,8 +25,6 @@ class PersonalArea extends Component {
 			"padding": "47px 30px",
 			"height": "auto"
 		});
-
-
 	}
 
 	render() {

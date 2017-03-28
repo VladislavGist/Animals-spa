@@ -156,7 +156,7 @@ class LoginModal extends React.Component {
 		};
 
 		return (
-			<div>
+			<div className={`regionsBtn ${this.props.classNameMobile}`}>
 				<a href="javascript:void(0)" onTouchTap={this.handleOpen} className={`button1 ${this.props.classesBtn}`}>{this.props.titleBtn}</a>
 				{this.props.dialogModal === "01" ? dialogModal01() : ""}
 				{this.props.dialogModal === "02" ? dialogModal02() : ""}

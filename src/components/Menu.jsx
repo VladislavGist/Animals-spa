@@ -110,7 +110,7 @@ class Menu extends Component {
 						<div>
 							<Link to="/" onClick={this.handleAnother01}>
 								<img src="uploads/anotherMenu.jpg" className="img" />
-								<h3>Ещё категория</h3>
+								<h3>Попугаи</h3>
 							</Link>
 						</div>
 					</div>

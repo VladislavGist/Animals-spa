@@ -44,6 +44,13 @@ class CardItems extends Component {
 					}
 				});
 
+				//запрет переворота объявление по клику на кнопку
+				$(".button3").each((idx, elem) => {
+					$(elem).click(function(e) {
+						e.stopPropagation();
+					});
+				});
+
 				//reverse объявлений
 				$(".cardItem").on("click", function() {
 					//переключил класс
@@ -147,7 +154,7 @@ class CardItems extends Component {
 									advType={elem.advType}
 								/>
 							);
-						}) : <p>Объявлений нет</p>
+						}) : <p className="noCardsTitle">Объявлений нет</p>
 					}
 					{this.props.datas.length > 0 && this.props.state.allParamsUrl != '/' ? <a href="javascript:void(0)" className="addMore button2">Ещё объявления</a> : ""}
 				</div>

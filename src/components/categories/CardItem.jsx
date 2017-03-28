@@ -49,6 +49,9 @@ class CardItem extends Component {
 									{mass}
 									<p className={`userName ${this.props.userStatus === "seller" ? "gold" : ""}`}>{this.props.userName}</p>
 								</div>
+								<div className="priceMobile">
+									<p className="price">{this.props.price.length > 0 ? this.props.price + " руб." : ""}</p>
+								</div>
 							</div>
 						</div>
 						<div className="bottom">
