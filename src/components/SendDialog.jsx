@@ -62,7 +62,7 @@ class LoginModal extends React.Component {
 
 		let dialogModal01 = () => {
 			return (
-				<Dialog actions={actions} modal={true} repositionOnUpdate={true} autoDetectWindowHeight={true} open={this.state.open} contentStyle={styles.contentStyle} actionsContainerStyle={styles.actionsContainerStyle} bodyStyle={styles.overlayStyle} >
+				<Dialog actions={actions} modal={true} autoScrollBodyContent={true} repositionOnUpdate={true} autoDetectWindowHeight={true} open={this.state.open} contentStyle={styles.contentStyle} actionsContainerStyle={styles.actionsContainerStyle} bodyStyle={styles.overlayStyle} >
 					<SendAndRegistrationsTabs className="sendAndRegDialog" />
 				</Dialog>
 			)

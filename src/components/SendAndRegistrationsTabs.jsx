@@ -209,7 +209,6 @@ class SendAndRegistrationsTabs extends React.Component {
 				<Tab label="Войти" value="0" className="tabBtn" style={styles.tab[0]} onActive={handleActive}>
 					<div>
 						<form id="sendForm">
-
 							<div className="wrapInputs">
 								<TextField
 									className="inputField"
