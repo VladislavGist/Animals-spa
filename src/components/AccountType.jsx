@@ -97,11 +97,11 @@ class AccountType extends Component {
 				<div className="buttons">
 					<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "PRIVATE_SELLER" ? "active" : ""}`} onClick={this.onHndlePrivateSeller}>
 						<i className="fa fa-smile-o" aria-hidden="true"></i>
-						<p>Частный продавец</p>
+						<p>Частный <br /> продавец</p>
 					</a>
 					<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "PERMANENT_SELLER" ? "active" : ""}`} onClick={this.onHandlePermanentSeller}>
 						<i className="fa fa-mobile" aria-hidden="true"></i>
-						<p>Постоянный продавец</p>
+						<p>Постоянный <br /> продавец</p>
 					</a>
 					<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "SHELTER" ? "active" : ""}`} onClick={this.onHandleShelter}>
 						<i className="fa fa-home" aria-hidden="true"></i>

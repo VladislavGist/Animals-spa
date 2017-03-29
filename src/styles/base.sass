@@ -148,24 +148,28 @@ table
 	width: 100%
 	tr
 		border-bottom: 1px solid #efefef
-
-		&>tr:last-child
+		& > tr:last-child
 			td:first-child
 				padding: 0 16px 20px 16px
 		&:last-child
 			border-bottom: none
-		&>tr
-			display: flex
-			justify-content: space-between
+		& > tr
 			border-bottom: none
 			td
+				width: 50%
 				&:last-child
 					text-align: right
-		td
 
+		td
 			padding: 20px 16px
 			color: #b7b6b6
 			font-family: "RobotoLight"
 			&:last-child
 				text-align: right
 				color: #8d8c8c
+
+	@media screen and (max-width: 480px)
+		.trToggle 
+			td
+				width: 100% !important
+					
