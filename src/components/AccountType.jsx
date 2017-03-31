@@ -86,7 +86,7 @@ class AccountType extends Component {
 		localStorage.removeItem("user");
 		this.props.loginFalse();
 
-		location.pathname = "/";
+		location.hash =  "#/";
 	}
 
 	render() {

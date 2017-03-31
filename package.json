@@ -2,7 +2,7 @@
   "name": "animals",
   "version": "1.1.0",
   "description": "",
-  "main": "index.jsx",
+  "main": "public/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base public --port 8090 --host localhost",

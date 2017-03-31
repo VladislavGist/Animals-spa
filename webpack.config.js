@@ -2,6 +2,9 @@ let webpack = require("webpack");
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 require("babel-polyfill");
 
+const PROCESS_ENV = process.env.NODE_ENV;
+const URL_PATH = (PROCESS_ENV === "development") ? "http://localhost:8080" : "https://still-anchorage-46659.herokuapp.com";
+
 module.exports = {
 	entry: ["babel-polyfill", "./src/index.jsx"],
 	output: {
@@ -47,7 +50,8 @@ module.exports = {
 		}),
 		new webpack.DefinePlugin({
 			'process.env': {
-					NODE_ENV: JSON.stringify('production')
+					NODE_ENV: JSON.stringify(PROCESS_ENV),
+					URL: JSON.stringify(URL_PATH)
 			}
 		}),
 		new webpack.optimize.UglifyJsPlugin()

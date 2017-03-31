@@ -128,6 +128,7 @@ class LoginModal extends React.Component {
 							<a href="javascript:void(0)" onClick={handleCityTopHeader}>Нижегородская обл.</a>
 							<a href="javascript:void(0)" onClick={handleCityTopHeader}>Новгородская обл.</a>
 							<a href="javascript:void(0)" onClick={handleCityTopHeader}>Оренбургская обл.</a>
+							<a href="javascript:void(0)" onClick={handleCityTopHeader}>Орловская обл.</a>
 							<a href="javascript:void(0)" onClick={handleCityTopHeader}>Пензенская обл.</a>
 							<a href="javascript:void(0)" onClick={handleCityTopHeader}>Пермский край</a>
 							<a href="javascript:void(0)" onClick={handleCityTopHeader}>Псковская обл.</a>

@@ -43,7 +43,7 @@ class AnimalCard extends Component {
 					this.props.getServerData(obj);
 				}
 			};
-			req.open("GET", "http://localhost:8080/list-hot-adv", true);
+			req.open("GET", process.env.URL + "/list-hot-adv", true);
 			req.send(null);
 
 		} else {
@@ -61,13 +61,15 @@ class AnimalCard extends Component {
 			};
 
 			//let url = "http://localhost:8091/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
-			let url = "http://localhost:8080/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
+			//let url = "https://still-anchorage-46659.herokuapp.com/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
+			let url = process.env.URL + "/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
 			req.open("GET", url, true);
 			req.send(null);
 		}
 	}
 
 	render() {
+		console.log(process.env.URL);
 		return (
 			<div>
 				<CardItems datas={this.props.state.serverReducer.advertisementList} />
