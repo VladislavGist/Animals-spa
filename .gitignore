@@ -1,2 +1,4 @@
 design/
 node_modules/
+node/config.js
+node/node_modules/

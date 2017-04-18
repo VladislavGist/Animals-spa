@@ -8,6 +8,9 @@ import "./CardItem.sass";
 //componentns
 import SlickSlider from "../SlickSlider.jsx";
 
+//async actions
+import {updateCardView} from "../../actions/updateCardView.jsx";
+
 class CardItem extends Component {
 	constructor(props) {
 		super(props);
@@ -24,6 +27,11 @@ class CardItem extends Component {
 				//обновляем нужный участок store
 	}
 
+	clickFunc = e => {
+		//console.log(this.props.cardId, this.props.views);
+		this.props.getUpdateCardView(this.props.cardId);
+	}
+
 	render() {
 		let mass = [];
 		for(let i = 0; i < this.props.rating; i++) {
@@ -33,7 +41,7 @@ class CardItem extends Component {
 		return (
 			<div className="cardItemWrap">
 				<div className="cardItem horizontalBig">	
-					<div className="contentWrap">
+					<div className="contentWrap" onClick={this.clickFunc}>
 						<div className="top">
 							<div>
 								<p className="price">{this.props.price.length > 0 ? this.props.price + " руб." : ""}</p>
@@ -56,20 +64,25 @@ class CardItem extends Component {
 						</div>
 						<div className="bottom">
 							<div>
-								<p className="title">{this.props.title}</p>
+								<h3 className="title">{this.props.title}</h3>
 								<p className="subTitle">{this.props.briefDescription}</p>
 							</div>
-							<div>
-								<div className="button3" title="Сделать репост в социальную сеть">
-									<a href="javascript:void(0)" className="buttonCircle">
-										<i className="fa fa-bullhorn" aria-hidden="true"></i>
-									</a>
-									<span>
-										<a href="javascript:void(0)"><i className="fa fa-vk" aria-hidden="true"></i></a>
-										<a href="javascript:void(0)"><i className="fa fa-odnoklassniki" aria-hidden="true"></i></a>
-									</span>
+
+							{
+								location.hash === "#/personalArea" ? null :
+								<div>
+									<div className="button3" title="Сделать репост в социальную сеть">
+										<a href="javascript:void(0)" className="buttonCircle">
+											<i className="fa fa-bullhorn" aria-hidden="true"></i>
+										</a>
+										<span>
+											<a href="javascript:void(0)"><i className="fa fa-vk" aria-hidden="true"></i></a>
+											<a href="javascript:void(0)"><i className="fa fa-odnoklassniki" aria-hidden="true"></i></a>
+										</span>
+									</div>
 								</div>
-							</div>
+							}
+
 						</div>
 					</div>
 					<div className="img">
@@ -82,11 +95,17 @@ class CardItem extends Component {
 						<div className="textItem">
 							<p className="subTitleReverse">{this.props.briefDescription}</p>
 							<div className="buttonsList">
-								<a href="javascript:void(0)" className="button1">Пожаловаться</a>
-								<div className="visibles">
-									<i className="fa fa-eye" aria-hidden="true"></i>
-									<p>5000</p>
-								</div>
+								{
+									location.hash === "#/personalArea" ? null :
+									<a href="javascript:void(0)" className="button1">Пожаловаться</a>
+								}
+								{
+									location.hash === "#/personalArea" ? null :
+									<div className="visibles">
+										<i className="fa fa-eye" aria-hidden="true"></i>
+										<p>{this.props.views}</p>
+									</div>
+								}
 								<button className="btnReverse"><i className="fa fa-reply" aria-hidden="true"></i></button>
 							</div>
 						</div>
@@ -103,6 +122,14 @@ export default connect(
 		state: state
 	}),
 	dispatch => ({
+		getUpdateCardView: cardId => {
+			dispatch(updateCardView(cardId));
+		}
 		
 	})
 )(CardItem);
+
+/*
+по клику получили id объявления
+передали id в запрос UPDATE
+*/

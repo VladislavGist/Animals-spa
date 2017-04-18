@@ -52,9 +52,10 @@ class CardItems extends Component {
 				});
 
 				//reverse объявлений
-				$(".cardItem").on("click", function() {
+				$(".cardItem").bind("click", function() {
 					//переключил класс
 					$(this).toggleClass("verticalRotate");
+
 					//отменил обработчики click для элемента
 					$(this).off("click");
 				});
@@ -69,7 +70,7 @@ class CardItems extends Component {
 					//назначил обработчик
 					$(this).parents(".cardItem").on("click", function() {
 						$(this).toggleClass("verticalRotate");
-						$(this).off("click");
+						$(this).unbind("click");
 					});
 				});
 
@@ -118,6 +119,7 @@ class CardItems extends Component {
 							$(elem).addClass("");
 					}
 				});
+
 				//сохранил текущую часть Store чтобы карточки корректно работали 
 				this.elem = store.getState().serverReducer;
 
@@ -135,13 +137,14 @@ class CardItems extends Component {
 		//если нет параметров в url то добавить оберке классс .indexPageClass
 		return (
 			<div className={`wrapCardsContent ${this.props.state.allParamsUrl === '/' ? 'indexPageClassWrap' : ""}`}>
-				<div className={`cardItems ${this.props.state.allParamsUrl === '/' ? 'indexPageClass' : ""}`}>
+				<article className={`cardItems ${this.props.state.allParamsUrl === '/' ? 'indexPageClass' : ""}`}>
 					{
 						this.props.datas.length > 0 ?
 						this.props.datas.map((elem, idx) => {
 							return (
-								<CardItem 
-									key={elem.id} 
+								<CardItem
+									cardId={elem.card_id}
+									key={elem.card_id} 
 									title={elem.title} 
 									briefDescription={elem.briefDescription}
 									city={elem.city}
@@ -152,15 +155,16 @@ class CardItems extends Component {
 									price={elem.price}
 									imgPath={elem.imgPath}
 									advType={elem.advType}
+									views={elem.views}
 								/>
 							);
 						}) : <p className="noCardsTitle">Объявлений нет</p>
 					}
 					{this.props.datas.length > 0 && this.props.state.allParamsUrl != '/' ? <a href="javascript:void(0)" className="addMore button2">Ещё объявления</a> : ""}
-				</div>
-				<div className="cardsBanners">
+				</article>
+				<aside className="cardsBanners">
 					Здесь будет реклама Яндекс.Директ
-				</div>
+				</aside>
 			</div>
 		);
 	}

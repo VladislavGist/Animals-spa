@@ -12,64 +12,23 @@ import {connect} from "react-redux";
 //store
 import {store} from "../store.jsx";
 
+//actions
+import {getCards} from "../../actions/getCards.jsx";
+
 class AnimalCard extends Component {
-	getXMLHttpRequest = () => {
-		if(window.XMLHttpRequest) {			
-			try{ return new XMLHttpRequest(); }
-			catch(e) {}
-
-		} else if(window.ActiveXObject) {
-			try{ return new ActiveXObject("Microsoft.XMLHTTP"); }	
-			catch(e) {}
-
-			try{ return new ActiveXObject("Msxml2.XMLHTTP"); }	
-			catch(e) {}
-		}
-		return null;
-	};
 
 	componentDidMount() {
 
 		//выводит объявлений на главной странице
 		if(this.props.animal_type === undefined) {
-			let req = this.getXMLHttpRequest();
-			req.onreadystatechange = () => {
-				this.props.handleUpdateStateLoading(req.readyState * 25);
-				if(req.readyState !== 4) {
-				
-				} else {
-					let obj = new Object();
-					obj = JSON.parse(req.responseText);
-					this.props.getServerData(obj);
-				}
-			};
-			req.open("GET", process.env.URL + "/list-hot-adv", true);
-			req.send(null);
-
+			this.props.handleGetCards(process.env.URL + "/list-hot-adv/" + this.props.state.filterCity.cityTopHeader);
 		} else {
-			//вывод объявлений на всех других страницах
-			let req = this.getXMLHttpRequest();
-			req.onreadystatechange = () => {
-				this.props.handleUpdateStateLoading(req.readyState * 25);
-				if(req.readyState !== 4) {
-					
-				} else {
-					let obj = new Object();
-					obj = JSON.parse(req.responseText);
-					this.props.getServerData(obj);
-				}
-			};
-
-			//let url = "http://localhost:8091/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
-			//let url = "https://still-anchorage-46659.herokuapp.com/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
-			let url = process.env.URL + "/list-animals?animal_type=" + this.props.animal_type + "&advertisement_type=" + this.props.advertisment;
-			req.open("GET", url, true);
-			req.send(null);
+			//выводит на остальных
+			this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + this.props.animal_type + "/advertisement_type/" + this.props.advertisment + "/city/" + this.props.state.filterCity.cityTopHeader);
 		}
 	}
 
 	render() {
-		console.log(process.env.URL);
 		return (
 			<div>
 				<CardItems datas={this.props.state.serverReducer.advertisementList} />
@@ -82,13 +41,10 @@ export default connect(state => ({
 		state: state
 	}),
 	dispatch => ({
-		getServerData: e => {
-			dispatch({type: "GET_DATA_SERVER", payload: e});
-		},
-		updateJsonDatas: () => {
-			dispatch({type: "UPDATE_JSONDATAS"});
-		},
 		handleUpdateStateLoading: e => {
 			dispatch({type: "UPDATE_LOADING", payload: e});
+		},
+		handleGetCards: url => {
+			dispatch(getCards(url));
 		}
 	}))(AnimalCard);

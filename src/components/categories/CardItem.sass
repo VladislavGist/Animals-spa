@@ -4,7 +4,7 @@
 .cardItemWrap
 	margin-bottom: 30px
 	&:last-child
-		margin-bottom: 0
+		margin-bottom: 30px
 
 .cardItem.horizontalBig
 	width: 100%
@@ -39,8 +39,6 @@
 		opacity: .1
 		transform: rotate(40deg)
 		z-index: 4
-	&:last-child
-		margin-bottom: 0
 	.contentWrap
 		display: flex
 		flex-direction: column
@@ -143,7 +141,7 @@
 				top: 55%
 			.imgCard
 				img
-					min-width: 314px
+					//min-width: 314px
 			.slick-arrow.slick-next
 				width: 40px
 				height: 40px
@@ -170,6 +168,9 @@
 			padding: 30px 30px 19px 30px
 			.subTitleReverse
 				flex: 1
+				min-height: 85%
+				max-height: 85%
+				overflow: hidden
 			.buttonsList
 				display: flex
 				justify-content: space-between

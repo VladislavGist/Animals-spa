@@ -28,7 +28,6 @@ export default combineReducers({
 	validarePlaceAnAd,
 	accountType,
 	userPersonalDatas,
-	jsonDatas,
 	preloader,
 	filterCity
 });

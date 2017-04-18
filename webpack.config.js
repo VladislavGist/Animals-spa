@@ -6,7 +6,7 @@ const PROCESS_ENV = process.env.NODE_ENV;
 const URL_PATH = (PROCESS_ENV === "development") ? "http://localhost:8080" : "https://still-anchorage-46659.herokuapp.com";
 
 module.exports = {
-	entry: ["babel-polyfill", "./src/index.jsx"],
+	entry: ["whatwg-fetch", "babel-polyfill", "./src/index.jsx"],
 	output: {
 		path: __dirname + "/public/",
 		publicPath: "/",

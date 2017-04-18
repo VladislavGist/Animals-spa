@@ -85,34 +85,28 @@ class Menu extends Component {
 						<h2>{this.props.state.menuReducer[0].title}</h2>
 						<p>{this.props.state.menuReducer[0].text}</p>
 					</div>
-					<div className="buttons">
+					<nav className="buttons">
 						{
 							this.props.state.menuReducer[0].categoryNames.myLinks.map((elem, idx) => {
 								return <MaterialLink valueLink={lin[idx]} icons={icons[idx]} key={key[idx]}> {name[idx]} </MaterialLink>
 							})
 						}
-					</div>
+					</nav>
 				</div>
 				<div className={`accordionContent ${this.border === false ? "hiddenBorder" : ""}`}>
 					<div>
-						<div>
 							<Link to="/animals/cat/buy" onClick={this.handleCat}>
 								<img src="uploads/catMenu.jpg" className="img" />
 								<h3>Кошки</h3>
 							</Link>
-						</div>
-						<div>
 							<Link to="/" onClick={this.handleDog}>
 								<img src="uploads/dogMenu.jpg" className="img" />
 								<h3>Собаки</h3>
 							</Link>
-						</div>
-						<div>
 							<Link to="/" onClick={this.handleAnother01}>
 								<img src="uploads/anotherMenu.jpg" className="img" />
 								<h3>Попугаи</h3>
 							</Link>
-						</div>
 					</div>
 				</div>
 				<a href="javascript:void(0)" className="moreInfo" onClick={this.handleOpenMenu}>Все животные

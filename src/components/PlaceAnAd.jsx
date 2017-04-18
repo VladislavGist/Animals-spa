@@ -8,6 +8,9 @@ import TextField from 'material-ui/TextField';
 //styles
 import "./PlaceAnAd.sass";
 
+//actions
+import {placeAnAdCard} from "../actions/placeAnAdCard.jsx";
+
 class PlaceAnAd extends Component {
 	constructor(props) {
 		super(props);
@@ -16,7 +19,10 @@ class PlaceAnAd extends Component {
 				value: "cat"
 			},
 			category: {
-				value: "sale"
+				value: "buy"
+			},
+			city: {
+				value: "Москва"
 			}
 		};
 		this.timer0;
@@ -79,22 +85,6 @@ class PlaceAnAd extends Component {
 		this.props.onReletMessage();
 	}
 
-	//AJAX функция
-	getXMLHttpRequest = () => {
-		if(window.XMLHttpRequest) {			
-			try{ return new XMLHttpRequest(); }
-			catch(e) {}
-
-		} else if(window.ActiveXObject) {
-			try{ return new ActiveXObject("Microsoft.XMLHTTP"); }	
-			catch(e) {}
-
-			try{ return new ActiveXObject("Msxml2.XMLHTTP"); }	
-			catch(e) {}
-		}
-		return null;
-	};
-
 	//Добавление объявления
 	postMethodAddCard = () => {
 		let pSity = this.props.state.validarePlaceAnAd.city,
@@ -104,36 +94,39 @@ class PlaceAnAd extends Component {
 			pPlacePrice = this.props.state.validarePlaceAnAd.placePrice,
 			pPlaceImage = this.props.state.validarePlaceAnAd.placeImage;
 
+		let toggleValidatePrice = () => {
+			if(this.state.category.value === "gift" || this.state.category.value === "find") {
+				console.log(this.state.category.value);
+				return true;
+			} else {
+				console.log(this.state.category.value + " false");
+				return pPlacePrice === true;
+			}
+		}
+
 		//если все поля объявлени заполнены, то отправить данные
-		if(pSity === true && pTitleName === true && pPhoneNumber === true && pTextContent === true && pPlacePrice === true && pPlaceImage === true) {
+		if(pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true) {
 			let paramsUrl = 
+				"userName=" + this.props.state.userPersonalDatas.name + "&" +
 				"animalType=" + this.state.animal.value + "&" +
 				"advertisementType=" + this.state.category.value + "&" +
-				"city=" + $(".selectCity")[0].childNodes[1].value + "&" +
+				"city=" + this.state.city.value + "&" +
 				"title=" + $("input[name='title']")[0].value + "&" +
 				"phoneNumber=" + $("input[name='phoneNumber']")[0].value + "&" +
 				"briefDescription=" + $(".briefDescription")[0].childNodes[2].childNodes[1].value + "&" +
-				"price=" + $("input[name='price']")[0].value
+				`${this.state.category.value === "gift" || this.state.category.value === "find" ? "price=" + "" : "price=" + $("input[name='price']")[0].value}` + "&" +
+				`userId=${this.props.state.userPersonalDatas.userId}`
 				;
 
-			let req = this.getXMLHttpRequest();
-			req.onreadystatechange = () => {
-				if(req.readyState !== 4) {
-					
-				} else {
-					
-				}
-			};
-			req.open("POST", "http://localhost:8091/add-advertisement?", true);
-			req.send(paramsUrl);
+			console.log(paramsUrl);
+			this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
 
 			//очистка данных формы
 			this.props.onResetPlace();
-			$(".selectCity")[0].childNodes[1].value = "";
 			$("input[name='title']")[0].value = "";
 			$("input[name='phoneNumber']")[0].value = "";
 			$(".briefDescription")[0].childNodes[2].childNodes[1].nextSibling.value = "";
-			$("input[name='price']")[0].value = "";
+			this.state.category.value === "gift" || this.state.category.value === "find" ? "" : $("input[name='price']")[0].value = "";
 			document.querySelectorAll(".loadingPhoto input")[0].value = "";
 			document.querySelectorAll(".loadingPhoto input")[1].value = "";
 			document.querySelectorAll(".loadingPhoto input")[2].value = "";
@@ -147,6 +140,7 @@ class PlaceAnAd extends Component {
 
 	handleChangeAnimalType = (event, index, value) => this.setState({animal: {value: value}});
 	handleChangeCategory = (event, index, value) => this.setState({category: {value: value}});
+	handleChangeCity = (event, index, value) => this.setState({city: {value: value}});
 
 	//функция валидации поля
 	//аргументы: принимаемый элемент ввода, регулярное выражение, свойство состояния
@@ -162,13 +156,6 @@ class PlaceAnAd extends Component {
 		} else {
 			[action][0](false);
 		}
-	}
-
-	//reg city
-	validateRegCity = e => {
-		let regexpName = /^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$/u;
-		this.validate(e, regexpName, this.props.onValidateRegCity);
-		this.props.onReletMessage();
 	}
 
 	//validateTitleName
@@ -248,8 +235,7 @@ class PlaceAnAd extends Component {
 			);
 		};
 
-		let pSity = this.props.state.validarePlaceAnAd.city,
-			pTitleName = this.props.state.validarePlaceAnAd.titleName,
+		let pTitleName = this.props.state.validarePlaceAnAd.titleName,
 			pPhoneNumber = this.props.state.validarePlaceAnAd.phoneNumber,
 			pTextContent = this.props.state.validarePlaceAnAd.phoneNumber,
 			pPlacePrice = this.props.state.validarePlaceAnAd.placePrice,
@@ -259,7 +245,7 @@ class PlaceAnAd extends Component {
 			<div className="placeAnAd">
 				<div className="placeTop">
 					<p className="modifyTitle">Разместить объявление</p>
-					{this.props.state.validarePlaceAnAd.messagePlace === true && pSity === " " && pTitleName === " " && pTextContent === " " && pPlacePrice === " " ? messagePlace() : "" }
+					{this.props.state.validarePlaceAnAd.messagePlace === true && pTitleName === " " && pTextContent === " " && pPlacePrice === " " ? messagePlace() : "" }
 				</div>
 				<div className="placeContent">
 					<div>
@@ -285,22 +271,92 @@ class PlaceAnAd extends Component {
 									value={this.state.category.value}
 									onChange={this.handleChangeCategory}
 									selectedMenuItemStyle={style.floatingLabelFocusStyle}>
-									<MenuItem value={"sale"} primaryText="Продать" />
+									<MenuItem value={"buy"} primaryText="Продать" />
 									<MenuItem value={"gift"} primaryText="Даром" />
 									<MenuItem value={"missing"} primaryText="Пропажа" />
 									<MenuItem value={"find"} primaryText="Находка" />
 								</SelectField>
-								
-								<TextField 
-									hintText=""
-									onChange={this.validateRegCity} 
-									floatingLabelText="Город"
-									className="selectCity" 
-									underlineFocusStyle={style.underlineFocusStyle} 
-									floatingLabelStyle={style.labelStyle} 
-									floatingLabelFocusStyle={style.floatingLabelFocusStyle}
-									errorText={this.props.state.validarePlaceAnAd.city === true || this.props.state.validarePlaceAnAd.city === " " ? "" : " "} />
 
+								<SelectField
+									floatingLabelStyle={style.floatingLabelStyle}
+									labelStyle={style.labelStyle}
+									floatingLabelText="Город"
+									value={this.state.city.value}
+									onChange={this.handleChangeCity}
+									selectedMenuItemStyle={style.floatingLabelFocusStyle}>
+									<MenuItem value={"Москва"} primaryText="Москва" />
+									<MenuItem value={"Московская обл."} primaryText="Московская обл." />
+									<MenuItem value={"Санкт-Петербург"} primaryText="Санкт-Петербург" />
+									<MenuItem value={"Волгоград"} primaryText="Волгоград" />
+									<MenuItem value={"Екатеринбург"} primaryText="Екатеринбург" />
+									<MenuItem value={"Казань"} primaryText="Казань" />
+									<MenuItem value={"Краснодар"} primaryText="Краснодар" />
+									<MenuItem value={"Нижний Новгород"} primaryText="Нижний Новгород" />
+									<MenuItem value={"Пермь"} primaryText="Пермь" />
+									<MenuItem value={"Ростов-на-Дону"} primaryText="Ростов-на-Дону" />
+									<MenuItem value={"Самара"} primaryText="Самара" />
+									<MenuItem value={"Уфа"} primaryText="Уфа" />
+									<MenuItem value={"Челябинск"} primaryText="Челябинск" />
+									<MenuItem value={"Адыгея"} primaryText="Адыгея" />
+									<MenuItem value={"Архангельская обл."} primaryText="Архангельская обл." />
+									<MenuItem value={"Астраханская обл."} primaryText="Астраханская обл." />
+									<MenuItem value={"Башкортостан"} primaryText="Башкортостан" />
+									<MenuItem value={"Белгородская обл."} primaryText="Белгородская обл." />
+									<MenuItem value={"Брянская обл."} primaryText="Брянская обл." />
+									<MenuItem value={"Владимирская обл."} primaryText="Владимирская обл." />
+									<MenuItem value={"Волгоградская обл."} primaryText="Волгоградская обл." />
+									<MenuItem value={"Вологодская обл."} primaryText="Вологодская обл." />
+									<MenuItem value={"Воронежская обл."} primaryText="Воронежская обл." />
+									<MenuItem value={"Дагестан"} primaryText="Дагестан" />
+									<MenuItem value={"Ивановская обл."} primaryText="Ивановская обл." />
+									<MenuItem value={"Ингушетия"} primaryText="Ингушетия" />
+									<MenuItem value={"Кабардино-Балкария"} primaryText="Кабардино-Балкария" />
+									<MenuItem value={"Калининградская обл."} primaryText="Калининградская обл." />
+									<MenuItem value={"Калмыкия"} primaryText="Калмыкия" />
+									<MenuItem value={"Калужская обл."} primaryText="Калужская обл." />
+									<MenuItem value={"Карачаево-Черкесия"} primaryText="Карачаево-Черкесия" />
+									<MenuItem value={"Карелия"} primaryText="Карелия" />
+									<MenuItem value={"Кировская обл."} primaryText="Кировская обл." />
+									<MenuItem value={"Коми"} primaryText="Коми" />
+									<MenuItem value={"Костромская обл."} primaryText="Костромская обл." />
+									<MenuItem value={"Краснодарский край"} primaryText="Краснодарский край" />
+									<MenuItem value={"Крым"} primaryText="Крым" />
+									<MenuItem value={"Курганская обл."} primaryText="Курганская обл." />
+									<MenuItem value={"Курская обл."} primaryText="Курская обл." />
+									<MenuItem value={"Ленинградская обл."} primaryText="Ленинградская обл." />
+									<MenuItem value={"Липецкая обл."} primaryText="Липецкая обл." />
+									<MenuItem value={"Марий Эл"} primaryText="Марий Эл" />
+									<MenuItem value={"Мордовия"} primaryText="Мордовия" />
+									<MenuItem value={"Мурманская обл."} primaryText="Мурманская обл." />
+									<MenuItem value={"Ненецкий АО"} primaryText="Ненецкий АО" />
+									<MenuItem value={"Нижегородская обл."} primaryText="Нижегородская обл." />
+									<MenuItem value={"Новгородская обл."} primaryText="Новгородская обл." />
+									<MenuItem value={"Оренбургская обл."} primaryText="Оренбургская обл." />
+									<MenuItem value={"Орловская обл."} primaryText="Орловская обл." />
+									<MenuItem value={"Пензенская обл."} primaryText="Пензенская обл." />
+									<MenuItem value={"Пермский край"} primaryText="Пермский край" />
+									<MenuItem value={"Псковская обл."} primaryText="Псковская обл." />
+									<MenuItem value={"Ростовская обл."} primaryText="Ростовская обл." />
+									<MenuItem value={"Рязанская обл."} primaryText="Рязанская обл." />
+									<MenuItem value={"Самарская обл."} primaryText="Самарская обл." />
+									<MenuItem value={"Саратовская обл."} primaryText="Саратовская обл." />
+									<MenuItem value={"Свердловская обл."} primaryText="Свердловская обл." />
+									<MenuItem value={"Северная Осетия"} primaryText="Северная Осетия" />
+									<MenuItem value={"Смоленская обл."} primaryText="Смоленская обл." />
+									<MenuItem value={"Ставропольский край"} primaryText="Ставропольский край" />
+									<MenuItem value={"Тамбовская обл."} primaryText="Тамбовская обл." />
+									<MenuItem value={"Татарстан"} primaryText="Татарстан" />
+									<MenuItem value={"Тверская обл."} primaryText="Тверская обл." />
+									<MenuItem value={"Тульская обл."} primaryText="Тульская обл." />
+									<MenuItem value={"Удмуртия"} primaryText="Удмуртия" />
+									<MenuItem value={"Ульяновская обл."} primaryText="Ульяновская обл." />
+									<MenuItem value={"Челябинская обл."} primaryText="Челябинская обл." />
+									<MenuItem value={"Чеченская республика"} primaryText="Чеченская республика" />
+									<MenuItem value={"Чувашия"} primaryText="Чувашия" />
+									<MenuItem value={"Ярославская обл."} primaryText="Ярославская обл." />
+
+								</SelectField>
+								
 								<TextField 
 									hintText="Максимум 50 символов" 
 									onChange={this.validateTitleName} 
@@ -333,16 +389,19 @@ class PlaceAnAd extends Component {
 									className="briefDescription"
 									errorText={this.props.state.validarePlaceAnAd.textContent === true || this.props.state.validarePlaceAnAd.textContent === " " ? "" : " "} />
 
-								<TextField 
-									hintText="Число без пробелов" 
-									onChange={this.validatePlacePrice}
-									underlineFocusStyle={style.underlineFocusStyle} 
-									floatingLabelText="Цена" 
-									name="price" 
-									floatingLabelStyle={style.labelStyle} 
-									floatingLabelFocusStyle={style.floatingLabelFocusStyle}
-									errorText={this.props.state.validarePlaceAnAd.placePrice === true || this.props.state.validarePlaceAnAd.placePrice === " " ? "" : " "} />
-							</form>
+									{
+										this.state.category.value === "gift" || this.state.category.value === "find" ? "" 
+										: <TextField 
+											hintText="Число без пробелов" 
+											onChange={this.validatePlacePrice}
+											underlineFocusStyle={style.underlineFocusStyle} 
+											floatingLabelText="Цена" 
+											name="price" 
+											floatingLabelStyle={style.labelStyle} 
+											floatingLabelFocusStyle={style.floatingLabelFocusStyle}
+											errorText={this.props.state.validarePlaceAnAd.placePrice === true || this.props.state.validarePlaceAnAd.placePrice === " " ? "" : " "} /> 
+									}
+					</form>
 						</div>
 					</div>
 					<div>
@@ -425,6 +484,9 @@ export default connect(
 		},
 		onReletMessage: () => {
 			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+		},
+		handlePostMethodAddCard: (url, paramUrl) => {
+			dispatch(placeAnAdCard(url, paramUrl));
 		}
 	})
 )(PlaceAnAd);

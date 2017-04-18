@@ -9,6 +9,9 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import SendAndRegistrationsTabs from "./SendAndRegistrationsTabs.jsx";
 
+//actions
+import {getCards} from "../actions/getCards.jsx";
+
 //styles
 import "./SendDialog.sass"
 
@@ -16,7 +19,6 @@ import "./SendDialog.sass"
  * A modal dialog can only be closed by selecting one of the actions.
  */
 class LoginModal extends React.Component {
-
 	state = {
 		open: false,
 	};
@@ -73,6 +75,15 @@ class LoginModal extends React.Component {
 			let handleCityTopHeader = e => {
 				this.props.dispatchCityTopHeader(e.target.innerText);
 				this.handleClose();
+
+		
+				//фльтр объявлений по клику на город. на главной
+				if(this.props.state.allParamsUrl.split("/")[1] === "") {
+					this.props.handleGetCards(process.env.URL + "/list-hot-adv/" + e.target.innerText);
+				} else {
+					//на остальных
+					this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3] + "/city/" + e.target.innerText);
+				}
 			}
 
 			return (
@@ -166,12 +177,18 @@ class LoginModal extends React.Component {
 	}
 }
 
-export default connect(state => ({
-		state: state
-	}),
+let mapStateToProps;
+export default connect(mapStateToProps = state => {
+		return {
+			state: state
+		}
+	},
 	dispatch => ({
 		dispatchCityTopHeader: e => {
 			dispatch({type: "REPLACE_CITY", payload: e})
+		},
+		handleGetCards: url => {
+			dispatch(getCards(url));
 		}
 	})
 )(LoginModal);
