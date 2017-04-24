@@ -5,11 +5,18 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 
-//styles
-import "./PlaceAnAd.sass";
+//libs
+let _ = require("underscore");
 
 //actions
 import {placeAnAdCard} from "../actions/placeAnAdCard.jsx";
+import {postImagesCard} from "../actions/postImagesCard.jsx";
+
+//store
+import {store} from "./store.jsx";
+
+//styles
+import "./PlaceAnAd.sass";
 
 class PlaceAnAd extends Component {
 	constructor(props) {
@@ -30,6 +37,7 @@ class PlaceAnAd extends Component {
 		this.timer2;
 		this.timer3;
 		this.timer4;
+		this.thisFormData;
 	}
 
 	//оптимизировать код ниже возможности нет по причине того, что чтобы увидеть было ли загружено изображение нужен таймер
@@ -38,7 +46,6 @@ class PlaceAnAd extends Component {
 			if(document.querySelectorAll(".loadingPhoto input")[0].value !== undefined && document.querySelectorAll(".loadingPhoto input")[0].value !== "") {
 				this.props.handlePhoto0();
 				this.props.onValidatePlaceImage();
-				//clearInterval(this.timer0);
 			}
 		}, 1000);
 
@@ -46,7 +53,6 @@ class PlaceAnAd extends Component {
 			if(document.querySelectorAll(".loadingPhoto input")[1].value !== undefined && document.querySelectorAll(".loadingPhoto input")[1].value !== "") {
 				this.props.handlePhoto1();
 				this.props.onValidatePlaceImage();
-				//clearInterval(this.timer1);
 			}
 		}, 1000);
 
@@ -54,7 +60,6 @@ class PlaceAnAd extends Component {
 			if(document.querySelectorAll(".loadingPhoto input")[2].value !== undefined && document.querySelectorAll(".loadingPhoto input")[2].value !== "") {
 				this.props.handlePhoto2();
 				this.props.onValidatePlaceImage();
-				//clearInterval(this.timer2);
 			}
 		}, 1000);
 
@@ -62,7 +67,6 @@ class PlaceAnAd extends Component {
 			if(document.querySelectorAll(".loadingPhoto input")[3].value !== undefined && document.querySelectorAll(".loadingPhoto input")[3].value !== "") {
 				this.props.handlePhoto3();
 				this.props.onValidatePlaceImage();
-				//clearInterval(this.timer3);
 			}
 		}, 1000);
 
@@ -70,10 +74,36 @@ class PlaceAnAd extends Component {
 			if(document.querySelectorAll(".loadingPhoto input")[4].value !== undefined && document.querySelectorAll(".loadingPhoto input")[4].value !== "") {
 				this.props.handlePhoto4();
 				this.props.onValidatePlaceImage();
-				//clearInterval(this.timer4);
 			}
 		}, 1000);
+
+		//отправка изоражения
+		let formData = new FormData();
+		//проходим циклом по всем фото и добавляем в буфер формы
+		let files;
+		for(let i = 0; i < $(".formImg").length; i++) {
+			$(`.p${i}`).on("change", function(e) {
+				files = e.target.files[0];
+				if(files.type == "image/jpeg") {
+					formData.append("photo", files);
+				}
+
+				//console.log(document.querySelectorAll(".loadingPhoto input")[i].files[0].type);
+			});
+		}
+		//форму кладем в переменную в state, чтобы использовать как аргумент в функции при передаче
+		this.thisFormData = formData;
 	}
+
+	/*
+		страница загрузилась -
+			выбрали фото -
+				положивили formData в state -
+				положили массив в store
+				подписались на эту часть store
+					если она меняется, то берем 
+			по клику отправить очищаем this.state.thisFormData -
+	*/
 
 	componentWillUnmount() {
 		clearInterval(this.timer0);
@@ -94,6 +124,24 @@ class PlaceAnAd extends Component {
 			pPlacePrice = this.props.state.validarePlaceAnAd.placePrice,
 			pPlaceImage = this.props.state.validarePlaceAnAd.placeImage;
 
+		//проверка изображений на jpeg формат
+		let validateTypeImg = [],
+			resultValidateTypeImg = "";
+
+		for(let i = 0; i < 5; i++) {
+			if(document.querySelectorAll(".loadingPhoto input")[i].files[0] == undefined || document.querySelectorAll(".loadingPhoto input")[i].files[0].type == "image/jpeg") {
+				validateTypeImg.push(true);
+			} else {
+				validateTypeImg.push(false);
+			}
+		}
+
+		_.each(validateTypeImg, elem => {
+			if(elem === false) {
+				resultValidateTypeImg = false;
+			}
+		});
+
 		let toggleValidatePrice = () => {
 			if(this.state.category.value === "gift" || this.state.category.value === "find") {
 				console.log(this.state.category.value);
@@ -105,7 +153,7 @@ class PlaceAnAd extends Component {
 		}
 
 		//если все поля объявлени заполнены, то отправить данные
-		if(pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true) {
+		if(pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true && resultValidateTypeImg !== false) {
 			let paramsUrl = 
 				"userName=" + this.props.state.userPersonalDatas.name + "&" +
 				"animalType=" + this.state.animal.value + "&" +
@@ -118,9 +166,13 @@ class PlaceAnAd extends Component {
 				`userId=${this.props.state.userPersonalDatas.userId}`
 				;
 
-			console.log(paramsUrl);
-			this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
-
+			//отправляем изображения объявления
+			this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData);
+			setTimeout(() => {
+				//отправляем текстовые и числовые данные объявления
+				this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
+			}, 100);
+			
 			//очистка данных формы
 			this.props.onResetPlace();
 			$("input[name='title']")[0].value = "";
@@ -132,7 +184,8 @@ class PlaceAnAd extends Component {
 			document.querySelectorAll(".loadingPhoto input")[2].value = "";
 			document.querySelectorAll(".loadingPhoto input")[3].value = "";
 			document.querySelectorAll(".loadingPhoto input")[4].value = "";
-
+			//this.thisFormData = "";
+			this.thisFormData.delete("photo");
 		} else {
 			
 		}
@@ -196,7 +249,7 @@ class PlaceAnAd extends Component {
 				mass.push(
 					<div className={`loadingPhoto ${this.props.state.photosReducer[idx][i] === true ? "activeLabel" : ""}`} key={i}>
 						<i className={`fa ${this.props.state.photosReducer[idx][i] === true ? "fa-check modifyColor" : "fa-plus"}`} aria-hidden="true"></i>
-						<input type="file" accept="image/jpeg,image/png" className="formImg" />
+						<input type="file" accept="image/jpeg,image/png" className={`formImg ${i}`} />
 					</div>
 				);
 			}
@@ -407,7 +460,7 @@ class PlaceAnAd extends Component {
 					<div>
 						<div className="wrapPhotos">
 							<p className="subtitle">Фотографии</p>
-							<p className="photoDescpipt">Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> Формат jpeg или png </p>
+							<p className="photoDescpipt">Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg</b> </p>
 							{
 								element()
 							}
@@ -487,6 +540,9 @@ export default connect(
 		},
 		handlePostMethodAddCard: (url, paramUrl) => {
 			dispatch(placeAnAdCard(url, paramUrl));
+		},
+		handlePostMethodAddImagesCard: (url, thisFormData) => {
+			dispatch(postImagesCard(url, thisFormData))
 		}
 	})
 )(PlaceAnAd);

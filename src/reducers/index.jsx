@@ -12,9 +12,9 @@ import photosReducer from "./photosReducer.jsx";
 import validarePlaceAnAd from "./validarePlaceAnAd.jsx";
 import accountType from "./accountType.jsx";
 import userPersonalDatas from "./userPersonalDatas.jsx";
-import jsonDatas from "./jsonDatas.jsx";
 import preloader from "./preloader.jsx";
 import filterCity from "./filterCity.jsx";
+import toggleAddMoreBtn from "./toggleAddMoreBtn.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -29,5 +29,6 @@ export default combineReducers({
 	accountType,
 	userPersonalDatas,
 	preloader,
-	filterCity
+	filterCity,
+	toggleAddMoreBtn
 });

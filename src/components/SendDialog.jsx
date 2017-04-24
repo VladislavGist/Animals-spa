@@ -82,7 +82,7 @@ class LoginModal extends React.Component {
 					this.props.handleGetCards(process.env.URL + "/list-hot-adv/" + e.target.innerText);
 				} else {
 					//на остальных
-					this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3] + "/city/" + e.target.innerText);
+					this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3] + "/city/" + e.target.innerText + "/count/10");
 				}
 			}
 

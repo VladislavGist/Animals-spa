@@ -4,14 +4,14 @@
 .cardItemWrap
 	margin-bottom: 30px
 	&:last-child
-		margin-bottom: 30px
+		margin-bottom: 0
 
 .cardItem.horizontalBig
 	width: 100%
 	max-width: 642px
 	height: 268px
 	border-radius: 4px
-	padding: 19px 15px
+	padding: 0 15px
 	margin-bottom: 30px
 	position: relative
 	overflow: hidden
@@ -50,6 +50,7 @@
 			display: flex
 			justify-content: space-between
 			flex-grow: 1
+			margin-top: 19px
 			.price
 				color: white
 				font-size: 16px
@@ -100,6 +101,7 @@
 			display: flex
 			flex-direction: row
 			justify-content: space-between
+			margin-bottom: 19px
 			.title
 				font-size: 25.6px
 				color: white
@@ -118,30 +120,46 @@
 				justify-content: flex-end
 	.img
 		position: absolute
-		top: 0
-		left: 0
+		left: -9999px
+		right: -9999px
+		top: -9999px
+		bottom: -9999px
+		margin: auto
 		z-index: 1
 		height: 100%
 		width: 100%
 		img
 			width: 100%
+			position: absolute
+			left: -9999px
+			right: -9999px
+			top: -9999px
+			bottom: -9999px
+			margin: auto
 	.reverseFace
 		display: flex
 		& > div:first-child
 			width: 48%
 		& > div:last-child
 			width: 52%
+		.slick-track
+			background-color: #F2F2F2
 		.sliderItem
 			.slick-prev
 				left: 0
 			.slick-next
 				right: 0
-
 			.slick-next, .slick-prev
 				top: 55%
 			.imgCard
 				img
-					//min-width: 314px
+					min-width: 314px
+					width: 100%
+					position: absolute
+					top: -9999px
+					bottom: -9999px
+					margin-top: auto
+					margin-bottom: auto
 			.slick-arrow.slick-next
 				width: 40px
 				height: 40px
@@ -153,6 +171,9 @@
 				font-size: 40px
 				@extend .shadowMaterial1Text
 				@extend .transition
+
+			.slick-track
+				height: 100%
 
 			.slick-list
 				height: 267px !important

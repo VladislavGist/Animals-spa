@@ -38,6 +38,8 @@ class CardItem extends Component {
 			mass.push(<i className="fa fa-star" aria-hidden="true" key={i}></i>);	
 		}
 
+		let imgPath = this.props.imgPath.split(" ");
+
 		return (
 			<div className="cardItemWrap">
 				<div className="cardItem horizontalBig">	
@@ -86,11 +88,11 @@ class CardItem extends Component {
 						</div>
 					</div>
 					<div className="img">
-						<img src={this.props.imgPath} />
+						<img src={imgPath[0]} />
 					</div>	
 					<div className="reverseFace">
 						<div className="sliderItem">
-							<SlickSlider imagesItems={["uploads/dogMenu.jpg", "uploads/catMenu.jpg"]} key={this.keyNum} />
+							<SlickSlider imagesItems={imgPath} key={this.keyNum} />
 						</div>
 						<div className="textItem">
 							<p className="subTitleReverse">{this.props.briefDescription}</p>

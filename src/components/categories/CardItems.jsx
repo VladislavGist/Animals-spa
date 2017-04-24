@@ -8,6 +8,10 @@ import {connect} from "react-redux";
 //store
 import {store} from "../store.jsx";
 
+//actions
+import {getCards} from "../../actions/getCards.jsx";
+import {allCards} from "../../actions/allCards.jsx";
+
 //Блок с плитками
 import CardItem from "./CardItem.jsx";
 
@@ -18,6 +22,7 @@ class CardItems extends Component {
 		super()
 		this.subs;
 		this.elem = store.getState().serverReducer;
+		this.countMore = 20;
 	}
 
 	//подписаться на store -
@@ -131,10 +136,18 @@ class CardItems extends Component {
 	componentWillUnmount() {
 		this.subs();
 		this.props.onHandleClearState();
+		this.countMore = 20;
+	}
+
+	addMoreCards = () => {
+		this.props.onMoreCards(process.env.URL + "/list-animals/animal_type/" +  this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/" + this.countMore);
+		this.props.onAllCards(process.env.URL + "/list-animals/animal_type/" +  this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/" + this.countMore + "/allcount");
+		this.countMore += 10;
 	}
 
 	render() {
 		//если нет параметров в url то добавить оберке классс .indexPageClass
+		////this.props.state.toggleAddMoreBtn === true ? <a href="javascript:void(0)" className="addMore button2" onClick={this.addMoreCards}>Ещё объявления</a> : ""
 		return (
 			<div className={`wrapCardsContent ${this.props.state.allParamsUrl === '/' ? 'indexPageClassWrap' : ""}`}>
 				<article className={`cardItems ${this.props.state.allParamsUrl === '/' ? 'indexPageClass' : ""}`}>
@@ -160,7 +173,7 @@ class CardItems extends Component {
 							);
 						}) : <p className="noCardsTitle">Объявлений нет</p>
 					}
-					{this.props.datas.length > 0 && this.props.state.allParamsUrl != '/' ? <a href="javascript:void(0)" className="addMore button2">Ещё объявления</a> : ""}
+					{this.props.datas.length > 0 && this.props.state.allParamsUrl != '/' ? (this.props.state.toggleAddMoreBtn === true ? <a href="javascript:void(0)" className="addMore button2" onClick={this.addMoreCards}>Ещё объявления</a> : "") : ""}
 				</article>
 				<aside className="cardsBanners">
 					Здесь будет реклама Яндекс.Директ
@@ -184,6 +197,12 @@ export default connect(
 		},
 		onReplaceAllUrl: e => {
 			dispatch({type: "CHANGE_URL", payload: e ? e : {}})
+		},
+		onMoreCards: url => {
+			dispatch(getCards(url));
+		},
+		onAllCards: url => {
+			dispatch(allCards(url));
 		}
 	})
 )(CardItems);

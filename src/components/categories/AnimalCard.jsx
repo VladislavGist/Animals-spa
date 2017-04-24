@@ -24,7 +24,7 @@ class AnimalCard extends Component {
 			this.props.handleGetCards(process.env.URL + "/list-hot-adv/" + this.props.state.filterCity.cityTopHeader);
 		} else {
 			//выводит на остальных
-			this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + this.props.animal_type + "/advertisement_type/" + this.props.advertisment + "/city/" + this.props.state.filterCity.cityTopHeader);
+			this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + this.props.animal_type + "/advertisement_type/" + this.props.advertisment + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/10");
 		}
 	}
 
