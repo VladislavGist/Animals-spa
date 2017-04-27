@@ -46,7 +46,7 @@ class CardItem extends Component {
 					<div className="contentWrap" onClick={this.clickFunc}>
 						<div className="top">
 							<div>
-								<p className="price">{this.props.price.length > 0 ? this.props.price + " руб." : ""}</p>
+								<p className="price">{this.props.price > 0 ? this.props.price + " руб." : ""}</p>
 							</div>
 							<div>
 								<div className="info">
@@ -60,7 +60,7 @@ class CardItem extends Component {
 									<p className={`userName ${this.props.userStatus === "seller" ? "gold" : ""}`}>{this.props.userName}</p>
 								</div>
 								<div className="priceMobile">
-									<p className="price">{this.props.price.length > 0 ? this.props.price + " руб." : ""}</p>
+									<p className="price">{this.props.price > 0 ? this.props.price + " руб." : ""}</p>
 								</div>
 							</div>
 						</div>
