@@ -3,12 +3,14 @@ let ExtractTextPlugin = require("extract-text-webpack-plugin");
 require("babel-polyfill");
 
 const PROCESS_ENV = process.env.NODE_ENV;
-const URL_PATH = (PROCESS_ENV === "development") ? "http://localhost:8080" : "https://still-anchorage-46659.herokuapp.com";
+// const URL_PATH = (PROCESS_ENV === "development") ? "http://localhost:8080" : "https://still-anchorage-46659.herokuapp.com";
+//когда буду билдить на рабочий сервер, то вернуть верхнюю строку и в конце указать его
+const URL_PATH = (PROCESS_ENV === "development") ? "http://localhost:8080" : "http://localhost:8080";
 
 module.exports = {
 	entry: ["whatwg-fetch", "babel-polyfill", "./src/index.jsx"],
 	output: {
-		path: __dirname + "/public/",
+		path: __dirname + "/node/public/",
 		publicPath: "/",
 		filename: "bundle.js"
 	},
