@@ -10,6 +10,7 @@ import SlickSlider from "../SlickSlider.jsx";
 
 //async actions
 import {updateCardView} from "../../actions/updateCardView.jsx";
+import {completedCard} from "../../actions/completedCard.jsx";
 
 class CardItem extends Component {
 	constructor(props) {
@@ -17,18 +18,17 @@ class CardItem extends Component {
 		this.pr = props
 	}
 
-	//удаление объявления
-	handlerDelete = () => {
+	//остановка объявления
+	handlerDelete = e => {
 		//взяли id 
-		let id = this.props.id
+		let id = this.props.id;
 
-		//отправили запрос на сервер об удалении объявления с нужным id
-			//если успешо
-				//обновляем нужный участок store
+		//отправили запрос на сервер об остановке объявления с нужным id
+		this.props.handleCompletedCard(`${process.env.URL}/completeCard?cardId=${id}`);
+		e.target.text = "Остановлено";
 	}
 
 	clickFunc = e => {
-		//console.log(this.props.cardId, this.props.views);
 		this.props.getUpdateCardView(this.props.cardId);
 	}
 
@@ -126,12 +126,9 @@ export default connect(
 	dispatch => ({
 		getUpdateCardView: cardId => {
 			dispatch(updateCardView(cardId));
+		},
+		handleCompletedCard: (url, param) => {
+			dispatch(completedCard(url, param));
 		}
-		
 	})
 )(CardItem);
-
-/*
-по клику получили id объявления
-передали id в запрос UPDATE
-*/

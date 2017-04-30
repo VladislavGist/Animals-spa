@@ -16,7 +16,7 @@ export default accountType = (state = initialState, action) => {
 				price: 0,
 				tableData: {
 					"Выше в ротации": "Нет",
-					"Лимит объявлений в месяц": 3,
+					"Лимит объявлений в месяц": "Нет",
 					"Рейтинг": "Нет"
 				}
 			};

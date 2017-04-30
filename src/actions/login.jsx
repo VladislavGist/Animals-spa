@@ -1,7 +1,6 @@
 import 'whatwg-fetch';
 
 export const loginAction = url => {
-	console.log(url);
 	return dispatch => {
 		fetch(url)
 			.then(response => {

@@ -9,6 +9,10 @@ import "./PersonalArea.sass";
 //store
 import {store} from "./store.jsx";
 
+//actions
+import {loadCards} from "../actions/loadCards.jsx";
+import {loadCardsComplAndRej} from "../actions/loadDataComplAndRej.jsx";
+
 //Блок с плитками
 import CardItem from "./categories/CardItem.jsx";
 
@@ -22,7 +26,7 @@ class PersonalDatasAccount extends Component {
 			slideIndex: 0
 		};
 		this.subs;
-		this.elem = store.getState().userPersonalDatas;
+		this.elem = store.getState().serverReducer;
 	}
 
 	handleChange = value => {
@@ -31,23 +35,16 @@ class PersonalDatasAccount extends Component {
 		});
 	}
 
+	componentWillMount() {
+		this.props.handleLoadUserCardsComplAndRej(`${process.env.URL}/userCardsComplAndRejected?userid=${this.props.state.loginUser.results[0].user_id}`);
+		this.props.handleLoadUserCards(`${process.env.URL}/userCardsAccepted?userid=${this.props.state.loginUser.results[0].user_id}`);
+	}
+
 	componentDidMount() {
-		//отображение доп. полей по клику на "изменить"
-		$(".toggleBtn").click(function() {
-			$(this).parent().parent().next().toggleClass("active");
-			$(this).parent().parent().next().slideToggle(0);
-
-			if($(this).parent().parent().next()[0].className === "trToggle active") {
-				$(this).text("Отменить");
-			} else {
-				$(this).text("Изменить");
-			}
-		});
-
 		//подписался на определенную часть store
-		//this.subs = store.subscribe(() => {
+		this.subs = store.subscribe(() => {
 			//если новая часть Store не равна предыдущей, то выполнить код
-			//if(store.getState().userPersonalDatas !== this.elem) {
+			if(store.getState().serverReducer !== this.elem) {
 				//фильтрация до 80 символа
 				let el = $(".bottom .subTitle");
 				for(let i = 0; i < el.length; i++) {
@@ -62,10 +59,18 @@ class PersonalDatasAccount extends Component {
 					}
 				});
 
+				//запрет переворота объявление по клику на кнопку
+				$(".button3").each((idx, elem) => {
+					$(elem).click(function(e) {
+						e.stopPropagation();
+					});
+				});
+
 				//reverse объявлений
-				$(".cardItem").on("click", function() {
+				$(".cardItem").bind("click", function() {
 					//переключил класс
 					$(this).toggleClass("verticalRotate");
+
 					//отменил обработчики click для элемента
 					$(this).off("click");
 				});
@@ -80,7 +85,7 @@ class PersonalDatasAccount extends Component {
 					//назначил обработчик
 					$(this).parents(".cardItem").on("click", function() {
 						$(this).toggleClass("verticalRotate");
-						$(this).off("click");
+						$(this).unbind("click");
 					});
 				});
 
@@ -129,15 +134,18 @@ class PersonalDatasAccount extends Component {
 							$(elem).addClass("");
 					}
 				});
+
 				//сохранил текущую часть Store чтобы карточки корректно работали 
-				//this.elem = store.getState().userPersonalDatas;
+				this.elem = store.getState().serverReducer;
+			}
+		});
 
-		//});
-	}
-
+	}	
 	componentWillUnmount() {
-		//this.subs();
+		this.subs();
 		this.props.handleDataSentFalse();
+		this.props.clearServerReduces();
+		this.props.clearReducerCardsComplAndRej();
 	}
 
 	//отправка данных на сервер
@@ -364,15 +372,15 @@ class PersonalDatasAccount extends Component {
 					<p>Мои объявления</p>
 					<Tabs value={this.state.value} onChange={this.handleChange} className="sendAndRegTabs" inkBarStyle={styles.inkBarStyle} contentContainerStyle={styles.tabTemplateStyle}>
 
-						<Tab label={`Активные ${this.props.state.userPersonalDatas.cards.active.length}`} value="0" className="tabBtn" style={styles.tab[0]} onActive={handleActive}>
+						<Tab label={`Активные ${this.props.state.serverReducer.advertisementList.length}`} value="0" className="tabBtn" style={styles.tab[0]} onActive={handleActive}>
 							<div>
 								{
-									this.props.state.userPersonalDatas.cards.active.length > 0 ?
-									this.props.state.userPersonalDatas.cards.active.map((elem, idx) => {
+									this.props.state.serverReducer.advertisementList.length > 0 ?
+									this.props.state.serverReducer.advertisementList.map((elem, idx) => {
 										return (
 											<CardItem 
-												key={elem.id} 
-												id={elem.id}
+												key={elem.card_id} 
+												id={elem.card_id}
 												title={elem.title} 
 												briefDescription={elem.briefDescription}
 												city={elem.city}
@@ -384,6 +392,7 @@ class PersonalDatasAccount extends Component {
 												imgPath={elem.imgPath}
 												advType={elem.advType}
 												deleted={true}
+												onClick={this.handleClickCard}
 											/>
 										);
 									}) : <p>Активных объявлений нет</p>
@@ -391,15 +400,15 @@ class PersonalDatasAccount extends Component {
 							</div>
 						</Tab>
 
-						<Tab label={`Завершенные ${this.props.state.userPersonalDatas.cards.completed.length}`} value="1" className="tabBtn" style={styles.tab[1]} onActive={handleActive}>
+						<Tab label={`Завершенные/Отклоненные ${this.props.state.reducerCardsComplAndRej.length}`} value="1" className="tabBtn" style={styles.tab[1]} onActive={handleActive}>
 							<div>
 								{
-									this.props.state.userPersonalDatas.cards.completed.length > 0 ?
-									this.props.state.userPersonalDatas.cards.completed.map((elem, idx) => {
+									this.props.state.reducerCardsComplAndRej.length > 0 ?
+									this.props.state.reducerCardsComplAndRej.map((elem, idx) => {
 										return (
 											<CardItem 
-												key={elem.id} 
-												id={elem.id}
+												key={elem.card_id} 
+												id={elem.card_id}
 												title={elem.title} 
 												briefDescription={elem.briefDescription}
 												city={elem.city}
@@ -410,7 +419,7 @@ class PersonalDatasAccount extends Component {
 												price={elem.price}
 												imgPath={elem.imgPath}
 												advType={elem.advType}
-												deleted={true}
+												deleted={false}
 											/>
 										);
 									}) : <p>Завершенных объявлений нет</p>
@@ -455,6 +464,18 @@ export default connect(
 		},
 		handleDataSentFalse: () => {
 			dispatch({type: "DATASENT_FALSE", payload: false});
+		},
+		handleLoadUserCards: (url, query) => {
+			dispatch(loadCards(url, query));
+		},
+		handleLoadUserCardsComplAndRej: (url, query) => {
+			dispatch(loadCardsComplAndRej(url, query));
+		},
+		clearServerReduces: () => {
+			dispatch({type: "CLEAR_STATE", payload: []});
+		},
+		clearReducerCardsComplAndRej: () => {
+			dispatch({type: "CLEAR_STATE_GET_DATA_SERVER_COMPL_AND_REJ"});
 		}
 	})
 )(PersonalDatasAccount);

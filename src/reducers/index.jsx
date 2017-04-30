@@ -16,6 +16,7 @@ import preloader from "./preloader.jsx";
 import filterCity from "./filterCity.jsx";
 import toggleAddMoreBtn from "./toggleAddMoreBtn.jsx";
 import regReducer from "./regReducer.jsx";
+import reducerCardsComplAndRej from "./reducerCardsComplAndRej.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -32,5 +33,6 @@ export default combineReducers({
 	preloader,
 	filterCity,
 	toggleAddMoreBtn,
-	regReducer
+	regReducer,
+	reducerCardsComplAndRej
 });

@@ -13,12 +13,7 @@ import LoginModal from "./SendDialog.jsx";
 import DrawerUndockedExample from "./DrawerUndockedExample.jsx";
 
 class TopHeader extends Component {
-	componentWillMount() {
-		// if(localStorage.getItem("user") == "logining") {
-		// 	this.props.loginTrue();
-		// }
-	}
-
+	
 	componentDidMount() {
 		let elem = $(".needLogin");
 		if(this.props.state.loginUser === false) {

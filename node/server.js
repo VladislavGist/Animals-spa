@@ -159,6 +159,42 @@ pool.getConnection((err, connection) => {
 			}
 		);
 
+		//активные объявления пользователя
+		app.get("/userCardsAccepted", (req, res) => {
+			pool.query(`SELECT * FROM cards WHERE user_id='${req.query.userid}' AND status='accepted' ORDER BY(card_id) DESC;`, (err, results, fields) => {
+				if(err) {
+					console.log("Ошибка при получении объявлений");
+				} else {
+					res.json(results);
+				}
+			});
+		});
+
+		//завершенные и объявления с отказом
+		app.get("/userCardsComplAndRejected", (req, res) => {
+			pool.query(`SELECT * FROM cards WHERE user_id='${req.query.userid}' AND (status='сompleted' OR status='rejected') ORDER BY(card_id) DESC;`, (err, results, fields) => {
+				if(err) {
+					console.log("Ошибка при получении объявлений");
+				} else {
+					res.json(results);
+				}
+			});
+		});
+
+		//заверш. объяв.
+		app.get("/completeCard", (req, res) => {
+			let cardId = req.param("cardId");
+			pool.query(`UPDATE cards SET status='сompleted' WHERE card_id=${cardId};`, (err, results, fields) => {
+				if(err) {
+					console.log("Ошибка остановки объявления");
+					res.end();
+				} else {
+					console.log("Объявление остановленно");
+					res.end();
+				}
+			});
+		});  
+
 		//cards на главной
 		app.get("/list-hot-adv/:city", (req, res) => {
 			console.log("/list-hot-adv");
@@ -170,7 +206,7 @@ pool.getConnection((err, connection) => {
 				}
 			};
 			
-			pool.query(`SELECT * FROM cards WHERE advType IN('missing', 'find', 'gift', 'buy') ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT 5`, (err, results, fields) => {
+			pool.query(`SELECT * FROM cards WHERE status='accepted' AND advType IN('missing', 'find', 'gift', 'buy') ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT 5`, (err, results, fields) => {
 				res.write(JSON.stringify(results));
 				res.end();
 			});
@@ -186,7 +222,7 @@ pool.getConnection((err, connection) => {
 				}
 			};
 
-			pool.query(`SELECT * FROM cards WHERE animalType = '${req.params.animaltype}' AND advType = '${req.params.advertisementtype}' ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT ${req.params.count}`, (err, results, fields) => {
+			pool.query(`SELECT * FROM cards WHERE status='accepted' AND animalType = '${req.params.animaltype}' AND advType = '${req.params.advertisementtype}' ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT ${req.params.count}`, (err, results, fields) => {
 				res.write(JSON.stringify(results));
 				res.end();
 			});
@@ -210,7 +246,6 @@ pool.getConnection((err, connection) => {
 
 		//подача card
 		app.post("/add-advertisement?", (req, res) => {
-			//сделать проверку на sql атаку
 
 			pool.query(`INSERT INTO cards VALUES(
 				NULL,
@@ -226,7 +261,9 @@ pool.getConnection((err, connection) => {
 				'${req.param("animalType")}',
 				'${req.param("advertisementType")}',
 				0,
-				'${req.param("userId")}')`, (err, results, fields) => {
+				'${req.param("userId")}',
+				'verified')`, 
+				(err, results, fields) => {
 					if(err) {
 						console.log("Ошибка подачи объявления");
 						console.log(err);

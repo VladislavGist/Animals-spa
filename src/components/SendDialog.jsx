@@ -75,7 +75,6 @@ class LoginModal extends React.Component {
 			let handleCityTopHeader = e => {
 				this.props.dispatchCityTopHeader(e.target.innerText);
 				this.handleClose();
-
 		
 				//фльтр объявлений по клику на город. на главной
 				if(this.props.state.allParamsUrl.split("/")[1] === "") {

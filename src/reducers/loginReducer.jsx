@@ -11,4 +11,4 @@ export default loginUser = (state = false, action) => {
 		default:
 			return state;
 	}
-}
+};
