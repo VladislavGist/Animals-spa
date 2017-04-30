@@ -19,14 +19,20 @@ import {Provider} from "react-redux";
 //store
 import {store, history} from "./components/store.jsx";
 
+let onEnterFunc = (nextState, replaceState) => {
+	if(store.getState().loginUser === false || store.getState().loginUser.results[0].error !== undefined) {
+		replaceState("/");
+	}
+};
+
 ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>
 			<Route path="/" component={App}>
 				<IndexRoute component={WrapAnimalCard} />
 				<Route path="/animals/:type/:advertisment" component={WrapAnimalCard}/>
-				<Route path="/personalArea" component={PersonalArea} />
-				<Route path="/placeAnAd" component={PlaceAnAd} />
+				<Route path="/personalArea" component={PersonalArea} onEnter={onEnterFunc} />
+				<Route path="/placeAnAd" component={PlaceAnAd} onEnter={onEnterFunc} />
 			</Route>
 			<Route path="*" component={NotFound} />
 		</Router>

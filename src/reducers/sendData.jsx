@@ -5,12 +5,11 @@ let initialState = {
 	},
 	registration: {
 		name: " ",
+		surname: " ",
 		phoneNumber: " ",
 		password: " ",
-		dublePassword: " ",
 		city: " ",
-		codeElement: false,
-		code: " ",
+		email: " ",
 		info: " "
 	}
 },
@@ -44,6 +43,15 @@ export default sendData = (state = initialState, action) => {
 				}
 			};
 			break;
+		case "VALIDATE_REG_SURNAME":
+			return {
+				...state,
+				registration: {
+					...state.registration,
+					surname: action.payload
+				}
+			};
+			break;
 		case "VALIDATE_REG_PHONENUMBER":
 			return {
 				...state,
@@ -62,15 +70,6 @@ export default sendData = (state = initialState, action) => {
 				}
 			};
 			break;
-		case "VALIDATE_REG_DUBL_PASSWORD":
-			return {
-				...state,
-				registration: {
-					...state.registration,
-					dublePassword: action.payload
-				}
-			};
-			break;
 		case "VALIDATE_REG_CITY":
 			return {
 				...state,
@@ -80,48 +79,12 @@ export default sendData = (state = initialState, action) => {
 				}
 			};
 			break;
-		case "CODE_VISIBLE":
+		case "VALIDATE_REG_EMAIL":
 			return {
 				...state,
 				registration: {
 					...state.registration,
-					codeElement: action.payload
-				}
-			};
-			break;
-		case "VALIDATE_CODE":
-			return {
-				...state,
-				registration: {
-					...state.registration,
-					code: action.payload
-				}
-			};
-			break;
-		case "CODE_SENT":
-			return {
-				...state,
-				registration: {
-					...state.registration,
-					info: action.payload
-				}
-			};
-			break;
-		case "CODE_TRUE":
-			return {
-				...state,
-				registration: {
-					...state.registration,
-					info: action.payload
-				}
-			};
-			break;
-		case "CODE_FALSE":
-			return {
-				...state,
-				registration: {
-					...state.registration,
-					info: action.payload
+					email: action.payload
 				}
 			};
 			break;

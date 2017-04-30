@@ -15,6 +15,7 @@ import userPersonalDatas from "./userPersonalDatas.jsx";
 import preloader from "./preloader.jsx";
 import filterCity from "./filterCity.jsx";
 import toggleAddMoreBtn from "./toggleAddMoreBtn.jsx";
+import regReducer from "./regReducer.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -30,5 +31,6 @@ export default combineReducers({
 	userPersonalDatas,
 	preloader,
 	filterCity,
-	toggleAddMoreBtn
+	toggleAddMoreBtn,
+	regReducer
 });

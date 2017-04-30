@@ -1,7 +1,6 @@
-const initialState = false;
 let loginUser;
 
-export default loginUser = (state = initialState, action) => {
+export default loginUser = (state = false, action) => {
 	switch(action.type) {
 		case "LOGIN_FALSE":
 			return action.payload;

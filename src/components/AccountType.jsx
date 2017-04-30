@@ -21,18 +21,27 @@ import "./PersonalArea.sass";
 */
 
 class AccountType extends Component {
+	componentWillMount() {
+		if(this.props.state.loginUser.results[0].accountType == "PRIVATE_SELLER") {
+			this.onHndlePrivateSeller();
+		} else if(this.props.state.loginUser.results[0].accountType == "PERMANENT_SELLER") {
+			this.onHandlePermanentSeller();
+		} else if(this.props.state.loginUser.results[0].accountType == "SHELTER") {
+			this.onHandleShelter();
+		} else {
+
+		}
+	}
+	//по клику вызываются эти функции
 	onHandleShelter = () => {
 		this.props.handleShelter();
 	}
-
 	onHandlePermanentSeller = () => {
 		this.props.handlePermanentSeller();
 	}
-
 	onHndlePrivateSeller = () => {
 		this.props.handlePrivateSeller();
 	}
-
 	//генерирование таблиц
 	table = () => {
 		let generateTable = () => {
@@ -99,14 +108,7 @@ class AccountType extends Component {
 						<i className="fa fa-smile-o" aria-hidden="true"></i>
 						<p>Частный <br /> продавец</p>
 					</a>
-					<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "PERMANENT_SELLER" ? "active" : ""}`} onClick={this.onHandlePermanentSeller}>
-						<i className="fa fa-mobile" aria-hidden="true"></i>
-						<p>Постоянный <br /> продавец</p>
-					</a>
-					<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "SHELTER" ? "active" : ""}`} onClick={this.onHandleShelter}>
-						<i className="fa fa-home" aria-hidden="true"></i>
-						<p>Приют</p>
-					</a>
+					
 				</div>
 
 				<p className="price">{this.props.state.accountType.price} рублей</p>
@@ -114,12 +116,23 @@ class AccountType extends Component {
 				{
 					this.table()
 				}
-				<a href="javascript:void(0)" className="button1">Активировать</a>
+				
 				<a href="javascript:void(0)" className="exitBtn button2" onClick={this.handleExit}>Выйти из аккаунта</a>
 			</div>
 		)
 	}
 }
+/*
+	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "PERMANENT_SELLER" ? "active" : ""}`} onClick={this.onHandlePermanentSeller}>
+		<i className="fa fa-mobile" aria-hidden="true"></i>
+		<p>Постоянный <br /> продавец</p>
+	</a>
+	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "SHELTER" ? "active" : ""}`} onClick={this.onHandleShelter}>
+		<i className="fa fa-home" aria-hidden="true"></i>
+		<p>Приют</p>
+	</a>
+	<a href="javascript:void(0)" className="button1">Активировать</a>
+*/	
 
 export default connect(
 	state => ({

@@ -6,6 +6,10 @@ import $ from "jquery";
 //redux
 import {connect} from "react-redux";
 
+//actions
+import {loginAction} from "../actions/login.jsx";
+import {regAction} from "../actions/regAction.jsx";
+
 //style
 import "./SendAndRegistrationsTabs.sass";
 
@@ -25,7 +29,6 @@ class SendAndRegistrationsTabs extends React.Component {
 			value: "0",
 			slideIndex: 0
 		};
-		this.password = "";
 	}
 
 	handleChange = value => {
@@ -50,7 +53,7 @@ class SendAndRegistrationsTabs extends React.Component {
 		}
 	}
 
-	//функция валидации textarea
+	//функция валидации password
 	validatePassword = e => {
 		let regexpName = /^[a-z0-9_-]{6,18}$/;
 		this.validate(e, regexpName, this.props.onValidatePassword);
@@ -63,17 +66,14 @@ class SendAndRegistrationsTabs extends React.Component {
 	}
 
 	//кнопка отправить
-	onHandleLogin = () => {
+	onHandleLogin = (e) => {
+		//здесь будет запрос к серверу. если вернет true, то вызвать функцию loginTrue()
 		if(this.props.state.sendData.login.password === true && this.props.state.sendData.login.phoneNumber === true) {
-			//здесь будет запрос к серверу. если вернет true, то вызвать функцию loginTrue()
-			this.props.loginTrue();
 
-			//сохранить пользователя в localStorage
+			let password = document.querySelector("input[name=password]").value, phoneNumber = document.querySelector("input[name=phoneNumber]").value;
 
-			//записать какое-либо значение в localStorage
-			//если оно записано, то показывать меню пользователя
-			//а если нет, то показывть меню по умолчанию
-			localStorage.setItem("user", "logining");
+			this.props.loginTrue(`${process.env.URL}/protected?password=${password}&phone=${phoneNumber}`);
+
 		}
 	}
 
@@ -81,6 +81,12 @@ class SendAndRegistrationsTabs extends React.Component {
 	validateRegName = e => {
 		let regexpName = /^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$/u;
 		this.validate(e, regexpName, this.props.onValidateRegName);
+	}
+
+	//фамилия
+	validateRegSurname = e => {
+		let regexpName = /^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$/u;
+		this.validate(e, regexpName, this.props.onValidateRegSurname);
 	}
 
 	//reg phoneNumber
@@ -96,44 +102,49 @@ class SendAndRegistrationsTabs extends React.Component {
 		this.validate(e, regexpName, this.props.onRegValidatePassword);
 	}
 
-	//reg dubl password
-	validateRegDublPassword = e => {
-		let regexpName = this.password;
-		this.validate(e, regexpName, this.props.onRegValidateDublPassword);
-	}
-
 	//reg city
 	validateRegCity = e => {
 		let regexpName = /^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$/u;
 		this.validate(e, regexpName, this.props.onValidateRegCity);
 	}
 
+	//reg email
+	validateRegEmail = e => {
+		let regexpName = /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/;
+		this.validate(e, regexpName, this.props.onValidateRegEmail);
+	}
+
 	//reg submit btn
 	handleRegBtn = () => {
 		let name = this.props.state.sendData.registration.name,
 				phoneNumber = this.props.state.sendData.registration.phoneNumber,
+				surname = this.props.state.sendData.registration.surname,
 				password = this.props.state.sendData.registration.password,
-				dublePassword = this.props.state.sendData.registration.dublePassword,
-				city = this.props.state.sendData.registration.city;
+				city = this.props.state.sendData.registration.city,
+				email = this.props.state.sendData.registration.email;
 
 		//если все поля true
-		if(name === true && phoneNumber === true && password === true && dublePassword === true && city === true) {
-			//то отправить код и показать поле
-			//сделать поле видимым от state тернарным оператором
-			$(".btnReg").addClass("offActive");
-			$(".btnReg").click(function() {
-				return false;
-			})
-			this.props.onCodeSent();
-			this.props.onCodeElement();
-			//если код введен верно, то зарегистрировать
-		}
-	}
+		if(name === true && surname === true && phoneNumber === true && password === true && city === true && email === true) {
+			//параметры
+			let params = {
+				inpName: document.querySelector("input[name=nameReg]").value,
+				inpSurname: document.querySelector("input[name=surnameReg]").value,
+				inpNumberReg: document.querySelector("input[name=phoneNumberReg]").value,
+				inpPasswordReg: document.querySelector("input[name=passwordReg]").value,
+				inpCityReg: document.querySelector("input[name=cityReg]").value,
+				inpEmailReg: document.querySelector("input[name=emailReg]").value
+			}
+			//если все поля true, то зарегистрировать
+			this.props.onHandleReg(`${process.env.URL}/registr`, params);
 
-	//reg code
-	validateCode = e => {
-		let regexpName = /\w/;
-		this.validate(e, regexpName, this.props.onValidateCodeElement);
+			//очистить инпуты
+			document.querySelector("input[name=nameReg]").value = "";
+			document.querySelector("input[name=surnameReg]").value = "";
+			document.querySelector("input[name=phoneNumberReg]").value = "";
+			document.querySelector("input[name=passwordReg]").value = "";
+			document.querySelector("input[name=cityReg]").value = "";
+			document.querySelector("input[name=emailReg]").value = "";
+		}
 	}
 
 	//handle code
@@ -155,21 +166,11 @@ class SendAndRegistrationsTabs extends React.Component {
 		}
 	}
 
+	componentWillUnmount() {
+		this.props.onHandleRegStatusClear();
+	}
+
 	render() {
-		let codeElement = () => {
-			return (
-				<div className="btnCode">
-					<TextField 
-						className="inputField"
-						type="text" 
-						floatingLabelText="Введите код из смс" 
-						name="code"
-						onChange={this.validateCode}
-					/>
-					<input type="button" value="Отправить" onClick={this.handleCode} className="codeBtn button1" />
-				</div>
-			);
-		};
 
 		const styles = {
 			inkBarStyle: {
@@ -229,6 +230,11 @@ class SendAndRegistrationsTabs extends React.Component {
 								/>
 							</div>
 							<div>
+								{
+									 this.props.state.loginUser.error !== undefined ? <p className="loginFormErrMess">{this.props.state.loginUser.error}</p> : ""
+								}
+							</div>
+							<div>
 								<input type="button" value="Войти" className="button2" onClick={this.onHandleLogin} />
 							</div>
 							<div>
@@ -246,16 +252,25 @@ class SendAndRegistrationsTabs extends React.Component {
 									className="inputField"
 									type="text" 
 									floatingLabelText="Имя" 
-									name="name"
+									name="nameReg"
 									onChange={this.validateRegName}
 									errorText={this.props.state.sendData.registration.name === true || this.props.state.sendData.registration.name === " " ? "" : " "} 
+								/>
+
+								<TextField 
+									className="inputField"
+									type="text" 
+									floatingLabelText="Фамилия" 
+									name="surnameReg"
+									onChange={this.validateRegSurname}
+									errorText={this.props.state.sendData.registration.surname === true || this.props.state.sendData.registration.surname === " " ? "" : " "} 
 								/>
 
 								<TextField
 									className="inputField"
 									type="tel"
 									floatingLabelText="Номер телефона" 
-									name="phoneNumber" 
+									name="phoneNumberReg" 
 									onChange={this.validateRegPhone}
 									errorText={this.props.state.sendData.registration.phoneNumber === true || this.props.state.sendData.registration.phoneNumber === " " ? "" : " "} 
 								/>
@@ -264,32 +279,31 @@ class SendAndRegistrationsTabs extends React.Component {
 									className="inputField"
 									type="password" 
 									floatingLabelText="Пароль" 
-									name="password" 
+									name="passwordReg" 
 									onChange={this.validateRegPassword}
 									errorText={this.props.state.sendData.registration.password === true || this.props.state.sendData.registration.password === " " ? "" : " "} 
 								/>
 
 								<TextField 
 									className="inputField"
-									type="password" 
-									floatingLabelText="Повторите пароль" 
-									name="dublePassword"
-									onChange={this.validateRegDublPassword}
-									errorText={this.props.state.sendData.registration.dublePassword === true || this.props.state.sendData.registration.dublePassword === " " ? "" : " "} 
+									type="text" 
+									floatingLabelText="Город" 
+									name="cityReg" 
+									onChange={this.validateRegCity}
+									errorText={this.props.state.sendData.registration.city === true || this.props.state.sendData.registration.city === " " ? "" : " "} 
 								/>
 
 								<TextField 
 									className="inputField"
 									type="text" 
-									floatingLabelText="Город" 
-									name="code" 
-									onChange={this.validateRegCity}
-									errorText={this.props.state.sendData.registration.city === true || this.props.state.sendData.registration.city === " " ? "" : " "} 
-									/>
-								{ this.props.state.sendData.registration.codeElement === true ? codeElement() : "" }
+									floatingLabelText="Email" 
+									name="emailReg"
+									onChange={this.validateRegEmail}
+									errorText={this.props.state.sendData.registration.email === true || this.props.state.sendData.registration.email === " " ? "" : " "} 
+								/>
 							
 							</div>
-							{ this.props.state.sendData.registration.info !== " " ? <p className="codeInfo">{this.props.state.sendData.registration.info}</p> : " " }
+							{ this.props.state.regReducer !== "" ? <p className="codeInfo">{this.props.state.regReducer.message}</p> : " " }
 							<div>
 								<input type="button" value="Зарегистрироваться" className="btnReg button2" onClick={this.handleRegBtn} />
 							</div>
@@ -308,8 +322,14 @@ class SendAndRegistrationsTabs extends React.Component {
 export default connect(
 	state => ({state: state}),
 	dispatch => ({
-		loginTrue: () => {
-			dispatch({type: "LOGIN_TRUE", payload: true});
+		loginTrue: url => {
+			dispatch(loginAction(url));
+		},
+		onHandleReg: (url, param) => {
+			dispatch(regAction(url, param));
+		},
+		onHandleRegStatusClear: () => {
+			dispatch({type: "REG_STATUS_CLEAR"});
 		},
 		onValidatePassword: e => {
 			dispatch({type: "VALIDATE_PASSWORD", payload: e});
@@ -320,32 +340,20 @@ export default connect(
 		onValidateRegName: e => {
 			dispatch({type: "VALIDATE_REG_NAME", payload: e});
 		},
+		onValidateRegSurname: e => {
+			dispatch({type: "VALIDATE_REG_SURNAME", payload: e});
+		},
 		onvalidateRegPhone: e => {
 			dispatch({type: "VALIDATE_REG_PHONENUMBER", payload: e});
 		},
 		onRegValidatePassword: e => {
 			dispatch({type: "VALIDATE_REG_PASSWORD", payload: e});
 		},
-		onRegValidateDublPassword: e => {
-			dispatch({type: "VALIDATE_REG_DUBL_PASSWORD", payload: e});
-		},
 		onValidateRegCity: e => {
 			dispatch({type: "VALIDATE_REG_CITY", payload: e});
 		},
-		onCodeElement: e => {
-			dispatch({type: "CODE_VISIBLE", payload: true});
-		},
-		onValidateCodeElement: e => {
-			dispatch({type: "VALIDATE_CODE", payload: e})
-		},
-		onCodeSent: () => {
-			dispatch({type: "CODE_SENT", payload: "Мы отправили на Ваш номер телефона код. Введите его для завершения регистрации. Это бесплатно и нужно для защиты ваших данных."})
-		},
-		onCodeTrue: () => {
-			dispatch({type: "CODE_TRUE", payload: "Спасибо за регистрацию"})
-		},
-		onCodeFalse: () => {
-			dispatch({type: "CODE_FALSE", payload: "Неверный код. Попробуйте снова"})
+		onValidateRegEmail: e => {
+			dispatch({type: "VALIDATE_REG_EMAIL", payload: e});
 		}
 	}))(SendAndRegistrationsTabs);
 

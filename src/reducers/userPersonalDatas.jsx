@@ -1,9 +1,5 @@
 let userPersonalDatas,
 	initialState = {
-		userId: "1",
-		name: "Имя не получено",
-		phoneNumber: "7 (***) *** ** **",
-		city: "Москва",
 		password: "********",
 		validateRoles: {
 			name: " ",

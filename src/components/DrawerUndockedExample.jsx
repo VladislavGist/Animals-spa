@@ -68,7 +68,7 @@ class DrawerUndockedExample extends React.Component {
 
 					<MenuItem onTouchTap={this.handleClose}>
 						{
-							this.props.state.loginUser === false && localStorage.getItem("user") == null ? <LoginModal classesBtn="accountBtnMobile" classNameMobile="mobileSign" titleBtn="Вход / регистрация" dialogModal="01" /> : loginFalse()
+							this.props.state.loginUser === false || this.props.state.loginUser.error !== undefined  ? <LoginModal classesBtn="accountBtnMobile" classNameMobile="mobileSign" titleBtn="Вход / регистрация" dialogModal="01" /> : loginFalse()
 						}
 					</MenuItem>
 

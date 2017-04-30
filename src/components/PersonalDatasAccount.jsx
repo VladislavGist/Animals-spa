@@ -292,7 +292,7 @@ class PersonalDatasAccount extends Component {
 							<tr>
 								<tr>
 									<td>Имя</td>
-									<td>{this.props.state.userPersonalDatas.name}</td>
+									<td>{this.props.state.loginUser.results[0].name || ""}</td>
 									<td><a href="javascript:void(0)" className="toggleBtn">Изменить</a></td>
 								</tr>
 								<tr className="trToggle">
@@ -309,7 +309,7 @@ class PersonalDatasAccount extends Component {
 							<tr>
 								<tr>
 									<td>Номер телефона</td>
-									<td>{this.props.state.userPersonalDatas.phoneNumber}</td>
+									<td>{this.props.state.loginUser.results[0].phoneNumber || ""}</td>
 									<td><a href="javascript:void(0)" className="toggleBtn">Изменить</a></td>
 								</tr>
 								<tr className="trToggle">
@@ -326,7 +326,7 @@ class PersonalDatasAccount extends Component {
 							<tr>
 								<tr>
 									<td>Город</td>
-									<td>{this.props.state.userPersonalDatas.city}</td>
+									<td>{this.props.state.loginUser.results[0].city || ""}</td>
 									<td><a href="javascript:void(0)" className="toggleBtn">Изменить</a></td>
 								</tr>
 								<tr className="trToggle">

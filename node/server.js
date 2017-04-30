@@ -7,6 +7,8 @@ let bodyParser = require("body-parser");
 let cookieParser = require("cookie-parser");
 let jwt = require("jsonwebtoken");
 let expressJwt = require("express-jwt");
+let sqlInjection = require("sql-injection");
+let cors = require("cors");
 
 //конфиг и пути к файлам в разных сборках
 let config = require("./config.js");
@@ -20,6 +22,7 @@ app.use(express.static(__dirname + '/uploads'));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({origin: URL_PATH}));
 
 app.get("*", (req, res) => {
 	res.sendFile(__dirname + "/public");
@@ -37,7 +40,7 @@ let storage = multer.diskStorage({
 		let advertisementType = req.originalUrl.split("/")[6];
 
 		if(file.mimetype !== "image/jpeg") {
-			console.log("Не верный формат файла");
+			console.log("Неверный формат файла");
 			console.log(file.mimetype);
 		} else {
 			cb(null, "uploads/" + animalType + "/" + advertisementType);
@@ -50,7 +53,7 @@ let storage = multer.diskStorage({
 		let dateNow = Date.now();
 
 		if(file.mimetype !== "image/jpeg") {
-			console.log("Не верный формат файла");
+			console.log("Неверный формат файла");
 			console.log(file.mimetype);
 		} else {
 			cb(null, animalType + "-" + advertisementType + "-" + dateNow);
@@ -78,9 +81,6 @@ pool.getConnection((err, connection) => {
 	} else {
 		//регистрация
 		app.post("/registr", (req, res) => {
-			//сделать проверку пришедших данных. не sql ли они
-			//у номера телефона убрать пробелы
-
 			//получает от пользователя: имя, телефон, пароль, город, емейл
 			let reqData = {
 				"name": req.param("name"),
@@ -101,19 +101,15 @@ pool.getConnection((err, connection) => {
 
 				} else {
 					//регистрируем нового пользователя
-					pool.query(`INSERT INTO users VALUES(NULL, '${reqData["name"]}', '${reqData["surname"]}', '${reqData["phone"]}', '${reqData["city"]}', '${reqData["password"]}', 'default');`, (err, results, fields) => {
+					pool.query(`INSERT INTO users VALUES(NULL, '${reqData["name"]}', '${reqData["surname"]}', '${reqData["phone"]}', '${reqData["city"]}', '${reqData["password"]}', 'PRIVATE_SELLER');`, (err, results, fields) => {
 						if(err) {
-							req.json("Ошибка при регистрации нового пользователя");
+							res.json("Ошибка при регистрации нового пользователя");
 
 						} else {
 							//подписываем данные с ключем. отправляем клиенту данные
 							// token: jwt.sign(reqData, secret) - не понятно зачем нужен jwt
 							return res.json({
-								"name": reqData["name"],
-								"surname": reqData["surname"],
-								"phone": reqData["phone"],
-								"city": reqData["city"],
-								"email": reqData["email"]
+								message: "Вы успешно зарегистрированы"
 							});
 						}
 					});
@@ -125,38 +121,38 @@ pool.getConnection((err, connection) => {
 		app.get("/protected",
 			(req, res) => {
 				// expressJwt({secret})
-				let password = req.query.password, phone = req.query.phone.replace(/\s/g, "");
+				let password = req.query.password, phone = req.query.phone;
 
 				//идем в базу ищем такого-то пользователя с таким-то паролем
 				pool.query(`SELECT COUNT(password) FROM users WHERE password='${password}';`, (err, results, fields) => {
 					//если пользователь с таким именем и паролем найден кладем данные в свойства объекта
 					if(err) {
-						res.json({error: "Ошибка при проверке пароля"});
+						res.json(500, {error: "Ошибка при проверке пароля"});
 					} else {
 						if(results[0]['COUNT(password)'] > 0) {
 							pool.query(`SELECT COUNT(phoneNumber) FROM users WHERE phoneNumber='${phone}' `, (err, results, fields) => {
 								if(err) {
-									res.json({error: "Ошибка при проверке номера телефона"});
+									res.json(500, {error: "Ошибка при проверке номера телефона"});
 								} else {
 									if(results[0]['COUNT(phoneNumber)'] > 0) {
 										pool.query(`SELECT user_id, name, surname, phoneNumber, city, accountType FROM users WHERE password='${password}' AND phoneNumber='${phone}'`, (err, results, fields) => {
 											if(err) {
-												res.json({error: "Ошибка при получении данных пользователя"});
+												res.json(500, {error: "Ошибка при получении данных пользователя"});
 											} else {
 												if(results.length !== 0) {
-													res.json(results);
+													res.json(200, {results});
 												} else {
-													res.json({message: "Не верные данные или пользователь не существует"});
+													res.json(404, {error: "Неверные данные или пользователь не существует"});
 												}
 											}
 										});
 									} else {
-										res.json({message: "Не верные данные или пользователь не существует"});
+										res.json(404, {error: "Неверные данные или пользователь не существует"});
 									}
 								}
 							});
 						} else {
-							res.json({message: "Не верные данные или пользователь не существует"});
+							res.json(404, {error: "Неверные данные или пользователь не существует"});
 						}
 					}
 				});
@@ -175,14 +171,6 @@ pool.getConnection((err, connection) => {
 			};
 			
 			pool.query(`SELECT * FROM cards WHERE advType IN('missing', 'find', 'gift', 'buy') ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT 5`, (err, results, fields) => {
-				res.writeHead(200, {
-					"Cache-Control": "no-store, no-cache",
-					"Content-Type":"application/json;charset=utf-8",
-					"Access-Control-Allow-Credentials": "true",
-					"Access-Control-Allow-Origin": URL_PATH,
-					"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-					"Access-Control-Allow-Headers": "X-Requested-With,Origin,Content-Type, Accept"
-				});
 				res.write(JSON.stringify(results));
 				res.end();
 			});
@@ -199,14 +187,6 @@ pool.getConnection((err, connection) => {
 			};
 
 			pool.query(`SELECT * FROM cards WHERE animalType = '${req.params.animaltype}' AND advType = '${req.params.advertisementtype}' ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT ${req.params.count}`, (err, results, fields) => {
-				res.writeHead(200, {
-					"Cache-Control": "no-store, no-cache",
-					"Content-Type":"application/json",
-					"Access-Control-Allow-Credentials": "true",
-					"Access-Control-Allow-Origin": URL_PATH,
-					"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-					"Access-Control-Allow-Headers": "X-Requested-With,Origin,Content-Type, Accept"
-				});
 				res.write(JSON.stringify(results));
 				res.end();
 			});
@@ -223,14 +203,6 @@ pool.getConnection((err, connection) => {
 			};
 
 			pool.query(`SELECT COUNT(card_id) FROM cards WHERE animalType = '${req.params.animaltype}' AND advType = '${req.params.advertisementtype}' ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT ${req.params.count}`, (err, results, fields) => {
-				res.writeHead(200, {
-					"Cache-Control": "no-store, no-cache",
-					"Content-Type":"application/json;charset=utf-8",
-					"Access-Control-Allow-Credentials": "true",
-					"Access-Control-Allow-Origin": URL_PATH,
-					"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-					"Access-Control-Allow-Headers": "X-Requested-With,Origin,Content-Type, Accept"
-				});
 				res.write(JSON.stringify(results));
 				res.end();
 			});
@@ -246,7 +218,7 @@ pool.getConnection((err, connection) => {
 				'${req.param("briefDescription")}',
 				'${req.param("city")}',
 				'${req.param("userName")}',
-				'default',
+				'${req.param("status")}',
 				'${req.param("phoneNumber").replace(/\s/g, "")}',
 				0,
 				'${req.param("price")}',
@@ -255,14 +227,6 @@ pool.getConnection((err, connection) => {
 				'${req.param("advertisementType")}',
 				0,
 				'${req.param("userId")}')`, (err, results, fields) => {
-					res.writeHead(200, {
-						"Cache-Control": "no-store, no-cache",
-						"Content-Type":"application/json;charset=utf-8",
-						"Access-Control-Allow-Credentials": "true",
-						"Access-Control-Allow-Origin": URL_PATH,
-						"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-						"Access-Control-Allow-Headers": "X-Requested-With,Origin,Content-Type, Accept"
-					});
 					if(err) {
 						console.log("Ошибка подачи объявления");
 						console.log(err);
@@ -279,14 +243,6 @@ pool.getConnection((err, connection) => {
 
 		//img
 		app.post("/add-advertisement/img/animalType/:animalType/advertisementType/:advertisementType", upload.array("photo"), (req, res) => {
-			res.writeHead(200, {
-				"Cache-Control": "no-store, no-cache",
-				"Content-Type":"multipart/form-data",
-				"Access-Control-Allow-Credentials": "true",
-				"Access-Control-Allow-Origin": URL_PATH,
-				"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-				"Access-Control-Allow-Headers": "X-Requested-With,Origin,Content-Type, Accept"
-			});
 			mass = _.zip(imgPath, imgName);
 			massZip = mass.join(" ").replace(/,/g, "");
 			res.end();
@@ -298,14 +254,6 @@ pool.getConnection((err, connection) => {
 				if(err) {
 					console.log("Ошибка изменения объявления");
 				} else {
-					res.writeHead(200, {
-						"Cache-Control": "no-store, no-cache",
-						"Content-Type":"application/json;charset=utf-8",
-						"Access-Control-Allow-Credentials": "true",
-						"Access-Control-Allow-Origin": URL_PATH,
-						"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-						"Access-Control-Allow-Headers": "X-Requested-With,Origin,Content-Type, Accept"
-					});
 					res.end();
 					console.log("Объявление c id " + req.params.cardId + " успешно изменено");
 				}

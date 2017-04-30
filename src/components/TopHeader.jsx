@@ -14,15 +14,13 @@ import DrawerUndockedExample from "./DrawerUndockedExample.jsx";
 
 class TopHeader extends Component {
 	componentWillMount() {
-		if(localStorage.getItem("user") == "logining") {
-			this.props.loginTrue();
-		}
+		// if(localStorage.getItem("user") == "logining") {
+		// 	this.props.loginTrue();
+		// }
 	}
 
 	componentDidMount() {
-
 		let elem = $(".needLogin");
-
 		if(this.props.state.loginUser === false) {
 			$(elem).click(function() {
 				return false;
@@ -49,7 +47,7 @@ class TopHeader extends Component {
 					</div>
 					<LoginModal titleBtn={this.props.state.filterCity.cityTopHeader} dialogModal="02" />
 					{
-						this.props.state.loginUser === false && localStorage.getItem("user") == null ? <LoginModal titleBtn="Вход / регистрация" dialogModal="01" /> : loginFalse()
+						this.props.state.loginUser === false || this.props.state.loginUser.error !== undefined ? <LoginModal titleBtn="Вход / регистрация" dialogModal="01" /> : loginFalse()
 					}
 					<div className="button3 repostBtn">
 						<a href="javascript:void(0)" className="buttonCircle">
@@ -62,10 +60,8 @@ class TopHeader extends Component {
 					</div>
 
 					{
-						this.props.state.loginUser === false ? <LoginModal titleBtn="Подать объявление" classNameMobile="needLoginMobile" classesBtn="button2 needLoginMobile" dialogModal="01" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
+						this.props.state.loginUser === false || this.props.state.loginUser.error !== undefined ? <LoginModal titleBtn="Подать объявление" classNameMobile="needLoginMobile" classesBtn="button2 needLoginMobile" dialogModal="01" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
 					}
-
-					<DrawerUndockedExample />
 					
 				</div>
 			</header>
@@ -73,11 +69,11 @@ class TopHeader extends Component {
 	}
 }
 
+//<DrawerUndockedExample />
+
 export default connect(
 	state => ({state: state}),
 	dispatch => ({
-		loginTrue: () => {
-	      		dispatch({type: "LOGIN_TRUE", payload: true});
-	    }
+
 	})
 )(TopHeader);

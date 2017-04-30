@@ -155,7 +155,7 @@ class PlaceAnAd extends Component {
 		//если все поля объявлени заполнены, то отправить данные
 		if(pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true && resultValidateTypeImg !== false) {
 			let paramsUrl = 
-				"userName=" + this.props.state.userPersonalDatas.name + "&" +
+				"userName=" + this.props.state.loginUser.results[0].name + "&" +
 				"animalType=" + this.state.animal.value + "&" +
 				"advertisementType=" + this.state.category.value + "&" +
 				"city=" + this.state.city.value + "&" +
@@ -163,7 +163,8 @@ class PlaceAnAd extends Component {
 				"phoneNumber=" + $("input[name='phoneNumber']")[0].value + "&" +
 				"briefDescription=" + $(".briefDescription")[0].childNodes[2].childNodes[1].value + "&" +
 				`${this.state.category.value === "gift" || this.state.category.value === "find" ? "price=" + "" : "price=" + $("input[name='price']")[0].value}` + "&" +
-				`userId=${this.props.state.userPersonalDatas.userId}`
+				`userId=${this.props.state.loginUser.results[0].user_id}` + "&" +
+				`status=${this.props.state.loginUser.results[0].accountType}`
 				;
 
 			//отправляем изображения объявления
