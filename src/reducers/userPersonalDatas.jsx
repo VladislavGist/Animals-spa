@@ -7,53 +7,7 @@ let userPersonalDatas,
 			city: " ",
 			password: " "
 		},
-		dataSent: false,
-		cards: {
-			active: [
-				{
-					id: "323f4343f4",
-					title: "Сеамская кошка",
-					briefDescription: "Описание объявление будет выводиться здесь",
-					city: "Москва",
-					userName: "Андрей",
-					userStatus: "default",
-					phoneNumber: "+7 999 787 13 90",
-					rating: "",
-					price: "5400",
-					imgPath: "uploads/cats/cat-sale-01.jpg",
-					advType: "buy"
-				},
-				{
-					id: "543323f4343f4",
-					title: "Взрослый питбуль",
-					briefDescription: "Описание объявление будет выводиться здесь",
-					city: "Москва",
-					userName: "Андрей",
-					userStatus: "default",
-					phoneNumber: "+7 950 584 13 54",
-					rating: "",
-					price: "5400",
-					imgPath: "uploads/cats/cat-sale-02.jpg",
-					advType: "gift"
-				},
-				{
-					id: "323f5434343f4",
-					title: "Тарантул",
-					briefDescription: "Описание объявление будет выводиться здесь будет выводиться здесь будет выводиться здесь будет выводиться здесь",
-					city: "Москва",
-					userName: "Андрей",
-					userStatus: "default",
-					phoneNumber: "+7 989 775 43 90",
-					rating: "",
-					price: "5400",
-					imgPath: "uploads/cats/cat-sale-01.jpg",
-					advType: "find"
-				}
-			],
-			completed: [
-				
-			]
-		}
+		dataSent: false
 	};
 
 //при загрузке приложения будут приходить данные с с ервера
@@ -104,6 +58,12 @@ userPersonalDatas = (state = initialState, action) => {
 			}
 			break;
 		case "DATASENT_FALSE":
+			return {
+				...state,
+				dataSent: action.payload
+			}
+			break;
+		case "DATASENT_ERROR":
 			return {
 				...state,
 				dataSent: action.payload

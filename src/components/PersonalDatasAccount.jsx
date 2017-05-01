@@ -4,6 +4,8 @@ import TextField from 'material-ui/TextField';
 import {connect} from "react-redux";
 import $ from "jquery";
 
+import 'whatwg-fetch';
+
 import "./PersonalArea.sass";
 
 //store
@@ -12,6 +14,7 @@ import {store} from "./store.jsx";
 //actions
 import {loadCards} from "../actions/loadCards.jsx";
 import {loadCardsComplAndRej} from "../actions/loadDataComplAndRej.jsx";
+import {updateUserDatas} from "../actions/updateUserDatas.jsx";
 
 //Блок с плитками
 import CardItem from "./categories/CardItem.jsx";
@@ -38,6 +41,22 @@ class PersonalDatasAccount extends Component {
 	componentWillMount() {
 		this.props.handleLoadUserCardsComplAndRej(`${process.env.URL}/userCardsComplAndRejected?userid=${this.props.state.loginUser.results[0].user_id}`);
 		this.props.handleLoadUserCards(`${process.env.URL}/userCardsAccepted?userid=${this.props.state.loginUser.results[0].user_id}`);
+
+		//запрашивать от сервера последние данные по аккаунту
+		fetch(`${process.env.URL}/updateDatasAccount?userid=${this.props.state.loginUser.results[0].user_id}`)
+			.then(response => {
+				if(response.status !== 200) {
+					console.log("Ошибка при обновлении данных пользователя");
+				} else {
+					response.json()
+						.then(data => {
+							this.props.updateDatasTrue({results: data});
+						});
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			})
 	}
 
 	componentDidMount() {
@@ -140,11 +159,15 @@ class PersonalDatasAccount extends Component {
 			}
 		});
 
+		$(".toggleBtn").click(function(e) {
+			$(this).parent().parent().next().toggleClass("active");
+		});
+
 	}	
 	componentWillUnmount() {
 		this.subs();
-		this.props.handleDataSentFalse();
 		this.props.clearServerReduces();
+		this.props.handleDataSentFalse();
 		this.props.clearReducerCardsComplAndRej();
 	}
 
@@ -152,45 +175,39 @@ class PersonalDatasAccount extends Component {
 	onHandlePOSTName = () => {
 		//если данные прошли валидацию, то разрешить передачу
 		if(this.props.state.userPersonalDatas.validateRoles.name === true) {
-			//отправка данных
 
-			//скрыть сообщение об успешной отправке
-			this.props.handleDataSentFalse();
-			//показать сообщение об успешной отправке
-			this.props.handleDataSentTrue();
+			let inputData = document.querySelector("input[name='nameUpdate']").value;
+
+			//отоправка изменений
+			this.props.handleUpdateUserDatas(`${process.env.URL}/updateUserData?userId='${this.props.state.loginUser.results[0].user_id}'&parametr=name&value='${inputData}'`);
 		}
 	}
 
 	onHandlePOSTPhoneNumber = () => {
 		if(this.props.state.userPersonalDatas.validateRoles.phoneNumber === true) {
-			//отправка данных
+			
+			let inputData = document.querySelector("input[name='phoneUpdate']").value;
 
-			//скрыть сообщение об успешной отправке
-			this.props.handleDataSentFalse();
-			//показать сообщение об успешной отправке
-			this.props.handleDataSentTrue();
+			//отоправка изменений
+			this.props.handleUpdateUserDatas(`${process.env.URL}/updateUserData?userId='${this.props.state.loginUser.results[0].user_id}'&parametr=phoneNumber&value='${inputData}'`);
 		}
 	}
 
 	onHandlePOSTPhoneCity = () => {
 		if(this.props.state.userPersonalDatas.validateRoles.city === true) {
-			//отправка данных
+			let inputData = document.querySelector("input[name='cityUpdate']").value;
 
-			//скрыть сообщение об успешной отправке
-			this.props.handleDataSentFalse();
-			//показать сообщение об успешной отправке
-			this.props.handleDataSentTrue();
+			//отоправка изменений
+			this.props.handleUpdateUserDatas(`${process.env.URL}/updateUserData?userId='${this.props.state.loginUser.results[0].user_id}'&parametr=city&value='${inputData}'`);
 		}
 	}
 
 	onHandlePOSTPhonePassword = () => {
 		if(this.props.state.userPersonalDatas.validateRoles.password === true) {
-			//отправка данных
+			let inputData = document.querySelector("input[name='passwordUpdate']").value;
 
-			//скрыть сообщение об успешной отправке
-			this.props.handleDataSentFalse();
-			//показать сообщение об успешной отправке
-			this.props.handleDataSentTrue();
+			//отоправка изменений
+			this.props.handleUpdateUserDatas(`${process.env.URL}/updateUserData?userId='${this.props.state.loginUser.results[0].user_id}'&parametr=password&value='${inputData}'`);
 		}
 	}
 
@@ -255,6 +272,15 @@ class PersonalDatasAccount extends Component {
 		)
 	}
 
+	sentMessageError = () => {
+		return (
+			<div className="sentMessage">
+				<i className="fa fa-check" aria-hidden="true"></i>
+				<p>Ошибка</p>
+			</div>
+		)
+	}
+
 	render() {
 		const styles = {
 			inkBarStyle: {
@@ -294,6 +320,7 @@ class PersonalDatasAccount extends Component {
 					<div className="titleBlock">
 						<p>Персональные данные</p>
 						{this.props.state.userPersonalDatas.dataSent === true ? this.sentMessage() : ""}
+						{this.props.state.userPersonalDatas.dataSent === "Ошибка" ? this.sentMessageError() : ""}
 					</div>
 					<table>
 						<tbody>
@@ -308,6 +335,7 @@ class PersonalDatasAccount extends Component {
 										<TextField 
 											hintText="Введите новое имя"
 											onChange={this.validateName}
+											name="nameUpdate"
 											errorText={this.props.state.userPersonalDatas.validateRoles.name === true || this.props.state.userPersonalDatas.validateRoles.name === " " ? "" : " "} 
 											/>
 										</td>
@@ -324,6 +352,7 @@ class PersonalDatasAccount extends Component {
 									<td>
 										<TextField 
 											hintText="Введите новый номер"
+											name="phoneUpdate"
 											onChange={this.validatePhoneNumber}
 											errorText={this.props.state.userPersonalDatas.validateRoles.phoneNumber === true || this.props.state.userPersonalDatas.validateRoles.phoneNumber === " " ? "" : " "} 
 										/>
@@ -342,6 +371,7 @@ class PersonalDatasAccount extends Component {
 										<TextField 
 											hintText="Введите название города"
 											onChange={this.validateCity}
+											name="cityUpdate"
 											errorText={this.props.state.userPersonalDatas.validateRoles.city === true || this.props.state.userPersonalDatas.validateRoles.city === " " ? "" : " "} 
 										/>
 									</td>
@@ -359,6 +389,7 @@ class PersonalDatasAccount extends Component {
 										<TextField 
 											hintText="Введите новый пароль"
 											onChange={this.validatePassword}
+											name="passwordUpdate"
 											errorText={this.props.state.userPersonalDatas.validateRoles.password === true || this.props.state.userPersonalDatas.validateRoles.password === " " ? "" : " "} 
 										/>
 									</td>
@@ -434,14 +465,6 @@ class PersonalDatasAccount extends Component {
 	}
 }
 
-//страница загрузилась
-/*
-данные пришли
-положили их в store
-прошлись по ним циклом
-вывели на клиенте
-*/
-
 export default connect(
 	state => ({
 		state: state
@@ -459,9 +482,6 @@ export default connect(
 		validatePasswordDispatch: e => {
 			dispatch({type: "VALIDATE_PASSWORD_USERDATA", payload: e});
 		},
-		handleDataSentTrue: () => {
-			dispatch({type: "DATASENT_TRUE", payload: true});
-		},
 		handleDataSentFalse: () => {
 			dispatch({type: "DATASENT_FALSE", payload: false});
 		},
@@ -476,6 +496,12 @@ export default connect(
 		},
 		clearReducerCardsComplAndRej: () => {
 			dispatch({type: "CLEAR_STATE_GET_DATA_SERVER_COMPL_AND_REJ"});
+		},
+		handleUpdateUserDatas: (url) => {
+			dispatch(updateUserDatas(url));
+		},
+		updateDatasTrue: data => {
+			dispatch({type: "LOGIN_TRUE", payload: data});
 		}
 	})
 )(PersonalDatasAccount);

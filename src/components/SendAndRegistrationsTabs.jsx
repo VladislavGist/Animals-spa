@@ -73,7 +73,6 @@ class SendAndRegistrationsTabs extends React.Component {
 			let password = document.querySelector("input[name=password]").value, phoneNumber = document.querySelector("input[name=phoneNumber]").value;
 
 			this.props.loginTrue(`${process.env.URL}/protected?password=${password}&phone=${phoneNumber}`);
-
 		}
 	}
 

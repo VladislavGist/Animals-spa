@@ -101,7 +101,7 @@ pool.getConnection((err, connection) => {
 
 				} else {
 					//регистрируем нового пользователя
-					pool.query(`INSERT INTO users VALUES(NULL, '${reqData["name"]}', '${reqData["surname"]}', '${reqData["phone"]}', '${reqData["city"]}', '${reqData["password"]}', 'PRIVATE_SELLER');`, (err, results, fields) => {
+					pool.query(`INSERT INTO users VALUES(NULL, '${reqData["name"]}', '${reqData["surname"]}', '${reqData["phone"]}', '${reqData["city"]}', '${reqData["password"]}', 'PRIVATE_SELLER', '${reqData["email"]}');`, (err, results, fields) => {
 						if(err) {
 							res.json("Ошибка при регистрации нового пользователя");
 
@@ -159,6 +159,17 @@ pool.getConnection((err, connection) => {
 			}
 		);
 
+		//обновление инф. в аккаунте пользователя
+		app.get("/updateDatasAccount", (req, res) => {
+			pool.query(`SELECT user_id, name, surname, phoneNumber, city, accountType FROM users WHERE user_id='${req.query.userid}';`, (err, results, fields) => {
+				if(err) {
+					console.log(err);
+				} else {
+					res.json(200, results);
+				}
+			});
+		});
+
 		//активные объявления пользователя
 		app.get("/userCardsAccepted", (req, res) => {
 			pool.query(`SELECT * FROM cards WHERE user_id='${req.query.userid}' AND status='accepted' ORDER BY(card_id) DESC;`, (err, results, fields) => {
@@ -177,6 +188,24 @@ pool.getConnection((err, connection) => {
 					console.log("Ошибка при получении объявлений");
 				} else {
 					res.json(results);
+				}
+			});
+		});
+
+		//изменение данных пользователя
+		app.get("/updateUserData", (req, res) => {
+			let userId = req.query.userId,
+				parametr = req.query.parametr,
+				value = req.query.value;
+
+			pool.query(`UPDATE users SET ${parametr}=${value} WHERE user_id=${userId};`, (err, results, fields) => {
+				if(err) {
+					console.log(err);
+					console.log("Информация о пользователе не изменена");
+					res.json(500, {messsage: "Ошибка"});
+				} else {
+					console.log("Информация о пользователе успешно изменена");
+					res.json(200, {message: "Изменено"});
 				}
 			});
 		});

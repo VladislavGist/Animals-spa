@@ -7,13 +7,11 @@ export const loginAction = url => {
 				if(response.status !== 200) {
 					response.json()
 						.then(data => {
-							console.log("LOGIN_FALSE");
 							dispatch({type: "LOGIN_FALSE", payload: data});
 						});
 				} else {
 					response.json()
 						.then(data => {
-							console.log("LOGIN_TRUE");
 							dispatch({type: "LOGIN_TRUE", payload: data});
 						});
 				}
