@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import moment from "moment";
 
 //libs
 let _ = require("underscore");
@@ -42,40 +43,41 @@ class PlaceAnAd extends Component {
 
 	//оптимизировать код ниже возможности нет по причине того, что чтобы увидеть было ли загружено изображение нужен таймер
 	componentDidMount() {
+
 		this.timer0 = setInterval(() => {
 			if(document.querySelectorAll(".loadingPhoto input")[0].value !== undefined && document.querySelectorAll(".loadingPhoto input")[0].value !== "") {
 				this.props.handlePhoto0();
 				this.props.onValidatePlaceImage();
 			}
-		}, 1000);
+		}, 500);
 
 		this.timer1 = setInterval(() => {
 			if(document.querySelectorAll(".loadingPhoto input")[1].value !== undefined && document.querySelectorAll(".loadingPhoto input")[1].value !== "") {
 				this.props.handlePhoto1();
 				this.props.onValidatePlaceImage();
 			}
-		}, 1000);
+		}, 600);
 
 		this.timer2 = setInterval(() => {
 			if(document.querySelectorAll(".loadingPhoto input")[2].value !== undefined && document.querySelectorAll(".loadingPhoto input")[2].value !== "") {
 				this.props.handlePhoto2();
 				this.props.onValidatePlaceImage();
 			}
-		}, 1000);
+		}, 700);
 
 		this.timer3 = setInterval(() => {
 			if(document.querySelectorAll(".loadingPhoto input")[3].value !== undefined && document.querySelectorAll(".loadingPhoto input")[3].value !== "") {
 				this.props.handlePhoto3();
 				this.props.onValidatePlaceImage();
 			}
-		}, 1000);
+		}, 800);
 
 		this.timer4 = setInterval(() => {
 			if(document.querySelectorAll(".loadingPhoto input")[4].value !== undefined && document.querySelectorAll(".loadingPhoto input")[4].value !== "") {
 				this.props.handlePhoto4();
 				this.props.onValidatePlaceImage();
 			}
-		}, 1000);
+		}, 900);
 
 		//отправка изоражения
 		let formData = new FormData();
@@ -94,16 +96,6 @@ class PlaceAnAd extends Component {
 		//форму кладем в переменную в state, чтобы использовать как аргумент в функции при передаче
 		this.thisFormData = formData;
 	}
-
-	/*
-		страница загрузилась -
-			выбрали фото -
-				положивили formData в state -
-				положили массив в store
-				подписались на эту часть store
-					если она меняется, то берем 
-			по клику отправить очищаем this.state.thisFormData -
-	*/
 
 	componentWillUnmount() {
 		clearInterval(this.timer0);
@@ -154,6 +146,8 @@ class PlaceAnAd extends Component {
 
 		//если все поля объявлени заполнены, то отправить данные
 		if(pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true && resultValidateTypeImg !== false) {
+			moment.locale("ru");
+			let now = moment(), deleteDate = now.add(1, "month").format("ll");
 			let paramsUrl = 
 				"userName=" + this.props.state.loginUser.results[0].name + "&" +
 				"animalType=" + this.state.animal.value + "&" +
@@ -164,7 +158,8 @@ class PlaceAnAd extends Component {
 				"briefDescription=" + $(".briefDescription")[0].childNodes[2].childNodes[1].value + "&" +
 				`${this.state.category.value === "gift" || this.state.category.value === "find" ? "price=" + "" : "price=" + $("input[name='price']")[0].value}` + "&" +
 				`userId=${this.props.state.loginUser.results[0].user_id}` + "&" +
-				`status=${this.props.state.loginUser.results[0].accountType}`
+				`status=${this.props.state.loginUser.results[0].accountType}` + "&" +
+				`dataDelete=${deleteDate}`
 				;
 
 			//отправляем изображения объявления

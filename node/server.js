@@ -9,6 +9,9 @@ let jwt = require("jsonwebtoken");
 let expressJwt = require("express-jwt");
 let sqlInjection = require("sql-injection");
 let cors = require("cors");
+let moment = require("moment");
+let fs = require("fs");
+let path = require("path");
 
 //конфиг и пути к файлам в разных сборках
 let config = require("./config.js");
@@ -56,8 +59,9 @@ let storage = multer.diskStorage({
 			console.log("Неверный формат файла");
 			console.log(file.mimetype);
 		} else {
-			cb(null, animalType + "-" + advertisementType + "-" + dateNow);
-			imgName.push("/" + animalType + "-" + advertisementType + "-" + dateNow);
+			let random = Math.random(0, 10000);
+			cb(null, animalType + "-" + advertisementType + "-" + dateNow + random);
+			imgName.push("/" + animalType + "-" + advertisementType + "-" + dateNow + random);
 		}
 	}
 });
@@ -79,6 +83,72 @@ pool.getConnection((err, connection) => {
 	if(err) {
 		console.log(err);
 	} else {
+		//удалени объявлений
+		moment.locale("ru");
+			
+		setInterval(() => {
+			let nowTime = moment().format("LTS"), nowDay = moment().format("ll");
+
+			if(nowTime == "01:33:00" && nowTime != "01:33:05") {
+				//удаление изображений на сервере
+				pool.query(`SELECT imgPath FROM cards WHERE data_delete='${nowDay}';`, (err, results, fields) => {
+					if(err) {
+						console.log("Ошибка удаления файлов");
+						console.log(err);
+					} else {
+						
+						//функция поиска и удаления файлов
+						let delteImages = (firstFilder, secondFolder, name) => {
+							let myPath = `./uploads/${firstFilder}/${secondFolder}/${name}`;
+							fs.unlink(myPath, err => {
+								if(err) {
+									console.log(err);
+									paths = [];
+								} else {
+									console.log(myPath + " удален");
+									paths = [];
+								}
+							});
+						};
+
+						//пути в чистом виде
+						let paths = [];
+						for(let i = 0; i < results.length; i++) {
+							paths.push(results[i].imgPath + " ");
+						}
+						let finalPaths = _.compact(paths).join("");
+						//пути без хостов
+						let array = _.compact(finalPaths.replace(/http:.{2,}?\//g, "").split(" "));
+						//массив путей со слешами. убираем их
+						let array2 = _.map(array, e => {
+							return e.replace(/\//g, " ");
+						});
+						//массив путей без слешей. на каждое слово вызываем функцию удаления
+						let array3 = _.each(array2, e => {
+							let massStr = e.split(" ");
+							console.log(massStr);
+							//запуск функции поиска и удаления
+							//аргумены: папка, папка, имя файла
+							delteImages(massStr[0], massStr[1], massStr[2]);
+						});
+					}
+				});
+
+				//удаление объявлений в базе
+				pool.query(`DELETE FROM cards WHERE data_delete='${nowDay}';`, 
+				(err, results, fields) => {
+					if(err) {
+						console.log("Ошибка удаления объявлений");
+						console.log(err);
+					} else {
+						console.log("Объявления удалены");
+					}
+				});
+			}
+
+
+		}, 1000)
+
 		//регистрация
 		app.post("/registr", (req, res) => {
 			//получает от пользователя: имя, телефон, пароль, город, емейл
@@ -291,7 +361,8 @@ pool.getConnection((err, connection) => {
 				'${req.param("advertisementType")}',
 				0,
 				'${req.param("userId")}',
-				'verified')`, 
+				'verified',
+				'${req.param("dataDelete")}')`, 
 				(err, results, fields) => {
 					if(err) {
 						console.log("Ошибка подачи объявления");

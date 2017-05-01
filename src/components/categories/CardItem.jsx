@@ -28,8 +28,11 @@ class CardItem extends Component {
 		e.target.text = "Остановлено";
 	}
 
+	//повышение счетчика просмотров
 	clickFunc = e => {
-		this.props.getUpdateCardView(this.props.cardId);
+		if(location.hash !== "#/personalArea") {
+			this.props.getUpdateCardView(this.props.cardId);
+		}
 	}
 
 	render() {
@@ -113,7 +116,13 @@ class CardItem extends Component {
 						</div>
 					</div>
 				</div>
-				{this.props.deleted === true ? <a href="javascript:void(0)" className="button1" onClick={this.handlerDelete}>Завершить</a> : ""}
+				{
+					this.props.deleted === true || this.props.deleteInfo === true ?
+						<div className="cardInfoInAccount">
+							{this.props.deleted === true ? <a href="javascript:void(0)" className="button1" onClick={this.handlerDelete}>Завершить</a> : ""}
+							{this.props.deleteInfo === true ? <p>Будет удалено {this.props.dataDelete}</p> : ""}
+						</div> : ""
+				}
 			</div>
 		);
 	}

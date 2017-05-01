@@ -30,6 +30,7 @@ class PersonalDatasAccount extends Component {
 		};
 		this.subs;
 		this.elem = store.getState().serverReducer;
+		this.elem2 = store.getState().reducerCardsComplAndRej;
 	}
 
 	handleChange = value => {
@@ -63,7 +64,7 @@ class PersonalDatasAccount extends Component {
 		//подписался на определенную часть store
 		this.subs = store.subscribe(() => {
 			//если новая часть Store не равна предыдущей, то выполнить код
-			if(store.getState().serverReducer !== this.elem) {
+			if(store.getState().serverReducer !== this.elem && store.getState().reducerCardsComplAndRej !== this.elem2) {
 				//фильтрация до 80 символа
 				let el = $(".bottom .subTitle");
 				for(let i = 0; i < el.length; i++) {
@@ -156,6 +157,7 @@ class PersonalDatasAccount extends Component {
 
 				//сохранил текущую часть Store чтобы карточки корректно работали 
 				this.elem = store.getState().serverReducer;
+				this.elem2 = store.getState().reducerCardsComplAndRej;
 			}
 		});
 
@@ -423,6 +425,8 @@ class PersonalDatasAccount extends Component {
 												imgPath={elem.imgPath}
 												advType={elem.advType}
 												deleted={true}
+												dataDelete={elem.data_delete}
+												deleteInfo={true}
 												onClick={this.handleClickCard}
 											/>
 										);
@@ -451,6 +455,8 @@ class PersonalDatasAccount extends Component {
 												imgPath={elem.imgPath}
 												advType={elem.advType}
 												deleted={false}
+												dataDelete={elem.data_delete}
+												deleteInfo={true}
 											/>
 										);
 									}) : <p>Завершенных объявлений нет</p>
