@@ -4,22 +4,6 @@ import $ from "jquery";
 
 import "./PersonalArea.sass";
 
-/*
-при создании аккаунта его тип PRIVATE_SELLER
-
-при входе в аккаунт запрашиваем тип аккаунта пользователя
-
-при клике на buttons диспатчим экшн с нужными данными -
-
-по нажатию на активировать
-	появляется форма отплаты
-		если оплата проходит успешно
-			на сервере менется тип акаунта
-			отправляется запрос на сервер о новом типе аккаунта
-				если он изменился, то
-					диспатчется экшн нужного типа аккаунта
-*/
-
 class AccountType extends Component {
 	componentWillMount() {
 		if(this.props.state.loginUser.results[0].accountType == "PRIVATE_SELLER") {

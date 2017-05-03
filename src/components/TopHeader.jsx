@@ -25,11 +25,19 @@ class TopHeader extends Component {
 
 	render() {
 		const loginFalse = () => {
-			return (
-				<div className="userBtns">
-					<Link to="/personalArea" className="personalArea">Личный кабинет</Link>
-				</div>
-			);
+			if(this.props.state.loginUser.results[0].rules === null) {
+				return (
+					<div className="userBtns">
+						<Link to="/personalArea" className="personalArea">Личный кабинет</Link>
+					</div>
+				)
+			} else if(this.props.state.loginUser.results[0].rules === "moderator") {
+				return (
+					<div className="userBtns">
+						<Link to="/moderation" className="personalArea">moderation</Link>
+					</div>
+				)
+			}
 		};
 		return (
 			<header>

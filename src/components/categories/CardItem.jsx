@@ -11,6 +11,7 @@ import SlickSlider from "../SlickSlider.jsx";
 //async actions
 import {updateCardView} from "../../actions/updateCardView.jsx";
 import {completedCard} from "../../actions/completedCard.jsx";
+import {replaceStatusCard} from "../../actions/replaceStatusCard.jsx";
 
 class CardItem extends Component {
 	constructor(props) {
@@ -33,6 +34,16 @@ class CardItem extends Component {
 		if(location.hash !== "#/personalArea") {
 			this.props.getUpdateCardView(this.props.cardId);
 		}
+	}
+
+	handleAccepted = e => {
+		this.props.onHandleAccepted(`${process.env.URL}/replaceStatusCard?cardid=${this.props.cardId}&status=accepted`);
+		e.target.textContent = "Выполнено"
+	}
+
+	handleRejected = e => {
+		this.props.onHandleRejected(`${process.env.URL}/replaceStatusCard?cardid=${this.props.cardId}&status=rejected`);
+		e.target.textContent = "Выполнено"
 	}
 
 	render() {
@@ -123,6 +134,13 @@ class CardItem extends Component {
 							{this.props.deleteInfo === true ? <p>Будет удалено {this.props.dataDelete}</p> : ""}
 						</div> : ""
 				}
+				{
+					this.props.moderate === true ?
+						<div className="moderation">
+							<button className="btnAccepted" onClick={this.handleAccepted}>Пропустить</button>
+							<button className="btnRejected" onClick={this.handleRejected}>Отклонить</button>
+						</div> : ""
+				}
 			</div>
 		);
 	}
@@ -138,6 +156,12 @@ export default connect(
 		},
 		handleCompletedCard: (url, param) => {
 			dispatch(completedCard(url, param));
+		},
+		onHandleAccepted: (url, status, cardId) => {
+			dispatch(replaceStatusCard(url, status, cardId));
+		},
+		onHandleRejected: (url, status, cardId) => {
+			dispatch(replaceStatusCard(url, status, cardId));
 		}
 	})
 )(CardItem);

@@ -83,6 +83,36 @@ pool.getConnection((err, connection) => {
 	if(err) {
 		console.log(err);
 	} else {
+
+		//модерация объявлений. изменить статус
+		app.get("/replaceStatusCard", (req, res) => {
+			let cardId = req.query.cardid, newStatus = req.query.status;
+			pool.query(`UPDATE cards SET status='${newStatus}' WHERE card_id=${cardId}`, (err,result, fields) => {
+				if(err) {
+					console.log("Ошибка при изменении статуса обявления");
+					console.log(err);
+					res.json(500, {message: "error"});
+				} else {
+					console.log("Статус объявления изменен");
+					res.json(200, {message: "Статус объявления изменен"});
+				}
+			});
+		});
+
+		//модерация объявлений. вывести все
+		app.get("/moderate", (req, res) => {
+			pool.query("SELECT * FROM cards WHERE status='verified'; ", (err, results, fields) => {
+				if(err) {
+					console.log("Ошибка при получении объявлений для модерации");
+					res.end();
+				} else {
+					console.log("Объявления отданы");
+					res.write(JSON.stringify(results));
+					res.end();
+				}
+			});
+		});
+
 		//удалени объявлений
 		moment.locale("ru");
 			
@@ -161,6 +191,8 @@ pool.getConnection((err, connection) => {
 				"email": req.param("email").replace(/\s/g, "")
 			};
 
+			console.log(reqData);
+
 			//проверяем нет ли пользователям с таким же номером телефона
 			pool.query(`SELECT COUNT(phoneNumber) FROM users WHERE phoneNumber='${reqData["phone"]}';`, (err, results, fields) => {
 				if(err) {
@@ -171,7 +203,7 @@ pool.getConnection((err, connection) => {
 
 				} else {
 					//регистрируем нового пользователя
-					pool.query(`INSERT INTO users VALUES(NULL, '${reqData["name"]}', '${reqData["surname"]}', '${reqData["phone"]}', '${reqData["city"]}', '${reqData["password"]}', 'PRIVATE_SELLER', '${reqData["email"]}');`, (err, results, fields) => {
+					pool.query(`INSERT INTO users VALUES(NULL, '${reqData["name"]}', '${reqData["surname"]}', '${reqData["phone"]}', '${reqData["city"]}', '${reqData["password"]}', 'PRIVATE_SELLER', '${reqData["email"]}', NULL);`, (err, results, fields) => {
 						if(err) {
 							res.json("Ошибка при регистрации нового пользователя");
 
@@ -205,7 +237,7 @@ pool.getConnection((err, connection) => {
 									res.json(500, {error: "Ошибка при проверке номера телефона"});
 								} else {
 									if(results[0]['COUNT(phoneNumber)'] > 0) {
-										pool.query(`SELECT user_id, name, surname, phoneNumber, city, accountType FROM users WHERE password='${password}' AND phoneNumber='${phone}'`, (err, results, fields) => {
+										pool.query(`SELECT user_id, name, surname, phoneNumber, city, accountType, rules FROM users WHERE password='${password}' AND phoneNumber='${phone}'`, (err, results, fields) => {
 											if(err) {
 												res.json(500, {error: "Ошибка при получении данных пользователя"});
 											} else {
@@ -231,7 +263,7 @@ pool.getConnection((err, connection) => {
 
 		//обновление инф. в аккаунте пользователя
 		app.get("/updateDatasAccount", (req, res) => {
-			pool.query(`SELECT user_id, name, surname, phoneNumber, city, accountType FROM users WHERE user_id='${req.query.userid}';`, (err, results, fields) => {
+			pool.query(`SELECT user_id, name, surname, phoneNumber, city, accountType, rules FROM users WHERE user_id='${req.query.userid}';`, (err, results, fields) => {
 				if(err) {
 					console.log(err);
 				} else {

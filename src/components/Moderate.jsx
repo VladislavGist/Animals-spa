@@ -1,28 +1,26 @@
 import React, {Component} from "react";
-import {Link} from "react-router";
+import {connect} from "react-redux";
 import $ from "jquery";
 
-//redux
-import {connect} from "react-redux";
-
 //store
-import {store} from "../store.jsx";
+import {store} from "./store.jsx";
+
+//components
+import CardItem from "./categories/CardItem.jsx";
 
 //actions
-import {getCards} from "../../actions/getCards.jsx";
-import {allCards} from "../../actions/allCards.jsx";
+import {loadCards} from "../actions/loadCards.jsx";
 
-//Блок с плитками
-import CardItem from "./CardItem.jsx";
+class Moderate extends Component {
 
-import "./CardItems.sass";
-
-class CardItems extends Component {
 	constructor() {
-		super()
+		super();
 		this.subs;
 		this.elem = store.getState().serverReducer;
-		this.countMore = 20;
+	}
+
+	componentWillMount() {
+		this.props.getCards(`${process.env.URL}/moderate`);
 	}
 
 	componentDidMount() {
@@ -120,84 +118,58 @@ class CardItems extends Component {
 					}
 				});
 
-				//сохранил текущую часть Store чтобы карточки корректно работали 
+				//сохранил текущую часть Store чтобы объявления корректно работали 
 				this.elem = store.getState().serverReducer;
-
-				this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname);
 			}
 		});
 	}
 
 	componentWillUnmount() {
 		this.subs();
-		this.props.onHandleClearState();
-		this.countMore = 20;
-	}
-
-	addMoreCards = () => {
-		this.props.onMoreCards(process.env.URL + "/list-animals/animal_type/" +  this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/" + this.countMore);
-		this.props.onAllCards(process.env.URL + "/list-animals/animal_type/" +  this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/" + this.countMore + "/allcount");
-		this.countMore += 10;
+		this.props.clearCards();
 	}
 
 	render() {
-		//если нет параметров в url то добавить оберке классс .indexPageClass
-		////this.props.state.toggleAddMoreBtn === true ? <a href="javascript:void(0)" className="addMore button2" onClick={this.addMoreCards}>Ещё объявления</a> : ""
 		return (
-			<div className={`wrapCardsContent ${this.props.state.allParamsUrl === '/' ? 'indexPageClassWrap' : ""}`}>
-				<article className={`cardItems ${this.props.state.allParamsUrl === '/' ? 'indexPageClass' : ""}`}>
-					{
-						this.props.datas.length > 0 ?
-						this.props.datas.map((elem, idx) => {
-							return (
-								<CardItem
-									cardId={elem.card_id}
-									key={elem.card_id} 
-									title={elem.title} 
-									briefDescription={elem.briefDescription}
-									city={elem.city}
-									userName={elem.userName}
-									userStatus={elem.userStatus}
-									phoneNumber={elem.phoneNumber}
-									rating={elem.rating}
-									price={elem.price}
-									imgPath={elem.imgPath}
-									advType={elem.advType}
-									views={elem.views}
-								/>
-							);
-						}) : <p className="noCardsTitle">Объявлений нет</p>
-					}
-					{this.props.datas.length > 0 && this.props.state.allParamsUrl != '/' ? (this.props.state.toggleAddMoreBtn === true ? <a href="javascript:void(0)" className="addMore button2" onClick={this.addMoreCards}>Ещё объявления</a> : "") : ""}
-				</article>
-				<aside className="cardsBanners">
-					Здесь будет реклама Яндекс.Директ
-				</aside>
+			<div>
+				{
+					this.props.state.serverReducer.advertisementList.length > 0 ?
+					this.props.state.serverReducer.advertisementList.map((elem, idx) => {
+						return (
+							<CardItem
+								cardId={elem.card_id}
+								key={elem.card_id} 
+								title={elem.title} 
+								briefDescription={elem.briefDescription}
+								city={elem.city}
+								userName={elem.userName}
+								userStatus={elem.userStatus}
+								phoneNumber={elem.phoneNumber}
+								rating={elem.rating}
+								price={elem.price}
+								imgPath={elem.imgPath}
+								advType={elem.advType}
+								views={elem.views}
+								moderate={true}
+							/>
+						);
+					}) : <p>Объявлений на модерацию нет</p>
+				}
 			</div>
-		);
+		)
 	}
 }
 
-let mapStateToProps;
-
 export default connect(
-	mapStateToProps = state => {
-		return {
-			state: state
-		}
-	},
+	state => ({
+		state: state
+	}),
 	dispatch => ({
-		onHandleClearState: () => {
-			dispatch({type: "CLEAR_STATE", payload: {advertisementList: []}})
+		getCards: url => {
+			dispatch(loadCards(url));
 		},
-		onReplaceAllUrl: e => {
-			dispatch({type: "CHANGE_URL", payload: e ? e : {}})
-		},
-		onMoreCards: url => {
-			dispatch(getCards(url));
-		},
-		onAllCards: url => {
-			dispatch(allCards(url));
+		clearCards: () => {
+			dispatch({type: "CLEAR_STATE", payload: []});
 		}
 	})
-)(CardItems);
+)(Moderate);

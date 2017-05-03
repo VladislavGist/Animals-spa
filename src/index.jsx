@@ -10,6 +10,7 @@ import PersonalArea from "./components/PersonalArea.jsx";
 import WrapAnimalCard from "./components/categories/WrapAnimalCard.jsx";
 import AnimalCard from "./components/categories/AnimalCard.jsx";
 import PlaceAnAd from "./components/PlaceAnAd.jsx";
+import Moderate from "./components/Moderate.jsx";
 
 import App from "./App.jsx";
 
@@ -32,6 +33,7 @@ ReactDOM.render(
 				<IndexRoute component={WrapAnimalCard} />
 				<Route path="/animals/:type/:advertisment" component={WrapAnimalCard}/>
 				<Route path="/personalArea" component={PersonalArea} onEnter={onEnterFunc} />
+				<Route path="/moderation" component={Moderate} onEnter={onEnterFunc} />
 				<Route path="/placeAnAd" component={PlaceAnAd} onEnter={onEnterFunc} />
 			</Route>
 			<Route path="*" component={NotFound} />
