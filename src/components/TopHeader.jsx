@@ -65,14 +65,14 @@ class TopHeader extends Component {
 					{
 						this.props.state.loginUser === false || this.props.state.loginUser.error !== undefined ? <LoginModal titleBtn="Подать объявление" classNameMobile="needLoginMobile" classesBtn="button2 needLoginMobile" dialogModal="01" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
 					}
+
+					<DrawerUndockedExample />
 					
 				</div>
 			</header>
 		);
 	}
 }
-
-//<DrawerUndockedExample />
 
 export default connect(
 	state => ({state: state}),
