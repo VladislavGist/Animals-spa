@@ -113,10 +113,6 @@ class CardItem extends Component {
 							<div className="buttonsList">
 								{
 									location.hash === "#/personalArea" ? null :
-									<a href="javascript:void(0)" className="button1">Пожаловаться</a>
-								}
-								{
-									location.hash === "#/personalArea" ? null :
 									<div className="visibles">
 										<i className="fa fa-eye" aria-hidden="true"></i>
 										<p>{this.props.views}</p>

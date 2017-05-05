@@ -120,6 +120,7 @@ pool.getConnection((err, connection) => {
 			let nowTime = moment().format("LTS"), nowDay = moment().format("ll");
 
 			if(nowTime == "01:33:00" && nowTime != "01:33:05") {
+
 				//удаление изображений на сервере
 				pool.query(`SELECT imgPath FROM cards WHERE data_delete='${nowDay}';`, (err, results, fields) => {
 					if(err) {
