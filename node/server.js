@@ -402,11 +402,15 @@ pool.getConnection((err, connection) => {
 						console.log("Ошибка подачи объявления");
 						console.log(err);
 					} else {
-						console.log("Объявление загружено");
+						console.log("--------------Объявление загружено---------");
+						console.log(mass);
+						console.log(imgPath);
+						console.log(imgName);
 						massZip = null;
 						mass = null;
 						imgPath = [];
 						imgName = [];
+						console.log("--------------Объявление загружено CLOSE---------");
 						res.end();
 					}
 			});
@@ -416,6 +420,9 @@ pool.getConnection((err, connection) => {
 		app.post("/add-advertisement/img/animalType/:animalType/advertisementType/:advertisementType", upload.array("photo"), (req, res) => {
 			mass = _.zip(imgPath, imgName);
 			massZip = mass.join(" ").replace(/,/g, "");
+			console.log("-----------POST------------");
+			console.log(massZip);
+			console.log("-----------POST CLOSE------------");
 			res.end();
 		});
 
