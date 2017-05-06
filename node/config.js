@@ -2,11 +2,11 @@ let config;
 module.exports = config  = {
 	urlPaths: {
 		dev: "http://localhost:8090",
-		prod: "https://vladislavgist.github.io"
+		prod: "http://198.211.121.46:8090"
 	},
 	urlServerPath: {
 		dev: "http://localhost:8080",
-		prod: "http://localhost:8080"
+		prod: "http://198.211.121.46"
 	},
 	sqlDatas: {
 		host: "localhost",
