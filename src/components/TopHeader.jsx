@@ -52,15 +52,6 @@ class TopHeader extends Component {
 					{
 						this.props.state.loginUser === false || this.props.state.loginUser.error !== undefined ? <LoginModal titleBtn="Вход / регистрация" dialogModal="01" /> : loginFalse()
 					}
-					<div className="button3 repostBtn">
-						<a href="javascript:void(0)" className="buttonCircle">
-							<i className="fa fa-bullhorn" aria-hidden="true"></i>
-						</a>
-						<span>
-							<a href="javascript:void(0)"><i className="fa fa-vk" aria-hidden="true"></i></a>
-							<a href="javascript:void(0)"><i className="fa fa-odnoklassniki" aria-hidden="true"></i></a>
-						</span>
-					</div>
 
 					{
 						this.props.state.loginUser === false || this.props.state.loginUser.error !== undefined ? <LoginModal titleBtn="Подать объявление" classNameMobile="needLoginMobile" classesBtn="button2 needLoginMobile" dialogModal="01" /> : <Link to="/placeAnAd" className="button2 needLogin">Подать объявление</Link>
@@ -73,6 +64,16 @@ class TopHeader extends Component {
 		);
 	}
 }
+
+// <div className="button3 repostBtn">
+// 	<a href="javascript:void(0)" className="buttonCircle">
+// 		<i className="fa fa-bullhorn" aria-hidden="true"></i>
+// 	</a>
+// 	<span>
+// 		<a href="javascript:void(0)"><i className="fa fa-vk" aria-hidden="true"></i></a>
+// 		<a href="javascript:void(0)"><i className="fa fa-odnoklassniki" aria-hidden="true"></i></a>
+// 	</span>
+// </div>
 
 export default connect(
 	state => ({state: state}),

@@ -84,21 +84,6 @@ class CardItem extends Component {
 								<p className="subTitle">{this.props.briefDescription}</p>
 							</div>
 
-							{
-								location.hash === "#/personalArea" ? null :
-								<div>
-									<div className="button3" title="Сделать репост в социальную сеть">
-										<a href="javascript:void(0)" className="buttonCircle">
-											<i className="fa fa-bullhorn" aria-hidden="true"></i>
-										</a>
-										<span>
-											<a href="javascript:void(0)"><i className="fa fa-vk" aria-hidden="true"></i></a>
-											<a href="javascript:void(0)"><i className="fa fa-odnoklassniki" aria-hidden="true"></i></a>
-										</span>
-									</div>
-								</div>
-							}
-
 						</div>
 					</div>
 					<div className="img">
@@ -141,6 +126,21 @@ class CardItem extends Component {
 		);
 	}
 }
+
+// {
+// 	location.hash === "#/personalArea" ? null :
+// 	<div>
+// 		<div className="button3" title="Сделать репост в социальную сеть">
+// 			<a href="javascript:void(0)" className="buttonCircle">
+// 				<i className="fa fa-bullhorn" aria-hidden="true"></i>
+// 			</a>
+// 			<span>
+// 				<a href="javascript:void(0)"><i className="fa fa-vk" aria-hidden="true"></i></a>
+// 				<a href="javascript:void(0)"><i className="fa fa-odnoklassniki" aria-hidden="true"></i></a>
+// 			</span>
+// 		</div>
+// 	</div>
+// }
 
 export default connect(
 	state => ({

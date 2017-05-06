@@ -2,7 +2,7 @@ let initialState = [
 	{
 		img: "uploads/catMenu.jpg",
 		title: "Кошки",
-		text: "Текст описания категории кошек",
+		text: "",
 		categoryNames: {
 			myLinks: ["/animals/cat/buy", "/animals/cat/find", "/animals/cat/missing", "/animals/cat/gift"],
 			names: ["Купить", "Находка", "Пропажа", "Даром"],

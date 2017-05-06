@@ -127,7 +127,7 @@ export default connect(
 				{
 					img: "uploads/catMenu.jpg",
 					title: "Кошки",
-					text: "Текст описания категории кошек",
+					text: "",
 					categoryNames: {
 						myLinks: ["/animals/cat/buy", "/animals/cat/find", "/animals/cat/missing", "/animals/cat/gift"],
 						names: ["Купить", "Находка", "Пропажа", "Даром"],
@@ -143,7 +143,7 @@ export default connect(
 				{
 					img: "uploads/dogMenu.jpg",
 					title: "Собаки",
-					text: "Текст описания категории собак",
+					text: "",
 					categoryNames: {
 						myLinks: ["/", "/", "/", "/"],
 						names: ["Купить", "Находка", "Пропажа", "Даром"],
@@ -159,7 +159,7 @@ export default connect(
 				{
 					img: "uploads/anotherMenu.jpg",
 					title: "Другая категория",
-					text: "Текст описания категории другой",
+					text: "",
 					categoryNames: {
 						myLinks: ["/", "/", "/"],
 						names: ["Купить", "Находка", "Пропажа"],

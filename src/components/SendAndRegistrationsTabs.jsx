@@ -236,9 +236,7 @@ class SendAndRegistrationsTabs extends React.Component {
 							<div>
 								<input type="button" value="Войти" className="button2" onClick={this.onHandleLogin} />
 							</div>
-							<div>
-								<a href="javascript:void(0)">Забыли пароль?</a>
-							</div>
+							
 						</form>
 					</div>
 				</Tab>
@@ -306,9 +304,7 @@ class SendAndRegistrationsTabs extends React.Component {
 							<div>
 								<input type="button" value="Зарегистрироваться" className="btnReg button2" onClick={this.handleRegBtn} />
 							</div>
-							<div>
-								<p>Регистрируясь вы соглашаетесь с <a href="/">политикой сайта</a></p>
-							</div>
+			
 						</form>
 					</div>
 				</Tab>
@@ -356,18 +352,6 @@ export default connect(
 		}
 	}))(SendAndRegistrationsTabs);
 
-/*
-при заходе состояние меню loginFalse -
-после входа loginTrue
-
-вход:
-кликаю на кнопку 
-данные валидируются на клиенте
-отправляется запрос на сервер
-получаю ответ
-если пользователь существует
-меняю состояние loginUser на: loginTrue
-
-если: loginUser ==  loginFalse, то показывается кнопка "вход / регистрация"
-если: loginUser == loginTrue, то показываются кнопки: имя и личный кабинет
-*/
+// <div>
+// 	<p>Регистрируясь вы соглашаетесь с <a href="/">политикой сайта</a></p>
+// </div>
