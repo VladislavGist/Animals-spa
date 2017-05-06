@@ -164,25 +164,25 @@ class PlaceAnAd extends Component {
 				;
 
 			//отправляем изображения объявления
-			this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData);
-			setTimeout(() => {
-				//отправляем текстовые и числовые данные объявления
-				this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
-			}, 2000);
+			// this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData);
+			// setTimeout(() => {
+			// 	//отправляем текстовые и числовые данные объявления
+			// 	this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
+			// }, 2000);
 
-			// let func = async () => {
-			// 	console.log("start");
-			// 	try {
-			// 		await this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData);
-			// 		await this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl); 
+			let func = async () => {
+				console.log("start");
+				try {
+					await this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData);
+					await this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl); 
 
-			// 		console.log("Отправлено. try");
-			// 	} catch(err) {
-			// 		console.log(err);
-			// 	}
-			// };
+					console.log("Отправлено. try");
+				} catch(err) {
+					console.log(err);
+				}
+			};
 
-			// func();
+			func();
 			
 			//очистка данных формы
 			this.props.onResetPlace();
