@@ -168,7 +168,7 @@ class PlaceAnAd extends Component {
 			setTimeout(() => {
 				//отправляем текстовые и числовые данные объявления
 				this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
-			}, 1500);
+			}, 200);
 			
 			//очистка данных формы
 			this.props.onResetPlace();

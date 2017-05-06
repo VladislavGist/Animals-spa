@@ -36,8 +36,8 @@ app.get("*", (req, res) => {
 var multer = require("multer");
 let imgPath = [];
 let imgName = [];
-let mass;
-let massZip;
+let mass = null;
+let massZip = null;
 let storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		let animalType = req.originalUrl.split("/")[4];
