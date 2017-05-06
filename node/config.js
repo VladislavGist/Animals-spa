@@ -6,11 +6,11 @@ module.exports = config  = {
 	},
 	urlPaths: {
 		dev: "http://localhost:8090",
-		prod: "http://198.211.121.46:8080"
+		prod: "http://198.211.121.46"
 	},
 	urlServerPath: {
 		dev: "http://localhost:8080",
-		prod: "http://198.211.121.46:8080"
+		prod: "http://198.211.121.46"
 	},
 	sqlDatasDev: {
 		host: "localhost",
