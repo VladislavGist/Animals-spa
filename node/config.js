@@ -19,7 +19,7 @@ module.exports = config  = {
 		database: "animals_db"
 	},
 	sqlDatasProd: {
-		host: "http://198.211.121.46",
+		host: "localhost",
 		user: "root",
 		password: "bmw1forme",
 		database: "animalsDataBase"
