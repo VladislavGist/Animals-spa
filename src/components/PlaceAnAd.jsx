@@ -39,6 +39,7 @@ class PlaceAnAd extends Component {
 		this.timer3;
 		this.timer4;
 		this.thisFormData;
+		this.myTimer;
 	}
 
 	//оптимизировать код ниже возможности нет по причине того, что чтобы увидеть было ли загружено изображение нужен таймер
@@ -167,7 +168,7 @@ class PlaceAnAd extends Component {
 			setTimeout(() => {
 				//отправляем текстовые и числовые данные объявления
 				this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
-			}, 100);
+			}, 1500);
 			
 			//очистка данных формы
 			this.props.onResetPlace();
