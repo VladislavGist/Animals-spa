@@ -11,11 +11,9 @@ export const placeAnAdCard = (url, paramsUrl) => {
 		})
 		.then(response => {
 			console.log("Объявление отправлено на сервер");
-			return "yes";
 		})
 		.catch(() => {
 			console.log("Ошибка. catch");
-			return "error";
 		});
 	};
 };

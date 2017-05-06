@@ -7,16 +7,13 @@ export const postImagesCard = (url, thisFormData) => {
 				.then(
 					() => {
 						console.log("Img переданно успешно");
-						return "yes";
 					},
 					() => {
 						console.log("Img переданно не успешно");
-						return "no";
 					}
 				)
 				.catch(() => {
 					console.log("Img catch");
-					return "error";
 				});
 	};
 };
