@@ -404,8 +404,6 @@ pool.getConnection((err, connection) => {
 					} else {
 						console.log("--------------Объявление загружено---------");
 						console.log(mass);
-						console.log(imgPath);
-						console.log(imgName);
 						massZip = null;
 						mass = null;
 						imgPath = [];

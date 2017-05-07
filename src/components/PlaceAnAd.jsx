@@ -170,19 +170,19 @@ class PlaceAnAd extends Component {
 			// 	this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
 			// }, 2000);
 
-			let func = async () => {
-				console.log("start");
-				try {
-					await this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData);
-					await this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl); 
+			this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData, process.env.URL + "/add-advertisement", paramsUrl);
+			// let func = async () => {
+			// 	console.log("start");
+			// 	try {
+			// 		//await this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl); 
 
-					console.log("Отправлено. try");
-				} catch(err) {
-					console.log(err);
-				}
-			};
+			// 		console.log("Отправлено. try");
+			// 	} catch(err) {
+			// 		console.log(err);
+			// 	}
+			// };
 
-			func();
+			// func();
 			
 			//очистка данных формы
 			this.props.onResetPlace();
@@ -550,10 +550,10 @@ export default connect(
 			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
 		},
 		handlePostMethodAddCard: (url, paramUrl) => {
-			dispatch(placeAnAdCard(url, paramUrl));
+			//dispatch(placeAnAdCard(url, paramUrl));
 		},
-		handlePostMethodAddImagesCard: (url, thisFormData) => {
-			dispatch(postImagesCard(url, thisFormData))
+		handlePostMethodAddImagesCard: (url, thisFormData, anAdUrl, anAdParapms) => {
+			dispatch(postImagesCard(url, thisFormData, anAdUrl, anAdParapms));
 		}
 	})
 )(PlaceAnAd);
