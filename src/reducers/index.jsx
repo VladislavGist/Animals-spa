@@ -17,6 +17,7 @@ import filterCity from "./filterCity.jsx";
 import toggleAddMoreBtn from "./toggleAddMoreBtn.jsx";
 import regReducer from "./regReducer.jsx";
 import reducerCardsComplAndRej from "./reducerCardsComplAndRej.jsx";
+import contactFormStatus from "./contactFormStatus.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -34,5 +35,6 @@ export default combineReducers({
 	filterCity,
 	toggleAddMoreBtn,
 	regReducer,
-	reducerCardsComplAndRej
+	reducerCardsComplAndRej,
+	contactFormStatus
 });

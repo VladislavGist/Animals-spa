@@ -1,4 +1,3 @@
-
 let allParamsUrl;
 export default allParamsUrl = (state = {}, action) => {
 	switch(action.type) {

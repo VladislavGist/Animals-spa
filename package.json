@@ -13,7 +13,7 @@
   "dependencies": {
     "babel-polyfill": "6.23.0",
     "material-ui": "0.16.7",
-    "moment": "^2.18.1",
+    "moment": "2.18.1",
     "mysql": "2.13.0",
     "react": "*",
     "react-dom": "*",

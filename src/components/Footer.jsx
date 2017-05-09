@@ -9,15 +9,17 @@ class Footer extends Component {
 	render() {
 		return (
 			<footer>
-				<Link to="/">
+				<Link to="/" className="footerLogo">
 					<img src="uploads/logo2.png" width="120" alt="logotype" />
 				</Link>
 				<div className="linksFooter">
-					<Link to="/">Главная</Link>
-					<Link to="/">Дать объявление</Link>
-					<Link to="/">Помощь</Link>
-					<Link to="/">Контакты</Link>
+					<Link to="/contacts">Контакты</Link>
+					<p>
+						Разработано:
+						 <a href="https://vk.com/vladfebruary" target="_blank">KSEVEN</a>
+					</p>
 				</div>
+				<p className="years">2017</p>
 			</footer>
 		);
 	}

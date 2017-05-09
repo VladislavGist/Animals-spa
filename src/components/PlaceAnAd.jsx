@@ -10,7 +10,6 @@ import moment from "moment";
 let _ = require("underscore");
 
 //actions
-import {placeAnAdCard} from "../actions/placeAnAdCard.jsx";
 import {postImagesCard} from "../actions/postImagesCard.jsx";
 
 //store
@@ -163,26 +162,7 @@ class PlaceAnAd extends Component {
 				`dataDelete=${deleteDate}`
 				;
 
-			//отправляем изображения объявления
-			// this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData);
-			// setTimeout(() => {
-			// 	//отправляем текстовые и числовые данные объявления
-			// 	this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl);
-			// }, 2000);
-
 			this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData, process.env.URL + "/add-advertisement", paramsUrl);
-			// let func = async () => {
-			// 	console.log("start");
-			// 	try {
-			// 		//await this.props.handlePostMethodAddCard(process.env.URL + "/add-advertisement", paramsUrl); 
-
-			// 		console.log("Отправлено. try");
-			// 	} catch(err) {
-			// 		console.log(err);
-			// 	}
-			// };
-
-			// func();
 			
 			//очистка данных формы
 			this.props.onResetPlace();
@@ -248,6 +228,32 @@ class PlaceAnAd extends Component {
 		let regexpName = /^[0-9]{2,6}$/;
 		this.validate(e, regexpName, this.props.onValidatePlacePrice);
 		this.props.onReletMessage();
+	}
+
+	//у каких животных какие категории будут доступны
+	//хотел сделать одной функцией. но из за врапинга всех элементов селекты materialui работают не корректно
+	menuItems01 = values => {
+		if(values === "cat" || values === "dog" || values === "parrot" || values === "hamster" || values === "mouse" || values === "hare" || values === "guineapig" || values === "champ" || values === "snak" || values === "iguana" || values === "turtle" || values === "snail" || values === "fish" || values === "insects" || values === "horse" || values === "cow" || values === "pig" || values === "goat" || values === "sheep" || values === "domesticbird") {
+			return <MenuItem value={"buy"} primaryText="Продать" /> 
+		}
+	}
+
+	menuItems02 = values => {
+		if(values === "cat" || values === "dog" || values === "parrot" || values === "hamster" || values === "mouse" || values === "hare" || values === "guineapig" || values === "champ" || values === "snak" || values === "iguana" || values === "turtle" || values === "snail" || values === "fish" || values === "insects" || values === "horse" || values === "cow" || values === "pig" || values === "goat" || values === "sheep" || values === "domesticbird") {
+			return <MenuItem value={"gift"} primaryText="Даром" />	
+		}
+	}
+
+	menuItems03 = values => {
+		if(values === "cat" || values === "dog" || values === "parrot" || values === "guineapig" || values === "champ" || values === "snak" || values === "iguana" || values === "turtle" || values === "horse" || values === "cow" || values === "goat" || values === "sheep") {
+			return <MenuItem value={"missing"} primaryText="Пропажа" />
+		}
+	}
+
+	menuItems04 = values => {
+		if(values === "cat" || values === "dog" || values === "parrot" || values === "guineapig" || values === "champ" || values === "snak" || values === "iguana" || values === "turtle" || values === "horse" || values === "cow" || values === "goat" || values === "sheep") {
+			return <MenuItem value={"find"} primaryText="Находка" />
+		}
 	}
 
 	render() {
@@ -326,6 +332,24 @@ class PlaceAnAd extends Component {
 									selectedMenuItemStyle={style.floatingLabelFocusStyle}>
 									<MenuItem value={"cat"} primaryText="Кошки" />
 									<MenuItem value={"dog"} primaryText="Собаки" />
+									<MenuItem value={"parrot"} primaryText="Попугаи" />
+									<MenuItem value={"hamster"} primaryText="Хомяки" />
+									<MenuItem value={"mouse"} primaryText="Мыши / крысы" />
+									<MenuItem value={"hare"} primaryText="Зайцы / кролики" />
+									<MenuItem value={"guineapig"} primaryText="Морские свинки" />
+									<MenuItem value={"champ"} primaryText="Хорьки" />
+									<MenuItem value={"snak"} primaryText="Змеи" />
+									<MenuItem value={"iguana"} primaryText="Игуаны" />
+									<MenuItem value={"turtle"} primaryText="Черепахи" />
+									<MenuItem value={"snail"} primaryText="Улитки" />
+									<MenuItem value={"fish"} primaryText="Рыбки" />
+									<MenuItem value={"insects"} primaryText="Насекомые" />
+									<MenuItem value={"horse"} primaryText="Лошади" />
+									<MenuItem value={"cow"} primaryText="Коровы / быки" />
+									<MenuItem value={"pig"} primaryText="Свиньи" />
+									<MenuItem value={"goat"} primaryText="Козы" />
+									<MenuItem value={"sheep"} primaryText="Овцы" />
+									<MenuItem value={"domesticbird"} primaryText="Домашняя птица" />
 								</SelectField>
 
 								<SelectField
@@ -335,10 +359,19 @@ class PlaceAnAd extends Component {
 									value={this.state.category.value}
 									onChange={this.handleChangeCategory}
 									selectedMenuItemStyle={style.floatingLabelFocusStyle}>
-									<MenuItem value={"buy"} primaryText="Продать" />
-									<MenuItem value={"gift"} primaryText="Даром" />
-									<MenuItem value={"missing"} primaryText="Пропажа" />
-									<MenuItem value={"find"} primaryText="Находка" />
+									{
+										this.menuItems01(this.state.animal.value)
+									}
+									{
+										this.menuItems02(this.state.animal.value)
+									}
+									{
+										this.menuItems03(this.state.animal.value)
+									}
+									{
+										this.menuItems04(this.state.animal.value)
+									}
+
 								</SelectField>
 
 								<SelectField
@@ -548,9 +581,6 @@ export default connect(
 		},
 		onReletMessage: () => {
 			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
-		},
-		handlePostMethodAddCard: (url, paramUrl) => {
-			//dispatch(placeAnAdCard(url, paramUrl));
 		},
 		handlePostMethodAddImagesCard: (url, thisFormData, anAdUrl, anAdParapms) => {
 			dispatch(postImagesCard(url, thisFormData, anAdUrl, anAdParapms));

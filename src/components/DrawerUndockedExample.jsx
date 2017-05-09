@@ -24,11 +24,19 @@ class DrawerUndockedExample extends React.Component {
 
 	render() {
 		const loginFalse = () => {
-			return (
-				<div className="userBtns">
-					<Link to="/personalArea" className="personalArea accountBtnMobile">Личный кабинет</Link>
-				</div>
-			);
+			if(this.props.state.loginUser.results[0].rules === null) {
+				return (
+					<div className="userBtns">
+						<Link to="/personalArea" className="personalArea">Личный кабинет</Link>
+					</div>
+				)
+			} else if(this.props.state.loginUser.results[0].rules === "moderator") {
+				return (
+					<div className="userBtns">
+						<Link to="/moderation" className="personalArea">moderation</Link>
+					</div>
+				)
+			}
 		};
 
 		let style = {
@@ -42,7 +50,7 @@ class DrawerUndockedExample extends React.Component {
 		}
 
 		return (
-			<div>
+			<div className="mobileMenuBtn">
 				<RaisedButton
 					label={<i className="fa fa-bars"></i>}
 					onTouchTap={this.handleToggle}
@@ -70,10 +78,6 @@ class DrawerUndockedExample extends React.Component {
 						{
 							this.props.state.loginUser === false || this.props.state.loginUser.error !== undefined  ? <LoginModal classesBtn="accountBtnMobile" classNameMobile="mobileSign" titleBtn="Вход / регистрация" dialogModal="01" /> : loginFalse()
 						}
-					</MenuItem>
-
-					<MenuItem onTouchTap={this.handleClose}>
-						<a href="javascript:void(0)" className="mobileRepost">Репост в Вконтакте</a>
 					</MenuItem>
 
 					<MenuItem onTouchTap={this.handleClose}>

@@ -40,7 +40,7 @@ class LoginModal extends React.Component {
 			flatIcon: {
 				minWidth: "30px",
 				right: "10px",
-				top: "-12px"     
+				top: "-11px"
 			},
 			overlayStyle: {
 				padding: "30px 16px 26px"

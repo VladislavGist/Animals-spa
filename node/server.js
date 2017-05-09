@@ -10,6 +10,7 @@ let cors = require("cors");
 let moment = require("moment");
 let fs = require("fs");
 let path = require("path");
+let nodemailer = require("nodemailer");
 
 //конфиг и пути к файлам в разных сборках
 let config = require("./config.js");
@@ -30,6 +31,40 @@ app.use(require('prerender-node'));
 
 app.get("*", (req, res) => {
 	res.sendFile(__dirname + "/public");
+});
+
+//обратная связь
+app.get("/sendus", (req, res) => {
+	let datas = {
+		name: req.query.name,
+		email: req.query.email,
+		title: req.query.title,
+		mess: req.query.mess
+	};
+
+	let transporter = nodemailer.createTransport({
+		service: "gmail",
+		auth: {
+			user: "spanshine.vlad@gmail.com",
+			pass: "dc0781907819"
+		}
+	});
+
+	let mailOptions = {
+		from: `Animals ${datas.email}`,
+		to: "studio_kseven@mail.ru",
+		subject: `Тема письма: ${datas.title}`,
+		html: "<p>" + "Имя: " + datas.name + "<br/>" + "Сообщение: " + datas.mess + "<br/>" + "Моя почта: " + datas.email + "</p>"
+	};
+
+	transporter.sendMail(mailOptions, (err, info) => {
+		if(err) {
+			console.log(err);
+			res.json(500, {message: "Ошибка отправки письма на почту"})
+		} else {
+			res.json(200, {message: "Отправлено"});
+		}
+	});
 });
 
 //работа с изображениями
@@ -120,7 +155,7 @@ pool.getConnection((err, connection) => {
 		setInterval(() => {
 			let nowTime = moment().format("LTS"), nowDay = moment().format("ll");
 
-			if(nowTime == "01:33:00" && nowTime != "01:33:05") {
+			if(nowTime == "00:00:00" && nowTime != "00:00:05") {
 
 				//удаление изображений на сервере
 				pool.query(`SELECT imgPath FROM cards WHERE data_delete='${nowDay}';`, (err, results, fields) => {
