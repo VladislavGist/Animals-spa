@@ -156,7 +156,7 @@ class PlaceAnAd extends Component {
 				"title=" + $("input[name='title']")[0].value + "&" +
 				"phoneNumber=" + $("input[name='phoneNumber']")[0].value + "&" +
 				"briefDescription=" + $(".briefDescription")[0].childNodes[2].childNodes[1].value + "&" +
-				`${this.state.category.value === "gift" || this.state.category.value === "find" ? "price=" + "" : "price=" + $("input[name='price']")[0].value}` + "&" +
+				`${this.state.category.value === "gift" || this.state.category.value === "find" ? "price=" + " " : "price=" + $("input[name='price']")[0].value}` + "&" +
 				`userId=${this.props.state.loginUser.results[0].user_id}` + "&" +
 				`status=${this.props.state.loginUser.results[0].accountType}` + "&" +
 				`dataDelete=${deleteDate}`
