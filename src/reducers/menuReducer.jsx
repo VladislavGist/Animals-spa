@@ -18,6 +18,9 @@ export default menuReducer = (state = initialState, action) => {
 		case "SWITCH_MENU":
 			return action.payload;
 			break;
+		case "SWITCH_MENU_CLEAR":
+			return [];
+			break;
 		default:
 			return state;
 	}

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router";
+import _ from "underscore";
 
 import $ from "jquery"
 
@@ -7,6 +8,9 @@ import "./Menu.sass";
 
 //redux
 import {connect} from "react-redux";
+
+//actions
+import {getCards} from "../actions/getCards.jsx";
 
 class MaterialLink extends Component {
 	render() {
@@ -19,9 +23,11 @@ class MaterialLink extends Component {
 }
 
 class Menu extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
+		this.path = _.compact(props.state.routing.locationBeforeTransitions.pathname.split("/"));
 	}
+
 	componentDidMount() {
 		$(".moreInfo").click(() => {
 			$(".accordionContent").slideToggle(300);
@@ -34,19 +40,37 @@ class Menu extends Component {
 		});
 	}
 
-	componentWillReceiveProps() {
+	componentWillReceiveProps(next) {
 		if($(".accordionContent").is(":visible") === true) {
 			$(".accordionContent").css({"display": "none"});
 		}
+
+		let path = _.compact(next.state.routing.locationBeforeTransitions.pathname.split("/"));
+
+		if(this.path[1] !== path[1]) {
+
+			this.path[1] = path[1];
+			
+			this.getCards(path);
+		}
+	}
+
+	getCards = pathname => {
+		//выводит на остальных
+		this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + pathname[1] + "/advertisement_type/" + pathname[2]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/10");
+		
 	}
 
 	handleCat = () => {
+		console.log(this.path);
 		this.props.onHandleCat();
-		this.props.getUpdateState();
+		// this.getCards();
 	}
 
 	handleDog = () => {
+		console.log(this.path);
 		this.props.onHandleDog();
+		// this.getCards();
 	}
 
 	handleParrot = () => {
@@ -259,11 +283,19 @@ class Menu extends Component {
 	}
 }
 
+let mapStateToProps;
+
 export default connect(
-	state => ({
-		state: state
-	}), 
+	mapStateToProps = (state, routing) => {
+		return {
+			state: state,
+			routing: routing
+		}
+	}, 
 	dispatch => ({
+		handleGetCards: url => {
+			dispatch(getCards(url));
+		},
 		getUpdateState: () => {
 			dispatch({type: "UPDATE_STATE", payload: ""});
 		},
@@ -281,7 +313,7 @@ export default connect(
 					}
 				}
 			];
-			dispatch({type: "SWITCH_MENU", payload: data})
+			dispatch({type: "SWITCH_MENU", payload: data});
 		},
 		onHandleDog: () => {
 			let data = [
@@ -297,7 +329,7 @@ export default connect(
 					}
 				}
 			];
-			dispatch({type: "SWITCH_MENU", payload: data})
+			dispatch({type: "SWITCH_MENU", payload: data});
 		},
 		onHandleParrot: () => {
 			let data = [

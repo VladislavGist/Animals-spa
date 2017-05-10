@@ -16,6 +16,9 @@ import {store} from "../store.jsx";
 import {getCards} from "../../actions/getCards.jsx";
 
 class AnimalCard extends Component {
+	constructor(props) {
+		super(props);
+	}
 
 	componentDidMount() {
 
