@@ -27,13 +27,13 @@ class DrawerUndockedExample extends React.Component {
 			if(this.props.state.loginUser.results[0].rules === null) {
 				return (
 					<div className="userBtns">
-						<Link to="/personalArea" className="personalArea">Личный кабинет</Link>
+						<Link to="/personalArea" className="mobileBtnPersonalArea">Личный кабинет</Link>
 					</div>
 				)
 			} else if(this.props.state.loginUser.results[0].rules === "moderator") {
 				return (
 					<div className="userBtns">
-						<Link to="/moderation" className="personalArea">moderation</Link>
+						<Link to="/moderation" className="mobileBtnPersonalArea">moderation</Link>
 					</div>
 				)
 			}
