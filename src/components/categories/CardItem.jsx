@@ -68,7 +68,7 @@ class CardItem extends Component {
 									<span className="categoty">{this.props.advType}</span>
 								</div>
 								<p className="number">{this.props.phoneNumber}</p>
-								<p className="city">г. {this.props.city}</p>
+								<p className="city">{this.props.city.indexOf("обл.") === -1 ? "г. " + this.props.city : this.props.city}</p>
 								<div className="userItem">
 									{mass}
 									<p className={`userName ${this.props.userStatus === "seller" ? "gold" : ""}`}>{this.props.userName}</p>

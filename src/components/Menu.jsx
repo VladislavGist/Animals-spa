@@ -45,32 +45,27 @@ class Menu extends Component {
 			$(".accordionContent").css({"display": "none"});
 		}
 
-		let path = _.compact(next.state.routing.locationBeforeTransitions.pathname.split("/"));
+		// let path = _.compact(next.state.routing.locationBeforeTransitions.pathname.split("/"));
 
-		if(this.path[1] !== path[1]) {
+		// if(this.path[1] !== path[1]) {
 
-			this.path[1] = path[1];
+		// 	this.path[1] = path[1];
 			
-			this.getCards(path);
-		}
+		// 	this.getCards(path);
+		// }
 	}
 
-	getCards = pathname => {
-		//выводит на остальных
-		this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + pathname[1] + "/advertisement_type/" + pathname[2]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/10");
-		
-	}
+	// getCards = pathname => {
+	// 	//выводит на остальных
+	// 	this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + pathname[1] + "/advertisement_type/" + pathname[2]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/10");
+	// }
 
 	handleCat = () => {
-		console.log(this.path);
 		this.props.onHandleCat();
-		// this.getCards();
 	}
 
 	handleDog = () => {
-		console.log(this.path);
 		this.props.onHandleDog();
-		// this.getCards();
 	}
 
 	handleParrot = () => {

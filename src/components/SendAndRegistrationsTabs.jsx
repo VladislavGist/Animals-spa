@@ -212,20 +212,20 @@ class SendAndRegistrationsTabs extends React.Component {
 							<div className="wrapInputs">
 								<TextField
 									className="inputField"
-									type="password"
-									floatingLabelText="Пароль" 
-									name="password" 
-									onChange={this.validatePassword}
-									errorText={this.props.state.sendData.login.password === true || this.props.state.sendData.login.password === " " ? "" : " "} 
-								/>
-
-								<TextField
-									className="inputField"
 									type="tel" 
 									floatingLabelText="Номер телефона" 
 									name="phoneNumber" 
 									onChange={this.validateNumber}
 									errorText={this.props.state.sendData.login.phoneNumber === true || this.props.state.sendData.login.phoneNumber === " " ? "" : " "} 
+								/>
+
+								<TextField
+									className="inputField"
+									type="password"
+									floatingLabelText="Пароль" 
+									name="password" 
+									onChange={this.validatePassword}
+									errorText={this.props.state.sendData.login.password === true || this.props.state.sendData.login.password === " " ? "" : " "} 
 								/>
 							</div>
 							<div>
