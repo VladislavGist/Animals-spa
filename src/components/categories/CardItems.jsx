@@ -23,9 +23,16 @@ class CardItems extends Component {
 		this.subs;
 		this.elem = store.getState().serverReducer;
 		this.countMore = 20;
+		this.topPosition = 0;
 	}
 
 	componentDidMount() {
+		//смотрим расстояние от верха. нужно для корректной работы "еще объявления"
+		let _this = this;
+		$(document).scroll(function(e) {
+			_this.topPosition = $(document).scrollTop();
+		});
+
 		//подписался на определенную часть store
 		this.subs = store.subscribe(() => {
 			//если новая часть Store не равна предыдущей, то выполнить код
@@ -132,6 +139,12 @@ class CardItems extends Component {
 		this.subs();
 		this.props.onHandleClearState();
 		this.countMore = 20;
+		this.topPosition = 0;
+	}
+
+	componentWillUpdate(nextProps, nextState) {
+		//при каждом изменении url будем скролится на то место на котором были
+		$(document).scrollTop(this.topPosition);
 	}
 
 	addMoreCards = () => {

@@ -7,7 +7,6 @@ export const getCards = url => {
 			.then(response => {
 				if(response.status !== 200) {
 					console.log("Ошибка" + response.status);
-					dispatch({type: "UPDATE_LOADING", payload: 20});
 				} else {
 					dispatch({type: "UPDATE_LOADING", payload: 80});
 					response.json()
@@ -21,7 +20,7 @@ export const getCards = url => {
 							let zaprosCount = 0;
 							zaprosCount = urlutils.parse(url).pathname.split("/")[9];
 
-							//запрос к серверу и осуществление ункционала
+							//запрос к серверу и осуществление функционала
 							fetch(url + "/allcount")
 								.then(response => {
 									if(response.status !== 200) {
