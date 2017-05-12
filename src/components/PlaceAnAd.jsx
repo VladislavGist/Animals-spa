@@ -504,7 +504,7 @@ class PlaceAnAd extends Component {
 					<div>
 						<div className="wrapPhotos">
 							<p className="subtitle">Фотографии</p>
-							<p className="photoDescpipt">Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg</b> </p>
+							<p className="photoDescpipt">Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg, jpg</b> </p>
 							{
 								element()
 							}

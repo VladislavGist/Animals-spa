@@ -376,7 +376,7 @@ app.get("/list-hot-adv/:city", (req, res) => {
 		}
 	};
 	
-	pool.query(`SELECT * FROM cards WHERE status='accepted' AND advType IN('missing', 'find', 'gift', 'buy') ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT 5`, (err, results, fields) => {
+	pool.query(`SELECT * FROM cards WHERE status='accepted' AND advType IN('missing', 'find', 'gift', 'buy') ${func(req.params.city)} ORDER BY(card_id) DESC LIMIT 15`, (err, results, fields) => {
 		res.write(JSON.stringify(results));
 		res.end();
 	});

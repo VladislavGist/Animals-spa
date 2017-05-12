@@ -52,6 +52,10 @@ class AnimalCard extends Component {
 	render() {
 		return (
 			<div>
+				{
+					this.props.animal_type === undefined ? <h2 className="newCardsTitle">Новые объявления</h2> : ""
+				}
+
 				<CardItems datas={this.props.state.serverReducer.advertisementList} />
 			</div>
 		);
