@@ -11,6 +11,7 @@ let _ = require("underscore");
 
 //actions
 import {postImagesCard} from "../actions/postImagesCard.jsx";
+import snackbar from "../actions/snackbar.jsx";
 
 //store
 import {store} from "./store.jsx";
@@ -131,6 +132,7 @@ class PlaceAnAd extends Component {
 		_.each(validateTypeImg, elem => {
 			if(elem === false) {
 				resultValidateTypeImg = false;
+				this.props.onHandleSnackbar("Формат изображения должен быть jpeg или jpg");
 			}
 		});
 
@@ -178,7 +180,10 @@ class PlaceAnAd extends Component {
 			//this.thisFormData = "";
 			this.thisFormData.delete("photo");
 		} else {
-			
+			if(resultValidateTypeImg !== false) {
+				//toolpit с ошибкой
+				this.props.onHandleSnackbar("Заполните все поля");
+			}
 		}
 	};
 
@@ -527,6 +532,9 @@ export default connect(
 		state: state
 	}),
 	dispatch => ({
+		onHandleSnackbar: data => {
+			dispatch(snackbar(data));
+		},
 		handlePhoto0: () => {
 			dispatch({type: "ADD_PHOTO0", payload: true});
 			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});

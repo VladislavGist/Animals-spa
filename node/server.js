@@ -11,6 +11,7 @@ let moment = require("moment");
 let fs = require("fs");
 let path = require("path");
 let nodemailer = require("nodemailer");
+require('node-jsx').install();
 
 //конфиг и пути к файлам в разных сборках
 let config = require("./config.js");

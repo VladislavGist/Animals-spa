@@ -18,6 +18,7 @@ import LinearProgressExampleDeterminate from "./components/ProgressBar.jsx";
 import TopHeader from "./components/TopHeader.jsx";
 import Menu from "./components/Menu.jsx";
 import Footer from "./components/Footer.jsx";
+import SnackbarExampleSimple from "./components/SnackbarExampleSimple.jsx";
 
 class App extends Component {
 
@@ -59,6 +60,7 @@ class App extends Component {
 							<Footer />
 						</div>
 					</div>
+					<SnackbarExampleSimple />
 				</div>
 			</MuiThemeProvider>
 		);

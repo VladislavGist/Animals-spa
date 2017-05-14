@@ -18,6 +18,7 @@ import toggleAddMoreBtn from "./toggleAddMoreBtn.jsx";
 import regReducer from "./regReducer.jsx";
 import reducerCardsComplAndRej from "./reducerCardsComplAndRej.jsx";
 import contactFormStatus from "./contactFormStatus.jsx";
+import snackbarReducer from "./snackbarReducer.jsx";
 
 export default combineReducers({
 	routing: routerReducer,
@@ -36,5 +37,6 @@ export default combineReducers({
 	toggleAddMoreBtn,
 	regReducer,
 	reducerCardsComplAndRej,
-	contactFormStatus
+	contactFormStatus,
+	snackbarReducer
 });

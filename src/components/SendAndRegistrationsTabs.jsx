@@ -9,6 +9,11 @@ import {connect} from "react-redux";
 //actions
 import {loginAction} from "../actions/login.jsx";
 import {regAction} from "../actions/regAction.jsx";
+import snackbar from "../actions/snackbar.jsx";
+
+//components
+import SnackbarExampleSimple from "./SnackbarExampleSimple.jsx";
+
 
 //style
 import "./SendAndRegistrationsTabs.sass";
@@ -55,7 +60,7 @@ class SendAndRegistrationsTabs extends React.Component {
 
 	//функция валидации password
 	validatePassword = e => {
-		let regexpName = /^[a-z0-9_-]{6,18}$/;
+		let regexpName = /^[a-zA-Z0-9_-]{6,18}$/;
 		this.validate(e, regexpName, this.props.onValidatePassword);
 	}
 
@@ -73,6 +78,9 @@ class SendAndRegistrationsTabs extends React.Component {
 			let password = document.querySelector("input[name=password]").value, phoneNumber = document.querySelector("input[name=phoneNumber]").value;
 
 			this.props.loginTrue(`${process.env.URL}/protected?password=${password}&phone=${phoneNumber}`);
+		} else {
+			//toolpit с ошибкой
+			this.props.onHandleSnackbar("Заполните все поля");
 		}
 	}
 
@@ -96,7 +104,7 @@ class SendAndRegistrationsTabs extends React.Component {
 
 	//reg password
 	validateRegPassword = e => {
-		let regexpName = /^[a-z0-9_-]{6,18}$/;
+		let regexpName = /^[a-zA-Z0-9_-]{6,18}$/;
 		this.password = e.target.value;
 		this.validate(e, regexpName, this.props.onRegValidatePassword);
 	}
@@ -132,7 +140,7 @@ class SendAndRegistrationsTabs extends React.Component {
 				inpPasswordReg: document.querySelector("input[name=passwordReg]").value,
 				inpCityReg: document.querySelector("input[name=cityReg]").value,
 				inpEmailReg: document.querySelector("input[name=emailReg]").value
-			}
+			} 
 			//если все поля true, то зарегистрировать
 			this.props.onHandleReg(`${process.env.URL}/registr`, params);
 
@@ -143,6 +151,9 @@ class SendAndRegistrationsTabs extends React.Component {
 			document.querySelector("input[name=passwordReg]").value = "";
 			document.querySelector("input[name=cityReg]").value = "";
 			document.querySelector("input[name=emailReg]").value = "";
+		} else {
+			//toolpit с ошибкой
+			this.props.onHandleSnackbar("Заполните все поля");
 		}
 	}
 
@@ -317,6 +328,9 @@ class SendAndRegistrationsTabs extends React.Component {
 export default connect(
 	state => ({state: state}),
 	dispatch => ({
+		onHandleSnackbar: data => {
+			dispatch(snackbar(data));
+		},
 		loginTrue: url => {
 			dispatch(loginAction(url));
 		},
