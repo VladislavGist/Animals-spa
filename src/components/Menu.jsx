@@ -44,15 +44,7 @@ class Menu extends Component {
 		if($(".accordionContent").is(":visible") === true) {
 			$(".accordionContent").css({"display": "none"});
 		}
-
-		// let path = _.compact(next.state.routing.locationBeforeTransitions.pathname.split("/"));
-
-		// if(this.path[1] !== path[1]) {
-
-		// 	this.path[1] = path[1];
-			
-		// 	this.getCards(path);
-		// }
+		$(".accordionContent").hasClass("visible") ? $(".moreInfo i").removeClass("fa fa-angle-up fa-angle-down").addClass("fa fa-angle-up") : $(".moreInfo i").removeClass("fa fa-angle-up fa-angle-down").addClass("fa fa-angle-down");
 	}
 
 	// getCards = pathname => {
@@ -142,7 +134,7 @@ class Menu extends Component {
 
 	componentWillUpdate() {
 		//убирает линию над кнопкой разворота меню на опр. страницах при обновлении компонента
-		if(location.hash == "#/placeAnAd" || location.hash == "#/personalArea") {
+		if(location.hash == "#/" || location.hash == "#/placeAnAd" || location.hash == "#/personalArea") {
 			$(".moreInfo").css({"border-top": "none"});
 		} else {
 			$(".moreInfo").css({"border-top": "1px solid rgba(0,0,0,.1)"});
@@ -151,7 +143,7 @@ class Menu extends Component {
 
 	//убирает линию над кнопкой разворота меню на опр. страницах по клику
 	handleOpenMenu() {
-		if(location.hash == "#/placeAnAd" || location.hash == "#/personalArea") {
+		if(location.hash == "#/" || location.hash == "#/placeAnAd" || location.hash == "#/personalArea") {
 			if($(".accordionContent").hasClass("visible")) {
 				$(".moreInfo").css({"border-top":"1px solid rgba(0,0,0,.1)"});
 			
@@ -160,6 +152,8 @@ class Menu extends Component {
 				
 			}
 		}
+
+		$(".accordionContent").hasClass("visible") ? $(".moreInfo i").removeClass("fa fa-angle-up fa-angle-down").addClass("fa fa-angle-up") : $(".moreInfo i").removeClass("fa fa-angle-up fa-angle-down").addClass("fa fa-angle-down");
 	}
 
 	render() {
@@ -170,7 +164,7 @@ class Menu extends Component {
 
 		return (
 			<div>
-				<div className={`menu ${location.hash == "#/placeAnAd" || location.hash == "#/personalArea" ? "hidden" : ""}`}>
+				<div className={`menu ${location.hash == "#/" || location.hash == "#/placeAnAd" || location.hash == "#/personalArea" ? "hidden" : ""}`}>
 					<div className="img">
 						<img src={this.props.state.menuReducer[0].img} />
 					</div>
@@ -188,86 +182,90 @@ class Menu extends Component {
 				</div>
 				<div className={`accordionContent ${this.border === false ? "hiddenBorder" : ""}`}>
 					<div>
-							<Link to="/animals/cat/buy" onClick={this.handleCat}>
-								<img src="uploads/catMenu.jpg" className="img" />
-								<h3>Кошки</h3>
-							</Link>
-							<Link to="/animals/dog/buy" onClick={this.handleDog}>
-								<img src="uploads/dogMenu.jpg" className="img" />
-								<h3>Собаки</h3>
-							</Link>
-							<Link to="/animals/parrot/buy" onClick={this.handleParrot}>
-								<img src="uploads/parrot.jpg" className="img" />
-								<h3>Попугаи</h3>
-							</Link>
-							<Link to="/animals/hamster/buy" onClick={this.handleHamster}>
-								<img src="uploads/hamster.jpg" className="img" />
-								<h3>Хомяки</h3>
-							</Link>
-							<Link to="/animals/mouse/buy" onClick={this.handleMouse}>
-								<img src="uploads/mouse.jpg" className="img" />
-								<h3>Мыши / крысы</h3>
-							</Link>
-							<Link to="/animals/hare/buy" onClick={this.handleHare}>
-								<img src="uploads/hare.jpg" className="img" />
-								<h3>Зайцы / кролики</h3>
-							</Link>
-							<Link to="/animals/guineapig/buy" onClick={this.handleGuineapig}>
-								<img src="uploads/guineapig.jpg" className="img" />
-								<h3>Морские свинки</h3>
-							</Link>
-							<Link to="/animals/champ/buy" onClick={this.handleChamp}>
-								<img src="uploads/champ.jpg" className="img" />
-								<h3>Хорьки</h3>
-							</Link>
-							<Link to="/animals/snak/buy" onClick={this.handleSnak}>
-								<img src="uploads/snak.jpg" className="img" />
-								<h3>Змеи</h3>
-							</Link>
-							<Link to="/animals/iguana/buy" onClick={this.handleIguana}>
-								<img src="uploads/iguana.jpg" className="img" />
-								<h3>Игуаны</h3>
-							</Link>
-							<Link to="/animals/turtle/buy" onClick={this.handleTurtle}>
-								<img src="uploads/turtle.jpg" className="img" />
-								<h3>Черепахи</h3>
-							</Link>
-							<Link to="/animals/snail/buy" onClick={this.handleSnail}>
-								<img src="uploads/snail.jpg" className="img" />
-								<h3>Улитки</h3>
-							</Link>
-							<Link to="/animals/fish/buy" onClick={this.handleFish}>
-								<img src="uploads/fish.jpg" className="img" />
-								<h3>Рыбки</h3>
-							</Link>
-							<Link to="/animals/insects/buy" onClick={this.handleInsects}>
-								<img src="uploads/insects.jpg" className="img" />
-								<h3>Насекомые</h3>
-							</Link>
-							<Link to="/animals/horse/buy" onClick={this.handleHorse}>
-								<img src="uploads/horse.jpg" className="img" />
-								<h3>Лошади</h3>
-							</Link>
-							<Link to="/animals/cow/buy" onClick={this.handleCow}>
-								<img src="uploads/cow.jpg" className="img" />
-								<h3>Коровы / быки</h3>
-							</Link>
-							<Link to="/animals/pig/buy" onClick={this.handlePig}>
-								<img src="uploads/pig.jpg" className="img" />
-								<h3>Свиньи</h3>
-							</Link>
-							<Link to="/animals/goat/buy" onClick={this.handleGoat}>
-								<img src="uploads/goat.jpg" className="img" />
-								<h3>Козы</h3>
-							</Link>
-							<Link to="/animals/sheep/buy" onClick={this.handleSheep}>
-								<img src="uploads/sheep.jpg" className="img" />
-								<h3>Овцы</h3>
-							</Link>
-							<Link to="/animals/domesticbird/buy" onClick={this.handleDomesticbird}>
-								<img src="uploads/domesticbird.jpg" className="img" />
-								<h3>Домашняя птица</h3>
-							</Link>
+						<Link to="/">
+							<img src="uploads/index.png" className="img" />
+							<h3>На главную</h3>
+						</Link>
+						<Link to="/animals/cat/buy" onClick={this.handleCat}>
+							<img src="uploads/catMenu.jpg" className="img" />
+							<h3>Кошки</h3>
+						</Link>
+						<Link to="/animals/dog/buy" onClick={this.handleDog}>
+							<img src="uploads/dogMenu.jpg" className="img" />
+							<h3>Собаки</h3>
+						</Link>
+						<Link to="/animals/parrot/buy" onClick={this.handleParrot}>
+							<img src="uploads/parrot.jpg" className="img" />
+							<h3>Попугаи</h3>
+						</Link>
+						<Link to="/animals/hamster/buy" onClick={this.handleHamster}>
+							<img src="uploads/hamster.jpg" className="img" />
+							<h3>Хомяки</h3>
+						</Link>
+						<Link to="/animals/mouse/buy" onClick={this.handleMouse}>
+							<img src="uploads/mouse.jpg" className="img" />
+							<h3>Мыши / крысы</h3>
+						</Link>
+						<Link to="/animals/hare/buy" onClick={this.handleHare}>
+							<img src="uploads/hare.jpg" className="img" />
+							<h3>Зайцы / кролики</h3>
+						</Link>
+						<Link to="/animals/guineapig/buy" onClick={this.handleGuineapig}>
+							<img src="uploads/guineapig.jpg" className="img" />
+							<h3>Морские свинки</h3>
+						</Link>
+						<Link to="/animals/champ/buy" onClick={this.handleChamp}>
+							<img src="uploads/champ.jpg" className="img" />
+							<h3>Хорьки</h3>
+						</Link>
+						<Link to="/animals/snak/buy" onClick={this.handleSnak}>
+							<img src="uploads/snak.jpg" className="img" />
+							<h3>Змеи</h3>
+						</Link>
+						<Link to="/animals/iguana/buy" onClick={this.handleIguana}>
+							<img src="uploads/iguana.jpg" className="img" />
+							<h3>Игуаны</h3>
+						</Link>
+						<Link to="/animals/turtle/buy" onClick={this.handleTurtle}>
+							<img src="uploads/turtle.jpg" className="img" />
+							<h3>Черепахи</h3>
+						</Link>
+						<Link to="/animals/snail/buy" onClick={this.handleSnail}>
+							<img src="uploads/snail.jpg" className="img" />
+							<h3>Улитки</h3>
+						</Link>
+						<Link to="/animals/fish/buy" onClick={this.handleFish}>
+							<img src="uploads/fish.jpg" className="img" />
+							<h3>Рыбки</h3>
+						</Link>
+						<Link to="/animals/insects/buy" onClick={this.handleInsects}>
+							<img src="uploads/insects.jpg" className="img" />
+							<h3>Насекомые</h3>
+						</Link>
+						<Link to="/animals/horse/buy" onClick={this.handleHorse}>
+							<img src="uploads/horse.jpg" className="img" />
+							<h3>Лошади</h3>
+						</Link>
+						<Link to="/animals/cow/buy" onClick={this.handleCow}>
+							<img src="uploads/cow.jpg" className="img" />
+							<h3>Коровы / быки</h3>
+						</Link>
+						<Link to="/animals/pig/buy" onClick={this.handlePig}>
+							<img src="uploads/pig.jpg" className="img" />
+							<h3>Свиньи</h3>
+						</Link>
+						<Link to="/animals/goat/buy" onClick={this.handleGoat}>
+							<img src="uploads/goat.jpg" className="img" />
+							<h3>Козы</h3>
+						</Link>
+						<Link to="/animals/sheep/buy" onClick={this.handleSheep}>
+							<img src="uploads/sheep.jpg" className="img" />
+							<h3>Овцы</h3>
+						</Link>
+						<Link to="/animals/domesticbird/buy" onClick={this.handleDomesticbird}>
+							<img src="uploads/domesticbird.jpg" className="img" />
+							<h3>Домашняя птица</h3>
+						</Link>
 					</div>
 				</div>
 				<a href="javascript:void(0)" className="moreInfo" onClick={this.handleOpenMenu}>Все животные
