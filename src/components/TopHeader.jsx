@@ -46,7 +46,7 @@ class TopHeader extends Component {
 						<Link to="/">
 							<img src="uploads/logo2.png" width="120" alt="logotype" />
 						</Link>
-						<h1 className="h1">Продай, купи, найди, отдай в дар или размести объявление о пропаже любого животного.</h1>
+						<h1 className="h1">Продай, купи, отдай в дар, сообщи о находке или размести объявление о пропаже любого животного.</h1>
 					</div>
 					<LoginModal titleBtn={this.props.state.filterCity.cityTopHeader} dialogModal="02" />
 					{
