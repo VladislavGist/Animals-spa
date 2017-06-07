@@ -156,7 +156,7 @@ class PlaceAnAd extends Component {
 		}
 
 		//если все поля объявлени заполнены, то отправить данные
-		if(pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true && resultValidateTypeImg !== false) {
+		if(pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true && resultValidateTypeImg !== false && $(".wrapForm .checkBoxLink")[0].children[0].checked === true) {
 			moment.locale("ru");
 			let now = moment(), deleteDate = now.add(1, "month").format("ll");
 			let paramsUrl = 
