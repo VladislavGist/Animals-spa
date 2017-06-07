@@ -12,6 +12,7 @@ import AnimalCard from "./components/categories/AnimalCard.jsx";
 import PlaceAnAd from "./components/PlaceAnAd.jsx";
 import Moderate from "./components/Moderate.jsx";
 import Contacts from "./components/Contacts.jsx";
+import Conf from "./components/Conf.js";
 
 import App from "./App.jsx";
 
@@ -37,6 +38,7 @@ ReactDOM.render(
 				<Route path="/moderation" component={Moderate} onEnter={onEnterFunc} />
 				<Route path="/placeAnAd" component={PlaceAnAd} onEnter={onEnterFunc} />
 				<Route path="/contacts" component={Contacts} />
+				<Route path="/conf" component={Conf} />
 			</Route>
 			<Route path="*" component={NotFound} />
 		</Router>

@@ -4,7 +4,9 @@ import {connect} from "react-redux";
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
 import moment from "moment";
+import {Link} from "react-router";
 
 //libs
 let _ = require("underscore");
@@ -18,6 +20,7 @@ import {store} from "./store.jsx";
 
 //styles
 import "./PlaceAnAd.sass";
+import "./Contacts.sass";
 
 class PlaceAnAd extends Component {
 	constructor(props) {
@@ -108,6 +111,12 @@ class PlaceAnAd extends Component {
 		this.props.onReletMessage();
 	}
 
+	style = {
+		checkbox: {
+			marginTop: "20px"
+		}
+	}
+
 	//Добавление объявления
 	postMethodAddCard = () => {
 		let pSity = this.props.state.validarePlaceAnAd.city,
@@ -180,9 +189,9 @@ class PlaceAnAd extends Component {
 			//this.thisFormData = "";
 			this.thisFormData.delete("photo");
 		} else {
-			if(resultValidateTypeImg !== false) {
+			if(resultValidateTypeImg !== false || $(".wrapForm .checkBoxLink")[0].children[0].checked === false) {
 				//toolpit с ошибкой
-				this.props.onHandleSnackbar("Заполните все поля");
+				this.props.onHandleSnackbar("Заполните все поля и/или дайте согласие на обработку Ваших данных");
 			}
 		}
 	};
@@ -503,7 +512,13 @@ class PlaceAnAd extends Component {
 											floatingLabelFocusStyle={style.floatingLabelFocusStyle}
 											errorText={this.props.state.validarePlaceAnAd.placePrice === true || this.props.state.validarePlaceAnAd.placePrice === " " ? "" : " "} /> 
 									}
-					</form>
+							</form>
+							<Checkbox
+						      label="Даю согласие на обработку персональных данных"
+						      style={this.style.checkbox}
+						      className="checkBoxLink"
+						    />
+						    <Link to="conf" className="linkConf">Политика конфиденциальности</Link>
 						</div>
 					</div>
 					<div>

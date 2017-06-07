@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router";
 import $ from "jquery";
+
+import Checkbox from 'material-ui/Checkbox';
 
 //styles
 import "./Contacts.sass";
@@ -10,11 +13,16 @@ import connectMess from "../actions/connectMess.jsx";
 
 //components
 import TextField from 'material-ui/TextField';
+import snackbar from "../actions/snackbar.jsx";
 
 class Contacts extends Component {
 
 	handleConnectMess = () => {
-		this.props.onHandleConnectMess(`${process.env.URL}/sendus?name=${$("#contName")[0].value}&email=${$("#contEmail")[0].value}&title=${$("#contTitle")[0].value}&mess=${$("#contMess")[0].value}`);
+		if($(".formContacts .checkBoxLink")[0].children[0].checked === true) {
+			this.props.onHandleConnectMess(`${process.env.URL}/sendus?name=${$("#contName")[0].value}&email=${$("#contEmail")[0].value}&title=${$("#contTitle")[0].value}&mess=${$("#contMess")[0].value}`);
+		} else {
+			this.props.onHandleSnackbar("Дайте согласие на обработку Ваших данных");
+		}
 	}
 
 	messagePlace = () => {
@@ -32,6 +40,12 @@ class Contacts extends Component {
 		$("#contTitle").value = "";
 		$("#contMess").value = "";
 		this.props.onHandleConnectClear();
+	}
+
+	style = {
+		checkbox: {
+			marginTop: "20px"
+		}
 	}
 
 	render() {
@@ -59,6 +73,12 @@ class Contacts extends Component {
 						rows={2}
 					/>
 					<a href="javascript:void(0)" className="button2" onClick={this.handleConnectMess}>Отправить</a>
+					<Checkbox
+				      label="Даю согласие на обработку персональных данных"
+				      style={this.style.checkbox}
+				      className="checkBoxLink"
+				    />
+				    <Link to="conf">Политика конфиденциальности</Link>
 					{
 						this.props.state.contactFormStatus !== false ? this.messagePlace() : ""
 					}
@@ -86,6 +106,9 @@ export default connect(
 		},
 		onHandleConnectClear: () => {
 			dispatch({type: "TOOLTIP_CLEAR"});
+		},
+		onHandleSnackbar: data => {
+			dispatch(snackbar(data));
 		}
 	})
 )(Contacts);
