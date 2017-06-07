@@ -13,15 +13,15 @@ module.exports = config  = {
 		prod: "http://oblako.pet"
 	},
 	sqlDatasDev: {
-		host: "",
-		user: "",
-		password: "",
+		host: "localhost",
+		user: "root",
+		password: "root",
 		database: "animals_db"
 	},
 	sqlDatasProd: {
-		host: "",
-		user: "",
-		password: "",
+		host: "localhost",
+		user: "root",
+		password: "bmw1forme",
 		database: "animalsDataBase"
 	},
 	secret: ""
