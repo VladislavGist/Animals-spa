@@ -11,12 +11,10 @@ export const loadCards = url => {
 						})
 						.catch(err => {
 							console.log(err);
-							console.log("loadCards json catch");
 						});
 				}
 			)
 			.catch(err => {
-
 				console.log("loadCards fetch catch");
 			});
 	};

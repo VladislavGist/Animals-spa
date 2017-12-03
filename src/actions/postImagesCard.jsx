@@ -6,6 +6,7 @@ export const postImagesCard = (url, thisFormData, anAdUrl, anAdParapms) => {
 				, {body: thisFormData, method: "post"})
 				.then(
 					() => {
+
 						console.log("Img переданно успешно");
 
 						fetch(anAdUrl, {

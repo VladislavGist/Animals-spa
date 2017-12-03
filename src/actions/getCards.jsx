@@ -46,13 +46,10 @@ export const getCards = url => {
 						.then(() => {
 							dispatch({type: "UPDATE_LOADING", payload: 100});
 						});
-
-					console.log("Запрос прошёл");
 				}
 			})
 			.catch(() => {
 				console.log("Ошибка. catch");
-				console.log("url" + url);
 				dispatch({type: "UPDATE_LOADING", payload: 10});
 			});
 	};

@@ -1,9 +1,8 @@
-import {combineReducers} from "redux";
-import {routerReducer} from "react-router-redux";
+import { combineReducers } from 'redux'
+import { routerReducer } from 'react-router-redux'
 
-//reducers
-import menuReducer from "./menuReducer.jsx";
-import serverReducer from "./serverReducer.jsx";
+import menuReducer from './menuReducer.jsx'
+import serverReducer from './serverReducer.jsx'
 import updateState from "./updateState.jsx";
 import loginUser from "./loginReducer.jsx";
 import sendData from "./sendData.jsx";

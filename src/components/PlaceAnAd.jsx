@@ -93,8 +93,6 @@ class PlaceAnAd extends Component {
 				if(files.type == "image/jpeg") {
 					formData.append("photo", files);
 				}
-
-				//console.log(document.querySelectorAll(".loadingPhoto input")[i].files[0].type);
 			});
 		}
 		//форму кладем в переменную в state, чтобы использовать как аргумент в функции при передаче
@@ -147,10 +145,8 @@ class PlaceAnAd extends Component {
 
 		let toggleValidatePrice = () => {
 			if(this.state.category.value === "gift" || this.state.category.value === "find") {
-				console.log(this.state.category.value);
 				return true;
 			} else {
-				console.log(this.state.category.value + " false");
 				return pPlacePrice === true;
 			}
 		}

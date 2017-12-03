@@ -1,7 +1,6 @@
 import 'whatwg-fetch';
 
 export const loadCardsComplAndRej = (url) => {
-	console.log(url);
 	return dispatch => {
 		fetch(url)
 			.then(
