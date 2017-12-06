@@ -1,14 +1,13 @@
-import React, {Component} from "react";
-import {Link} from "react-router";
+import { Link } from 'react-router'
+import React, { Component } from 'react'
 
-class NotFound extends Component {
+export default class NotFound extends Component {
+
 	render() {
 		return (
 			<div>
-				<p>Страница не найдена. Вернуться на <Link to="/">главную</Link>?</p>
+				<p>Страница не найдена. Вернуться на <Link to='/'>главную</Link>?</p>
 			</div>
-		);
+		)
 	}
 }
-
-export default NotFound;

@@ -1,215 +1,242 @@
-import React, {Component} from "react";
-import {Link} from "react-router";
-import _ from "underscore";
+import $ from 'jquery'
+import _ from 'underscore'
+import classNames from 'classnames'
+import { Link } from 'react-router'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
 
-import $ from "jquery"
+import { getCards } from '../actions/getCards.jsx'
 
-import "./Menu.sass";
-
-//redux
-import {connect} from "react-redux";
-
-//actions
-import {getCards} from "../actions/getCards.jsx";
+import './Menu.sass'
 
 class MaterialLink extends Component {
+
 	render() {
 		return (
-			<Link to={this.props.valueLink} className="button4">{this.props.children}
-				<i className={this.props.icons} aria-hidden="true"></i>
+			<Link to={ this.props.valueLink } className='button4'>
+				{ this.props.children }
+				<i className={ this.props.icons } aria-hidden='true' />
 			</Link>
-		);
+		)
 	}
 }
 
 class Menu extends Component {
+
 	constructor(props) {
-		super(props);
-		this.path = _.compact(props.state.routing.locationBeforeTransitions.pathname.split("/"));
+		super(props)
+		this.path = _.compact(props.state.routing.locationBeforeTransitions.pathname.split('/'))
 	}
 
 	componentDidMount() {
-		$(".moreInfo").click(() => {
-			$(".accordionContent").slideToggle(300);
-			$(".accordionContent").toggleClass("visible");
-		});
 
-		$(".accordionContent a").click(() => {
-			$(".accordionContent").slideToggle(300);
-			$(".accordionContent").toggleClass("visible");
-		});
+		$('.moreInfo').click(() => {
+			$('.accordionContent').slideToggle(300)
+			$('.accordionContent').toggleClass('visible')
+		})
+
+		$('.accordionContent a').click(() => {
+			$('.accordionContent').slideToggle(300)
+			$('.accordionContent').toggleClass('visible')
+		})
 	}
 
-	componentWillReceiveProps(next) {
-		if($(".accordionContent").is(":visible") === true) {
-			$(".accordionContent").css({"display": "none"});
+	componentWillReceiveProps() {
+		if ($('.accordionContent').is(':visible')) {
+			$('.accordionContent').css({ 'display': 'none' })
 		}
-		$(".accordionContent").hasClass("visible") ? $(".moreInfo i").removeClass("fa fa-angle-up fa-angle-down").addClass("fa fa-angle-up") : $(".moreInfo i").removeClass("fa fa-angle-up fa-angle-down").addClass("fa fa-angle-down");
+		$('.accordionContent').hasClass('visible') ? $('.moreInfo i')
+			.removeClass('fa fa-angle-up fa-angle-down')
+			.addClass('fa fa-angle-up') : $('.moreInfo i')
+			.removeClass('fa fa-angle-up fa-angle-down')
+			.addClass('fa fa-angle-down')
 	}
-
-	// getCards = pathname => {
-	// 	//выводит на остальных
-	// 	this.props.handleGetCards(process.env.URL + "/list-animals/animal_type/" + pathname[1] + "/advertisement_type/" + pathname[2]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/10");
-	// }
 
 	handleCat = () => {
-		this.props.onHandleCat();
+		this.props.onHandleCat()
 	}
 
 	handleDog = () => {
-		this.props.onHandleDog();
+		this.props.onHandleDog()
 	}
 
 	handleParrot = () => {
-		this.props.onHandleParrot();
+		this.props.onHandleParrot()
 	}
 
 	handleHamster = () => {
-		this.props.onHandleHamster();
+		this.props.onHandleHamster()
 	}
 
 	handleMouse = () => {
-		this.props.onHandleMouse();
+		this.props.onHandleMouse()
 	}
 
 	handleHare = () => {
-		this.props.onHandleHare();
+		this.props.onHandleHare()
 	}
 
 	handleGuineapig = () => {
-		this.props.onGuineapig();
-	} 
+		this.props.onGuineapig()
+	}
 
 	handleChamp = () => {
-		this.props.onHandleChamp();
-	} 
+		this.props.onHandleChamp()
+	}
 
 	handleSnak = () => {
-		this.props.onHandleSnak();
-	} 
+		this.props.onHandleSnak()
+	}
 
 	handleIguana = () => {
-		this.props.onHandleIguana();
+		this.props.onHandleIguana()
 	}
 
 	handleTurtle = () => {
-		this.props.onHandleTurtle();
+		this.props.onHandleTurtle()
 	}
 
 	handleSnail = () => {
-		this.props.onHandleSnail();
+		this.props.onHandleSnail()
 	}
 
 	handleFish = () => {
-		this.props.onHandleFish();
+		this.props.onHandleFish()
 	}
 
 	handleInsects = () => {
-		this.props.onHandleInsects();
+		this.props.onHandleInsects()
 	}
 
 	handleHorse = () => {
-		this.props.onHandleHorse();
+		this.props.onHandleHorse()
 	}
 
 	handleCow = () => {
-		this.props.onHandleCow();
+		this.props.onHandleCow()
 	}
 
 	handlePig = () => {
-		this.props.onHandlePig();
+		this.props.onHandlePig()
 	}
 
 	handleGoat = () => {
-		this.props.onHandleGoat();
+		this.props.onHandleGoat()
 	}
 
 	handleSheep = () => {
-		this.props.onHandleSheep();
+		this.props.onHandleSheep()
 	}
 
 	handleDomesticbird = () => {
-		this.props.onHandleDomesticbird();
+		this.props.onHandleDomesticbird()
 	}
 
 	componentWillUpdate() {
 		//убирает линию над кнопкой разворота меню на опр. страницах при обновлении компонента
-		if(location.hash == "#/" || location.hash == "#/placeAnAd" || location.hash == "#/personalArea") {
-			$(".moreInfo").css({"border-top": "none"});
+		if (location.hash === '#/' || location.hash === '#/placeAnAd' || location.hash === '#/personalArea') {
+			$('.moreInfo').css({ 'border-top': 'none' })
 		} else {
-			$(".moreInfo").css({"border-top": "1px solid rgba(0,0,0,.1)"});
+			$('.moreInfo').css({ 'border-top': '1px solid rgba(0,0,0,.1)' })
 		}
 	}
 
 	//убирает линию над кнопкой разворота меню на опр. страницах по клику
 	handleOpenMenu() {
-		if(location.hash == "#/" || location.hash == "#/placeAnAd" || location.hash == "#/personalArea") {
-			if($(".accordionContent").hasClass("visible")) {
-				$(".moreInfo").css({"border-top":"1px solid rgba(0,0,0,.1)"});
-			
+		if (location.hash === '#/' || location.hash === '#/placeAnAd' || location.hash === '#/personalArea') {
+			if ($('.accordionContent').hasClass('visible')) {
+				$('.moreInfo').css({ 'border-top': '1px solid rgba(0,0,0,.1)' })
 			} else {
-				$(".moreInfo").css({"border-top": "none"});
-				
+				$('.moreInfo').css({ 'border-top': 'none' })
 			}
 		}
 
-		$(".accordionContent").hasClass("visible") ? $(".moreInfo i").removeClass("fa fa-angle-up fa-angle-down").addClass("fa fa-angle-up") : $(".moreInfo i").removeClass("fa fa-angle-up fa-angle-down").addClass("fa fa-angle-down");
+		$('.accordionContent').hasClass('visible') ?
+			$('.moreInfo i').removeClass('fa fa-angle-up fa-angle-down').addClass('fa fa-angle-up') :
+			$('.moreInfo i').removeClass('fa fa-angle-up fa-angle-down').addClass('fa fa-angle-down')
 	}
 
 	render() {
 		let lin = this.props.state.menuReducer[0].categoryNames.myLinks,
 			name = this.props.state.menuReducer[0].categoryNames.names,
 			icons = this.props.state.menuReducer[0].categoryNames.icons,
-			key = this.props.state.menuReducer[0].categoryNames.key;
+			key = this.props.state.menuReducer[0].categoryNames.key
 
 		return (
+
 			<div>
-				<div className={`menu ${location.hash == "#/" || location.hash == "#/placeAnAd" || location.hash == "#/personalArea" ? "hidden" : ""}`}>
-					<div className="img">
-						<img src={this.props.state.menuReducer[0].img} />
+				<div className={
+					classNames({
+						menu: true,
+						hidden: location.hash === '#/' || location.hash === '#/placeAnAd' || location.hash === '#/personalArea'
+					})
+				}>
+					<div className='img'>
+						<img src={ this.props.state.menuReducer[0].img } />
 					</div>
-					<div className="menuText">
-						<h2>{this.props.state.menuReducer[0].title}</h2>
-						<p>{this.props.state.menuReducer[0].text}</p>
+
+					<div className='menuText'>
+						<h2>{ this.props.state.menuReducer[0].title }</h2>
+						<p>{ this.props.state.menuReducer[0].text }</p>
 					</div>
-					<nav className="buttons">
+
+					<nav className='buttons'>
 						{
-							this.props.state.menuReducer[0].categoryNames.myLinks.map((elem, idx) => {
-								return <MaterialLink valueLink={lin[idx]} icons={icons[idx]} key={key[idx]}> {name[idx]} </MaterialLink>
-							})
+							this.props.state.menuReducer[0].categoryNames.myLinks.map((elem, idx) => <MaterialLink
+								valueLink={ lin[idx] }
+								icons={ icons[idx] }
+								key={ key[idx] }>
+								{
+									name[idx]
+								} </MaterialLink>
+							)
 						}
 					</nav>
 				</div>
-				<div className={`accordionContent ${this.border === false ? "hiddenBorder" : ""}`}>
+
+				<div className={
+					classNames({
+						accordionContent: true,
+						hiddenBorder: this.border === false
+					})
+				}>
 					<div>
-						<Link to="/">
-							<img src="uploads/index.png" className="img" />
+
+						<Link to='/'>
+							<img src='uploads/index.png' className='img' />
 							<h3>На главную</h3>
 						</Link>
-						<Link to="/animals/cat/buy" onClick={this.handleCat}>
-							<img src="uploads/catMenu.jpg" className="img" />
+
+						<Link to='/animals/cat/buy' onClick={ this.handleCat }>
+							<img src='uploads/catMenu.jpg' className='img' />
 							<h3>Кошки</h3>
 						</Link>
-						<Link to="/animals/dog/buy" onClick={this.handleDog}>
-							<img src="uploads/dogMenu.jpg" className="img" />
+
+						<Link to='/animals/dog/buy' onClick={ this.handleDog }>
+							<img src='uploads/dogMenu.jpg' className='img' />
 							<h3>Собаки</h3>
 						</Link>
-						<Link to="/animals/parrot/buy" onClick={this.handleParrot}>
-							<img src="uploads/parrot.jpg" className="img" />
+
+						<Link to='/animals/parrot/buy' onClick={ this.handleParrot }>
+							<img src='uploads/parrot.jpg' className='img' />
 							<h3>Попугаи</h3>
 						</Link>
-						<Link to="/animals/hamster/buy" onClick={this.handleHamster}>
-							<img src="uploads/hamster.jpg" className="img" />
+
+						<Link to='/animals/hamster/buy' onClick={ this.handleHamster }>
+							<img src='uploads/hamster.jpg' className='img' />
 							<h3>Хомяки</h3>
 						</Link>
-						<Link to="/animals/mouse/buy" onClick={this.handleMouse}>
-							<img src="uploads/mouse.jpg" className="img" />
+
+						<Link to='/animals/mouse/buy' onClick={ this.handleMouse }>
+							<img src='uploads/mouse.jpg' className='img' />
 							<h3>Мыши / крысы</h3>
 						</Link>
-						<Link to="/animals/hare/buy" onClick={this.handleHare}>
-							<img src="uploads/hare.jpg" className="img" />
+
+						<Link to='/animals/hare/buy' onClick={ this.handleHare }>
+							<img src='uploads/hare.jpg' className='img' />
 							<h3>Зайцы / кролики</h3>
 						</Link>
+
 						<Link to="/animals/guineapig/buy" onClick={this.handleGuineapig}>
 							<img src="uploads/guineapig.jpg" className="img" />
 							<h3>Морские свинки</h3>
@@ -266,63 +293,59 @@ class Menu extends Component {
 							<img src="uploads/domesticbird.jpg" className="img" />
 							<h3>Домашняя птица</h3>
 						</Link>
+
 					</div>
 				</div>
-				<a href="javascript:void(0)" className="moreInfo" onClick={this.handleOpenMenu}>Все животные
-					<i className="fa fa-angle-down" aria-hidden="true"></i>
+
+				<a href='javascript:void(0)' className='moreInfo' onClick={ this.handleOpenMenu }>
+					Все животные
+					<i className='fa fa-angle-down' aria-hidden='true' />
 				</a>
+
 			</div>
 		);
 	}
 }
 
-let mapStateToProps;
-
-export default connect(
-	mapStateToProps = (state, routing) => {
-		return {
-			state: state,
-			routing: routing
-		}
-	}, 
+export default connect((state, routing) => ({ state, routing }),
 	dispatch => ({
 		handleGetCards: url => {
-			dispatch(getCards(url));
+			dispatch(getCards(url))
 		},
 		getUpdateState: () => {
-			dispatch({type: "UPDATE_STATE", payload: ""});
+			dispatch({ type: 'UPDATE_STATE', payload: '' })
 		},
 		onHandleCat: () => {
-			let data = [
+			const data = [
 				{
-					img: "uploads/catMenu.jpg",
-					title: "Кошки",
-					text: "",
+					img: 'uploads/catMenu.jpg',
+					title: 'Кошки',
+					text: '',
 					categoryNames: {
-						myLinks: ["/animals/cat/buy", "/animals/cat/find", "/animals/cat/missing", "/animals/cat/gift"],
-						names: ["Купить", "Находка", "Пропажа", "Даром"],
-						icons: ["fa fa-heart", "fa fa-bell-o", "fa fa-exclamation-circle", "fa fa-globe"],
-						key: ["e123r2e3", "2f3f32", "f4f34", "4r4f34"]
+						myLinks: ['/animals/cat/buy', '/animals/cat/find', '/animals/cat/missing', '/animals/cat/gift'],
+						names: ['Купить', 'Находка', 'Пропажа', 'Даром'],
+						icons: ['fa fa-heart', 'fa fa-bell-o', 'fa fa-exclamation-circle', 'fa fa-globe'],
+						key: ['e123r2e3', '2f3f32', 'f4f34', '4r4f34']
 					}
 				}
-			];
-			dispatch({type: "SWITCH_MENU", payload: data});
+			]
+			dispatch({ type: 'SWITCH_MENU', payload: data })
 		},
 		onHandleDog: () => {
-			let data = [
+			const data = [
 				{
-					img: "uploads/dogMenu.jpg",
-					title: "Собаки",
-					text: "",
+					img: 'uploads/dogMenu.jpg',
+					title: 'Собаки',
+					text: '',
 					categoryNames: {
-						myLinks: ["/animals/dog/buy", "/animals/dog/find", "/animals/dog/missing", "/animals/dog/gift"],
-						names: ["Купить", "Находка", "Пропажа", "Даром"],
-						icons: ["fa fa-heart", "fa fa-bell-o", "fa fa-exclamation-circle", "fa fa-globe"],
-						key: ["e123e3", "2f3ewf2", "f434f", "4r43442"]
+						myLinks: ['/animals/dog/buy', '/animals/dog/find', '/animals/dog/missing', '/animals/dog/gift'],
+						names: ['Купить', 'Находка', 'Пропажа', 'Даром'],
+						icons: ['fa fa-heart', 'fa fa-bell-o', 'fa fa-exclamation-circle', 'fa fa-globe'],
+						key: ['e123e3', '2f3ewf2', 'f434f', '4r43442']
 					}
 				}
-			];
-			dispatch({type: "SWITCH_MENU", payload: data});
+			]
+			dispatch({ type: 'SWITCH_MENU', payload: data })
 		},
 		onHandleParrot: () => {
 			let data = [
@@ -613,4 +636,4 @@ export default connect(
 			dispatch({type: "SWITCH_MENU", payload: data});
 		}
 
-	}))(Menu);
+	}))(Menu)

@@ -1,40 +1,44 @@
-import React, {Component} from "react";
-import {Link} from "react-router";
-import {connect} from "react-redux";
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
 
-//родительский блок плиток
-import AnimalCard from "./AnimalCard.jsx";
+import AnimalCard from './AnimalCard.jsx'
 
 class WrapAnimalCard extends Component {
+
 	constructor() {
-		super();
-		this.animal_type;
-		this.advertisment;
+		super()
+		this.animal_type
+		this.advertisment
 	}
 
 	componentWillUnmount() {
-		this.props.onHandleClearState();
+		this.props.onHandleClearState()
 	}
 
 	render() {
-		this.animal_type = this.props.params.type;
-		this.advertisment = this.props.params.advertisment;
+
+		const { params } = this.props
+
+		this.animal_type = params.type
+		this.advertisment = params.advertisment
 
 		return (
 			<div>
-				<AnimalCard key={this.props.params.advertisment} animal_type={this.animal_type} advertisment={this.advertisment} />
+				<AnimalCard
+					key={ params.advertisment }
+					animal_type={ this.animal_type }
+					advertisment={ this.advertisment }
+				/>
 			</div>
-		);
+		)
 	}
 }
 
 export default connect(
-	state => ({
-		state: state
-	}),
+	state => ({ state }),
 	dispatch => ({
 		onHandleClearState: () => {
-			dispatch({type: "CLEAR_STATE", payload: {advertisementList: []}})
+			dispatch({ type: 'CLEAR_STATE', payload: { advertisementList: [] } })
 		},
 	})
-)(WrapAnimalCard);
+)(WrapAnimalCard)

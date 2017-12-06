@@ -1,374 +1,386 @@
-import React, {Component} from "react";
-import $ from "jquery";
-import {connect} from "react-redux";
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
-import moment from "moment";
-import {Link} from "react-router";
+import $ from 'jquery'
+import moment from 'moment'
+import { Link } from 'react-router'
+import classNames from 'classnames'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
+import MenuItem from 'material-ui/MenuItem'
+import Checkbox from 'material-ui/Checkbox'
+import TextField from 'material-ui/TextField'
+import SelectField from 'material-ui/SelectField'
 
-//libs
-let _ = require("underscore");
+const _ = require('underscore')
 
-//actions
-import {postImagesCard} from "../actions/postImagesCard.jsx";
-import snackbar from "../actions/snackbar.jsx";
+import snackbar from '../actions/snackbar.jsx'
+import { postImagesCard } from '../actions/postImagesCard.jsx'
 
-//store
-import {store} from "./store.jsx";
-
-//styles
-import "./PlaceAnAd.sass";
-import "./Contacts.sass";
+import './PlaceAnAd.sass'
+import './Contacts.sass'
 
 class PlaceAnAd extends Component {
+
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			animal: {
-				value: "cat"
+				value: 'cat'
 			},
 			category: {
-				value: "buy"
+				value: 'buy'
 			},
 			city: {
-				value: "Москва"
+				value: 'Москва'
 			}
-		};
-		this.timer0;
-		this.timer1;
-		this.timer2;
-		this.timer3;
-		this.timer4;
-		this.thisFormData;
-		this.myTimer;
+		}
+		this.timer0
+		this.timer1
+		this.timer2
+		this.timer3
+		this.timer4
+		this.thisFormData
+		this.myTimer
 	}
 
-	//оптимизировать код ниже возможности нет по причине того, что чтобы увидеть было ли загружено изображение нужен таймер
+	// оптимизировать код ниже возможности нет по причине того, что чтобы увидеть было ли загружено изображение нужен таймер
 	componentDidMount() {
 
 		this.timer0 = setInterval(() => {
-			if(document.querySelectorAll(".loadingPhoto input")[0].value !== undefined && document.querySelectorAll(".loadingPhoto input")[0].value !== "") {
-				this.props.handlePhoto0();
-				this.props.onValidatePlaceImage();
+			if (document.querySelectorAll('.loadingPhoto input')[0].value !== undefined && document.querySelectorAll('.loadingPhoto input')[0].value !== '') {
+				this.props.handlePhoto0()
+				this.props.onValidatePlaceImage()
 			}
-		}, 500);
+		}, 500)
 
 		this.timer1 = setInterval(() => {
-			if(document.querySelectorAll(".loadingPhoto input")[1].value !== undefined && document.querySelectorAll(".loadingPhoto input")[1].value !== "") {
-				this.props.handlePhoto1();
-				this.props.onValidatePlaceImage();
+			if (document.querySelectorAll('.loadingPhoto input')[1].value !== undefined && document.querySelectorAll('.loadingPhoto input')[1].value !== '') {
+				this.props.handlePhoto1()
+				this.props.onValidatePlaceImage()
 			}
-		}, 600);
+		}, 600)
 
 		this.timer2 = setInterval(() => {
-			if(document.querySelectorAll(".loadingPhoto input")[2].value !== undefined && document.querySelectorAll(".loadingPhoto input")[2].value !== "") {
-				this.props.handlePhoto2();
-				this.props.onValidatePlaceImage();
+			if(document.querySelectorAll('.loadingPhoto input')[2].value !== undefined && document.querySelectorAll('.loadingPhoto input')[2].value !== '') {
+				this.props.handlePhoto2()
+				this.props.onValidatePlaceImage()
 			}
-		}, 700);
+		}, 700)
 
 		this.timer3 = setInterval(() => {
-			if(document.querySelectorAll(".loadingPhoto input")[3].value !== undefined && document.querySelectorAll(".loadingPhoto input")[3].value !== "") {
-				this.props.handlePhoto3();
-				this.props.onValidatePlaceImage();
+			if(document.querySelectorAll('.loadingPhoto input')[3].value !== undefined && document.querySelectorAll('.loadingPhoto input')[3].value !== '') {
+				this.props.handlePhoto3()
+				this.props.onValidatePlaceImage()
 			}
-		}, 800);
+		}, 800)
 
 		this.timer4 = setInterval(() => {
-			if(document.querySelectorAll(".loadingPhoto input")[4].value !== undefined && document.querySelectorAll(".loadingPhoto input")[4].value !== "") {
-				this.props.handlePhoto4();
-				this.props.onValidatePlaceImage();
+			if(document.querySelectorAll('.loadingPhoto input')[4].value !== undefined && document.querySelectorAll('.loadingPhoto input')[4].value !== '') {
+				this.props.handlePhoto4()
+				this.props.onValidatePlaceImage()
 			}
-		}, 900);
+		}, 900)
 
-		//отправка изоражения
-		let formData = new FormData();
-		//проходим циклом по всем фото и добавляем в буфер формы
-		let files;
-		for(let i = 0; i < $(".formImg").length; i++) {
-			$(`.p${i}`).on("change", function(e) {
-				files = e.target.files[0];
-				if(files.type == "image/jpeg") {
-					formData.append("photo", files);
+		// отправка изоражения
+		const formData = new FormData()
+		// проходим циклом по всем фото и добавляем в буфер формы
+		let files
+		for (let i = 0; i < $('.formImg').length; i++) {
+			$(`.p${i}`).on('change', function(e) {
+				files = e.target.files[0]
+				if (files.type === 'image/jpeg') {
+					formData.append('photo', files)
 				}
-			});
+			})
 		}
-		//форму кладем в переменную в state, чтобы использовать как аргумент в функции при передаче
-		this.thisFormData = formData;
+		// форму кладем в переменную в state, чтобы использовать как аргумент в функции при передаче
+		this.thisFormData = formData
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.timer0);
-		clearInterval(this.timer1);
-		clearInterval(this.timer2);
-		clearInterval(this.timer3);
-		clearInterval(this.timer4);
-		this.props.onResetPlace();
-		this.props.onReletMessage();
+		clearInterval(this.timer0)
+		clearInterval(this.timer1)
+		clearInterval(this.timer2)
+		clearInterval(this.timer3)
+		clearInterval(this.timer4)
+		this.props.onResetPlace()
+		this.props.onReletMessage()
 	}
 
 	style = {
 		checkbox: {
-			marginTop: "20px"
+			marginTop: '20px'
 		}
 	}
 
-	//Добавление объявления
+	// Добавление объявления
 	postMethodAddCard = () => {
 		let pSity = this.props.state.validarePlaceAnAd.city,
 			pTitleName = this.props.state.validarePlaceAnAd.titleName,
 			pPhoneNumber = this.props.state.validarePlaceAnAd.phoneNumber,
 			pTextContent = this.props.state.validarePlaceAnAd.phoneNumber,
 			pPlacePrice = this.props.state.validarePlaceAnAd.placePrice,
-			pPlaceImage = this.props.state.validarePlaceAnAd.placeImage;
+			pPlaceImage = this.props.state.validarePlaceAnAd.placeImage
 
 		//проверка изображений на jpeg формат
-		let validateTypeImg = [],
-			resultValidateTypeImg = "";
+		let validateTypeImg = [], resultValidateTypeImg = ''
 
-		for(let i = 0; i < 5; i++) {
-			if(document.querySelectorAll(".loadingPhoto input")[i].files[0] == undefined || document.querySelectorAll(".loadingPhoto input")[i].files[0].type == "image/jpeg") {
-				validateTypeImg.push(true);
+		for (let i = 0; i < 5; i++) {
+			if(document.querySelectorAll('.loadingPhoto input')[i].files[0] === undefined || document.querySelectorAll('.loadingPhoto input')[i].files[0].type === 'image/jpeg') {
+				validateTypeImg.push(true)
 			} else {
-				validateTypeImg.push(false);
+				validateTypeImg.push(false)
 			}
 		}
 
 		_.each(validateTypeImg, elem => {
-			if(elem === false) {
-				resultValidateTypeImg = false;
-				this.props.onHandleSnackbar("Формат изображения должен быть jpeg или jpg");
+			if (elem === false) {
+				resultValidateTypeImg = false
+				this.props.onHandleSnackbar('Формат изображения должен быть jpeg или jpg')
 			}
-		});
+		})
 
 		let toggleValidatePrice = () => {
-			if(this.state.category.value === "gift" || this.state.category.value === "find") {
-				return true;
+			if (this.state.category.value === 'gift' || this.state.category.value === 'find') {
+				return true
 			} else {
-				return pPlacePrice === true;
+				return pPlacePrice === true
 			}
 		}
 
-		//если все поля объявлени заполнены, то отправить данные
-		if(pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true && resultValidateTypeImg !== false && $(".wrapForm .checkBoxLink")[0].children[0].checked === true) {
-			moment.locale("ru");
-			let now = moment(), deleteDate = now.add(1, "month").format("ll");
-			let paramsUrl = 
-				"userName=" + this.props.state.loginUser.results[0].name + "&" +
-				"animalType=" + this.state.animal.value + "&" +
-				"advertisementType=" + this.state.category.value + "&" +
-				"city=" + this.state.city.value + "&" +
-				"title=" + $("input[name='title']")[0].value + "&" +
-				"phoneNumber=" + $("input[name='phoneNumber']")[0].value + "&" +
-				"briefDescription=" + $(".briefDescription")[0].childNodes[2].childNodes[1].value + "&" +
-				`${this.state.category.value === "gift" || this.state.category.value === "find" ? "price=" + "0" : "price=" + $("input[name='price']")[0].value}` + "&" +
-				`userId=${this.props.state.loginUser.results[0].user_id}` + "&" +
-				`status=${this.props.state.loginUser.results[0].accountType}` + "&" +
+		// если все поля объявлени заполнены, то отправить данные
+		if (pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true && resultValidateTypeImg !== false && $('.wrapForm .checkBoxLink')[0].children[0].checked === true) {
+			moment.locale('ru')
+			let now = moment(), deleteDate = now.add(1, 'month').format('ll')
+			let paramsUrl =
+				'userName=' + this.props.state.loginUser.results[0].name + '&' +
+				'animalType=' + this.state.animal.value + '&' +
+				'advertisementType=' + this.state.category.value + '&' +
+				'city=' + this.state.city.value + '&' +
+				'title=' + $('input[name="title"]')[0].value + '&' +
+				'phoneNumber=' + $('input[name="phoneNumber"]')[0].value + '&' +
+				'briefDescription=' + $('.briefDescription')[0].childNodes[2].childNodes[1].value + '&' +
+				`${this.state.category.value === 'gift' || this.state.category.value === 'find' ? 'price=' + '0' : 'price=' + $('input[name="price"]')[0].value}` + '&' +
+				`userId=${ this.props.state.loginUser.results[0].user_id }` + '&' +
+				`status=${ this.props.state.loginUser.results[0].accountType }` + '&' +
 				`dataDelete=${deleteDate}`
-				;
 
-			this.props.handlePostMethodAddImagesCard(process.env.URL + "/add-advertisement/img/animalType/" + this.state.animal.value + "/advertisementType/" + this.state.category.value, this.thisFormData, process.env.URL + "/add-advertisement", paramsUrl);
+			this.props.handlePostMethodAddImagesCard(process.env.URL + '/add-advertisement/img/animalType/' + this.state.animal.value + '/advertisementType/' + this.state.category.value, this.thisFormData, process.env.URL + '/add-advertisement', paramsUrl)
 			
-			//очистка данных формы
-			this.props.onResetPlace();
-			$("input[name='title']")[0].value = "";
-			$("input[name='phoneNumber']")[0].value = "";
-			$(".briefDescription")[0].childNodes[2].childNodes[1].nextSibling.value = "";
-			this.state.category.value === "gift" || this.state.category.value === "find" ? "" : $("input[name='price']")[0].value = "";
-			document.querySelectorAll(".loadingPhoto input")[0].value = "";
-			document.querySelectorAll(".loadingPhoto input")[1].value = "";
-			document.querySelectorAll(".loadingPhoto input")[2].value = "";
-			document.querySelectorAll(".loadingPhoto input")[3].value = "";
-			document.querySelectorAll(".loadingPhoto input")[4].value = "";
-			//this.thisFormData = "";
-			this.thisFormData.delete("photo");
+			// очистка данных формы
+			this.props.onResetPlace()
+			$('input[name="title"]')[0].value = ''
+			$('input[name="phoneNumber"]')[0].value = ''
+			$('.briefDescription')[0].childNodes[2].childNodes[1].nextSibling.value = ''
+			this.state.category.value === 'gift' || this.state.category.value === 'find' ? '' : $('input[name="price"]')[0].value = ''
+			document.querySelectorAll('.loadingPhoto input')[0].value = ''
+			document.querySelectorAll('.loadingPhoto input')[1].value = ''
+			document.querySelectorAll('.loadingPhoto input')[2].value = ''
+			document.querySelectorAll('.loadingPhoto input')[3].value = ''
+			document.querySelectorAll('.loadingPhoto input')[4].value = ''
+			this.thisFormData.delete('photo')
 		} else {
-			if(resultValidateTypeImg !== false || $(".wrapForm .checkBoxLink")[0].children[0].checked === false) {
-				//toolpit с ошибкой
-				this.props.onHandleSnackbar("Заполните все поля и/или дайте согласие на обработку Ваших данных");
+			if(resultValidateTypeImg !== false || $('.wrapForm .checkBoxLink')[0].children[0].checked === false) {
+				// toolpit с ошибкой
+				this.props.onHandleSnackbar('Заполните все поля и/или дайте согласие на обработку Ваших данных')
 			}
 		}
-	};
+	}
 
-	handleChangeAnimalType = (event, index, value) => this.setState({animal: {value: value}});
-	handleChangeCategory = (event, index, value) => this.setState({category: {value: value}});
-	handleChangeCity = (event, index, value) => this.setState({city: {value: value}});
+	handleChangeAnimalType = (event, index, value) => this.setState({ animal: { value: value } })
+	handleChangeCategory = (event, index, value) => this.setState({ category: { value: value } })
+	handleChangeCity = (event, index, value) => this.setState({ city: { value: value } })
 
-	//функция валидации поля
-	//аргументы: принимаемый элемент ввода, регулярное выражение, свойство состояния
+	// функция валидации поля
+	// аргументы: принимаемый элемент ввода, регулярное выражение, свойство состояния
 	validate = (e, regexp, action) => {
-		let el = e.target.value;
+		let el = e.target.value
 
-		if(el.match(regexp)) {
-			[action][0](true);
+		if (el.match(regexp)) {
+			[action][0](true)
 
 		} else if(el.length === 0) {
-			[action][0](" ");
+			[action][0](' ')
 
 		} else {
-			[action][0](false);
+			[action][0](false)
 		}
 	}
 
-	//validateTitleName
+	// validateTitleName
 	validateTitleName = e => {
-		let regexpName = /^[а-яА-Я0-9-_\s]{10,50}$/;
-		this.validate(e, regexpName, this.props.onValidateTitleName);
-		this.props.onReletMessage();
+		let regexpName = /^[а-яА-Я0-9-_\s]{10,50}$/
+		this.validate(e, regexpName, this.props.onValidateTitleName)
+		this.props.onReletMessage()
 	}
 
-	//validatePhoneNumber
+	// validatePhoneNumber
 	validateTitlePhoneNumber = e => {
-		let regexpName = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/;
-		this.validate(e, regexpName, this.props.onValidatePhoneNumber);
-		this.props.onReletMessage();
-	} 
+		let regexpName = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
+		this.validate(e, regexpName, this.props.onValidatePhoneNumber)
+		this.props.onReletMessage()
+	}
 
-	//validatePlaceText
+	// validatePlaceText
 	validatePlaceText = e => {
-		let regexpName = /^.{10,200}$/;
-		this.validate(e, regexpName, this.props.onValidatePlaceText);
-		this.props.onReletMessage();
+		let regexpName = /^.{10,200}$/
+		this.validate(e, regexpName, this.props.onValidatePlaceText)
+		this.props.onReletMessage()
 	}
 
-	//validatePlacePrice
+	// validatePlacePrice
 	validatePlacePrice = e => {
-		let regexpName = /^[0-9]{2,6}$/;
-		this.validate(e, regexpName, this.props.onValidatePlacePrice);
-		this.props.onReletMessage();
+		let regexpName = /^[0-9]{2,6}$/
+		this.validate(e, regexpName, this.props.onValidatePlacePrice)
+		this.props.onReletMessage()
 	}
 
-	//у каких животных какие категории будут доступны
-	//хотел сделать одной функцией. но из за врапинга всех элементов селекты materialui работают не корректно
+	// у каких животных какие категории будут доступны
+	// хотел сделать одной функцией. но из за врапинга всех элементов селекты materialui работают не корректно
 	menuItems01 = values => {
-		if(values === "cat" || values === "dog" || values === "parrot" || values === "hamster" || values === "mouse" || values === "hare" || values === "guineapig" || values === "champ" || values === "snak" || values === "iguana" || values === "turtle" || values === "snail" || values === "fish" || values === "insects" || values === "horse" || values === "cow" || values === "pig" || values === "goat" || values === "sheep" || values === "domesticbird") {
-			return <MenuItem value={"buy"} primaryText="Продать" /> 
+		if (values.indexOf('cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare',
+			'guineapig', 'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish',
+			'insects', 'horse', 'cow', 'pig', 'goat', 'sheep', 'domesticbird') !== -1) {
+			return <MenuItem value={ 'buy' } primaryText='Продать' />
 		}
 	}
 
 	menuItems02 = values => {
-		if(values === "cat" || values === "dog" || values === "parrot" || values === "hamster" || values === "mouse" || values === "hare" || values === "guineapig" || values === "champ" || values === "snak" || values === "iguana" || values === "turtle" || values === "snail" || values === "fish" || values === "insects" || values === "horse" || values === "cow" || values === "pig" || values === "goat" || values === "sheep" || values === "domesticbird") {
-			return <MenuItem value={"gift"} primaryText="Даром" />	
+		if (values.indexOf('cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
+			'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish', 'insects', 'horse', 'cow',
+			'pig', 'goat', 'sheep', 'domesticbird') !== -1) {
+			return <MenuItem value={ 'gift' } primaryText='Даром' />
 		}
 	}
 
 	menuItems03 = values => {
-		if(values === "cat" || values === "dog" || values === "parrot" || values === "guineapig" || values === "champ" || values === "snak" || values === "iguana" || values === "turtle" || values === "horse" || values === "cow" || values === "goat" || values === "sheep") {
-			return <MenuItem value={"missing"} primaryText="Пропажа" />
+		if (values.indexOf('cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
+			'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish', 'insects', 'horse', 'cow',
+			'pig', 'goat', 'sheep', 'domesticbird') !== -1) {
+			return <MenuItem value={ 'missing' } primaryText='Пропажа' />
 		}
 	}
 
 	menuItems04 = values => {
-		if(values === "cat" || values === "dog" || values === "parrot" || values === "guineapig" || values === "champ" || values === "snak" || values === "iguana" || values === "turtle" || values === "horse" || values === "cow" || values === "goat" || values === "sheep") {
-			return <MenuItem value={"find"} primaryText="Находка" />
+		if (values.indexOf('cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
+			'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish', 'insects', 'horse', 'cow',
+			'pig', 'goat', 'sheep', 'domesticbird') !== -1) {
+			return <MenuItem value={ 'find' } primaryText='Находка' />
 		}
 	}
 
 	render() {
+
 		let element = () => {
 			let obj = this.props.state.photosReducer[0],
 				idx = [0],
-				mass = [];
+				mass = []
 
-			for(let i in obj) {
+			for (let i in obj) {
 				mass.push(
-					<div className={`loadingPhoto ${this.props.state.photosReducer[idx][i] === true ? "activeLabel" : ""}`} key={i}>
-						<i className={`fa ${this.props.state.photosReducer[idx][i] === true ? "fa-check modifyColor" : "fa-plus"}`} aria-hidden="true"></i>
-						<input type="file" accept="image/jpeg,image/png" className={`formImg ${i}`} />
+					<div className={
+						classNames({
+							loadingPhoto: true,
+							activeLabel: this.props.state.photosReducer[idx][i] === true
+						}) }
+					>
+						<i className={
+							classNames({
+								fa: true,
+								'fa-check': this.props.state.photosReducer[idx][i] === true,
+								'modifyColor': this.props.state.photosReducer[idx][i] === true,
+								'fa-plus': this.props.state.photosReducer[idx][i] === false
+							}) }
+						/>
+						<input type='file' accept='image/jpeg,image/png' className={ `formImg ${i}` } />
 					</div>
-				);
+				)
 			}
 
 			return (
-				<div className="buttonsAddPhoto">
+				<div className='buttonsAddPhoto'>
 					{
 						mass
 					}
 				</div>
-			);
-		};
+			)
+		}
 
 		let style = {
 			floatingLabelStyle: {
-				"color":"#b1adad"
+				'color': '#b1adad'
 			},
 			labelStyle: {
-				"color": "#7c7c7c"
+				'color': '#7c7c7c'
 			},
 			floatingLabelFocusStyle: {
-				"color": "#2396f1"
+				'color': '#2396f1'
 			},
 			underlineFocusStyle: {
-				"borderColor": "#2396f1"
+				'borderColor': '#2396f1'
 			}
-		};
+		}
 
-		//сообщение об успешной отправке объявления
+		// сообщение об успешной отправке объявления
 		let messagePlace = () => {
 			return (
-				<div className="mesagePlace">
-					<i className="fa fa-check-circle" aria-hidden="true"></i>
+				<div className='mesagePlace'>
+					<i className='fa fa-check-circle' aria-hidden='true' />
 					<p>Объявление отправлено на модерацию</p>
 				</div>
-			);
-		};
+			)
+		}
 
-		let pTitleName = this.props.state.validarePlaceAnAd.titleName,
-			pPhoneNumber = this.props.state.validarePlaceAnAd.phoneNumber,
-			pTextContent = this.props.state.validarePlaceAnAd.phoneNumber,
-			pPlacePrice = this.props.state.validarePlaceAnAd.placePrice,
-			pPlaceImage = this.props.state.validarePlaceAnAd.placeImage;
+		const { pTitleName, validarePlaceAnAd, pTextContent, pPlacePrice } = this.props.state
 		
 		return (
-			<div className="placeAnAd">
-				<div className="placeTop">
-					<p className="modifyTitle">Разместить объявление</p>
-					{this.props.state.validarePlaceAnAd.messagePlace === true && pTitleName === " " && pTextContent === " " && pPlacePrice === " " ? messagePlace() : "" }
+			<div className='placeAnAd'>
+				<div className='placeTop'>
+					<p className='modifyTitle'>Разместить объявление</p>
+					{
+						validarePlaceAnAd.messagePlace && pTitleName === ' ' && pTextContent === ' ' && pPlacePrice === ' ' ? messagePlace() : ''
+					}
 				</div>
-				<div className="placeContent">
+				<div className='placeContent'>
 					<div>
-						<div className="wrapForm">
-							<p className="subtitle">Данные</p>
-							<form id="newAnimalForm">
+						<div className='wrapForm'>
+							<p className='subtitle'>Данные</p>
+							<form id='newAnimalForm'>
 
 								<SelectField
-									floatingLabelStyle={style.floatingLabelStyle}
-									labelStyle={style.labelStyle}
-									floatingLabelText="Животное"
-									value={this.state.animal.value}
-									onChange={this.handleChangeAnimalType}
-									selectedMenuItemStyle={style.floatingLabelFocusStyle}>
-									<MenuItem value={"cat"} primaryText="Кошки" />
-									<MenuItem value={"dog"} primaryText="Собаки" />
-									<MenuItem value={"parrot"} primaryText="Попугаи" />
-									<MenuItem value={"hamster"} primaryText="Хомяки" />
-									<MenuItem value={"mouse"} primaryText="Мыши / крысы" />
-									<MenuItem value={"hare"} primaryText="Зайцы / кролики" />
-									<MenuItem value={"guineapig"} primaryText="Морские свинки" />
-									<MenuItem value={"champ"} primaryText="Хорьки" />
-									<MenuItem value={"snak"} primaryText="Змеи" />
-									<MenuItem value={"iguana"} primaryText="Игуаны" />
-									<MenuItem value={"turtle"} primaryText="Черепахи" />
-									<MenuItem value={"snail"} primaryText="Улитки" />
-									<MenuItem value={"fish"} primaryText="Рыбки" />
-									<MenuItem value={"insects"} primaryText="Насекомые" />
-									<MenuItem value={"horse"} primaryText="Лошади" />
-									<MenuItem value={"cow"} primaryText="Коровы / быки" />
-									<MenuItem value={"pig"} primaryText="Свиньи" />
-									<MenuItem value={"goat"} primaryText="Козы" />
-									<MenuItem value={"sheep"} primaryText="Овцы" />
-									<MenuItem value={"domesticbird"} primaryText="Домашняя птица" />
+									floatingLabelStyle={ style.floatingLabelStyle }
+									labelStyle={ style.labelStyle }
+									floatingLabelText='Животное'
+									value={ this.state.animal.value }
+									onChange={ this.handleChangeAnimalType }
+									selectedMenuItemStyle={ style.floatingLabelFocusStyle }>
+									<MenuItem value={ 'cat' } primaryText='Кошки' />
+									<MenuItem value={ 'dog' } primaryText='Собаки' />
+									<MenuItem value={ 'parrot' } primaryText='Попугаи' />
+									<MenuItem value={ 'hamster' } primaryText='Хомяки' />
+									<MenuItem value={ 'mouse' } primaryText='Мыши / крысы' />
+									<MenuItem value={ 'hare' } primaryText='Зайцы / кролики' />
+									<MenuItem value={ 'guineapig' } primaryText='Морские свинки' />
+									<MenuItem value={ 'champ' } primaryText='Хорьки' />
+									<MenuItem value={ 'snak' } primaryText='Змеи' />
+									<MenuItem value={ 'iguana' } primaryText='Игуаны' />
+									<MenuItem value={ 'turtle' } primaryText='Черепахи' />
+									<MenuItem value={ 'snail' } primaryText='Улитки' />
+									<MenuItem value={ 'fish' } primaryText='Рыбки' />
+									<MenuItem value={ 'insects' } primaryText='Насекомые' />
+									<MenuItem value={ 'horse' } primaryText='Лошади' />
+									<MenuItem value={ 'cow' } primaryText='Коровы / быки' />
+									<MenuItem value={ 'pig' } primaryText='Свиньи' />
+									<MenuItem value={ 'goat' } primaryText='Козы'  />
+									<MenuItem value={ 'sheep' } primaryText='Овцы' />
+									<MenuItem value={ 'domesticbird' } primaryText='Домашняя птица' />
 								</SelectField>
 
 								<SelectField
-									floatingLabelStyle={style.floatingLabelStyle}
-									labelStyle={style.labelStyle}
-									floatingLabelText="Категория"
-									value={this.state.category.value}
-									onChange={this.handleChangeCategory}
-									selectedMenuItemStyle={style.floatingLabelFocusStyle}>
+									floatingLabelStyle={ style.floatingLabelStyle }
+									labelStyle={ style.labelStyle }
+									floatingLabelText='Категория'
+									value={ this.state.category.value }
+									onChange={ this.handleChangeCategory }
+									selectedMenuItemStyle={ style.floatingLabelFocusStyle }>
 									{
 										this.menuItems01(this.state.animal.value)
 									}
@@ -385,24 +397,25 @@ class PlaceAnAd extends Component {
 								</SelectField>
 
 								<SelectField
-									floatingLabelStyle={style.floatingLabelStyle}
-									labelStyle={style.labelStyle}
-									floatingLabelText="Город"
-									value={this.state.city.value}
-									onChange={this.handleChangeCity}
-									selectedMenuItemStyle={style.floatingLabelFocusStyle}>
-									<MenuItem value={"Москва"} primaryText="Москва" />
-									<MenuItem value={"Московская обл."} primaryText="Московская обл." />
-									<MenuItem value={"Санкт-Петербург"} primaryText="Санкт-Петербург" />
-									<MenuItem value={"Волгоград"} primaryText="Волгоград" />
-									<MenuItem value={"Екатеринбург"} primaryText="Екатеринбург" />
-									<MenuItem value={"Казань"} primaryText="Казань" />
-									<MenuItem value={"Краснодар"} primaryText="Краснодар" />
-									<MenuItem value={"Нижний Новгород"} primaryText="Нижний Новгород" />
-									<MenuItem value={"Пермь"} primaryText="Пермь" />
-									<MenuItem value={"Ростов-на-Дону"} primaryText="Ростов-на-Дону" />
-									<MenuItem value={"Самара"} primaryText="Самара" />
-									<MenuItem value={"Уфа"} primaryText="Уфа" />
+									floatingLabelStyle={ style.floatingLabelStyle }
+									labelStyle={ style.labelStyle }
+									floatingLabelText='Город'
+									value={ this.state.city.value }
+									onChange={ this.handleChangeCity }
+									selectedMenuItemStyle={ style.floatingLabelFocusStyle }
+								>
+									<MenuItem value={ 'Москва' } primaryText='Москва' />
+									<MenuItem value={ 'Московская обл.' } primaryText='Московская обл.' />
+									<MenuItem value={ 'Санкт-Петербург' } primaryText='Санкт-Петербург' />
+									<MenuItem value={ 'Волгоград' } primaryText='Волгоград' />
+									<MenuItem value={ 'Екатеринбург' } primaryText='Екатеринбург' />
+									<MenuItem value={ 'Казань' } primaryText='Казань' />
+									<MenuItem value={ 'Краснодар' } primaryText='Краснодар' />
+									<MenuItem value={ 'Нижний Новгород' } primaryText='Нижний Новгород' />
+									<MenuItem value={ 'Пермь' } primaryText='Пермь' />
+									<MenuItem value={ 'Ростов-на-Дону' } primaryText='Ростов-на-Дону' />
+									<MenuItem value={ 'Самара' } primaryText='Самара' />
+									<MenuItem value={ 'Уфа' } primaryText='Уфа' />
 									<MenuItem value={"Челябинск"} primaryText="Челябинск" />
 									<MenuItem value={"Адыгея"} primaryText="Адыгея" />
 									<MenuItem value={"Архангельская обл."} primaryText="Архангельская обл." />
@@ -461,148 +474,147 @@ class PlaceAnAd extends Component {
 									<MenuItem value={"Чеченская республика"} primaryText="Чеченская республика" />
 									<MenuItem value={"Чувашия"} primaryText="Чувашия" />
 									<MenuItem value={"Ярославская обл."} primaryText="Ярославская обл." />
-
 								</SelectField>
 								
-								<TextField 
-									hintText="Максимум 50 символов" 
-									onChange={this.validateTitleName} 
-									floatingLabelText="Название объявления"  
-									name="title" 
-									underlineFocusStyle={style.underlineFocusStyle} 
-									floatingLabelStyle={style.labelStyle} 
-									floatingLabelFocusStyle={style.floatingLabelFocusStyle}
-									errorText={this.props.state.validarePlaceAnAd.titleName === true || this.props.state.validarePlaceAnAd.titleName === " " ? "" : " "} />
+								<TextField
+									hintText='Максимум 50 символов'
+									onChange={ this.validateTitleName }
+									floatingLabelText='Название объявления'
+									name='title'
+									underlineFocusStyle={ style.underlineFocusStyle }
+									floatingLabelStyle={ style.labelStyle }
+									floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
+									errorText={ validarePlaceAnAd.titleName || validarePlaceAnAd.titleName === ' ' ? '' : ' ' } />
 
-								<TextField 
-									hintText="+7 *** *** ** **" 
-									onChange={this.validateTitlePhoneNumber}
-									floatingLabelText="Номер телефона" 
-									name="phoneNumber" 
-									underlineFocusStyle={style.underlineFocusStyle} 
-									floatingLabelStyle={style.labelStyle} 
-									floatingLabelFocusStyle={style.floatingLabelFocusStyle}
-									errorText={this.props.state.validarePlaceAnAd.phoneNumber === true || this.props.state.validarePlaceAnAd.phoneNumber === " " ? "" : " "} />
+								<TextField
+									hintText='+7 *** *** ** **'
+									onChange={ this.validateTitlePhoneNumber }
+									floatingLabelText='Номер телефона'
+									name='phoneNumber'
+									underlineFocusStyle={ style.underlineFocusStyle }
+									floatingLabelStyle={ style.labelStyle }
+									floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
+									errorText={ validarePlaceAnAd.phoneNumber || validarePlaceAnAd.phoneNumber === ' ' ? '' : ' ' } />
 
-								<TextField 
-									hintText="Максимум 200 символов" 
-									onChange={this.validatePlaceText}
-									underlineFocusStyle={style.underlineFocusStyle} 
-									floatingLabelStyle={style.labelStyle} 
-									floatingLabelFocusStyle={style.floatingLabelFocusStyle} 
-									floatingLabelText="Описание объявления" 
-									multiLine={true} 
-									rows={1} 
-									className="briefDescription"
-									errorText={this.props.state.validarePlaceAnAd.textContent === true || this.props.state.validarePlaceAnAd.textContent === " " ? "" : " "} />
+								<TextField
+									hintText='Максимум 200 символов'
+									onChange={ this.validatePlaceText }
+									underlineFocusStyle={ style.underlineFocusStyle }
+									floatingLabelStyle={ style.labelStyle }
+									floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
+									floatingLabelText='Описание объявления'
+									multiLine={ true }
+									rows={ 1 }
+									className='briefDescription'
+									errorText={ validarePlaceAnAd.textContent || validarePlaceAnAd.textContent === ' ' ? '' : ' ' }
+								/>
 
-									{
-										this.state.category.value === "gift" || this.state.category.value === "find" ? "" 
-										: <TextField 
-											hintText="Число без пробелов" 
-											onChange={this.validatePlacePrice}
-											underlineFocusStyle={style.underlineFocusStyle} 
-											floatingLabelText="Цена" 
-											name="price" 
-											floatingLabelStyle={style.labelStyle} 
-											floatingLabelFocusStyle={style.floatingLabelFocusStyle}
-											errorText={this.props.state.validarePlaceAnAd.placePrice === true || this.props.state.validarePlaceAnAd.placePrice === " " ? "" : " "} /> 
-									}
+								{
+									this.state.category.value === 'gift' || this.state.category.value === 'find' ? '' : <TextField
+										hintText='Число без пробелов'
+										onChange={ this.validatePlacePrice }
+										underlineFocusStyle={ style.underlineFocusStyle }
+										floatingLabelText='Цена'
+										name='price'
+										floatingLabelStyle={ style.labelStyle }
+										floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
+										errorText={ validarePlaceAnAd.placePrice || validarePlaceAnAd.placePrice === ' ' ? '' : ' ' }
+									/>
+								}
 							</form>
+
 							<Checkbox
-						      label="Даю согласие на обработку персональных данных"
-						      style={this.style.checkbox}
-						      className="checkBoxLink"
-						    />
-						    <Link to="conf" className="linkConf">Политика конфиденциальности</Link>
+								label='Даю согласие на обработку персональных данных'
+								style={ this.style.checkbox }
+								className='checkBoxLink'
+							/>
+							<Link to='conf' className='linkConf'>Политика конфиденциальности</Link>
 						</div>
 					</div>
 					<div>
-						<div className="wrapPhotos">
-							<p className="subtitle">Фотографии</p>
-							<p className="photoDescpipt">Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg, jpg</b> </p>
+						<div className='wrapPhotos'>
+							<p className='subtitle'>Фотографии</p>
+							<p className='photoDescpipt'>Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg, jpg</b> </p>
 							{
 								element()
 							}
 						</div>
 					</div>
 					<div>
-						<a href="javascript:void(0)" className="btnPlace" onClick={this.postMethodAddCard}>
-							<i className="fa fa-cloud-upload" aria-hidden="true"></i>
+						<a href='javascript:void(0)' className='btnPlace' onClick={ this.postMethodAddCard }>
+							<i className='fa fa-cloud-upload' aria-hidden='true' />
 							<span>Разместить</span>
 						</a>
 					</div>
 				</div>
 			</div>
-		);
+		)
 	}
 }
 
 export default connect(
-	state => ({
-		state: state
-	}),
+	state => ({ state }),
 	dispatch => ({
 		onHandleSnackbar: data => {
-			dispatch(snackbar(data));
+			dispatch(snackbar(data))
 		},
 		handlePhoto0: () => {
-			dispatch({type: "ADD_PHOTO0", payload: true});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'ADD_PHOTO0', payload: true })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		handlePhoto1: () => {
-			dispatch({type: "ADD_PHOTO1", payload: true});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'ADD_PHOTO1', payload: true })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		handlePhoto2: () => {
-			dispatch({type: "ADD_PHOTO2", payload: true});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'ADD_PHOTO2', payload: true })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		handlePhoto3: () => {
-			dispatch({type: "ADD_PHOTO3", payload: true});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'ADD_PHOTO3', payload: true })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		handlePhoto4: () => {
-			dispatch({type: "ADD_PHOTO4", payload: true});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'ADD_PHOTO4', payload: true })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		onValidateRegCity: e => {
-			dispatch({type: "VALIDATE_PLACE_CITY", payload: e});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'VALIDATE_PLACE_CITY', payload: e })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		onValidateTitleName: e => {
-			dispatch({type: "VALIDATE_PLACE_TITLENAME", payload: e});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'VALIDATE_PLACE_TITLENAME', payload: e })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		onValidatePhoneNumber: e => {
-			dispatch({type: "VALIDATE_PLACE_PHONENUMBER", payload: e});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'VALIDATE_PLACE_PHONENUMBER', payload: e })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		onValidatePlaceText: e => {
-			dispatch({type: "VALIDATE_PLACE_TEXT", payload: e});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'VALIDATE_PLACE_TEXT', payload: e })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		onValidatePlacePrice: e => {
-			dispatch({type: "VALIDATE_PLCAE_PRICE", payload: e});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'VALIDATE_PLCAE_PRICE', payload: e })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		onValidatePlaceImage: () => {
-			dispatch({type: "VALIDATE_PLCAE_IMAGE", payload: true});
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'VALIDATE_PLCAE_IMAGE', payload: true })
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		onResetPlace: () => {
-			dispatch({type: "RESET_PLACE"});
-			dispatch({type: "ADD_PHOTO0", payload: false});
-			dispatch({type: "ADD_PHOTO1", payload: false});
-			dispatch({type: "ADD_PHOTO2", payload: false});
-			dispatch({type: "ADD_PHOTO3", payload: false});
-			dispatch({type: "ADD_PHOTO4", payload: false});
+			dispatch({ type: 'RESET_PLACE' })
+			dispatch({ type: 'ADD_PHOTO0', payload: false })
+			dispatch({ type: 'ADD_PHOTO1', payload: false })
+			dispatch({ type: 'ADD_PHOTO2', payload: false })
+			dispatch({ type: 'ADD_PHOTO3', payload: false })
+			dispatch({ type: 'ADD_PHOTO4', payload: false })
 		},
 		onReletMessage: () => {
-			dispatch({type: "PLACE_SUCCES_FALSE", payload: false});
+			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
 		},
 		handlePostMethodAddImagesCard: (url, thisFormData, anAdUrl, anAdParapms) => {
-			dispatch(postImagesCard(url, thisFormData, anAdUrl, anAdParapms));
+			dispatch(postImagesCard(url, thisFormData, anAdUrl, anAdParapms))
 		}
 	})
-)(PlaceAnAd);
+)(PlaceAnAd)

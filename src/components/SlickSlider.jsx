@@ -1,12 +1,14 @@
-import React, {Component} from "react";
-import Slider from "react-slick";
+import Slider from 'react-slick'
+import React, { Component } from 'react'
 
-import "../styles/styles.sass";
-import "./SlickSlider.sass";
+import './SlickSlider.sass'
+import '../styles/styles.sass'
 
 class SlickSlider extends Component {
+
 	render() {
-		let settings = {
+
+		const settings = {
 			arrows: true,
 			dots: false,
 			infinite: false,
@@ -17,16 +19,21 @@ class SlickSlider extends Component {
 			adaptiveHeight: true,
 			fade: true,
 			cardImages: this.props.imagesItems
-	    };
-	    return (
-	      <Slider {...settings}>
-	        {
-	        	settings.cardImages.map((elem, idx) => {
-	        		return <div className="imgCard" key={idx}><img src={elem} alt="img" /></div>
-	        	})
-	        }
-	      </Slider>
-	    );
+		}
+
+		return (
+			<Slider
+				{ ...settings }
+			>
+				{
+					settings.cardImages.map((elem, idx) => (
+						<div className='imgCard' key={ idx }>
+							<img src={ elem } alt='img' />
+						</div>
+					))
+				}
+			</Slider>
+		)
 	}
 }
 

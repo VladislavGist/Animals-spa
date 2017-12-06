@@ -1,129 +1,148 @@
-import React, {Component} from "react";
-import {Link} from "react-router";
-import {connect} from "react-redux";
-import $ from "jquery";
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
 
-import "./CardItem.sass";
+import SlickSlider from '../SlickSlider.jsx'
 
-//componentns
-import SlickSlider from "../SlickSlider.jsx";
+import './CardItem.sass'
 
-//async actions
-import {updateCardView} from "../../actions/updateCardView.jsx";
-import {completedCard} from "../../actions/completedCard.jsx";
-import {replaceStatusCard} from "../../actions/replaceStatusCard.jsx";
+import { completedCard } from '../../actions/completedCard.jsx'
+import { updateCardView } from '../../actions/updateCardView.jsx'
+import { replaceStatusCard } from '../../actions/replaceStatusCard.jsx'
 
 class CardItem extends Component {
-	constructor(props) {
-		super(props);
-		this.pr = props
-	}
 
-	//остановка объявления
+	// остановка объявления
 	handlerDelete = e => {
-		//взяли id 
-		let id = this.props.id;
+
+		const { id, handleCompletedCard } = this.props
 
 		//отправили запрос на сервер об остановке объявления с нужным id
-		this.props.handleCompletedCard(`${process.env.URL}/completeCard?cardId=${id}`);
-		e.target.text = "Остановлено";
+		handleCompletedCard(`${process.env.URL}/completeCard?cardId=${id}`)
+		e.target.text = 'Остановлено'
 	}
 
 	//повышение счетчика просмотров
-	clickFunc = e => {
-		if(location.hash !== "#/personalArea") {
-			this.props.getUpdateCardView(this.props.cardId);
+	clickFunc = () => {
+		if (location.hash !== '#/personalArea') {
+			this.props.getUpdateCardView( this.props.cardId )
 		}
 	}
 
 	handleAccepted = e => {
-		this.props.onHandleAccepted(`${process.env.URL}/replaceStatusCard?cardid=${this.props.cardId}&status=accepted`);
-		e.target.textContent = "Выполнено"
+
+		const { onHandleAccepted, cardId } = this.props
+
+		onHandleAccepted(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=accepted`)
+		e.target.textContent = 'Выполнено'
 	}
 
 	handleRejected = e => {
-		this.props.onHandleRejected(`${process.env.URL}/replaceStatusCard?cardid=${this.props.cardId}&status=rejected`);
-		e.target.textContent = "Выполнено"
+
+		const { onHandleRejected, cardId } = this.props
+
+		onHandleRejected(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=rejected`)
+		e.target.textContent = 'Выполнено'
 	}
 
 	render() {
-		let mass = [];
-		for(let i = 0; i < this.props.rating; i++) {
-			mass.push(<i className="fa fa-star" aria-hidden="true" key={i}></i>);	
+
+		const {
+			price,
+			advType,
+			rating,
+			phoneNumber,
+			city,
+			userStatus,
+			userName,
+			title,
+			briefDescription,
+			views,
+			imgPath,
+			deleted,
+			deleteInfo,
+			dataDelete,
+			moderate
+		} = this.props
+
+		const mass = []
+
+		for (let i = 0; i < rating; i++) {
+			mass.push(<i className='fa fa-star' aria-hidden='true' key={ i } />)
 		}
 
-		let imgPath = this.props.imgPath.split(" ");
+		let imagePath = imgPath.split(' ')
 
 		return (
-			<div className="cardItemWrap">
-				<div className="cardItem horizontalBig">	
-					<div className="contentWrap" onClick={this.clickFunc}>
-						<div className="top">
+			<div className='cardItemWrap'>
+				<div className='cardItem horizontalBig'>
+					<div className='contentWrap' onClick={ ::this.clickFunc }>
+						<div className='top'>
 							<div>
-								<p className="price">{this.props.price > 0 ? this.props.price + " руб." : ""}</p>
+								<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
 							</div>
 							<div>
-								<div className="info">
-									<i className="fa" aria-hidden="true"></i>
-									<span className="categoty">{this.props.advType}</span>
+								<div className='info'>
+									<i className='fa' aria-hidden='true' />
+									<span className='categoty'>{ advType }</span>
 								</div>
-								<p className="number">{this.props.phoneNumber}</p>
-								<p className="city">{this.props.city.indexOf("обл.") === -1 ? "г. " + this.props.city : this.props.city}</p>
-								<div className="userItem">
-									{mass}
-									<p className={`userName ${this.props.userStatus === "seller" ? "gold" : ""}`}>{this.props.userName}</p>
+								<p className='number'>{ phoneNumber }</p>
+								<p className='city'>{ city.indexOf('обл.') === -1 ? 'г. ' + city : city }</p>
+								<div className='userItem'>
+									{ mass }
+									<p className={ `userName ${ userStatus === 'seller' ? 'gold' : null }` }>{ userName }</p>
 								</div>
-								<div className="priceMobile">
-									<p className="price">{this.props.price > 0 ? this.props.price + " руб." : ""}</p>
+								<div className='priceMobile'>
+									<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
 								</div>
 							</div>
 						</div>
-						<div className="bottom">
+						<div className='bottom'>
 							<div>
-								<h3 className="title">{this.props.title}</h3>
-								<p className="subTitle">{this.props.briefDescription}</p>
+								<h3 className='title'>{ title }</h3>
+								<p className='subTitle'>{ briefDescription }</p>
 							</div>
 
 						</div>
 					</div>
-					<div className="img">
-						<img src={imgPath[0]} />
-					</div>	
-					<div className="reverseFace">
-						<div className="sliderItem">
-							<SlickSlider imagesItems={imgPath} key={this.keyNum} />
+					<div className='img'>
+						<img src={ imagePath[0] } />
+					</div>
+					<div className='reverseFace'>
+						<div className='sliderItem'>
+							<SlickSlider imagesItems={ imagePath } />
 						</div>
-						<div className="textItem">
-							<p className="subTitleReverse">{this.props.briefDescription}</p>
-							<div className="buttonsList">
+						<div className='textItem'>
+							<p className='subTitleReverse'>{ briefDescription }</p>
+							<div className='buttonsList'>
 								{
-									location.hash === "#/personalArea" ? null :
-									<div className="visibles">
-										<i className="fa fa-eye" aria-hidden="true"></i>
-										<p>{this.props.views}</p>
-									</div>
+									location.hash === '#/personalArea' ? null : (
+										<div className='visibles'>
+											<i className='fa fa-eye' aria-hidden='true' />
+											<p>{ views }</p>
+										</div>
+									)
 								}
-								<button className="btnReverse"><i className="fa fa-reply" aria-hidden="true"></i></button>
+								<button className='btnReverse'><i className='fa fa-reply' aria-hidden='true' /></button>
 							</div>
 						</div>
 					</div>
 				</div>
 				{
-					this.props.deleted === true || this.props.deleteInfo === true ?
-						<div className="cardInfoInAccount">
-							{this.props.deleted === true ? <a href="javascript:void(0)" className="button1" onClick={this.handlerDelete}>Завершить</a> : ""}
-							{this.props.deleteInfo === true ? <p>Будет удалено {this.props.dataDelete}</p> : ""}
-						</div> : ""
+					deleted || deleteInfo ?
+						<div className='cardInfoInAccount'>
+							{ deleted ? <a href='javascript:void(0)' className='button1' onClick={ ::this.handlerDelete }>Завершить</a> : null }
+							{ deleteInfo ? <p>Будет удалено { dataDelete }</p> : null }
+						</div> : null
 				}
 				{
-					this.props.moderate === true ?
-						<div className="moderation">
-							<button className="btnAccepted" onClick={this.handleAccepted}>Пропустить</button>
-							<button className="btnRejected" onClick={this.handleRejected}>Отклонить</button>
-						</div> : ""
+					moderate ?
+						<div className='moderation'>
+							<button className='btnAccepted' onClick={ ::this.handleAccepted }>Пропустить</button>
+							<button className='btnRejected' onClick={ ::this.handleRejected }>Отклонить</button>
+						</div> : null
 				}
 			</div>
-		);
+		)
 	}
 }
 
@@ -143,21 +162,19 @@ class CardItem extends Component {
 // }
 
 export default connect(
-	state => ({
-		state: state
-	}),
+	state => ({ state }),
 	dispatch => ({
 		getUpdateCardView: cardId => {
-			dispatch(updateCardView(cardId));
+			dispatch(updateCardView(cardId))
 		},
 		handleCompletedCard: (url, param) => {
-			dispatch(completedCard(url, param));
+			dispatch(completedCard(url, param))
 		},
 		onHandleAccepted: (url, status, cardId) => {
-			dispatch(replaceStatusCard(url, status, cardId));
+			dispatch(replaceStatusCard(url, status, cardId))
 		},
 		onHandleRejected: (url, status, cardId) => {
-			dispatch(replaceStatusCard(url, status, cardId));
+			dispatch(replaceStatusCard(url, status, cardId))
 		}
 	})
-)(CardItem);
+)(CardItem)

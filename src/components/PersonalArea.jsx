@@ -1,35 +1,33 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import $ from "jquery";
+import $ from 'jquery'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
 
-import "./PersonalArea.sass";
+import PersonalDatasAccount from './PersonalDatasAccount.jsx'
+import AccountType from './AccountType.jsx'
 
-//components
-import PersonalDatasAccount from "./PersonalDatasAccount.jsx";
-import AccountType from "./AccountType.jsx";
+import './PersonalArea.sass'
 
 class PersonalArea extends Component {
 
 	componentDidMount() {
-		$(".personalArea").parents(".spaContent").css({
-			"background": "none",
-			"padding": "0",
-			"height": "100%"
-		});
-
+		$('.personalArea').parents('.spaContent').css({
+			'background': 'none',
+			'padding': '0',
+			'height': '100%'
+		})
 	}
 
 	componentWillUnmount() {
-		$(".personalArea").parents(".spaContent").css({
-			"background": "white",
-			"padding": "47px 30px",
-			"height": "auto"
-		});
+		$('.personalArea').parents('.spaContent').css({
+			'background': 'white',
+			'padding': '47px 30px',
+			'height': 'auto'
+		})
 	}
 
 	render() {
 		return (
-			<div className="personalArea">
+			<div className='personalArea'>
 				<PersonalDatasAccount />
 				<AccountType />
 			</div>
@@ -37,11 +35,4 @@ class PersonalArea extends Component {
 	}
 }
 
-export default connect(
-	state => ({
-		state: state
-	}),
-	dispatch => ({
-		
-	})
-)(PersonalArea);
+export default connect( state => ({ state }) )(PersonalArea)

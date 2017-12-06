@@ -1,189 +1,200 @@
-import React, {Component} from "react";
-import {Link} from "react-router";
-import $ from "jquery";
+import $ from 'jquery'
+import { connect } from 'react-redux'
+import React, { Component } from 'react'
+import classNames from 'classnames'
 
-//redux
-import {connect} from "react-redux";
+import { store } from '../store.jsx'
+import CardItem from './CardItem.jsx'
+import { getCards } from '../../actions/getCards.jsx'
+import { allCards } from '../../actions/allCards.jsx'
 
-//store
-import {store} from "../store.jsx";
-
-//actions
-import {getCards} from "../../actions/getCards.jsx";
-import {allCards} from "../../actions/allCards.jsx";
-
-//Блок с плитками
-import CardItem from "./CardItem.jsx";
-
-import "./CardItems.sass";
+import './CardItems.sass'
 
 class CardItems extends Component {
+
 	constructor() {
 		super()
-		this.subs;
-		this.elem = store.getState().serverReducer;
-		this.countMore = 20;
-		this.topPosition = 0;
+		this.subs
+		this.elem = store.getState().serverReducer
+		this.countMore = 20
+		this.topPosition = 0
 	}
 
 	componentDidMount() {
+
 		//смотрим расстояние от верха. нужно для корректной работы "еще объявления"
 		let _this = this;
-		$(document).scroll(function(e) {
-			_this.topPosition = $(document).scrollTop();
-		});
+		$(document).scroll(function() {
+			_this.topPosition = $(document).scrollTop()
+		})
 
 		//подписался на определенную часть store
 		this.subs = store.subscribe(() => {
+
 			//если новая часть Store не равна предыдущей, то выполнить код
 			if(store.getState().serverReducer !== this.elem) {
 				//фильтрация до 80 символа
-				let el = $(".bottom .subTitle");
-				for(let i = 0; i < el.length; i++) {
-					let j = el[i].textContent.substring(0, 80);
-					el[i].textContent = j;
+				let el = $('.bottom .subTitle')
+				for (let i = 0; i < el.length; i++) {
+					let j = el[i].textContent.substring(0, 80)
+					el[i].textContent = j
 				}
 
 				//условие добавления многоточия
 				el.each((idx, elem) => {
 					if(elem.textContent.length >= 80) {
-						elem.textContent += " ...";
+						elem.textContent += ' ...'
 					}
-				});
+				})
 
 				//запрет переворота объявление по клику на кнопку
-				$(".button3").each((idx, elem) => {
+				$('.button3').each((idx, elem) => {
 					$(elem).click(function(e) {
-						e.stopPropagation();
-					});
-				});
+						e.stopPropagation()
+					})
+				})
 
 				//reverse объявлений
-				$(".cardItem").bind("click", function() {
+				$('.cardItem').bind('click', function() {
+
 					//переключил класс
-					$(this).toggleClass("verticalRotate");
+					$(this).toggleClass('verticalRotate')
 
 					//отменил обработчики click для элемента
-					$(this).off("click");
-				});
+					$(this).off('click')
+				})
 
 				//нажал на кнопку reverse
-				$(".btnReverse").on("click", function(e) {
+				$('.btnReverse').on('click', function(e) {
+
 					//перевернул card
-					$(this).parents(".cardItem").removeClass("verticalRotate");
+					$(this).parents('.cardItem').removeClass('verticalRotate')
+
 					//запретил всплытие событий (срабатывание событий на следующем уровне)
-					e.stopPropagation();
+					e.stopPropagation()
 
 					//назначил обработчик
-					$(this).parents(".cardItem").on("click", function() {
-						$(this).toggleClass("verticalRotate");
-						$(this).unbind("click");
-					});
-				});
+					$(this).parents('.cardItem').on('click', function() {
+						$(this).toggleClass('verticalRotate')
+						$(this).unbind('click')
+					})
+				})
 
 				//редактирование статусов category
-				$(".categoty").each((idx, elem) => {
+				$('.categoty').each((idx, elem) => {
 					switch($(elem).text()) {
-						case "buy":
-							$(elem).text("Продажа");
-							break;
-						case "sale":
-							$(elem).text("Продать");
-							break;
-						case "gift":
-							$(elem).text("Даром");
-							break;
-						case "missing":
-							$(elem).text("Пропало животное");
-							break;
-						case "find":
-							$(elem).text("Найдено животное");
-							break;
-						default:
-							$(elem).text("");
+					case 'buy':
+						$(elem).text('Продажа')
+						break
+					case 'sale':
+						$(elem).text('Продать')
+						break
+					case 'gift':
+						$(elem).text('Даром')
+						break
+					case 'missing':
+						$(elem).text('Пропало животное')
+						break
+					case 'find':
+						$(elem).text('Найдено животное')
+						break
+					default:
+						$(elem).text('')
 					}
-				});
+				})
 
 				//иконки статусов
-				$(".info .fa").each((idx, elem) => {
+				$('.info .fa').each((idx, elem) => {
 					switch($(elem).next().text()) {
-						case "Продажа":
-							$(elem).addClass("fa-eur");
-							break;
-						case "Продать":
-							$(elem).addClass("fa-eur");
-							break;
-						case "Даром":
-							$(elem).addClass("fa-globe");
-							break;
-						case "Пропало животное":
-							$(elem).addClass("fa-exclamation-triangle");
-							break;
-						case "Найдено животное":
-							$(elem).addClass("fa-bell-o");
-							break;
-						default:
-							$(elem).addClass("");
+					case 'Продажа':
+						$(elem).addClass('fa-eur')
+						break
+					case 'Продать':
+						$(elem).addClass('fa-eur')
+						break
+					case 'Даром':
+						$(elem).addClass('fa-globe')
+						break
+					case 'Пропало животное':
+						$(elem).addClass('fa-exclamation-triangle')
+						break
+					case 'Найдено животное':
+						$(elem).addClass('fa-bell-o')
+						break
+					default:
+						$(elem).addClass('')
 					}
-				});
+				})
 
-				//сохранил текущую часть Store чтобы карточки корректно работали 
-				this.elem = store.getState().serverReducer;
+				// сохранил текущую часть store чтобы карточки корректно работали
+				this.elem = store.getState().serverReducer
 
-				this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname);
+				this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname)
 			}
-		});
+		})
 	}
 
 	componentWillUnmount() {
-		this.subs();
-		this.props.onHandleClearState();
-		this.countMore = 20;
-		this.topPosition = 0;
+		this.subs()
+		this.props.onHandleClearState()
+		this.countMore = 20
+		this.topPosition = 0
 	}
 
-	componentWillUpdate(nextProps, nextState) {
-		//при каждом изменении url будем скролится на то место на котором были
-		$(document).scrollTop(this.topPosition);
+	componentWillUpdate() {
+		// при каждом изменении url будем скролится на то место на котором были
+		$(document).scrollTop(this.topPosition)
 	}
 
 	addMoreCards = () => {
-		this.props.onMoreCards(process.env.URL + "/list-animals/animal_type/" +  this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/" + this.countMore);
-		this.props.onAllCards(process.env.URL + "/list-animals/animal_type/" +  this.props.state.allParamsUrl.split("/")[2] + "/advertisement_type/" + this.props.state.allParamsUrl.split("/")[3]  + "/city/" + this.props.state.filterCity.cityTopHeader + "/count/" + this.countMore + "/allcount");
-		this.countMore += 10;
+
+		const { onMoreCards, onAllCards, state } = this.props
+
+		onMoreCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
+		onAllCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
+		this.countMore += 10
 	}
 
 	render() {
-		//если нет параметров в url то добавить оберке классс .indexPageClass
-		////this.props.state.toggleAddMoreBtn === true ? <a href="javascript:void(0)" className="addMore button2" onClick={this.addMoreCards}>Ещё объявления</a> : ""
+
+		const { state, datas } = this.props
+
 		return (
-			<div className={`wrapCardsContent ${this.props.state.allParamsUrl === '/' ? 'indexPageClassWrap' : ""}`}>
-				<article className={`cardItems ${this.props.state.allParamsUrl === '/' ? 'indexPageClass' : ""}`}>
+			<div className={
+				classNames({
+					wrapCardsContent: true,
+					indexPageClassWrap: state.allParamsUrl === '/'
+				})
+			}>
+				<article className={
+					classNames({
+						cardItems: true,
+						indexPageClass: state.allParamsUrl === '/'
+					})
+				}>
 					{
-						this.props.datas.length > 0 ?
-						this.props.datas.map((elem, idx) => {
-							return (
-								<CardItem
-									cardId={elem.card_id}
-									key={elem.card_id} 
-									title={elem.title} 
-									briefDescription={elem.briefDescription}
-									city={elem.city}
-									userName={elem.userName}
-									userStatus={elem.userStatus}
-									phoneNumber={elem.phoneNumber}
-									rating={elem.rating}
-									price={elem.price}
-									imgPath={elem.imgPath}
-									advType={elem.advType}
-									views={elem.views}
-								/>
-							);
-						}) : <p className="noCardsTitle">Объявлений нет</p>
+						datas.length > 0 ? datas.map(elem => <CardItem
+							cardId={ elem.card_id }
+							key={ elem.card_id }
+							title={ elem.title }
+							briefDescription={ elem.briefDescription }
+							city={ elem.city }
+							userName={ elem.userName }
+							userStatus={ elem.userStatus }
+							phoneNumber={ elem.phoneNumber }
+							rating={ elem.rating }
+							price={ elem.price }
+							imgPath={ elem.imgPath }
+							advType={ elem.advType }
+							views={ elem.views }
+						/>) : <p className='noCardsTitle'>Объявлений нет</p>
 					}
-					{this.props.datas.length > 0 && this.props.state.allParamsUrl != '/' ? (this.props.state.toggleAddMoreBtn === true ? <a href="javascript:void(0)" className="addMore button2" onClick={this.addMoreCards}>Ещё объявления</a> : "") : ""}
+					{ datas.length > 0 && state.allParamsUrl !== '/' ?
+						(state.toggleAddMoreBtn ?
+							<a href='javascript:void(0)' className='addMore button2' onClick={ this.addMoreCards }>Ещё объявления</a>
+							: null) : null }
 				</article>
-				<aside className="cardsBanners">
+				<aside className='cardsBanners'>
 					Здесь будет реклама Яндекс.Директ
 				</aside>
 			</div>
@@ -191,26 +202,19 @@ class CardItems extends Component {
 	}
 }
 
-let mapStateToProps;
-
-export default connect(
-	mapStateToProps = state => {
-		return {
-			state: state
-		}
-	},
+export default connect(state => ({ state }),
 	dispatch => ({
 		onHandleClearState: () => {
-			dispatch({type: "CLEAR_STATE", payload: {advertisementList: []}})
+			dispatch({ type: 'CLEAR_STATE', payload: { advertisementList: [] } })
 		},
 		onReplaceAllUrl: e => {
-			dispatch({type: "CHANGE_URL", payload: e ? e : {}})
+			dispatch({ type: 'CHANGE_URL', payload: e ? e : {} })
 		},
 		onMoreCards: url => {
-			dispatch(getCards(url));
+			dispatch(getCards(url))
 		},
 		onAllCards: url => {
-			dispatch(allCards(url));
+			dispatch(allCards(url))
 		}
 	})
-)(CardItems);
+)(CardItems)
