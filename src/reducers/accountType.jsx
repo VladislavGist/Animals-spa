@@ -20,7 +20,7 @@ export default accountType = (state = initialState, action) => {
 					"Рейтинг": "Нет"
 				}
 			};
-			break;
+			;
 		case "PERMANENT_SELLER":
 			return {
 				type: "PERMANENT_SELLER",
@@ -31,7 +31,7 @@ export default accountType = (state = initialState, action) => {
 					"Рейтинг": "Да"
 				}
 			};
-			break;
+			;
 		case "SHELTER":
 			return {
 				type: "SHELTER",
@@ -42,7 +42,7 @@ export default accountType = (state = initialState, action) => {
 					"Рейтинг": "Да"
 				}
 			};
-			break;
+			;
 		default:
 			return state;
 	}
