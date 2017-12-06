@@ -182,7 +182,7 @@ class LoginModal extends Component {
 						<a href='javascript:void(0)' onClick={ handleCityTopHeader } className='allCitys'>Все регионы</a>
 						<div className='modalAllCity'>
 							{
-								citys.map(elem => <a href='javascript:void(0)' onClick={ handleCityTopHeader }>{ elem }</a>)
+								citys.map((elem, idx) => <a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>)
 							}
 						</div>
 					</div>

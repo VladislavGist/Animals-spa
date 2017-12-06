@@ -9,7 +9,7 @@ import NotFound from './components/NotFound.jsx'
 import Moderate from './components/Moderate.jsx'
 import Contacts from './components/Contacts.jsx'
 import PlaceAnAd from './components/PlaceAnAd.jsx'
-import { store, history } from './components/store.jsx'
+import { store, history } from './store.jsx'
 import PersonalArea from './components/PersonalArea.jsx'
 import WrapAnimalCard from './components/categories/WrapAnimalCard.jsx'
 

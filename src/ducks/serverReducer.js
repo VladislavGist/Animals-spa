@@ -12,6 +12,7 @@ export const types = {
 export const actions = {
 
 	getCards: url => dispatch => {
+
 		fetch(url)
 			.then(response => {
 				if (response.status !== 200) {

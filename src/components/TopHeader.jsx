@@ -58,7 +58,7 @@ class TopHeader extends Component {
 					}
 
 					{
-						this.props.state.loginUser === false || this.props.state.loginUser.error !== undefined ?
+						loginUser === false || loginUser.error !== undefined ?
 							<LoginModal
 								titleBtn='Подать объявление'
 								classNameMobile='needLoginMobile'
