@@ -10,32 +10,32 @@ export const types = {
 
 export const actions = {
 
-	handlePhoto0: dispatch => {
+	handlePhoto0: () => dispatch => {
 		dispatch({ type: types.ADD_PHOTO_0, payload: true })
 		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
 	},
 
-	handlePhoto1: dispatch => {
+	handlePhoto1: () => dispatch => {
 		dispatch({ type: types.ADD_PHOTO_1, payload: true })
 		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
 	},
 
-	handlePhoto2: dispatch => {
+	handlePhoto2: () => dispatch => {
 		dispatch({ type: types.ADD_PHOTO_2, payload: true })
 		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
 	},
 
-	handlePhoto3: dispatch => {
+	handlePhoto3: () => dispatch => {
 		dispatch({ type: types.ADD_PHOTO_3, payload: true })
 		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
 	},
 
-	handlePhoto4: dispatch => {
+	handlePhoto4: () => dispatch => {
 		dispatch({ type: types.ADD_PHOTO_4, payload: true })
 		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
 	},
 
-	onResetPlace: dispatch => {
+	onResetPlace: () => dispatch => {
 		dispatch({ type: typesValidatePlace.RESET_PLACE })
 		dispatch({ type: types.ADD_PHOTO_0, payload: false })
 		dispatch({ type: types.ADD_PHOTO_1, payload: false })

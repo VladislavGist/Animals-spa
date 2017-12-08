@@ -2,8 +2,10 @@ import { connect } from 'react-redux'
 import Dialog from 'material-ui/Dialog'
 import React, { Component } from 'react'
 import FlatButton from 'material-ui/FlatButton'
+import { bindActionCreators } from 'redux'
 
-import { getCards } from '../actions/getCards.jsx'
+import { actions as actionsFilterCity } from '../ducks/filterCity'
+import { actions as actionsServerReducer } from '../ducks/serverReducer'
 import SendAndRegistrationsTabs from './SendAndRegistrationsTabs.jsx'
 
 import './SendDialog.sass'
@@ -46,7 +48,7 @@ class LoginModal extends Component {
 		}
 
 		const { allParamsUrl } = this.props.state
-		const { dispatchCityTopHeader, handleGetCards } = this.props
+		const { dispatchCityTopHeader, getCards } = this.props
 
 		const citys = [
 			'Москва',
@@ -144,18 +146,18 @@ class LoginModal extends Component {
 			<SendAndRegistrationsTabs className='sendAndRegDialog' />
 		</Dialog>
 
-		let dialogModal02 = () => {
+		const dialogModal02 = () => {
 
 			let handleCityTopHeader = e => {
-				dispatchCityTopHeader(e.target.innerText)
+				this.props.dispatchCityTopHeader(e.target.innerText)
 				this.handleClose()
 		
 				// фльтр объявлений по клику на город. на главной
 				if (allParamsUrl.split('/')[1] === '') {
-					handleGetCards(process.env.URL + '/list-hot-adv/' + e.target.innerText)
+					getCards(process.env.URL + '/list-hot-adv/' + e.target.innerText)
 				} else {
 					// на остальных
-					handleGetCards(
+					getCards(
 						process.env.URL +
 						'/list-animals/animal_type/' +
 						allParamsUrl.split('/')[2] +
@@ -206,12 +208,5 @@ class LoginModal extends Component {
 }
 
 export default connect(state => ({ state }),
-	dispatch => ({
-		dispatchCityTopHeader: e => {
-			dispatch({ type: 'REPLACE_CITY', payload: e })
-		},
-		handleGetCards: url => {
-			dispatch(getCards(url))
-		}
-	})
+	dispatch => bindActionCreators({ ...actionsFilterCity, ...actionsServerReducer }, dispatch)
 )(LoginModal)

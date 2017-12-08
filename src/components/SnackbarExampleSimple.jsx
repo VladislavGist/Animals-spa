@@ -1,9 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
+import { bindActionCreators } from 'redux'
 
 import { store } from '../store'
-import snackbar from '../actions/snackbar.jsx'
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 class SnackbarExampleSimple extends React.Component {
 
@@ -26,7 +27,7 @@ class SnackbarExampleSimple extends React.Component {
 		this.setState({
 			open: false,
 		})
-		this.props.onHandleSnackbar('')
+		this.props.handleSnackbar('')
 		this.elem = ''
 	}
 
@@ -55,9 +56,5 @@ class SnackbarExampleSimple extends React.Component {
 }
 
 export default connect(state => ({ state }),
-	dispatch => ({
-		onHandleSnackbar: data => {
-			dispatch(snackbar(data))
-		}
-	})
+	dispatch => bindActionCreators({ ...actionsSnackbarReducer }, dispatch)
 )(SnackbarExampleSimple)

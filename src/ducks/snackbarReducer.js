@@ -3,9 +3,7 @@ export const types = {
 }
 
 export const actions = {
-	handleSnackbar: data => dispatch => {
-		dispatch({ type: types.SNACKBAR, payload: data })
-	}
+	handleSnackbar: data => ({ type: types.SNACKBAR, payload: data })
 }
 
 export default (state = '', action) => {

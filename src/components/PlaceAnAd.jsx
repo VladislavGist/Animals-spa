@@ -8,10 +8,15 @@ import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
+import { bindActionCreators } from 'redux'
 
 const _ = require('underscore')
 
-import snackbar from '../actions/snackbar.jsx'
+import { actions as actionsPhotosReducer } from '../ducks/photosReducer'
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
+import { actions as actionsValidarePlaceAnAd } from '../ducks/validarePlaceAnAd'
+import { actions as actionsAllParamsUrl } from '../ducks/allParamsUrl'
+
 import { postImagesCard } from '../actions/postImagesCard.jsx'
 
 import './PlaceAnAd.sass'
@@ -102,7 +107,7 @@ class PlaceAnAd extends Component {
 		clearInterval(this.timer3)
 		clearInterval(this.timer4)
 		this.props.onResetPlace()
-		this.props.onReletMessage()
+		this.props.onResetMessage()
 	}
 
 	style = {
@@ -134,7 +139,7 @@ class PlaceAnAd extends Component {
 		_.each(validateTypeImg, elem => {
 			if (elem === false) {
 				resultValidateTypeImg = false
-				this.props.onHandleSnackbar('Формат изображения должен быть jpeg или jpg')
+				this.props.handleSnackbar('Формат изображения должен быть jpeg или jpg')
 			}
 		})
 
@@ -163,7 +168,7 @@ class PlaceAnAd extends Component {
 				`status=${ this.props.state.loginUser.results[0].accountType }` + '&' +
 				`dataDelete=${deleteDate}`
 
-			this.props.handlePostMethodAddImagesCard(process.env.URL + '/add-advertisement/img/animalType/' + this.state.animal.value + '/advertisementType/' + this.state.category.value, this.thisFormData, process.env.URL + '/add-advertisement', paramsUrl)
+			this.props.postImagesCard(process.env.URL + '/add-advertisement/img/animalType/' + this.state.animal.value + '/advertisementType/' + this.state.category.value, this.thisFormData, process.env.URL + '/add-advertisement', paramsUrl)
 			
 			// очистка данных формы
 			this.props.onResetPlace()
@@ -180,7 +185,7 @@ class PlaceAnAd extends Component {
 		} else {
 			if(resultValidateTypeImg !== false || $('.wrapForm .checkBoxLink')[0].children[0].checked === false) {
 				// toolpit с ошибкой
-				this.props.onHandleSnackbar('Заполните все поля и/или дайте согласие на обработку Ваших данных')
+				this.props.handleSnackbar('Заполните все поля и/или дайте согласие на обработку Ваших данных')
 			}
 		}
 	}
@@ -209,28 +214,28 @@ class PlaceAnAd extends Component {
 	validateTitleName = e => {
 		let regexpName = /^[а-яА-Я0-9-_\s]{10,50}$/
 		this.validate(e, regexpName, this.props.onValidateTitleName)
-		this.props.onReletMessage()
+		this.props.onResetMessage()
 	}
 
 	// validatePhoneNumber
 	validateTitlePhoneNumber = e => {
 		let regexpName = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
 		this.validate(e, regexpName, this.props.onValidatePhoneNumber)
-		this.props.onReletMessage()
+		this.props.onResetMessage()
 	}
 
 	// validatePlaceText
 	validatePlaceText = e => {
 		let regexpName = /^.{10,200}$/
 		this.validate(e, regexpName, this.props.onValidatePlaceText)
-		this.props.onReletMessage()
+		this.props.onResetMessage()
 	}
 
 	// validatePlacePrice
 	validatePlacePrice = e => {
 		let regexpName = /^[0-9]{2,6}$/
 		this.validate(e, regexpName, this.props.onValidatePlacePrice)
-		this.props.onReletMessage()
+		this.props.onResetMessage()
 	}
 
 	// у каких животных какие категории будут доступны
@@ -304,7 +309,7 @@ class PlaceAnAd extends Component {
 			)
 		}
 
-		let style = {
+		const style = {
 			floatingLabelStyle: {
 				'color': '#b1adad'
 			},
@@ -320,7 +325,7 @@ class PlaceAnAd extends Component {
 		}
 
 		// сообщение об успешной отправке объявления
-		let messagePlace = () => {
+		const messagePlace = () => {
 			return (
 				<div className='mesagePlace'>
 					<i className='fa fa-check-circle' aria-hidden='true' />
@@ -552,69 +557,11 @@ class PlaceAnAd extends Component {
 	}
 }
 
-export default connect(
-	state => ({ state }),
-	dispatch => ({
-		onHandleSnackbar: data => {
-			dispatch(snackbar(data))
-		},
-		handlePhoto0: () => {
-			dispatch({ type: 'ADD_PHOTO0', payload: true })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		handlePhoto1: () => {
-			dispatch({ type: 'ADD_PHOTO1', payload: true })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		handlePhoto2: () => {
-			dispatch({ type: 'ADD_PHOTO2', payload: true })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		handlePhoto3: () => {
-			dispatch({ type: 'ADD_PHOTO3', payload: true })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		handlePhoto4: () => {
-			dispatch({ type: 'ADD_PHOTO4', payload: true })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		onValidateRegCity: e => {
-			dispatch({ type: 'VALIDATE_PLACE_CITY', payload: e })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		onValidateTitleName: e => {
-			dispatch({ type: 'VALIDATE_PLACE_TITLENAME', payload: e })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		onValidatePhoneNumber: e => {
-			dispatch({ type: 'VALIDATE_PLACE_PHONENUMBER', payload: e })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		onValidatePlaceText: e => {
-			dispatch({ type: 'VALIDATE_PLACE_TEXT', payload: e })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		onValidatePlacePrice: e => {
-			dispatch({ type: 'VALIDATE_PLCAE_PRICE', payload: e })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		onValidatePlaceImage: () => {
-			dispatch({ type: 'VALIDATE_PLCAE_IMAGE', payload: true })
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		onResetPlace: () => {
-			dispatch({ type: 'RESET_PLACE' })
-			dispatch({ type: 'ADD_PHOTO0', payload: false })
-			dispatch({ type: 'ADD_PHOTO1', payload: false })
-			dispatch({ type: 'ADD_PHOTO2', payload: false })
-			dispatch({ type: 'ADD_PHOTO3', payload: false })
-			dispatch({ type: 'ADD_PHOTO4', payload: false })
-		},
-		onReletMessage: () => {
-			dispatch({ type: 'PLACE_SUCCES_FALSE', payload: false })
-		},
-		handlePostMethodAddImagesCard: (url, thisFormData, anAdUrl, anAdParapms) => {
-			dispatch(postImagesCard(url, thisFormData, anAdUrl, anAdParapms))
-		}
-	})
+export default connect(state => ({ state }),
+	dispatch => bindActionCreators({
+		...actionsSnackbarReducer,
+		...actionsPhotosReducer,
+		...actionsValidarePlaceAnAd,
+		...actionsAllParamsUrl
+	}, dispatch)
 )(PlaceAnAd)
