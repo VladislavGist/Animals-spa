@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import TextField from 'material-ui/TextField'
 
-import { store } from './store.jsx'
+import { store } from '../store'
 import CardItem from './categories/CardItem.jsx'
 import { loadCards } from '../actions/loadCards.jsx'
 import { updateUserDatas } from '../actions/updateUserDatas.jsx'

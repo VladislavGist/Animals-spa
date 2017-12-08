@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import LinearProgress from 'material-ui/LinearProgress'
 
-import { store } from './store.jsx'
+import { store } from '../store'
 
 class LinearProgressExampleDeterminate extends Component {
 

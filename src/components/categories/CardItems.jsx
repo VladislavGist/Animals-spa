@@ -1,12 +1,14 @@
 import $ from 'jquery'
+import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import classNames from 'classnames'
+import { bindActionCreators } from 'redux'
 
-import { store } from '../store.jsx'
 import CardItem from './CardItem.jsx'
-import { getCards } from '../../actions/getCards.jsx'
-import { allCards } from '../../actions/allCards.jsx'
+import { store } from '../../store.js'
+import { actions as toggleAddMoreBtn } from '../../ducks/toggleAddMoreBtn'
+import { actions as actionsServerReducer } from '../../ducks/serverReducer'
+import { actions as actionsAllParamsUrl } from '../../ducks/allParamsUrl'
 
 import './CardItems.sass'
 
@@ -23,7 +25,7 @@ class CardItems extends Component {
 	componentDidMount() {
 
 		//смотрим расстояние от верха. нужно для корректной работы "еще объявления"
-		let _this = this;
+		let _this = this
 		$(document).scroll(function() {
 			_this.topPosition = $(document).scrollTop()
 		})
@@ -148,10 +150,10 @@ class CardItems extends Component {
 
 	addMoreCards = () => {
 
-		const { onMoreCards, onAllCards, state } = this.props
+		const { state, getCards, allCards } = this.props
 
-		onMoreCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
-		onAllCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
+		getCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
+		allCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
 		this.countMore += 10
 	}
 
@@ -198,23 +200,10 @@ class CardItems extends Component {
 					Здесь будет реклама Яндекс.Директ
 				</aside>
 			</div>
-		);
+		)
 	}
 }
 
 export default connect(state => ({ state }),
-	dispatch => ({
-		onHandleClearState: () => {
-			dispatch({ type: 'CLEAR_STATE', payload: { advertisementList: [] } })
-		},
-		onReplaceAllUrl: e => {
-			dispatch({ type: 'CHANGE_URL', payload: e ? e : {} })
-		},
-		onMoreCards: url => {
-			dispatch(getCards(url))
-		},
-		onAllCards: url => {
-			dispatch(allCards(url))
-		}
-	})
+	dispatch => bindActionCreators({ ...toggleAddMoreBtn, ...actionsServerReducer, ...actionsAllParamsUrl }, dispatch)
 )(CardItems)

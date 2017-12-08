@@ -2,7 +2,7 @@ import $ from 'jquery'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
-import { store } from './store.jsx'
+import { store } from '../store'
 import CardItem from './categories/CardItem.jsx'
 import { loadCards } from '../actions/loadCards.jsx'
 

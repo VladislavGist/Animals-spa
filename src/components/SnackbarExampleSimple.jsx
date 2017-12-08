@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Snackbar from 'material-ui/Snackbar'
 
-import { store } from './store.jsx'
+import { store } from '../store'
 import snackbar from '../actions/snackbar.jsx'
 
 class SnackbarExampleSimple extends React.Component {

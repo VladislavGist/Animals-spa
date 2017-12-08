@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { actions } from '../../ducks/serverReducer'
 
 import AnimalCard from './AnimalCard.jsx'
 
@@ -36,9 +38,5 @@ class WrapAnimalCard extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => ({
-		onHandleClearState: () => {
-			dispatch({ type: 'CLEAR_STATE', payload: { advertisementList: [] } })
-		},
-	})
+	dispatch => bindActionCreators(actions, dispatch)
 )(WrapAnimalCard)

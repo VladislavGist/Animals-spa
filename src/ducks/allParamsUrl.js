@@ -2,7 +2,7 @@ export const types = {
 	CHANGE_URL: 'ALL_PARAMS/CHANGE_URL'
 }
 
-export const action = {
+export const actions = {
 	onReplaceAllUrl: e => ({ type: types.CHANGE_URL, payload: e ? e : {} })
 }
 

@@ -41,6 +41,8 @@ export const actions = {
 											.then(data => {
 												allCount = data[0]['COUNT(card_id)']
 
+												console.log('data', data)
+
 												if (allCount > zaprosCount) {
 													dispatch({ type: toggleTypes.COUNT_CARDS_TRUE, payload: true })
 												} else {
@@ -58,10 +60,14 @@ export const actions = {
 				console.log('Ошибка. catch')
 				dispatch({ type: preloaderTypes.PRELOADER_UPDATE_LOADING, payload: 10 })
 			})
-	}
+	},
+
+	onHandleClearState: () => ({ type: 'CLEAR_STATE' })
 }
 
-export default (state = { advertisementList: [] }, action) => {
+const initialState = { advertisementList: [] }
+
+export default (state = initialState, action) => {
 
 	switch (action.type) {
 
@@ -71,11 +77,7 @@ export default (state = { advertisementList: [] }, action) => {
 		]
 	}
 
-	case types.CLEAR_STATE_DATA_SERVER: return {
-		advertisementList: [
-			...action.payload
-		]
-	}
+	case types.CLEAR_STATE_DATA_SERVER: return initialState
 
 	default: return state
 	}

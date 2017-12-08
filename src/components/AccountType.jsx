@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { push } from 'react-router-redux'
 
-import { store } from './store.jsx'
+import { store } from '../store'
 
 import './PersonalArea.sass'
 
