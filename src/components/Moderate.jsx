@@ -1,10 +1,11 @@
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 
 import { store } from '../store'
 import CardItem from './categories/CardItem.jsx'
-import { loadCards } from '../actions/loadCards.jsx'
+import { actions as actionsServerReducer } from '../ducks/serverReducer'
 
 class Moderate extends Component {
 
@@ -127,7 +128,7 @@ class Moderate extends Component {
 
 	componentWillUnmount() {
 		this.subs()
-		this.props.clearCards()
+		this.props.onHandleClearState()
 	}
 
 	render() {
@@ -162,12 +163,5 @@ class Moderate extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => ({
-		getCards: url => {
-			dispatch(loadCards(url))
-		},
-		clearCards: () => {
-			dispatch({ type: 'CLEAR_STATE', payload: []})
-		}
-	})
+	dispatch => bindActionCreators({ ...actionsServerReducer }, dispatch)
 )(Moderate)

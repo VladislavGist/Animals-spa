@@ -11,7 +11,7 @@ class LinearProgressExampleDeterminate extends Component {
 		this.state = {
 			completed: props.state.preloader.loading
 		}
-		this.subs
+		this.subs = null
 		this.elem = store.getState().serverReducer
 	}
 
@@ -56,6 +56,4 @@ class LinearProgressExampleDeterminate extends Component {
 	}
 }
 
-export default connect(
-	state => ({ state }),
-)(LinearProgressExampleDeterminate)
+export default connect(state => ({ state }))(LinearProgressExampleDeterminate)

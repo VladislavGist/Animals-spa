@@ -4,6 +4,7 @@ export const types = {
 }
 
 export const actions = {
+
 	loadCardsComplAndRej: url => dispatch => {
 		fetch(url)
 			.then(
@@ -16,6 +17,7 @@ export const actions = {
 				})
 			.catch(() => console.log('loadCards fetch catch'))
 	},
+	
 	clearReducerCardsComplAndRej: () => ({ type: types.CLEAR_STATE_GET_DATA_SERVER_COMPL_AND_REJ })
 }
 

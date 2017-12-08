@@ -3,7 +3,7 @@ export const types = {
 }
 
 export const actions = {
-	snackbar: data => dispatch => {
+	handleSnackbar: data => dispatch => {
 		dispatch({ type: types.SNACKBAR, payload: data })
 	}
 }

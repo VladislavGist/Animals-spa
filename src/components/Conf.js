@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 
 import './Conf.sass'
 
-class Conf extends Component {
+export default class Conf extends Component {
 
 	render() {
-
 		return (
 			<div className='Conf'>
 				<h1>Политика конфиденциальности</h1>
@@ -30,5 +29,3 @@ class Conf extends Component {
 		)
 	}
 }
-
-export default Conf

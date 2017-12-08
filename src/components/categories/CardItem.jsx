@@ -1,46 +1,45 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 
 import SlickSlider from '../SlickSlider.jsx'
 
 import './CardItem.sass'
 
-import { completedCard } from '../../actions/completedCard.jsx'
-import { updateCardView } from '../../actions/updateCardView.jsx'
-import { replaceStatusCard } from '../../actions/replaceStatusCard.jsx'
+import { actions as actionsAllParamsUrl } from '../../ducks/allParamsUrl'
 
 class CardItem extends Component {
 
 	// остановка объявления
 	handlerDelete = e => {
 
-		const { id, handleCompletedCard } = this.props
+		const { id, completedCard } = this.props
 
 		//отправили запрос на сервер об остановке объявления с нужным id
-		handleCompletedCard(`${process.env.URL}/completeCard?cardId=${id}`)
+		completedCard(`${process.env.URL}/completeCard?cardId=${id}`)
 		e.target.text = 'Остановлено'
 	}
 
 	//повышение счетчика просмотров
 	clickFunc = () => {
 		if (location.hash !== '#/personalArea') {
-			this.props.getUpdateCardView( this.props.cardId )
+			this.props.updateCardView( this.props.cardId )
 		}
 	}
 
 	handleAccepted = e => {
 
-		const { onHandleAccepted, cardId } = this.props
+		const { replaceStatusCard, cardId } = this.props
 
-		onHandleAccepted(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=accepted`)
+		replaceStatusCard(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=accepted`)
 		e.target.textContent = 'Выполнено'
 	}
 
 	handleRejected = e => {
 
-		const { onHandleRejected, cardId } = this.props
+		const { replaceStatusCard, cardId } = this.props
 
-		onHandleRejected(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=rejected`)
+		replaceStatusCard(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=rejected`)
 		e.target.textContent = 'Выполнено'
 	}
 
@@ -122,7 +121,9 @@ class CardItem extends Component {
 										</div>
 									)
 								}
-								<button className='btnReverse'><i className='fa fa-reply' aria-hidden='true' /></button>
+								<button className='btnReverse'>
+									<i className='fa fa-reply' aria-hidden='true' />
+								</button>
 							</div>
 						</div>
 					</div>
@@ -163,18 +164,5 @@ class CardItem extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => ({
-		getUpdateCardView: cardId => {
-			dispatch(updateCardView(cardId))
-		},
-		handleCompletedCard: (url, param) => {
-			dispatch(completedCard(url, param))
-		},
-		onHandleAccepted: (url, status, cardId) => {
-			dispatch(replaceStatusCard(url, status, cardId))
-		},
-		onHandleRejected: (url, status, cardId) => {
-			dispatch(replaceStatusCard(url, status, cardId))
-		}
-	})
+	dispatch => bindActionCreators({ ...actionsAllParamsUrl }, dispatch)
 )(CardItem)

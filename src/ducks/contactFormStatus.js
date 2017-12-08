@@ -4,6 +4,21 @@ export const types = {
 }
 
 export const actions = {
+
+	connectMess: url => dispatch => {
+
+		fetch(url)
+			.then(
+				response => {
+					response.json()
+						.then(data => dispatch({ type: types.TOOLTIP, payload: data }))
+						.catch(err => dispatch({ type: types.TOOLTIP, payload: err }))
+				},
+				err => console.log('Не отправлено', err)
+			)
+			.catch(() => dispatch({ type: 'TOOLTIP', payload: { message: 'Ошибка отправки сообщения' } }))
+	},
+
 	onHandleConnectClear: () => ({ type: types.TOOLTIP_CLEAR })
 }
 

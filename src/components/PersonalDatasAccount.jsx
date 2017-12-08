@@ -152,7 +152,7 @@ class PersonalDatasAccount extends Component {
 						$(elem).addClass('fa-eur')
 						break
 					case 'Даром':
-						$(elem).addClass('fa-globe');
+						$(elem).addClass('fa-globe')
 						break
 					case 'Пропало животное':
 						$(elem).addClass('fa-exclamation-triangle')

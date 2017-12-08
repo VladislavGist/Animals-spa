@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Drawer from 'material-ui/Drawer'
@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 
 import LoginModal from './SendDialog.jsx'
 
-class DrawerUndockedExample extends React.Component {
+class DrawerUndockedExample extends Component {
 
 	state = { open: false }
 
@@ -109,6 +109,4 @@ class DrawerUndockedExample extends React.Component {
 	}
 }
 
-export default connect(
-	state => ({ state })
-)(DrawerUndockedExample)
+export default connect(state => ({ state }))(DrawerUndockedExample)

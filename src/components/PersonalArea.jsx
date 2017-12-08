@@ -35,4 +35,4 @@ class PersonalArea extends Component {
 	}
 }
 
-export default connect( state => ({ state }) )(PersonalArea)
+export default connect(state => ({ state }))(PersonalArea)

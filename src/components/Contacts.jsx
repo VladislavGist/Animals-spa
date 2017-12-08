@@ -2,21 +2,25 @@ import $ from 'jquery'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-
+import { bindActionCreators } from 'redux'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
-import snackbar from '../actions/snackbar.jsx'
-import connectMess from '../actions/connectMess.jsx'
+
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
+import { actions as actionsContactFormStatus } from '../ducks/contactFormStatus'
 
 import './Contacts.sass'
 
 class Contacts extends Component {
 
 	handleConnectMess = () => {
+
+		const { connectMess, handleSnackbar } = this.props
+
 		if ($('.formContacts .checkBoxLink')[0].children[0].checked === true) {
-			this.props.onHandleConnectMess(`${process.env.URL}/sendus?name=${$('#contName')[0].value}&email=${$('#contEmail')[0].value}&title=${$('#contTitle')[0].value}&mess=${$('#contMess')[0].value}`)
+			connectMess(`${process.env.URL}/sendus?name=${$('#contName')[0].value}&email=${$('#contEmail')[0].value}&title=${$('#contTitle')[0].value}&mess=${$('#contMess')[0].value}`)
 		} else {
-			this.props.onHandleSnackbar('Дайте согласие на обработку Ваших данных')
+			handleSnackbar('Дайте согласие на обработку Ваших данных')
 		}
 	}
 
@@ -70,7 +74,7 @@ class Contacts extends Component {
 						multiLine={ true }
 						rows={ 2 }
 					/>
-					<a href='javascript:void(0)' className='button2' onClick={ ::this.handleConnectMess }>Отправить</a>
+					<a href='javascript:void(0)' className='button2' onClick={ this.handleConnectMess }>Отправить</a>
 					<Checkbox
 						label='Даю согласие на обработку персональных данных'
 						style={ this.style.checkbox }
@@ -96,15 +100,5 @@ class Contacts extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => ({
-		onHandleConnectMess: url => {
-			dispatch(connectMess(url))
-		},
-		onHandleConnectClear: () => {
-			dispatch({ type: 'TOOLTIP_CLEAR' })
-		},
-		onHandleSnackbar: data => {
-			dispatch(snackbar(data))
-		}
-	})
+	dispatch => bindActionCreators({ ...actionsContactFormStatus, ...actionsSnackbarReducer }, dispatch)
 )(Contacts)

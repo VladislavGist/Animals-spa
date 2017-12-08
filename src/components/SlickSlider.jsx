@@ -4,10 +4,9 @@ import React, { Component } from 'react'
 import './SlickSlider.sass'
 import '../styles/styles.sass'
 
-class SlickSlider extends Component {
+export default class SlickSlider extends Component {
 
 	render() {
-
 		const settings = {
 			arrows: true,
 			dots: false,
@@ -36,5 +35,3 @@ class SlickSlider extends Component {
 		)
 	}
 }
-
-export default SlickSlider;

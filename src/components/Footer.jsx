@@ -6,7 +6,6 @@ import './Footer.sass'
 export default class Footer extends Component {
 
 	render() {
-
 		return (
 			<footer>
 				<Link to='/' className='footerLogo'>
