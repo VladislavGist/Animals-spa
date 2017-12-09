@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 
+import { actions as actionsLoginUser } from '../ducks/loginUser'
 import { actions as actionsAccountType } from '../ducks/accountType'
 
 import './PersonalArea.sass'
@@ -101,7 +102,7 @@ class AccountType extends Component {
 		<i className="fa fa-mobile" aria-hidden="true"></i>
 		<p>Постоянный <br /> продавец</p>
 	</a>
-	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "SHELTER" ? "active" : ""}`} onClick={this.handleShelter}>
+	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "SHELTER" ? "active" : ""}`} onClick={this.onHandleShelter}>
 		<i className="fa fa-home" aria-hidden="true"></i>
 		<p>Приют</p>
 	</a>
@@ -109,5 +110,5 @@ class AccountType extends Component {
 */
 
 export default connect(state => ({ state }),
-	dispatch => bindActionCreators({ ...actionsAccountType }, dispatch)
+	dispatch => bindActionCreators({ ...actionsAccountType, ...actionsLoginUser }, dispatch)
 )(AccountType)

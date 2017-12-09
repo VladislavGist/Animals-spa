@@ -6,12 +6,13 @@ export const types = {
 export const actions = {
 
 	regAction: (url, param) => dispatch => {
+		console.log({param})
 		fetch(url, {
 			method: 'post',
 			headers: {
-				'Content-type': 'application/x-www-form-urlencoded charset=UTF-8'
+				'Content-type': 'application/x-www-form-urlencoded'
 			},
-			body: `name=${ param.inpName }&surname=${ param.inpSurname }&phone=${ param.inpNumberReg }&password=${ param.inpPasswordReg }&city=${ param.inpCityReg }&email=${ param.inpEmailReg }`
+			body: `name=${param.inpName}&surname=${param.inpSurname}&phone=${param.inpNumberReg}&password=${param.inpPasswordReg}&city=${param.inpCityReg}&email=${param.inpEmailReg}`
 		})
 			.then(response => {
 				response.json()

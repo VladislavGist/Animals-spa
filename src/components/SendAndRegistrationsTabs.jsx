@@ -126,7 +126,7 @@ class SendAndRegistrationsTabs extends Component {
 			email = sendData.registration.email
 
 		// если все поля true
-		if (name === true && surname === true && phoneNumber === true && password === true && city === true && email === true) {
+		if (name && surname && phoneNumber && password && city && email) {
 
 			// параметры
 			let params = {

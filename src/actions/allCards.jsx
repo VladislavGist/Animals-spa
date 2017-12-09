@@ -13,7 +13,7 @@ export const allCards = url => {
 							let zaprosCount = 0;
 							zaprosCount = urlutils.parse(url).pathname.split("/")[9];
 							
-							if(data[0]["COUNT(card_id)"] > zaprosCount) {
+							if (data[0]["COUNT(card_id)"] > zaprosCount) {
 								dispatch({type: "COUNT_CARDS_TRUE", payload: true});
 							} else {
 								dispatch({type: "COUNT_CARDS_FALSE", payload: false});

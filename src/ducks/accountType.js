@@ -5,10 +5,9 @@ export const types = {
 }
 
 export const actions = {
-	handleShelter: () => ({ type: 'SHELTER' }),
-	handlePermanentSeller: () => ({ type: 'PERMANENT_SELLER' }),
-	handlePrivateSeller: () => ({ type: 'PRIVATE_SELLER' }),
-	loginFalse: () => ({ type: 'LOGIN_FALSE', payload: false })
+	handleShelter: () => ({ type: types.SHELTER }),
+	handlePermanentSeller: () => ({ type: types.PERMANENT_SELLER }),
+	handlePrivateSeller: () => ({ type: types.PRIVATE_SELLER })
 }
 
 const initialState = {

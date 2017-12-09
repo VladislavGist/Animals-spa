@@ -17,6 +17,12 @@ class PersonalArea extends Component {
 		})
 	}
 
+	componentWillReceiveProps(nextState) {
+		if (!nextState.state.loginUser.results) {
+			location.hash = '/'
+		}
+	}
+
 	componentWillUnmount() {
 		$('.personalArea').parents('.spaContent').css({
 			'background': 'white',

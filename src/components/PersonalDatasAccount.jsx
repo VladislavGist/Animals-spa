@@ -48,10 +48,10 @@ class PersonalDatasAccount extends Component {
 		loadCardsComplAndRej(`${ process.env.URL }/userCardsComplAndRejected?userid=${ state.loginUser.results[0].user_id }`)
 		getCards(`${ process.env.URL }/userCardsAccepted?userid=${ state.loginUser.results[0].user_id }`)
 
-		//запрашивать от сервера последние данные по аккаунту
+		// запрашивать от сервера последние данные по аккаунту
 		fetch(`${ process.env.URL }/updateDatasAccount?userid=${ state.loginUser.results[0].user_id }`)
 			.then(response => {
-				if(response.status !== 200) {
+				if (response.status !== 200) {
 					console.log('Ошибка при обновлении данных пользователя')
 				} else {
 					response.json()

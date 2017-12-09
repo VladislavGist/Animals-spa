@@ -39,8 +39,7 @@ export const actions = {
 									} else {
 										response.json()
 											.then(data => {
-												allCount = data[0]['COUNT(card_id)']
-												if (allCount > zaprosCount) {
+												if ((data.length && data[0]['COUNT(card_id)']) > zaprosCount) {
 													dispatch({ type: toggleTypes.COUNT_CARDS_TRUE, payload: true })
 												} else {
 													dispatch({ type: toggleTypes.COUNT_CARDS_FALSE, payload: false })
@@ -57,6 +56,29 @@ export const actions = {
 				console.log('Ошибка. catch')
 				dispatch({ type: preloaderTypes.PRELOADER_UPDATE_LOADING, payload: 10 })
 			})
+	},
+
+	allCards: url => dispatch => {
+
+		fetch(url)
+			.then(response => {
+				if (response.status !== 200) {
+					console.log('all cards error')
+				} else {
+					response.json()
+						.then(data => {
+							let zaprosCount = 0
+							zaprosCount = urlutils.parse(url).pathname.split('/')[9]
+
+							if ((data.length && data[0]['COUNT(card_id)']) > zaprosCount) {
+								dispatch({ type: toggleTypes.COUNT_CARDS_TRUE, payload: true })
+							} else {
+								dispatch({ type: toggleTypes.COUNT_CARDS_FALSE, payload: false })
+							}
+						})
+				}
+			})
+			.catch(() => console.log('add cards catch'))
 	},
 
 	onHandleClearState: () => ({ type: types.CLEAR_STATE_DATA_SERVER })

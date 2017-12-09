@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 
 import CardItem from './CardItem.jsx'
 import { store } from '../../store.js'
-import { actions as toggleAddMoreBtn } from '../../ducks/toggleAddMoreBtn'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 import { actions as actionsAllParamsUrl } from '../../ducks/allParamsUrl'
 
@@ -205,5 +204,5 @@ class CardItems extends Component {
 }
 
 export default connect(state => ({ state }),
-	dispatch => bindActionCreators({ ...toggleAddMoreBtn, ...actionsServerReducer, ...actionsAllParamsUrl }, dispatch)
+	dispatch => bindActionCreators({ ...actionsServerReducer, ...actionsAllParamsUrl }, dispatch)
 )(CardItems)
