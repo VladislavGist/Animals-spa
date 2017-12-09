@@ -1,11 +1,12 @@
 import { connect } from 'react-redux'
 import Dialog from 'material-ui/Dialog'
 import React, { Component } from 'react'
-import FlatButton from 'material-ui/FlatButton'
 import { bindActionCreators } from 'redux'
+import FlatButton from 'material-ui/FlatButton'
 
 import { actions as actionsFilterCity } from '../ducks/filterCity'
 import { actions as actionsServerReducer } from '../ducks/serverReducer'
+
 import SendAndRegistrationsTabs from './SendAndRegistrationsTabs.jsx'
 
 import './SendDialog.sass'
@@ -149,7 +150,7 @@ class LoginModal extends Component {
 		const dialogModal02 = () => {
 
 			let handleCityTopHeader = e => {
-				this.props.dispatchCityTopHeader(e.target.innerText)
+				dispatchCityTopHeader(e.target.innerText)
 				this.handleClose()
 		
 				// фльтр объявлений по клику на город. на главной

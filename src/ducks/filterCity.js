@@ -3,7 +3,7 @@ export const types = {
 }
 
 export const actions = {
-	dispatchCityTopHeader: e => ({ type: 'REPLACE_CITY', payload: e })
+	dispatchCityTopHeader: e => ({ type: types.REPLACE_CITY, payload: e })
 }
 
 const initialState = {

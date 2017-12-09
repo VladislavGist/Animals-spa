@@ -35,7 +35,7 @@ export const actions = {
 		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
 	},
 
-	onResetPlace: () => dispatch => {
+	handleResetPlace: () => dispatch => {
 		dispatch({ type: typesValidatePlace.RESET_PLACE })
 		dispatch({ type: types.ADD_PHOTO_0, payload: false })
 		dispatch({ type: types.ADD_PHOTO_1, payload: false })
@@ -88,6 +88,8 @@ export default (state = initialState, action) => {
 		newSta = [...state][0]['p4'] = action.payload
 		res = Object.assign(sta, newSta)
 		return [res]
+
+	case typesValidatePlace.RESET_PLACE: return initialState
 
 	default: return state
 	}

@@ -104,7 +104,7 @@ class PlaceAnAd extends Component {
 		clearInterval(this.timer2)
 		clearInterval(this.timer3)
 		clearInterval(this.timer4)
-		this.props.onResetPlace()
+		this.props.handleResetPlace()
 		this.props.onResetMessage()
 	}
 
@@ -169,7 +169,7 @@ class PlaceAnAd extends Component {
 			this.props.postImagesCard(process.env.URL + '/add-advertisement/img/animalType/' + this.state.animal.value + '/advertisementType/' + this.state.category.value, this.thisFormData, process.env.URL + '/add-advertisement', paramsUrl)
 			
 			// очистка данных формы
-			this.props.onResetPlace()
+			this.props.handleResetPlace()
 			$('input[name="title"]')[0].value = ''
 			$('input[name="phoneNumber"]')[0].value = ''
 			$('.briefDescription')[0].childNodes[2].childNodes[1].nextSibling.value = ''
