@@ -62,7 +62,7 @@ export const actions = {
 			})
 	},
 
-	onHandleClearState: () => ({ type: 'CLEAR_STATE' })
+	onHandleClearState: () => ({ type: types.CLEAR_STATE_DATA_SERVER })
 }
 
 const initialState = { advertisementList: [] }

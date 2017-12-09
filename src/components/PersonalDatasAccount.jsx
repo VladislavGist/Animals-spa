@@ -1,14 +1,17 @@
 import $ from 'jquery'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import TextField from 'material-ui/TextField'
 
 import { store } from '../store'
 import CardItem from './categories/CardItem.jsx'
-import { loadCards } from '../actions/loadCards.jsx'
-import { updateUserDatas } from '../actions/updateUserDatas.jsx'
-import { loadCardsComplAndRej } from '../actions/loadDataComplAndRej.jsx'
+
+import { actions as actionsLoginUser } from '../ducks/loginUser'
+import { actions as actionsServerReducer } from '../ducks/serverReducer'
+import { actions as actionsUserPersonalDatas } from '../ducks/userPersonalDatas'
+import { actions as actionsReducerCardsComplAndRej } from '../ducks/reducerCardsComplAndRej'
 
 import 'whatwg-fetch'
 import './PersonalArea.sass'
@@ -36,14 +39,14 @@ class PersonalDatasAccount extends Component {
 	componentWillMount() {
 
 		const {
-			handleLoadUserCardsComplAndRej,
-			handleLoadUserCards,
+			loadCardsComplAndRej,
+			getCards,
 			state,
 			updateDatasTrue
 		} = this.props
 
-		handleLoadUserCardsComplAndRej(`${ process.env.URL }/userCardsComplAndRejected?userid=${ state.loginUser.results[0].user_id }`)
-		handleLoadUserCards(`${ process.env.URL }/userCardsAccepted?userid=${ state.loginUser.results[0].user_id }`)
+		loadCardsComplAndRej(`${ process.env.URL }/userCardsComplAndRejected?userid=${ state.loginUser.results[0].user_id }`)
+		getCards(`${ process.env.URL }/userCardsAccepted?userid=${ state.loginUser.results[0].user_id }`)
 
 		//запрашивать от сервера последние данные по аккаунту
 		fetch(`${ process.env.URL }/updateDatasAccount?userid=${ state.loginUser.results[0].user_id }`)
@@ -179,7 +182,7 @@ class PersonalDatasAccount extends Component {
 
 	componentWillUnmount() {
 		this.subs()
-		this.props.clearServerReduces()
+		this.props.onHandleClearState()
 		this.props.handleDataSentFalse()
 		this.props.clearReducerCardsComplAndRej()
 	}
@@ -187,54 +190,54 @@ class PersonalDatasAccount extends Component {
 	// отправка данных на сервер
 	onHandlePOSTName = () => {
 
-		const { state, handleUpdateUserDatas } = this.props
+		const { state, updateUserDatas } = this.props
 
-		//если данные прошли валидацию, то разрешить передачу
+		// если данные прошли валидацию, то разрешить передачу
 		if (state.userPersonalDatas.validateRoles.name) {
 
 			let inputData = document.querySelector('input[name="nameUpdate"]').value
 
-			//отоправка изменений
-			handleUpdateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=name&value='${ inputData }'`)
+			// отоправка изменений
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=name&value='${ inputData }'`)
 		}
 	}
 
 	onHandlePOSTPhoneNumber = () => {
 
-		const { state, handleUpdateUserDatas } = this.props
+		const { state, updateUserDatas } = this.props
 
 		if (state.userPersonalDatas.validateRoles.phoneNumber) {
 			
 			let inputData = document.querySelector('input[name="phoneUpdate"]').value
 
 			// отоправка изменений
-			handleUpdateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=phoneNumber&value='${ inputData }'`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=phoneNumber&value='${ inputData }'`)
 		}
 	}
 
 	onHandlePOSTPhoneCity = () => {
 
-		const { state, handleUpdateUserDatas } = this.props
+		const { state, updateUserDatas } = this.props
 
 		if (state.userPersonalDatas.validateRoles.city) {
 
 			let inputData = document.querySelector('input[name="cityUpdate"]').value
 
 			// отоправка изменений
-			handleUpdateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=city&value='${ inputData }'`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=city&value='${ inputData }'`)
 		}
 	}
 
 	onHandlePOSTPhonePassword = () => {
 
-		const { state, handleUpdateUserDatas } = this.props
+		const { state, updateUserDatas } = this.props
 
 		if (state.userPersonalDatas.validateRoles.password === true) {
 
 			let inputData = document.querySelector('input[name="passwordUpdate"]').value
 
-			//отоправка изменений
-			handleUpdateUserDatas(`${process.env.URL}/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=password&value='${ inputData }'`)
+			// отоправка изменений
+			updateUserDatas(`${process.env.URL}/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=password&value='${ inputData }'`)
 		}
 	}
 
@@ -535,39 +538,10 @@ class PersonalDatasAccount extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => ({
-		validateNameDispatch: e => {
-			dispatch({ type: 'VALIDATE_NAME_USERDATA', payload: e })
-		},
-		validatePhoneDispatch: e => {
-			dispatch({ type: 'VALIDATE_PHONENUMBER_USERDATA', payload: e })
-		},
-		validateCityDispatch: e => {
-			dispatch({ type: 'VALIDATE_CITY_USERDATA', payload: e })
-		},
-		validatePasswordDispatch: e => {
-			dispatch({ type: 'VALIDATE_PASSWORD_USERDATA', payload: e })
-		},
-		handleDataSentFalse: () => {
-			dispatch({ type: 'DATASENT_FALSE', payload: false })
-		},
-		handleLoadUserCards: (url, query) => {
-			dispatch(loadCards(url, query))
-		},
-		handleLoadUserCardsComplAndRej: (url, query) => {
-			dispatch(loadCardsComplAndRej(url, query))
-		},
-		clearServerReduces: () => {
-			dispatch({ type: 'CLEAR_STATE', payload: [] })
-		},
-		clearReducerCardsComplAndRej: () => {
-			dispatch({ type: 'CLEAR_STATE_GET_DATA_SERVER_COMPL_AND_REJ' })
-		},
-		handleUpdateUserDatas: url => {
-			dispatch(updateUserDatas(url))
-		},
-		updateDatasTrue: data => {
-			dispatch({ type: 'LOGIN_TRUE', payload: data })
-		}
-	})
+	dispatch => bindActionCreators({
+		...actionsUserPersonalDatas,
+		...actionsReducerCardsComplAndRej,
+		...actionsServerReducer,
+		...actionsLoginUser
+	}, dispatch)
 )(PersonalDatasAccount)
