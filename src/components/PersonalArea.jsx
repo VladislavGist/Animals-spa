@@ -2,8 +2,8 @@ import $ from 'jquery'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
-import PersonalDatasAccount from './PersonalDatasAccount.jsx'
 import AccountType from './AccountType.jsx'
+import PersonalDatasAccount from './PersonalDatasAccount.jsx'
 
 import './PersonalArea.sass'
 

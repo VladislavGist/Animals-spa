@@ -1,11 +1,13 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import TextField from 'material-ui/TextField'
 
-import snackbar from '../actions/snackbar.jsx'
-import { loginAction } from '../actions/login.jsx'
-import { regAction } from '../actions/regAction.jsx'
+import { actions as actionsLoginUser } from '../ducks/sendData'
+import { actions as actionsSendData } from '../ducks/loginUser'
+import { actions as actionsRegReducer } from '../ducks/regReducer'
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 import './SendAndRegistrationsTabs.sass'
 
@@ -58,18 +60,18 @@ class SendAndRegistrationsTabs extends Component {
 	onHandleLogin = () => {
 
 		const { sendData } = this.props.state
-		const { loginTrue, onHandleSnackbar } = this.props
+		const { loginAction, handleSnackbar } = this.props
 
-		// здесь будет запрос к серверу. если вернет true, то вызвать функцию loginTrue()
+		// здесь будет запрос к серверу. если вернет true, то вызвать функцию loginAction()
 		if (sendData.login.password && sendData.login.phoneNumber) {
 
 			let password = document.querySelector('input[name=password]').value,
 				phoneNumber = document.querySelector('input[name=phoneNumber]').value
 
-			loginTrue(`${ process.env.URL }/protected?password=${ password }&phone=${ phoneNumber }`)
+			loginAction(`${ process.env.URL }/protected?password=${ password }&phone=${ phoneNumber }`)
 		} else {
 			// toolpit с ошибкой
-			onHandleSnackbar('Заполните все поля')
+			handleSnackbar('Заполните все поля')
 		}
 	}
 
@@ -114,9 +116,9 @@ class SendAndRegistrationsTabs extends Component {
 	handleRegBtn = () => {
 
 		const { sendData } = this.props.state
-		const { onHandleReg, onHandleSnackbar } = this.props
+		const { regAction, handleSnackbar } = this.props
 
-		let name = sendData.registration.name,
+		const name = sendData.registration.name,
 			phoneNumber = sendData.registration.phoneNumber,
 			surname = sendData.registration.surname,
 			password = sendData.registration.password,
@@ -137,7 +139,7 @@ class SendAndRegistrationsTabs extends Component {
 			}
 
 			// если все поля true, то зарегистрировать
-			onHandleReg(`${process.env.URL}/registr`, params)
+			regAction(`${process.env.URL}/registr`, params)
 
 			//очистить инпуты
 			document.querySelector('input[name=nameReg]').value = ''
@@ -148,7 +150,7 @@ class SendAndRegistrationsTabs extends Component {
 			document.querySelector('input[name=emailReg]').value = ''
 		} else {
 			// toolpit с ошибкой
-			onHandleSnackbar('Заполните все поля')
+			handleSnackbar('Заполните все поля')
 		}
 	}
 
@@ -186,7 +188,7 @@ class SendAndRegistrationsTabs extends Component {
 		styles.tab[1] = styles.default_tab
 		styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab)
 		
-		let handleActive = e => {
+		const handleActive = e => {
 			this.setState({
 				slideIndex: e.props.value
 			})
@@ -329,44 +331,12 @@ class SendAndRegistrationsTabs extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => ({
-		onHandleSnackbar: data => {
-			dispatch(snackbar(data))
-		},
-		loginTrue: url => {
-			dispatch(loginAction(url))
-		},
-		onHandleReg: (url, param) => {
-			dispatch(regAction(url, param))
-		},
-		onHandleRegStatusClear: () => {
-			dispatch({ type: 'REG_STATUS_CLEAR' })
-		},
-		onValidatePassword: e => {
-			dispatch({ type: 'VALIDATE_PASSWORD', payload: e })
-		},
-		onValidatePhoneNumber: e => {
-			dispatch({ type: 'VALIDATE_PNUMBER', payload: e })
-		},
-		onValidateRegName: e => {
-			dispatch({ type: 'VALIDATE_REG_NAME', payload: e })
-		},
-		onValidateRegSurname: e => {
-			dispatch({ type: 'VALIDATE_REG_SURNAME', payload: e })
-		},
-		onvalidateRegPhone: e => {
-			dispatch({ type: 'VALIDATE_REG_PHONENUMBER', payload: e })
-		},
-		onRegValidatePassword: e => {
-			dispatch({ type: 'VALIDATE_REG_PASSWORD', payload: e })
-		},
-		onValidateRegCity: e => {
-			dispatch({ type: 'VALIDATE_REG_CITY', payload: e })
-		},
-		onValidateRegEmail: e => {
-			dispatch({ type: 'VALIDATE_REG_EMAIL', payload: e })
-		}
-	})
+	dispatch => bindActionCreators({
+		...actionsLoginUser,
+		...actionsSendData,
+		...actionsSnackbarReducer,
+		...actionsRegReducer
+	}, dispatch)
 )(SendAndRegistrationsTabs)
 
 // <div>

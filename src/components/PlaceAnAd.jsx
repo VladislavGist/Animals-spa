@@ -4,20 +4,18 @@ import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
-import { bindActionCreators } from 'redux'
 
 const _ = require('underscore')
 
+import { actions as actionsAllParamsUrl } from '../ducks/allParamsUrl'
 import { actions as actionsPhotosReducer } from '../ducks/photosReducer'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 import { actions as actionsValidarePlaceAnAd } from '../ducks/validarePlaceAnAd'
-import { actions as actionsAllParamsUrl } from '../ducks/allParamsUrl'
-
-import { postImagesCard } from '../actions/postImagesCard.jsx'
 
 import './PlaceAnAd.sass'
 import './Contacts.sass'
@@ -190,9 +188,9 @@ class PlaceAnAd extends Component {
 		}
 	}
 
-	handleChangeAnimalType = (event, index, value) => this.setState({ animal: { value: value } })
-	handleChangeCategory = (event, index, value) => this.setState({ category: { value: value } })
-	handleChangeCity = (event, index, value) => this.setState({ city: { value: value } })
+	handleChangeAnimalType = (event, index, value) => this.setState({ animal: { value } })
+	handleChangeCategory = (event, index, value) => this.setState({ category: { value } })
+	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
 
 	// функция валидации поля
 	// аргументы: принимаемый элемент ввода, регулярное выражение, свойство состояния
@@ -241,33 +239,31 @@ class PlaceAnAd extends Component {
 	// у каких животных какие категории будут доступны
 	// хотел сделать одной функцией. но из за врапинга всех элементов селекты materialui работают не корректно
 	menuItems01 = values => {
-		if (values.indexOf('cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare',
+		if (['cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare',
 			'guineapig', 'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish',
-			'insects', 'horse', 'cow', 'pig', 'goat', 'sheep', 'domesticbird') !== -1) {
+			'insects', 'horse', 'cow', 'pig', 'goat', 'sheep', 'domesticbird'].indexOf(values) !== -1) {
 			return <MenuItem value={ 'buy' } primaryText='Продать' />
 		}
 	}
 
 	menuItems02 = values => {
-		if (values.indexOf('cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
+		if (['cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
 			'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish', 'insects', 'horse', 'cow',
-			'pig', 'goat', 'sheep', 'domesticbird') !== -1) {
+			'pig', 'goat', 'sheep', 'domesticbird'].indexOf(values) !== -1) {
 			return <MenuItem value={ 'gift' } primaryText='Даром' />
 		}
 	}
 
 	menuItems03 = values => {
-		if (values.indexOf('cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
-			'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish', 'insects', 'horse', 'cow',
-			'pig', 'goat', 'sheep', 'domesticbird') !== -1) {
+		if (['cat', 'dog', 'parrot', 'guineapig', 'champ', 'snak', 'iguana', 'turtle',
+			'horse', 'cow', 'goat', 'sheep'].indexOf(values) !== -1) {
 			return <MenuItem value={ 'missing' } primaryText='Пропажа' />
 		}
 	}
 
 	menuItems04 = values => {
-		if (values.indexOf('cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
-			'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish', 'insects', 'horse', 'cow',
-			'pig', 'goat', 'sheep', 'domesticbird') !== -1) {
+		if (['cat', 'dog', 'parrot', 'guineapig', 'champ', 'snak', 'iguana', 'turtle',
+			'horse', 'cow', 'goat', 'sheep'].indexOf(values) !== -1) {
 			return <MenuItem value={ 'find' } primaryText='Находка' />
 		}
 	}

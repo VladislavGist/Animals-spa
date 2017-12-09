@@ -11,14 +11,14 @@ class AccountType extends Component {
 	componentWillMount() {
 
 		const { loginUser } = this.props.state
-		const { onHndlePrivateSeller, onHandlePermanentSeller, onHandleShelter } = this.props
+		const { handlePrivateSeller, handlePermanentSeller, handleShelter } = this.props
 
 		if (loginUser && loginUser.results[0].accountType === 'PRIVATE_SELLER') {
-			onHndlePrivateSeller()
+			handlePrivateSeller()
 		} else if (loginUser && loginUser.results[0].accountType === 'PERMANENT_SELLER') {
-			onHandlePermanentSeller()
+			handlePermanentSeller()
 		} else if (loginUser && loginUser.results[0].accountType === 'SHELTER') {
-			onHandleShelter()
+			handleShelter()
 		}
 	}
 
@@ -97,11 +97,11 @@ class AccountType extends Component {
 	}
 }
 /*
-	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "PERMANENT_SELLER" ? "active" : ""}`} onClick={this.onHandlePermanentSeller}>
+	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "PERMANENT_SELLER" ? "active" : ""}`} onClick={this.handlePermanentSeller}>
 		<i className="fa fa-mobile" aria-hidden="true"></i>
 		<p>Постоянный <br /> продавец</p>
 	</a>
-	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "SHELTER" ? "active" : ""}`} onClick={this.onHandleShelter}>
+	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "SHELTER" ? "active" : ""}`} onClick={this.handleShelter}>
 		<i className="fa fa-home" aria-hidden="true"></i>
 		<p>Приют</p>
 	</a>

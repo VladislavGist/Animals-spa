@@ -40,9 +40,6 @@ export const actions = {
 										response.json()
 											.then(data => {
 												allCount = data[0]['COUNT(card_id)']
-
-												console.log('data', data)
-
 												if (allCount > zaprosCount) {
 													dispatch({ type: toggleTypes.COUNT_CARDS_TRUE, payload: true })
 												} else {
