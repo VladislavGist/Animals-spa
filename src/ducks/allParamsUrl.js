@@ -34,9 +34,9 @@ export const actions = {
 	},
 
 	postImagesCard: (url, thisFormData, anAdUrl, anAdParapms) => () => {
+
 		fetch(url, { body: thisFormData, method: 'post' })
 			.then(() => {
-				console.log('Img переданно успешно')
 				fetch(anAdUrl, {
 					method: 'post',
 					headers: {

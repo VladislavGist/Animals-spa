@@ -181,7 +181,7 @@ class PlaceAnAd extends Component {
 			document.querySelectorAll('.loadingPhoto input')[4].value = ''
 			this.thisFormData.delete('photo')
 		} else {
-			if(resultValidateTypeImg !== false || $('.wrapForm .checkBoxLink')[0].children[0].checked === false) {
+			if (resultValidateTypeImg !== false || $('.wrapForm .checkBoxLink')[0].children[0].checked === false) {
 				// toolpit с ошибкой
 				this.props.handleSnackbar('Заполните все поля и/или дайте согласие на обработку Ваших данных')
 			}
@@ -280,15 +280,15 @@ class PlaceAnAd extends Component {
 					<div className={
 						classNames({
 							loadingPhoto: true,
-							activeLabel: this.props.state.photosReducer[idx][i] === true
+							activeLabel: this.props.state.photosReducer[idx][i]
 						}) }
 					>
 						<i className={
 							classNames({
 								fa: true,
-								'fa-check': this.props.state.photosReducer[idx][i] === true,
-								'modifyColor': this.props.state.photosReducer[idx][i] === true,
-								'fa-plus': this.props.state.photosReducer[idx][i] === false
+								'fa-check': this.props.state.photosReducer[idx][i],
+								'modifyColor': this.props.state.photosReducer[idx][i],
+								'fa-plus': this.props.state.photosReducer[idx][i]
 							}) }
 						/>
 						<input type='file' accept='image/jpeg,image/png' className={ `formImg ${i}` } />

@@ -94,7 +94,10 @@ export default (state = initialState, action) => {
 		messagePlace: action.payload
 	}
 
-	case types.RESET_PLACE: return initialState
+	case types.RESET_PLACE: return {
+		...initialState,
+		messagePlace: true
+	}
 
 	default: return state
 	}
