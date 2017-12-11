@@ -288,7 +288,7 @@ class PlaceAnAd extends Component {
 								fa: true,
 								'fa-check': this.props.state.photosReducer[idx][i],
 								'modifyColor': this.props.state.photosReducer[idx][i],
-								'fa-plus': this.props.state.photosReducer[idx][i]
+								'fa-plus': !this.props.state.photosReducer[idx][i]
 							}) }
 						/>
 						<input type='file' accept='image/jpeg,image/png' className={ `formImg ${i}` } />

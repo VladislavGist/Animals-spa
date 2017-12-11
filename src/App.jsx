@@ -30,17 +30,6 @@ class App extends Component {
 		})
 	}
 
-	// componentWillUpdate() {
-	//
-	// 	const { location } = this.props
-	//
-	// 	if (this.props.state.loginUser === false) {
-	// 		if (location.indexOf(['/personalArea', '/placeAnAd']) === -1) {
-	// 			store.dispatch(push('/'))
-	// 		}
-	// 	}
-	// }
-
 	render() {
 
 		const { location } = this.props
