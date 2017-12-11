@@ -12,12 +12,12 @@ import './styles/styles.sass'
 import './styles/base.sass'
 import './App.sass'
 
-import Menu from './components/Menu.jsx'
-import Footer from './components/Footer.jsx'
+import Menu from './components/menu/MenuComponent.js'
+import Footer from './components/footer/FooterComponent.js'
 // import { store } from './components/store.jsx'
-import TopHeader from './components/TopHeader.jsx'
-import SnackbarExampleSimple from './components/SnackbarExampleSimple.jsx'
-import LinearProgressExampleDeterminate from './components/ProgressBar.jsx'
+import TopHeader from './components/topHeader/TopHeaderComponent.js'
+import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
+import LinearProgressExampleDeterminate from './components/progressBar/ProgressBarComponent.js'
 
 class App extends Component {
 
