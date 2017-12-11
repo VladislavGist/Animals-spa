@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 
 export const updateUserDatas = url => {
-	console.log(url);
+
 	return dispatch => {
 		fetch(url)
 			.then(

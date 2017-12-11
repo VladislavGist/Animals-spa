@@ -21,6 +21,7 @@ export const actions = {
 	handleDataSentFalse: () => ({ type: types.DATASENT_FALSE, payload: false }),
 
 	updateUserDatas: url => dispatch => {
+
 		fetch(url)
 			.then(response => {
 				if (response.status !== 200) {
@@ -49,7 +50,7 @@ export default (state = initialState, action) => {
 
 	switch (action.type) {
 
-	case 'VALIDATE_NAME_USERDATA': return {
+	case types.VALIDATE_NAME_USERDATA: return {
 		...state,
 		validateRoles: {
 			...state.validateRoles,
@@ -57,7 +58,7 @@ export default (state = initialState, action) => {
 		}
 	}
 
-	case 'VALIDATE_PHONENUMBER_USERDATA': return {
+	case types.VALIDATE_PHONENUMBER_USERDATA: return {
 		...state,
 		validateRoles: {
 			...state.validateRoles,
@@ -65,7 +66,7 @@ export default (state = initialState, action) => {
 		}
 	}
 
-	case 'VALIDATE_CITY_USERDATA': return {
+	case types.VALIDATE_CITY_USERDATA: return {
 		...state,
 		validateRoles: {
 			...state.validateRoles,
@@ -73,7 +74,7 @@ export default (state = initialState, action) => {
 		}
 	}
 
-	case 'VALIDATE_PASSWORD_USERDATA': return {
+	case types.VALIDATE_PASSWORD_USERDATA: return {
 		...state,
 		validateRoles: {
 			...state.validateRoles,
@@ -81,17 +82,17 @@ export default (state = initialState, action) => {
 		}
 	}
 
-	case 'DATASENT_TRUE': return {
+	case types.DATASENT_TRUE: return {
 		...state,
 		dataSent: action.payload
 	}
 
-	case 'DATASENT_FALSE': return {
+	case types.DATASENT_FALSE: return {
 		...state,
 		dataSent: action.payload
 	}
 
-	case 'DATASENT_ERROR': return {
+	case types.DATASENT_ERROR: return {
 		...state,
 		dataSent: action.payload
 	}
