@@ -1,0 +1,46 @@
+@import ../../styles/vars
+@import ../../styles/theme
+
+footer
+	display: flex
+	flex-direction: column
+	margin-top: 30px
+	padding: 40px 32px
+	background: white
+	border-radius: 4px
+	a
+		margin-right: 0
+	.footerLogo
+		text-align: center
+	.linksFooter
+		text-align: center
+	.years
+		text-align: center
+
+@media screen and (max-width: 768px)
+	footer
+		margin-top: 15px
+		padding: 15px
+		display: block
+		& > a
+				display: block
+				width: 100%
+				margin-right: 0
+				text-align: center
+				font-size: 15px
+		.linksFooter
+			margin-top: 10px
+			display: flex
+			justify-content: space-between
+			a
+				text-align: left
+				margin-right: 0
+				font-size: 15px
+
+@media screen and (max-width: 480px)
+	footer
+		.linksFooter
+			flex-direction: column
+			a
+				text-align: center
+				margin: 5px 0

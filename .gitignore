@@ -2,4 +2,8 @@ design/
 node_modules/
 node/node_modules/
 node/uploads
+node/public
 .idea/
+bugs
+node/yarn.lock
+yarn.lock

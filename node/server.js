@@ -299,8 +299,6 @@ app.post("/registr", function (req, res) {
 		"email": req.param("email").replace(/\s/g, "")
 	};
 
-	console.log(reqData);
-
 	//проверяем нет ли пользователям с таким же номером телефона
 	pool.query("SELECT COUNT(phoneNumber) FROM users WHERE phoneNumber='" + reqData["phone"] + "';", function (err, results, fields) {
 		if (err) {
