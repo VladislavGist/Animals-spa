@@ -330,7 +330,7 @@ class PlaceAnAd extends Component {
 			)
 		}
 
-		const { pTitleName, validarePlaceAnAd, pTextContent, pPlacePrice } = this.props.state
+		const { pTitleName, validarePlaceAnAd, pTextContent, pPlacePrice, filterCity } = this.props.state
 		
 		return (
 			<div className='placeAnAd'>
@@ -405,76 +405,11 @@ class PlaceAnAd extends Component {
 									onChange={ this.handleChangeCity }
 									selectedMenuItemStyle={ style.floatingLabelFocusStyle }
 								>
-									<MenuItem value={ 'Москва' } primaryText='Москва' />
-									<MenuItem value={ 'Московская обл.' } primaryText='Московская обл.' />
-									<MenuItem value={ 'Санкт-Петербург' } primaryText='Санкт-Петербург' />
-									<MenuItem value={ 'Волгоград' } primaryText='Волгоград' />
-									<MenuItem value={ 'Екатеринбург' } primaryText='Екатеринбург' />
-									<MenuItem value={ 'Казань' } primaryText='Казань' />
-									<MenuItem value={ 'Краснодар' } primaryText='Краснодар' />
-									<MenuItem value={ 'Нижний Новгород' } primaryText='Нижний Новгород' />
-									<MenuItem value={ 'Пермь' } primaryText='Пермь' />
-									<MenuItem value={ 'Ростов-на-Дону' } primaryText='Ростов-на-Дону' />
-									<MenuItem value={ 'Самара' } primaryText='Самара' />
-									<MenuItem value={ 'Уфа' } primaryText='Уфа' />
-									<MenuItem value={"Челябинск"} primaryText="Челябинск" />
-									<MenuItem value={"Адыгея"} primaryText="Адыгея" />
-									<MenuItem value={"Архангельская обл."} primaryText="Архангельская обл." />
-									<MenuItem value={"Астраханская обл."} primaryText="Астраханская обл." />
-									<MenuItem value={"Башкортостан"} primaryText="Башкортостан" />
-									<MenuItem value={"Белгородская обл."} primaryText="Белгородская обл." />
-									<MenuItem value={"Брянская обл."} primaryText="Брянская обл." />
-									<MenuItem value={"Владимирская обл."} primaryText="Владимирская обл." />
-									<MenuItem value={"Волгоградская обл."} primaryText="Волгоградская обл." />
-									<MenuItem value={"Вологодская обл."} primaryText="Вологодская обл." />
-									<MenuItem value={"Воронежская обл."} primaryText="Воронежская обл." />
-									<MenuItem value={"Дагестан"} primaryText="Дагестан" />
-									<MenuItem value={"Ивановская обл."} primaryText="Ивановская обл." />
-									<MenuItem value={"Ингушетия"} primaryText="Ингушетия" />
-									<MenuItem value={"Кабардино-Балкария"} primaryText="Кабардино-Балкария" />
-									<MenuItem value={"Калининградская обл."} primaryText="Калининградская обл." />
-									<MenuItem value={"Калмыкия"} primaryText="Калмыкия" />
-									<MenuItem value={"Калужская обл."} primaryText="Калужская обл." />
-									<MenuItem value={"Карачаево-Черкесия"} primaryText="Карачаево-Черкесия" />
-									<MenuItem value={"Карелия"} primaryText="Карелия" />
-									<MenuItem value={"Кировская обл."} primaryText="Кировская обл." />
-									<MenuItem value={"Коми"} primaryText="Коми" />
-									<MenuItem value={"Костромская обл."} primaryText="Костромская обл." />
-									<MenuItem value={"Краснодарский край"} primaryText="Краснодарский край" />
-									<MenuItem value={"Крым"} primaryText="Крым" />
-									<MenuItem value={"Курганская обл."} primaryText="Курганская обл." />
-									<MenuItem value={"Курская обл."} primaryText="Курская обл." />
-									<MenuItem value={"Ленинградская обл."} primaryText="Ленинградская обл." />
-									<MenuItem value={"Липецкая обл."} primaryText="Липецкая обл." />
-									<MenuItem value={"Марий Эл"} primaryText="Марий Эл" />
-									<MenuItem value={"Мордовия"} primaryText="Мордовия" />
-									<MenuItem value={"Мурманская обл."} primaryText="Мурманская обл." />
-									<MenuItem value={"Ненецкий АО"} primaryText="Ненецкий АО" />
-									<MenuItem value={"Нижегородская обл."} primaryText="Нижегородская обл." />
-									<MenuItem value={"Новгородская обл."} primaryText="Новгородская обл." />
-									<MenuItem value={"Оренбургская обл."} primaryText="Оренбургская обл." />
-									<MenuItem value={"Орловская обл."} primaryText="Орловская обл." />
-									<MenuItem value={"Пензенская обл."} primaryText="Пензенская обл." />
-									<MenuItem value={"Пермский край"} primaryText="Пермский край" />
-									<MenuItem value={"Псковская обл."} primaryText="Псковская обл." />
-									<MenuItem value={"Ростовская обл."} primaryText="Ростовская обл." />
-									<MenuItem value={"Рязанская обл."} primaryText="Рязанская обл." />
-									<MenuItem value={"Самарская обл."} primaryText="Самарская обл." />
-									<MenuItem value={"Саратовская обл."} primaryText="Саратовская обл." />
-									<MenuItem value={"Свердловская обл."} primaryText="Свердловская обл." />
-									<MenuItem value={"Северная Осетия"} primaryText="Северная Осетия" />
-									<MenuItem value={"Смоленская обл."} primaryText="Смоленская обл." />
-									<MenuItem value={"Ставропольский край"} primaryText="Ставропольский край" />
-									<MenuItem value={"Тамбовская обл."} primaryText="Тамбовская обл." />
-									<MenuItem value={"Татарстан"} primaryText="Татарстан" />
-									<MenuItem value={"Тверская обл."} primaryText="Тверская обл." />
-									<MenuItem value={"Тульская обл."} primaryText="Тульская обл." />
-									<MenuItem value={"Удмуртия"} primaryText="Удмуртия" />
-									<MenuItem value={"Ульяновская обл."} primaryText="Ульяновская обл." />
-									<MenuItem value={"Челябинская обл."} primaryText="Челябинская обл." />
-									<MenuItem value={"Чеченская республика"} primaryText="Чеченская республика" />
-									<MenuItem value={"Чувашия"} primaryText="Чувашия" />
-									<MenuItem value={"Ярославская обл."} primaryText="Ярославская обл." />
+									{
+										filterCity.citys.map((elem, idx) => {
+											return <MenuItem value={ elem } primaryText={ elem } key={ idx } />
+										})
+									}
 								</SelectField>
 								
 								<TextField

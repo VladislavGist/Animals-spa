@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
@@ -43,6 +44,32 @@ class CardItem extends Component {
 		e.target.textContent = 'Выполнено'
 	}
 
+	stausesReplace = status => {
+		switch(status) {
+		case 'buy':
+			return 'Продажа'
+			break
+		case 'gift':
+			return 'Даром'
+			break
+		case 'missing':
+			return 'Пропало животное'
+			break
+		case 'find':
+			return 'Найдено животное'
+			break
+		default: return ''
+		}
+	}
+
+	dottsText = text => {
+		if (text.length >= 80) {
+			return text += ' ...'
+		} else {
+			return text
+		}
+	}
+
 	render() {
 
 		const {
@@ -81,8 +108,16 @@ class CardItem extends Component {
 							</div>
 							<div>
 								<div className='info'>
-									<i className='fa' aria-hidden='true' />
-									<span className='categoty'>{ advType }</span>
+									<i className={
+										classNames({
+											'fa': true,
+											'fa-eur': advType === 'buy',
+											'fa-globe': advType === 'gift',
+											'fa-exclamation-triangle': advType === 'missing',
+											'fa-bell-o': advType === 'find'
+										})
+									} aria-hidden='true' />
+									<span className='categoty'>{ this.stausesReplace(advType) }</span>
 								</div>
 								<p className='number'>{ phoneNumber }</p>
 								<p className='city'>{ city.indexOf('обл.') === -1 ? 'г. ' + city : city }</p>
@@ -98,7 +133,7 @@ class CardItem extends Component {
 						<div className='bottom'>
 							<div>
 								<h3 className='title'>{ title }</h3>
-								<p className='subTitle'>{ briefDescription }</p>
+								<p className='subTitle'>{ this.dottsText(briefDescription) }</p>
 							</div>
 
 						</div>

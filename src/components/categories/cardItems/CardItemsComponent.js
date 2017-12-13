@@ -33,20 +33,15 @@ class CardItems extends Component {
 		this.subs = store.subscribe(() => {
 
 			//если новая часть Store не равна предыдущей, то выполнить код
-			if(store.getState().serverReducer !== this.elem) {
+			if (store.getState().serverReducer !== this.elem) {
+
 				//фильтрация до 80 символа
 				let el = $('.bottom .subTitle')
+
 				for (let i = 0; i < el.length; i++) {
 					let j = el[i].textContent.substring(0, 80)
 					el[i].textContent = j
 				}
-
-				//условие добавления многоточия
-				el.each((idx, elem) => {
-					if(elem.textContent.length >= 80) {
-						elem.textContent += ' ...'
-					}
-				})
 
 				//запрет переворота объявление по клику на кнопку
 				$('.button3').each((idx, elem) => {
@@ -79,52 +74,6 @@ class CardItems extends Component {
 						$(this).toggleClass('verticalRotate')
 						$(this).unbind('click')
 					})
-				})
-
-				//редактирование статусов category
-				$('.categoty').each((idx, elem) => {
-					switch($(elem).text()) {
-					case 'buy':
-						$(elem).text('Продажа')
-						break
-					case 'sale':
-						$(elem).text('Продать')
-						break
-					case 'gift':
-						$(elem).text('Даром')
-						break
-					case 'missing':
-						$(elem).text('Пропало животное')
-						break
-					case 'find':
-						$(elem).text('Найдено животное')
-						break
-					default:
-						$(elem).text('')
-					}
-				})
-
-				//иконки статусов
-				$('.info .fa').each((idx, elem) => {
-					switch($(elem).next().text()) {
-					case 'Продажа':
-						$(elem).addClass('fa-eur')
-						break
-					case 'Продать':
-						$(elem).addClass('fa-eur')
-						break
-					case 'Даром':
-						$(elem).addClass('fa-globe')
-						break
-					case 'Пропало животное':
-						$(elem).addClass('fa-exclamation-triangle')
-						break
-					case 'Найдено животное':
-						$(elem).addClass('fa-bell-o')
-						break
-					default:
-						$(elem).addClass('')
-					}
 				})
 
 				// сохранил текущую часть store чтобы карточки корректно работали
