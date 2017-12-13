@@ -21,60 +21,60 @@ class Moderate extends Component {
 
 	componentDidMount() {
 
-		//подписался на определенную часть store
+		// подписался на определенную часть store
 		this.subs = store.subscribe(() => {
 
-			//если новая часть Store не равна предыдущей, то выполнить код
-			if(store.getState().serverReducer !== this.elem) {
+			// если новая часть Store не равна предыдущей, то выполнить код
+			if (store.getState().serverReducer !== this.elem) {
 
-				//фильтрация до 80 символа
+				// фильтрация до 80 символа
 				let el = $('.bottom .subTitle')
 				for (let i = 0; i < el.length; i++) {
 					let j = el[i].textContent.substring(0, 80)
 					el[i].textContent = j
 				}
 
-				//условие добавления многоточия
+				// условие добавления многоточия
 				el.each((idx, elem) => {
 					if(elem.textContent.length >= 80) {
 						elem.textContent += ' ...'
 					}
 				})
 
-				//запрет переворота объявление по клику на кнопку
+				// запрет переворота объявление по клику на кнопку
 				$('.button3').each((idx, elem) => {
 					$(elem).click(function(e) {
 						e.stopPropagation()
 					})
 				})
 
-				//reverse объявлений
+				// reverse объявлений
 				$('.cardItem').bind('click', function() {
 
-					//переключил класс
+					// переключил класс
 					$(this).toggleClass('verticalRotate')
 
-					//отменил обработчики click для элемента
+					// отменил обработчики click для элемента
 					$(this).off('click')
 				})
 
-				//нажал на кнопку reverse
+				// нажал на кнопку reverse
 				$('.btnReverse').on('click', function(e) {
 
-					//перевернул card
+					// перевернул card
 					$(this).parents('.cardItem').removeClass('verticalRotate')
 
-					//запретил всплытие событий (срабатывание событий на следующем уровне)
+					// запретил всплытие событий (срабатывание событий на следующем уровне)
 					e.stopPropagation()
 
-					//назначил обработчик
+					// назначил обработчик
 					$(this).parents('.cardItem').on('click', function() {
 						$(this).toggleClass('verticalRotate')
 						$(this).unbind('click')
 					})
 				})
 
-				//редактирование статусов category
+				// редактирование статусов category
 				$('.categoty').each((idx, elem) => {
 					switch($(elem).text()) {
 					case 'buy':
@@ -97,7 +97,7 @@ class Moderate extends Component {
 					}
 				})
 
-				//иконки статусов
+				// иконки статусов
 				$('.info .fa').each((idx, elem) => {
 					switch($(elem).next().text()) {
 					case 'Продажа':
