@@ -15,7 +15,7 @@ class CardItems extends Component {
 
 	constructor() {
 		super()
-		this.subs
+		this.subs = null
 		this.elem = store.getState().serverReducer
 		this.countMore = 20
 		this.topPosition = 0
@@ -24,10 +24,9 @@ class CardItems extends Component {
 	componentDidMount() {
 
 		//смотрим расстояние от верха. нужно для корректной работы "еще объявления"
-		let _this = this
-		$(document).scroll(function() {
-			_this.topPosition = $(document).scrollTop()
-		})
+		window.onscroll = () => {
+			this.topPosition = document.documentElement.scrollTop
+		}
 
 		//подписался на определенную часть store
 		this.subs = store.subscribe(() => {
@@ -105,6 +104,10 @@ class CardItems extends Component {
 		this.countMore += 10
 	}
 
+	handleOnScroll = e => {
+		console.log({ e })
+	}
+
 	render() {
 
 		const { state, datas } = this.props
@@ -115,7 +118,9 @@ class CardItems extends Component {
 					wrapCardsContent: true,
 					indexPageClassWrap: state.allParamsUrl === '/'
 				})
-			}>
+			}
+			onScroll={ this.handleOnScroll }
+			>
 				<article className={
 					classNames({
 						cardItems: true,
