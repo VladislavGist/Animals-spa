@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
@@ -10,12 +11,16 @@ import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
 class CardItem extends Component {
 
+	state = {
+		verticalRotate: false
+	}
+
 	// остановка объявления
 	handlerDelete = e => {
 
 		const { id, completedCard } = this.props
 
-		//отправили запрос на сервер об остановке объявления с нужным id
+		// отправили запрос на сервер об остановке объявления с нужным id
 		completedCard(`${process.env.URL}/completeCard?cardId=${id}`)
 		e.target.text = 'Остановлено'
 	}
@@ -41,6 +46,39 @@ class CardItem extends Component {
 
 		replaceStatusCard(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=rejected`)
 		e.target.textContent = 'Выполнено'
+	}
+
+	stausesReplace = status => {
+		switch(status) {
+		case 'buy':
+			return 'Продажа'
+			break
+		case 'gift':
+			return 'Даром'
+			break
+		case 'missing':
+			return 'Пропало животное'
+			break
+		case 'find':
+			return 'Найдено животное'
+			break
+		default: return ''
+		}
+	}
+
+	dottsText = text => {
+		if (text.length >= 80) {
+			let res = text.substring(0, 80)
+			return res += ' ...'
+		} else {
+			return text
+		}
+	}
+
+	handleReverseCard = () => {
+		this.setState({
+			verticalRotate: !this.state.verticalRotate
+		})
 	}
 
 	render() {
@@ -73,16 +111,32 @@ class CardItem extends Component {
 
 		return (
 			<div className='cardItemWrap'>
-				<div className='cardItem horizontalBig'>
+				<div
+					className={
+						classNames({
+							'cardItem': true,
+							'horizontalBig': true,
+							'verticalRotate': this.state.verticalRotate
+						})
+					}
+				>
 					<div className='contentWrap' onClick={ ::this.clickFunc }>
-						<div className='top'>
+						<div className='top' onClick={ this.handleReverseCard }>
 							<div>
 								<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
 							</div>
 							<div>
 								<div className='info'>
-									<i className='fa' aria-hidden='true' />
-									<span className='categoty'>{ advType }</span>
+									<i className={
+										classNames({
+											'fa': true,
+											'fa-eur': advType === 'buy',
+											'fa-globe': advType === 'gift',
+											'fa-exclamation-triangle': advType === 'missing',
+											'fa-bell-o': advType === 'find'
+										})
+									} aria-hidden='true' />
+									<span className='categoty'>{ this.stausesReplace(advType) }</span>
 								</div>
 								<p className='number'>{ phoneNumber }</p>
 								<p className='city'>{ city.indexOf('обл.') === -1 ? 'г. ' + city : city }</p>
@@ -98,7 +152,7 @@ class CardItem extends Component {
 						<div className='bottom'>
 							<div>
 								<h3 className='title'>{ title }</h3>
-								<p className='subTitle'>{ briefDescription }</p>
+								<p className='subTitle'>{ this.dottsText(briefDescription) }</p>
 							</div>
 
 						</div>
@@ -121,7 +175,7 @@ class CardItem extends Component {
 										</div>
 									)
 								}
-								<button className='btnReverse'>
+								<button className='btnReverse' onClick={ this.handleReverseCard }>
 									<i className='fa fa-reply' aria-hidden='true' />
 								</button>
 							</div>

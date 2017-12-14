@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -15,7 +14,6 @@ class CardItems extends Component {
 
 	constructor() {
 		super()
-		this.subs
 		this.elem = store.getState().serverReducer
 		this.countMore = 20
 		this.topPosition = 0
@@ -23,120 +21,15 @@ class CardItems extends Component {
 
 	componentDidMount() {
 
-		//смотрим расстояние от верха. нужно для корректной работы "еще объявления"
-		let _this = this
-		$(document).scroll(function() {
-			_this.topPosition = $(document).scrollTop()
-		})
+		// смотрим расстояние от верха. Нужно для корректной работы "еще объявления"
+		window.onscroll = () => {
+			this.topPosition = document.documentElement.scrollTop
+		}
 
-		//подписался на определенную часть store
-		this.subs = store.subscribe(() => {
-
-			//если новая часть Store не равна предыдущей, то выполнить код
-			if(store.getState().serverReducer !== this.elem) {
-				//фильтрация до 80 символа
-				let el = $('.bottom .subTitle')
-				for (let i = 0; i < el.length; i++) {
-					let j = el[i].textContent.substring(0, 80)
-					el[i].textContent = j
-				}
-
-				//условие добавления многоточия
-				el.each((idx, elem) => {
-					if(elem.textContent.length >= 80) {
-						elem.textContent += ' ...'
-					}
-				})
-
-				//запрет переворота объявление по клику на кнопку
-				$('.button3').each((idx, elem) => {
-					$(elem).click(function(e) {
-						e.stopPropagation()
-					})
-				})
-
-				//reverse объявлений
-				$('.cardItem').bind('click', function() {
-
-					//переключил класс
-					$(this).toggleClass('verticalRotate')
-
-					//отменил обработчики click для элемента
-					$(this).off('click')
-				})
-
-				//нажал на кнопку reverse
-				$('.btnReverse').on('click', function(e) {
-
-					//перевернул card
-					$(this).parents('.cardItem').removeClass('verticalRotate')
-
-					//запретил всплытие событий (срабатывание событий на следующем уровне)
-					e.stopPropagation()
-
-					//назначил обработчик
-					$(this).parents('.cardItem').on('click', function() {
-						$(this).toggleClass('verticalRotate')
-						$(this).unbind('click')
-					})
-				})
-
-				//редактирование статусов category
-				$('.categoty').each((idx, elem) => {
-					switch($(elem).text()) {
-					case 'buy':
-						$(elem).text('Продажа')
-						break
-					case 'sale':
-						$(elem).text('Продать')
-						break
-					case 'gift':
-						$(elem).text('Даром')
-						break
-					case 'missing':
-						$(elem).text('Пропало животное')
-						break
-					case 'find':
-						$(elem).text('Найдено животное')
-						break
-					default:
-						$(elem).text('')
-					}
-				})
-
-				//иконки статусов
-				$('.info .fa').each((idx, elem) => {
-					switch($(elem).next().text()) {
-					case 'Продажа':
-						$(elem).addClass('fa-eur')
-						break
-					case 'Продать':
-						$(elem).addClass('fa-eur')
-						break
-					case 'Даром':
-						$(elem).addClass('fa-globe')
-						break
-					case 'Пропало животное':
-						$(elem).addClass('fa-exclamation-triangle')
-						break
-					case 'Найдено животное':
-						$(elem).addClass('fa-bell-o')
-						break
-					default:
-						$(elem).addClass('')
-					}
-				})
-
-				// сохранил текущую часть store чтобы карточки корректно работали
-				this.elem = store.getState().serverReducer
-
-				this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname)
-			}
-		})
+		this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname)
 	}
 
 	componentWillUnmount() {
-		this.subs()
 		this.props.onHandleClearState()
 		this.countMore = 20
 		this.topPosition = 0
@@ -144,7 +37,7 @@ class CardItems extends Component {
 
 	componentWillUpdate() {
 		// при каждом изменении url будем скролится на то место на котором были
-		$(document).scrollTop(this.topPosition)
+		document.documentElement.scrollTop = this.topPosition
 	}
 
 	addMoreCards = () => {
@@ -166,7 +59,8 @@ class CardItems extends Component {
 					wrapCardsContent: true,
 					indexPageClassWrap: state.allParamsUrl === '/'
 				})
-			}>
+			}
+			>
 				<article className={
 					classNames({
 						cardItems: true,

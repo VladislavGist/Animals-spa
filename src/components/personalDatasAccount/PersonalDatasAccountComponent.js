@@ -1,12 +1,11 @@
-import $ from 'jquery'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import TextField from 'material-ui/TextField'
 
 import { store } from '../../store'
-import CardItem from '../categories/cardItem/CardItemComponent.js'
+import CardItem from '../categories/cardItem/CardItemComponent'
+import TableRowsComponent from './tableRows/TableRowsComponent'
 
 import { actions as actionsLoginUser } from '../../ducks/loginUser'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
@@ -25,7 +24,6 @@ class PersonalDatasAccount extends Component {
 			value: '0',
 			slideIndex: 0
 		}
-		this.subs
 		this.elem = store.getState().serverReducer
 		this.elem2 = store.getState().reducerCardsComplAndRej
 	}
@@ -49,139 +47,10 @@ class PersonalDatasAccount extends Component {
 		getCards(`${ process.env.URL }/userCardsAccepted?userid=${ state.loginUser.results[0].user_id }`)
 
 		// запрашивать от сервера последние данные по аккаунту
-		fetch(`${ process.env.URL }/updateDatasAccount?userid=${ state.loginUser.results[0].user_id }`)
-			.then(response => {
-				if (response.status !== 200) {
-					console.log('Ошибка при обновлении данных пользователя')
-				} else {
-					response.json()
-						.then(data => {
-							updateDatasTrue({ results: data })
-						})
-				}
-			})
-			.catch(err => {
-				console.log(err)
-			})
-	}
-
-	componentDidMount() {
-
-		//подписался на определенную часть store
-		this.subs = store.subscribe(() => {
-
-			//если новая часть Store не равна предыдущей, то выполнить код
-			if (store.getState().serverReducer !== this.elem && store.getState().reducerCardsComplAndRej !== this.elem2) {
-
-				//фильтрация до 80 символа
-				let el = $('.bottom .subTitle')
-
-				for (let i = 0; i < el.length; i++) {
-					let j = el[i].textContent.substring(0, 80)
-					el[i].textContent = j
-				}
-
-				//условие добавления многоточия
-				el.each((idx, elem) => {
-					if (elem.textContent.length >= 80) {
-						elem.textContent += ' ...'
-					}
-				})
-
-				//запрет переворота объявление по клику на кнопку
-				$('.button3').each((idx, elem) => {
-					$(elem).click(function(e) {
-						e.stopPropagation()
-					})
-				})
-
-				//reverse объявлений
-				$('.cardItem').bind('click', function() {
-
-					//переключил класс
-					$(this).toggleClass('verticalRotate')
-
-					//отменил обработчики click для элемента
-					$(this).off('click')
-				})
-
-				//нажал на кнопку reverse
-				$('.btnReverse').on('click', function(e) {
-
-					//перевернул card
-					$(this).parents('.cardItem').removeClass('verticalRotate')
-
-					//запретил всплытие событий (срабатывание событий на следующем уровне)
-					e.stopPropagation()
-
-					//назначил обработчик
-					$(this).parents('.cardItem').on('click', function() {
-						$(this).toggleClass('verticalRotate')
-						$(this).unbind('click')
-					})
-
-				})
-
-				//редактирование статусов category
-				$('.categoty').each((idx, elem) => {
-					switch($(elem).text()) {
-					case 'buy':
-						$(elem).text('Продажа')
-						break
-					case 'sale':
-						$(elem).text('Продать')
-						break
-					case 'gift':
-						$(elem).text('Даром')
-						break
-					case 'missing':
-						$(elem).text('Пропало животное')
-						break
-					case 'find':
-						$(elem).text('Найдено животное')
-						break
-					default:
-						$(elem).text('')
-					}
-				})
-
-				//иконки статусов
-				$('.info .fa').each((idx, elem) => {
-					switch($(elem).next().text()) {
-					case 'Продажа':
-						$(elem).addClass('fa-eur')
-						break
-					case 'Продать':
-						$(elem).addClass('fa-eur')
-						break
-					case 'Даром':
-						$(elem).addClass('fa-globe')
-						break
-					case 'Пропало животное':
-						$(elem).addClass('fa-exclamation-triangle')
-						break
-					case 'Найдено животное':
-						$(elem).addClass('fa-bell-o')
-						break
-					default:
-						$(elem).addClass('')
-					}
-				})
-
-				// сохранил текущую часть Store чтобы карточки корректно работали
-				this.elem = store.getState().serverReducer
-				this.elem2 = store.getState().reducerCardsComplAndRej
-			}
-		})
-
-		$('.toggleBtn').click(function() {
-			$(this).parent().parent().next().toggleClass('active')
-		})
-
+		updateDatasTrue(`${ process.env.URL }/updateDatasAccount?userid=${ state.loginUser.results[0].user_id }`)
 	}
 
 	componentWillUnmount() {
-		this.subs()
 		this.props.onHandleClearState()
 		this.props.handleDataSentFalse()
 		this.props.clearReducerCardsComplAndRej()
@@ -364,94 +233,51 @@ class PersonalDatasAccount extends Component {
 					</div>
 					<table>
 						<tbody>
-							<tr>
-								<tr>
-									<td>Имя</td>
-									<td>{ state.loginUser.results[0].name || '' }</td>
-									<td>
-										<a href='javascript:void(0)' className='toggleBtn'>Изменить</a>
-									</td>
-								</tr>
-								<tr className='trToggle'>
-									<td>
-										<TextField
-											hintText='Введите новое имя'
-											onChange={ this.validateName }
-											name='nameUpdate'
-											errorText={ state.userPersonalDatas.validateRoles.name || state.userPersonalDatas.validateRoles.name === ' ' ? '' : ' ' }
-										/>
-									</td>
-									<td>
-										<a href='javascript:void(0)' onClick={ this.onHandlePOSTName }>Применить</a>
-									</td>
-								</tr>
-							</tr>
-							<tr>
-								<tr>
-									<td>Номер телефона</td>
-									<td>{ state.loginUser.results[0].phoneNumber || '' }</td>
-									<td>
-										<a href='javascript:void(0)' className='toggleBtn'>Изменить</a>
-									</td>
-								</tr>
-								<tr className='trToggle'>
-									<td>
-										<TextField
-											hintText='Введите новый номер'
-											name='phoneUpdate'
-											onChange={ this.validatePhoneNumber }
-											errorText={ state.userPersonalDatas.validateRoles.phoneNumber || state.userPersonalDatas.validateRoles.phoneNumber === ' ' ? '' : ' ' }
-										/>
-									</td>
-									<td>
-										<a href='javascript:void(0)' onClick={ this.onHandlePOSTPhoneNumber }>Применить</a>
-									</td>
-								</tr>
-							</tr>
-							<tr>
-								<tr>
-									<td>Город</td>
-									<td>{ state.loginUser.results[0].city || ''}</td>
-									<td>
-										<a href='javascript:void(0)' className='toggleBtn'>Изменить</a>
-									</td>
-								</tr>
-								<tr className='trToggle'>
-									<td>
-										<TextField
-											hintText='Введите название города'
-											onChange={ this.validateCity }
-											name='cityUpdate'
-											errorText={ state.userPersonalDatas.validateRoles.city || state.userPersonalDatas.validateRoles.city === ' ' ? '' : ' ' }
-										/>
-									</td>
-									<td>
-										<a href='javascript:void(0)' onClick={ this.onHandlePOSTPhoneCity }>Применить</a>
-									</td>
-								</tr>
-							</tr>
-							<tr>
-								<tr>
-									<td>Пароль</td>
-									<td>{ this.props.state.userPersonalDatas.password }</td>
-									<td>
-										<a href='javascript:void(0)' className='toggleBtn'>Изменить</a>
-									</td>
-								</tr>
-								<tr className='trToggle'>
-									<td>
-										<TextField
-											hintText='Введите новый пароль'
-											onChange={ this.validatePassword }
-											name='passwordUpdate'
-											errorText={ state.userPersonalDatas.validateRoles.password || state.userPersonalDatas.validateRoles.password === ' ' ? '' : ' ' }
-										/>
-									</td>
-									<td>
-										<a href='javascript:void(0)' onClick={ this.onHandlePOSTPhonePassword }>Применить</a>
-									</td>
-								</tr>
-							</tr>
+
+							<TableRowsComponent
+								name='Имя'
+								resultsElem='name'
+								state={ state }
+								hintText='Введите новое имя'
+								changeFunc={ this.validateName }
+								nameText='nameUpdate'
+								errorElem='name'
+								submitFunc={ this.onHandlePOSTName }
+							/>
+
+							<TableRowsComponent
+								name='Номер телефона'
+								resultsElem='phoneNumber'
+								state={ state }
+								hintText='Введите новый номер'
+								changeFunc={ this.validatePhoneNumber }
+								nameText='phoneUpdate'
+								errorElem='phoneNumber'
+								submitFunc={ this.onHandlePOSTPhoneNumber }
+							/>
+
+							<TableRowsComponent
+								name='Город'
+								resultsElem='city'
+								state={ state }
+								hintText='Введите название города'
+								changeFunc={ this.validateCity }
+								nameText='cityUpdate'
+								errorElem='city'
+								submitFunc={ this.onHandlePOSTPhoneCity }
+							/>
+
+							<TableRowsComponent
+								name='Пароль'
+								resultsElem='password'
+								state={ state }
+								hintText='Введите новый пароль'
+								changeFunc={ this.validatePassword }
+								nameText='passwordUpdate'
+								errorElem='password'
+								submitFunc={ this.onHandlePOSTPhonePassword }
+							/>
+
 						</tbody>
 					</table>
 				</div>

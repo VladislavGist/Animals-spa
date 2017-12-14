@@ -6,8 +6,9 @@ export const types = {
 }
 
 export const actions = {
+
 	loginFalse: () => ({ type: types.LOGIN_FALSE, payload: false }),
-	updateDatasTrue: data => ({ type: types.LOGIN_TRUE, payload: data }),
+
 	loginAction: url => dispatch => {
 		fetch(url)
 			.then(response => {
@@ -18,7 +19,22 @@ export const actions = {
 				}
 			})
 			.catch(err => console.log(err))
+	},
+
+	updateDatasTrue: url => dispatch => {
+
+		fetch(url)
+			.then(response => {
+				if (response.status !== 200) {
+					console.log('Ошибка при обновлении данных пользователя')
+				} else {
+					response.json()
+						.then(results => dispatch({ type: types.LOGIN_TRUE, payload: { results } }))
+				}
+			})
+			.catch(err => console.log(err))
 	}
+
 }
 
 export default (state = false, action) => {

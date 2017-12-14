@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -9,15 +8,29 @@ import DrawerUndockedExample from '../drawerUndockedExample/DrawerUndockedExampl
 import './TopHeaderStyles.sass'
 
 class TopHeader extends Component {
-	
-	componentDidMount() {
 
-		let elem = $('.needLogin')
+	loginFalse = () => {
 
-		if (this.props.state.loginUser === false) {
-			$(elem).click(function() {
-				return false
-			})
+		const { loginUser } = this.props.state
+
+		if (!loginUser.results[0].rules) {
+			return (
+				<div className='userBtns'>
+					<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
+				</div>
+			)
+		} else if (loginUser.results[0].rules === 'moderator') {
+			return (
+				<div className='userBtns'>
+					<Link to='/moderation' className='personalArea'>moderation</Link>
+				</div>
+			)
+		}
+	}
+
+	handleClick = () => {
+		if (!this.props.state.loginUser) {
+			return false
 		}
 	}
 
@@ -25,22 +38,6 @@ class TopHeader extends Component {
 
 		const { loginUser, filterCity } = this.props.state
 
-		const loginFalse = () => {
-
-			if (loginUser.results[0].rules === null) {
-				return (
-					<div className='userBtns'>
-						<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
-					</div>
-				)
-			} else if (loginUser.results[0].rules === 'moderator') {
-				return (
-					<div className='userBtns'>
-						<Link to='/moderation' className='personalArea'>moderation</Link>
-					</div>
-				)
-			}
-		}
 		return (
 			<header>
 				<div className='menuHeader'>
@@ -54,17 +51,17 @@ class TopHeader extends Component {
 					<LoginModal titleBtn={ filterCity.cityTopHeader } dialogModal='02' />
 
 					{
-						loginUser === false || loginUser.error !== undefined ? <LoginModal titleBtn='Вход / регистрация' dialogModal='01' /> : loginFalse()
+						!loginUser || loginUser.error !== undefined ? <LoginModal titleBtn='Вход / регистрация' dialogModal='01' /> : this.loginFalse()
 					}
 
 					{
-						loginUser === false || loginUser.error !== undefined ?
+						!loginUser || loginUser.error !== undefined ?
 							<LoginModal
 								titleBtn='Подать объявление'
 								classNameMobile='needLoginMobile'
 								classesBtn='button2 needLoginMobile'
 								dialogModal='01'
-							/> : <Link to='/placeAnAd' className='button2 needLogin'>Подать объявление</Link>
+							/> : <Link to='/placeAnAd' className='button2 needLogin' onClick={ this.handleClick }>Подать объявление</Link>
 					}
 
 					<DrawerUndockedExample />
