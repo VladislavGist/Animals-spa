@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -15,7 +14,6 @@ class CardItems extends Component {
 
 	constructor() {
 		super()
-		this.subs = null
 		this.elem = store.getState().serverReducer
 		this.countMore = 20
 		this.topPosition = 0
@@ -23,68 +21,15 @@ class CardItems extends Component {
 
 	componentDidMount() {
 
-		//смотрим расстояние от верха. нужно для корректной работы "еще объявления"
+		// смотрим расстояние от верха. Нужно для корректной работы "еще объявления"
 		window.onscroll = () => {
 			this.topPosition = document.documentElement.scrollTop
 		}
 
-		//подписался на определенную часть store
-		this.subs = store.subscribe(() => {
-
-			//если новая часть Store не равна предыдущей, то выполнить код
-			if (store.getState().serverReducer !== this.elem) {
-
-				//фильтрация до 80 символа
-				let el = $('.bottom .subTitle')
-
-				for (let i = 0; i < el.length; i++) {
-					let j = el[i].textContent.substring(0, 80)
-					el[i].textContent = j
-				}
-
-				//запрет переворота объявление по клику на кнопку
-				$('.button3').each((idx, elem) => {
-					$(elem).click(function(e) {
-						e.stopPropagation()
-					})
-				})
-
-				//reverse объявлений
-				$('.cardItem').bind('click', function() {
-
-					//переключил класс
-					$(this).toggleClass('verticalRotate')
-
-					//отменил обработчики click для элемента
-					$(this).off('click')
-				})
-
-				//нажал на кнопку reverse
-				$('.btnReverse').on('click', function(e) {
-
-					//перевернул card
-					$(this).parents('.cardItem').removeClass('verticalRotate')
-
-					//запретил всплытие событий (срабатывание событий на следующем уровне)
-					e.stopPropagation()
-
-					//назначил обработчик
-					$(this).parents('.cardItem').on('click', function() {
-						$(this).toggleClass('verticalRotate')
-						$(this).unbind('click')
-					})
-				})
-
-				// сохранил текущую часть store чтобы карточки корректно работали
-				this.elem = store.getState().serverReducer
-
-				this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname)
-			}
-		})
+		this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname)
 	}
 
 	componentWillUnmount() {
-		this.subs()
 		this.props.onHandleClearState()
 		this.countMore = 20
 		this.topPosition = 0
@@ -92,7 +37,7 @@ class CardItems extends Component {
 
 	componentWillUpdate() {
 		// при каждом изменении url будем скролится на то место на котором были
-		$(document).scrollTop(this.topPosition)
+		document.documentElement.scrollTop = this.topPosition
 	}
 
 	addMoreCards = () => {
@@ -102,10 +47,6 @@ class CardItems extends Component {
 		getCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
 		allCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
 		this.countMore += 10
-	}
-
-	handleOnScroll = e => {
-		console.log({ e })
 	}
 
 	render() {
@@ -119,7 +60,6 @@ class CardItems extends Component {
 					indexPageClassWrap: state.allParamsUrl === '/'
 				})
 			}
-			onScroll={ this.handleOnScroll }
 			>
 				<article className={
 					classNames({

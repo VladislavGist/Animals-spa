@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -20,15 +19,6 @@ import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarEx
 import LinearProgressExampleDeterminate from './components/progressBar/ProgressBarComponent.js'
 
 class App extends Component {
-
-	componentDidMount() {
-		//запрет переворота объявление по клику на кнопку
-		$('.button3').each((idx, elem) => {
-			$(elem).click(function(e) {
-				e.stopPropagation()
-			})
-		})
-	}
 
 	render() {
 

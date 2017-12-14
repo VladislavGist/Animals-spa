@@ -11,12 +11,16 @@ import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
 class CardItem extends Component {
 
+	state = {
+		verticalRotate: false
+	}
+
 	// остановка объявления
 	handlerDelete = e => {
 
 		const { id, completedCard } = this.props
 
-		//отправили запрос на сервер об остановке объявления с нужным id
+		// отправили запрос на сервер об остановке объявления с нужным id
 		completedCard(`${process.env.URL}/completeCard?cardId=${id}`)
 		e.target.text = 'Остановлено'
 	}
@@ -64,10 +68,17 @@ class CardItem extends Component {
 
 	dottsText = text => {
 		if (text.length >= 80) {
-			return text += ' ...'
+			let res = text.substring(0, 80)
+			return res += ' ...'
 		} else {
 			return text
 		}
+	}
+
+	handleReverseCard = () => {
+		this.setState({
+			verticalRotate: !this.state.verticalRotate
+		})
 	}
 
 	render() {
@@ -100,9 +111,17 @@ class CardItem extends Component {
 
 		return (
 			<div className='cardItemWrap'>
-				<div className='cardItem horizontalBig'>
+				<div
+					className={
+						classNames({
+							'cardItem': true,
+							'horizontalBig': true,
+							'verticalRotate': this.state.verticalRotate
+						})
+					}
+				>
 					<div className='contentWrap' onClick={ ::this.clickFunc }>
-						<div className='top'>
+						<div className='top' onClick={ this.handleReverseCard }>
 							<div>
 								<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
 							</div>
@@ -156,7 +175,7 @@ class CardItem extends Component {
 										</div>
 									)
 								}
-								<button className='btnReverse'>
+								<button className='btnReverse' onClick={ this.handleReverseCard }>
 									<i className='fa fa-reply' aria-hidden='true' />
 								</button>
 							</div>
