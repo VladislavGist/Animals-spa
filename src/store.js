@@ -13,7 +13,7 @@ import loginUser from './ducks/loginUser'
 import sendData from './ducks/sendData'
 import allParamsUrl from './ducks/allParamsUrl'
 import photosReducer from './ducks/photosReducer'
-import validarePlaceAnAd from './ducks/validarePlaceAnAd'
+import validatePlaceAnAd from './ducks/validatePlaceAnAd'
 import accountType from './ducks/accountType'
 import userPersonalDatas from './ducks/userPersonalDatas'
 import preloader from './ducks/preloader'
@@ -33,7 +33,7 @@ const reducers = combineReducers({
 	sendData,
 	allParamsUrl,
 	photosReducer,
-	validarePlaceAnAd,
+	validatePlaceAnAd,
 	accountType,
 	userPersonalDatas,
 	preloader,
