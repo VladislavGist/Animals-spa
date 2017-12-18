@@ -10,84 +10,67 @@ export const types = {
 
 export const actions = {
 
-	handlePhoto0: () => dispatch => {
-		dispatch({ type: types.ADD_PHOTO_0, payload: true })
-		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
-	},
+	handlePhoto0: elem => ({ type: types.ADD_PHOTO_0, payload: elem }),
 
-	handlePhoto1: () => dispatch => {
-		dispatch({ type: types.ADD_PHOTO_1, payload: true })
-		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
-	},
+	handlePhoto1: elem => ({ type: types.ADD_PHOTO_1, payload: elem }),
 
-	handlePhoto2: () => dispatch => {
-		dispatch({ type: types.ADD_PHOTO_2, payload: true })
-		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
-	},
+	handlePhoto2: elem => ({ type: types.ADD_PHOTO_2, payload: elem }),
 
-	handlePhoto3: () => dispatch => {
-		dispatch({ type: types.ADD_PHOTO_3, payload: true })
-		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
-	},
+	handlePhoto3: elem => ({ type: types.ADD_PHOTO_3, payload: elem }),
 
-	handlePhoto4: () => dispatch => {
-		dispatch({ type: types.ADD_PHOTO_4, payload: true })
-		dispatch({ type: typesValidatePlace.PLACE_SUCCES_FALSE, payload: false })
-	},
+	handlePhoto4: elem => ({ type: types.ADD_PHOTO_4, payload: elem }),
 
 	handleResetPlace: () => dispatch => {
 		dispatch({ type: typesValidatePlace.RESET_PLACE })
-		dispatch({ type: types.ADD_PHOTO_0, payload: false })
-		dispatch({ type: types.ADD_PHOTO_1, payload: false })
-		dispatch({ type: types.ADD_PHOTO_2, payload: false })
-		dispatch({ type: types.ADD_PHOTO_3, payload: false })
-		dispatch({ type: types.ADD_PHOTO_4, payload: false })
+		dispatch({ type: types.ADD_PHOTO_0, payload: null })
+		dispatch({ type: types.ADD_PHOTO_1, payload: null })
+		dispatch({ type: types.ADD_PHOTO_2, payload: null })
+		dispatch({ type: types.ADD_PHOTO_3, payload: null })
+		dispatch({ type: types.ADD_PHOTO_4, payload: null })
 	}
 }
 
-const initialState = [{
-	'p0': false,
-	'p1': false,
-	'p2': false,
-	'p3': false,
-	'p4': false
-}]
+const initialState = {
+	elem0: null,
+	elem1: null,
+	elem2: null,
+	elem3: null,
+	elem4: null
+}
 
 export default (state = initialState, action) => {
-
-	let sta, newSta, res
 
 	switch (action.type) {
 
 	case types.ADD_PHOTO_0:
-		sta = [...state][0]
-		newSta = [...state][0]['p0'] = action.payload
-		res = Object.assign(sta, newSta)
-		return [res]
+		return {
+			...state,
+			elem0: action.payload
+		}
 
 	case types.ADD_PHOTO_1:
-		sta = [...state][0]
-		newSta = [...state][0]['p1'] = action.payload
-		res = Object.assign(sta, newSta)
-		return [res]
+		return {
+			...state,
+			elem1: action.payload
+		}
 
 	case types.ADD_PHOTO_2:
-		sta = [...state][0]
-		newSta = [...state][0]['p2'] = action.payload
-		res = Object.assign(sta, newSta)
-		return [res]
+		return {
+			...state,
+			elem2: action.payload
+		}
 
 	case types.ADD_PHOTO_3:
-		sta = [...state][0]
-		newSta = [...state][0]['p3'] = action.payload
-		res = Object.assign(sta, newSta)
-		return [res]
+		return {
+			...state,
+			elem3: action.payload
+		}
 
 	case types.ADD_PHOTO_4:
-		sta = [...state][0]
-		newSta = [...state][0]['p4'] = action.payload
-		res = Object.assign(sta, newSta)
-		return [res]
+		return {
+			...state,
+			elem4: action.payload
+		}
 
 	case typesValidatePlace.RESET_PLACE: return initialState
 

@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import moment from 'moment'
 import { Link } from 'react-router'
-import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
@@ -10,12 +9,12 @@ import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 
-const _ = require('underscore')
-
 import { actions as actionsAllParamsUrl } from '../../ducks/allParamsUrl'
 import { actions as actionsPhotosReducer } from '../../ducks/photosReducer'
 import { actions as actionsSnackbarReducer } from '../../ducks/snackbarReducer'
 import { actions as actionsValidarePlaceAnAd } from '../../ducks/validarePlaceAnAd'
+
+import AddPhotoInputComponent from './AddPhotoInput/AddPhotoInputComponent'
 
 import './PlaceAnAdStyles.sass'
 import '../contacts/ContactsStyles.sass'
@@ -35,75 +34,9 @@ class PlaceAnAd extends Component {
 				value: 'Москва'
 			}
 		}
-		this.timer0
-		this.timer1
-		this.timer2
-		this.timer3
-		this.timer4
-		this.thisFormData
-		this.myTimer
-	}
-
-	// оптимизировать код ниже возможности нет по причине того, что чтобы увидеть было ли загружено изображение нужен таймер
-	componentDidMount() {
-
-		this.timer0 = setInterval(() => {
-			if (document.querySelectorAll('.loadingPhoto input')[0].value !== undefined && document.querySelectorAll('.loadingPhoto input')[0].value !== '') {
-				this.props.handlePhoto0()
-				this.props.onValidatePlaceImage()
-			}
-		}, 500)
-
-		this.timer1 = setInterval(() => {
-			if (document.querySelectorAll('.loadingPhoto input')[1].value !== undefined && document.querySelectorAll('.loadingPhoto input')[1].value !== '') {
-				this.props.handlePhoto1()
-				this.props.onValidatePlaceImage()
-			}
-		}, 600)
-
-		this.timer2 = setInterval(() => {
-			if(document.querySelectorAll('.loadingPhoto input')[2].value !== undefined && document.querySelectorAll('.loadingPhoto input')[2].value !== '') {
-				this.props.handlePhoto2()
-				this.props.onValidatePlaceImage()
-			}
-		}, 700)
-
-		this.timer3 = setInterval(() => {
-			if(document.querySelectorAll('.loadingPhoto input')[3].value !== undefined && document.querySelectorAll('.loadingPhoto input')[3].value !== '') {
-				this.props.handlePhoto3()
-				this.props.onValidatePlaceImage()
-			}
-		}, 800)
-
-		this.timer4 = setInterval(() => {
-			if(document.querySelectorAll('.loadingPhoto input')[4].value !== undefined && document.querySelectorAll('.loadingPhoto input')[4].value !== '') {
-				this.props.handlePhoto4()
-				this.props.onValidatePlaceImage()
-			}
-		}, 900)
-
-		// отправка изоражения
-		const formData = new FormData()
-		// проходим циклом по всем фото и добавляем в буфер формы
-		let files
-		for (let i = 0; i < $('.formImg').length; i++) {
-			$(`.p${i}`).on('change', function(e) {
-				files = e.target.files[0]
-				if (files.type === 'image/jpeg') {
-					formData.append('photo', files)
-				}
-			})
-		}
-		// форму кладем в переменную в state, чтобы использовать как аргумент в функции при передаче
-		this.thisFormData = formData
 	}
 
 	componentWillUnmount() {
-		clearInterval(this.timer0)
-		clearInterval(this.timer1)
-		clearInterval(this.timer2)
-		clearInterval(this.timer3)
-		clearInterval(this.timer4)
 		this.props.handleResetPlace()
 		this.props.onResetMessage()
 	}
@@ -122,24 +55,6 @@ class PlaceAnAd extends Component {
 			pTextContent = this.props.state.validarePlaceAnAd.phoneNumber,
 			pPlacePrice = this.props.state.validarePlaceAnAd.placePrice,
 			pPlaceImage = this.props.state.validarePlaceAnAd.placeImage
-
-		//проверка изображений на jpeg формат
-		let validateTypeImg = [], resultValidateTypeImg = ''
-
-		for (let i = 0; i < 5; i++) {
-			if(document.querySelectorAll('.loadingPhoto input')[i].files[0] === undefined || document.querySelectorAll('.loadingPhoto input')[i].files[0].type === 'image/jpeg') {
-				validateTypeImg.push(true)
-			} else {
-				validateTypeImg.push(false)
-			}
-		}
-
-		_.each(validateTypeImg, elem => {
-			if (elem === false) {
-				resultValidateTypeImg = false
-				this.props.handleSnackbar('Формат изображения должен быть jpeg или jpg')
-			}
-		})
 
 		let toggleValidatePrice = () => {
 			if (this.state.category.value === 'gift' || this.state.category.value === 'find') {
@@ -270,41 +185,6 @@ class PlaceAnAd extends Component {
 
 	render() {
 
-		let element = () => {
-			let obj = this.props.state.photosReducer[0],
-				idx = [0],
-				mass = []
-
-			for (let i in obj) {
-				mass.push(
-					<div className={
-						classNames({
-							loadingPhoto: true,
-							activeLabel: this.props.state.photosReducer[idx][i]
-						}) }
-					>
-						<i className={
-							classNames({
-								fa: true,
-								'fa-check': this.props.state.photosReducer[idx][i],
-								'modifyColor': this.props.state.photosReducer[idx][i],
-								'fa-plus': !this.props.state.photosReducer[idx][i]
-							}) }
-						/>
-						<input type='file' accept='image/jpeg,image/png' className={ `formImg ${i}` } />
-					</div>
-				)
-			}
-
-			return (
-				<div className='buttonsAddPhoto'>
-					{
-						mass
-					}
-				</div>
-			)
-		}
-
 		const style = {
 			floatingLabelStyle: {
 				'color': '#b1adad'
@@ -330,7 +210,21 @@ class PlaceAnAd extends Component {
 			)
 		}
 
-		const { pTitleName, validarePlaceAnAd, pTextContent, pPlacePrice, filterCity } = this.props.state
+		const {
+			pTitleName,
+			validarePlaceAnAd,
+			pTextContent,
+			pPlacePrice,
+			filterCity
+		} = this.props.state
+
+		const {
+			handlePhoto0,
+			handlePhoto1,
+			handlePhoto2,
+			handlePhoto3,
+			handlePhoto4
+		} = this.props
 		
 		return (
 			<div className='placeAnAd'>
@@ -471,9 +365,15 @@ class PlaceAnAd extends Component {
 						<div className='wrapPhotos'>
 							<p className='subtitle'>Фотографии</p>
 							<p className='photoDescpipt'>Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg, jpg</b> </p>
-							{
-								element()
-							}
+
+							<div className='buttonsAddPhoto'>
+								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto0 } />
+								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto1 } />
+								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto2 } />
+								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto3 } />
+								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto4 } />
+							</div>
+
 						</div>
 					</div>
 					<div>
