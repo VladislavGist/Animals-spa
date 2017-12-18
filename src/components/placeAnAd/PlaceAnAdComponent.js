@@ -1,5 +1,3 @@
-import $ from 'jquery'
-import moment from 'moment'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -12,7 +10,7 @@ import SelectField from 'material-ui/SelectField'
 import { actions as actionsAllParamsUrl } from '../../ducks/allParamsUrl'
 import { actions as actionsPhotosReducer } from '../../ducks/photosReducer'
 import { actions as actionsSnackbarReducer } from '../../ducks/snackbarReducer'
-import { actions as actionsValidarePlaceAnAd } from '../../ducks/validarePlaceAnAd'
+import { actions as actionsValidatePlaceAnAd } from '../../ducks/validatePlaceAnAd'
 
 import AddPhotoInputComponent from './AddPhotoInput/AddPhotoInputComponent'
 
@@ -21,19 +19,17 @@ import '../contacts/ContactsStyles.sass'
 
 class PlaceAnAd extends Component {
 
-	constructor(props) {
-		super(props)
-		this.state = {
-			animal: {
-				value: 'cat'
-			},
-			category: {
-				value: 'buy'
-			},
-			city: {
-				value: 'Москва'
-			}
-		}
+	state = {
+		animal: {
+			value: 'cat'
+		},
+		category: {
+			value: 'buy'
+		},
+		city: {
+			value: 'Москва'
+		},
+		checked: true
 	}
 
 	componentWillUnmount() {
@@ -41,70 +37,10 @@ class PlaceAnAd extends Component {
 		this.props.onResetMessage()
 	}
 
-	style = {
-		checkbox: {
-			marginTop: '20px'
-		}
-	}
-
-	// Добавление объявления
-	postMethodAddCard = () => {
-		let pSity = this.props.state.validarePlaceAnAd.city,
-			pTitleName = this.props.state.validarePlaceAnAd.titleName,
-			pPhoneNumber = this.props.state.validarePlaceAnAd.phoneNumber,
-			pTextContent = this.props.state.validarePlaceAnAd.phoneNumber,
-			pPlacePrice = this.props.state.validarePlaceAnAd.placePrice,
-			pPlaceImage = this.props.state.validarePlaceAnAd.placeImage
-
-		let toggleValidatePrice = () => {
-			if (this.state.category.value === 'gift' || this.state.category.value === 'find') {
-				return true
-			} else {
-				return pPlacePrice === true
-			}
-		}
-
-		// если все поля объявлени заполнены, то отправить данные
-		if (pTitleName === true && pPhoneNumber === true && pTextContent === true && toggleValidatePrice() && pPlaceImage === true && resultValidateTypeImg !== false && $('.wrapForm .checkBoxLink')[0].children[0].checked === true) {
-			moment.locale('ru')
-			let now = moment(), deleteDate = now.add(1, 'month').format('ll')
-			let paramsUrl =
-				'userName=' + this.props.state.loginUser.results[0].name + '&' +
-				'animalType=' + this.state.animal.value + '&' +
-				'advertisementType=' + this.state.category.value + '&' +
-				'city=' + this.state.city.value + '&' +
-				'title=' + $('input[name="title"]')[0].value + '&' +
-				'phoneNumber=' + $('input[name="phoneNumber"]')[0].value + '&' +
-				'briefDescription=' + $('.briefDescription')[0].childNodes[2].childNodes[1].value + '&' +
-				`${this.state.category.value === 'gift' || this.state.category.value === 'find' ? 'price=' + '0' : 'price=' + $('input[name="price"]')[0].value}` + '&' +
-				`userId=${ this.props.state.loginUser.results[0].user_id }` + '&' +
-				`status=${ this.props.state.loginUser.results[0].accountType }` + '&' +
-				`dataDelete=${deleteDate}`
-
-			this.props.postImagesCard(process.env.URL + '/add-advertisement/img/animalType/' + this.state.animal.value + '/advertisementType/' + this.state.category.value, this.thisFormData, process.env.URL + '/add-advertisement', paramsUrl)
-			
-			// очистка данных формы
-			this.props.handleResetPlace()
-			$('input[name="title"]')[0].value = ''
-			$('input[name="phoneNumber"]')[0].value = ''
-			$('.briefDescription')[0].childNodes[2].childNodes[1].nextSibling.value = ''
-			this.state.category.value === 'gift' || this.state.category.value === 'find' ? '' : $('input[name="price"]')[0].value = ''
-			document.querySelectorAll('.loadingPhoto input')[0].value = ''
-			document.querySelectorAll('.loadingPhoto input')[1].value = ''
-			document.querySelectorAll('.loadingPhoto input')[2].value = ''
-			document.querySelectorAll('.loadingPhoto input')[3].value = ''
-			document.querySelectorAll('.loadingPhoto input')[4].value = ''
-			this.thisFormData.delete('photo')
-		} else {
-			if (resultValidateTypeImg !== false || $('.wrapForm .checkBoxLink')[0].children[0].checked === false) {
-				// toolpit с ошибкой
-				this.props.handleSnackbar('Заполните все поля и/или дайте согласие на обработку Ваших данных')
-			}
-		}
-	}
-
 	handleChangeAnimalType = (event, index, value) => this.setState({ animal: { value } })
+
 	handleChangeCategory = (event, index, value) => this.setState({ category: { value } })
+
 	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
 
 	// функция валидации поля
@@ -183,6 +119,19 @@ class PlaceAnAd extends Component {
 		}
 	}
 
+	handleCheckCheckbox = () => {
+		this.setState({
+			checkbox: !this.state.checked
+		})
+	}
+
+	handleSendForm = () => {
+
+		const { postMethodAddCard, handleResetPlace } = this.props
+
+		postMethodAddCard(this.props.state, this.state, handleResetPlace)
+	}
+
 	render() {
 
 		const style = {
@@ -197,41 +146,31 @@ class PlaceAnAd extends Component {
 			},
 			underlineFocusStyle: {
 				'borderColor': '#2396f1'
+			},
+			checkbox: {
+				marginTop: '20px'
 			}
-		}
-
-		// сообщение об успешной отправке объявления
-		const messagePlace = () => {
-			return (
-				<div className='mesagePlace'>
-					<i className='fa fa-check-circle' aria-hidden='true' />
-					<p>Объявление отправлено на модерацию</p>
-				</div>
-			)
 		}
 
 		const {
 			pTitleName,
-			validarePlaceAnAd,
+			validatePlaceAnAd,
 			pTextContent,
 			pPlacePrice,
-			filterCity
+			filterCity,
 		} = this.props.state
-
-		const {
-			handlePhoto0,
-			handlePhoto1,
-			handlePhoto2,
-			handlePhoto3,
-			handlePhoto4
-		} = this.props
 		
 		return (
 			<div className='placeAnAd'>
 				<div className='placeTop'>
 					<p className='modifyTitle'>Разместить объявление</p>
 					{
-						validarePlaceAnAd.messagePlace && pTitleName === ' ' && pTextContent === ' ' && pPlacePrice === ' ' ? messagePlace() : ''
+						validatePlaceAnAd.messagePlace && pTitleName === ' ' && pTextContent === ' ' && pPlacePrice === ' '
+							? (<div className='mesagePlace'>
+								<i className='fa fa-check-circle' aria-hidden='true' />
+								<p>Объявление отправлено на модерацию</p>
+							</div>)
+							: null
 					}
 				</div>
 				<div className='placeContent'>
@@ -288,7 +227,6 @@ class PlaceAnAd extends Component {
 									{
 										this.menuItems04(this.state.animal.value)
 									}
-
 								</SelectField>
 
 								<SelectField
@@ -300,9 +238,7 @@ class PlaceAnAd extends Component {
 									selectedMenuItemStyle={ style.floatingLabelFocusStyle }
 								>
 									{
-										filterCity.citys.map((elem, idx) => {
-											return <MenuItem value={ elem } primaryText={ elem } key={ idx } />
-										})
+										filterCity.citys.map((elem, idx) => <MenuItem value={ elem } primaryText={ elem } key={ idx } />)
 									}
 								</SelectField>
 								
@@ -314,7 +250,7 @@ class PlaceAnAd extends Component {
 									underlineFocusStyle={ style.underlineFocusStyle }
 									floatingLabelStyle={ style.labelStyle }
 									floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
-									errorText={ validarePlaceAnAd.titleName || validarePlaceAnAd.titleName === ' ' ? '' : ' ' } />
+									errorText={ validatePlaceAnAd.titleName || validatePlaceAnAd.titleName === ' ' ? '' : ' ' } />
 
 								<TextField
 									hintText='+7 *** *** ** **'
@@ -324,7 +260,7 @@ class PlaceAnAd extends Component {
 									underlineFocusStyle={ style.underlineFocusStyle }
 									floatingLabelStyle={ style.labelStyle }
 									floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
-									errorText={ validarePlaceAnAd.phoneNumber || validarePlaceAnAd.phoneNumber === ' ' ? '' : ' ' } />
+									errorText={ validatePlaceAnAd.phoneNumber || validatePlaceAnAd.phoneNumber === ' ' ? '' : ' ' } />
 
 								<TextField
 									hintText='Максимум 200 символов'
@@ -336,7 +272,7 @@ class PlaceAnAd extends Component {
 									multiLine={ true }
 									rows={ 1 }
 									className='briefDescription'
-									errorText={ validarePlaceAnAd.textContent || validarePlaceAnAd.textContent === ' ' ? '' : ' ' }
+									errorText={ validatePlaceAnAd.textContent || validatePlaceAnAd.textContent === ' ' ? '' : ' ' }
 								/>
 
 								{
@@ -348,15 +284,17 @@ class PlaceAnAd extends Component {
 										name='price'
 										floatingLabelStyle={ style.labelStyle }
 										floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
-										errorText={ validarePlaceAnAd.placePrice || validarePlaceAnAd.placePrice === ' ' ? '' : ' ' }
+										errorText={ validatePlaceAnAd.placePrice || validatePlaceAnAd.placePrice === ' ' ? '' : ' ' }
 									/>
 								}
 							</form>
 
 							<Checkbox
 								label='Даю согласие на обработку персональных данных'
-								style={ this.style.checkbox }
+								style={ style.checkbox }
 								className='checkBoxLink'
+								defaultChecked={ true }
+								onChange={ this.handleCheckCheckbox }
 							/>
 							<Link to='conf' className='linkConf'>Политика конфиденциальности</Link>
 						</div>
@@ -367,17 +305,23 @@ class PlaceAnAd extends Component {
 							<p className='photoDescpipt'>Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg, jpg</b> </p>
 
 							<div className='buttonsAddPhoto'>
-								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto0 } />
-								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto1 } />
-								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto2 } />
-								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto3 } />
-								<AddPhotoInputComponent handleSnackbar={ this.props.handleSnackbar } handlePhoto={ handlePhoto4 } />
+
+								<AddPhotoInputComponent />
+
+								<AddPhotoInputComponent />
+
+								<AddPhotoInputComponent />
+
+								<AddPhotoInputComponent />
+
+								<AddPhotoInputComponent />
+
 							</div>
 
 						</div>
 					</div>
 					<div>
-						<a href='javascript:void(0)' className='btnPlace' onClick={ this.postMethodAddCard }>
+						<a href='javascript:void(0)' className='btnPlace' onClick={ this.handleSendForm }>
 							<i className='fa fa-cloud-upload' aria-hidden='true' />
 							<span>Разместить</span>
 						</a>
@@ -392,7 +336,7 @@ export default connect(state => ({ state }),
 	dispatch => bindActionCreators({
 		...actionsSnackbarReducer,
 		...actionsPhotosReducer,
-		...actionsValidarePlaceAnAd,
+		...actionsValidatePlaceAnAd,
 		...actionsAllParamsUrl
 	}, dispatch)
 )(PlaceAnAd)

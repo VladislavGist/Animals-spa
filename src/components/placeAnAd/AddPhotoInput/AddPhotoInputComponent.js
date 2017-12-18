@@ -1,21 +1,27 @@
 import classNames from 'classnames'
+import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 
-export default class AddPhotoInputComponent extends Component {
+import { actions as actionsPhotosReducer } from '../../../ducks/photosReducer'
+import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
+
+class AddPhotoInputComponent extends Component {
 
 	state = {
-		active: false
+		active: false,
+		unmountValue: ''
 	}
 
 	changeInput = e => {
 
-		const { handlePhoto } = this.props
+		const { handleAddPhoto } = this.props
 
 		if (e.target.value.length && e.target.files[0].type === 'image/jpeg') {
 			this.setState({
 				active: true
 			})
-			handlePhoto(e.target.files[0])
+			handleAddPhoto()
 		} else {
 			this.props.handleSnackbar('Формат изображения должен быть jpeg или jpg')
 			this.setState({
@@ -24,7 +30,15 @@ export default class AddPhotoInputComponent extends Component {
 		}
 	}
 
+	componentWillUnmount() {
+		this.setState({
+			active: false,
+			unmountValue: ''
+		})
+	}
+
 	render() {
+
 		return <div className={
 			classNames({
 				loadingPhoto: true,
@@ -39,7 +53,17 @@ export default class AddPhotoInputComponent extends Component {
 					'fa-plus': !this.state.active
 				}) }
 			/>
-			<input type='file' accept='image/jpeg,image/png' className={ `formImg` } onChange={ this.changeInput } />
+			<input
+				type='file'
+				accept='image/jpeg,image/png'
+				className={ `formImg` }
+				onChange={ this.changeInput }
+				value={ this.state.unmountValue }
+			/>
 		</div>
 	}
 }
+
+export default connect(state => ({ state }),
+	dispatch => bindActionCreators({ ...actionsSnackbarReducer, ...actionsPhotosReducer }, dispatch)
+)(AddPhotoInputComponent)

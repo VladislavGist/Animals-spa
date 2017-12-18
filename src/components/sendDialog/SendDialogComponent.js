@@ -7,7 +7,7 @@ import FlatButton from 'material-ui/FlatButton'
 import { actions as actionsFilterCity } from '../../ducks/filterCity'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 
-import SendAndRegistrationsTabs from '../SendAndRegistrationsTabs/SendAndRegistrationsTabsComponent.js'
+import SendAndRegistrationsTabs from '../sendAndRegistrationsTabs/SendAndRegistrationsTabsComponent.js'
 
 import './SendDialogStyles.sass'
 
