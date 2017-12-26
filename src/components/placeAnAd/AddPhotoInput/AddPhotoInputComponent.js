@@ -21,7 +21,7 @@ class AddPhotoInputComponent extends Component {
 			this.setState({
 				active: true
 			})
-			handleAddPhoto()
+			handleAddPhoto(JSON.stringify(e.target.files[0]))
 		} else {
 			this.props.handleSnackbar('Формат изображения должен быть jpeg или jpg')
 			this.setState({

@@ -5,7 +5,9 @@
   "main": "public/index.html",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base node/public --port 8090 --host localhost",
-    "build": "NODE_ENV=production webpack -p"
+    "build": "NODE_ENV=production webpack -p",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "Vladislav Druzhbinskiy",
   "license": "ISC",
@@ -25,6 +27,7 @@
     "redux": "3.6.0",
     "redux-devtools-extension": "2.13.0",
     "redux-thunk": "2.2.0",
+    "storybook": "^1.0.0",
     "underscore": "1.8.3",
     "whatwg-fetch": "2.0.3"
   },
@@ -55,7 +58,10 @@
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
     "webpack": "1.14.0",
-    "webpack-dev-server": "1.16.2"
+    "webpack-dev-server": "1.16.2",
+    "@storybook/react": "^3.2.19",
+    "@storybook/addon-actions": "^3.2.19",
+    "@storybook/addon-links": "^3.2.19"
   },
   "babel": {
     "plugins": [

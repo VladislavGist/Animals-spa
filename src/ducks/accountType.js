@@ -5,8 +5,11 @@ export const types = {
 }
 
 export const actions = {
+
 	handleShelter: () => ({ type: types.SHELTER }),
+
 	handlePermanentSeller: () => ({ type: types.PERMANENT_SELLER }),
+
 	handlePrivateSeller: () => ({ type: types.PRIVATE_SELLER })
 }
 
