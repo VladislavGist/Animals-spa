@@ -49,7 +49,7 @@ class PlaceAnAd extends Component {
 		let el = e.target.value
 
 		if (el.match(regexp)) {
-			[action][0](true)
+			[action][0](el)
 
 		} else if(el.length === 0) {
 			[action][0](' ')
@@ -127,9 +127,9 @@ class PlaceAnAd extends Component {
 
 	handleSendForm = () => {
 
-		const { postMethodAddCard, handleResetPlace } = this.props
+		const { postMethodAddCard, handleResetPlace, handleSnackbar } = this.props
 
-		postMethodAddCard(this.props.state, this.state, handleResetPlace)
+		postMethodAddCard(this.props.state, { ...this.state }, handleResetPlace, handleSnackbar)
 	}
 
 	render() {

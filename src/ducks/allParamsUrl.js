@@ -52,7 +52,9 @@ export const actions = {
 			.catch(() => console.log('Img catch'))
 	},
 
-	postMethodAddCard: (globalState, localState, handleResetPlace) => {
+	postMethodAddCard: (globalState, localState, handleResetPlace, handleSnackbar) => {
+
+		console.log(globalState.photosReducer.file01)
 
 		const { validatePlaceAnAd: { titleName, phoneNumber, textContent, placePrice }, photosReducer: { addPhoto } } = globalState
 
@@ -65,42 +67,32 @@ export const actions = {
 		}
 
 		// если все поля объявлени заполнены, то отправить данные
-		if (titleName && phoneNumber && textContent && addPhoto && toggleValidatePrice() && localState.state.checked) {
+		if (titleName && phoneNumber && textContent && addPhoto && toggleValidatePrice() && localState.checked) {
 
 			moment.locale('ru')
-			let now = moment()
-			// deleteDate = now.add(1, 'month').format('ll')
-			// let paramsUrl =
-			// 	'userName=' + this.props.state.loginUser.results[0].name + '&' +
-			// 	'animalType=' + this.state.animal.value + '&' +
-			// 	'advertisementType=' + this.state.category.value + '&' +
-			// 	'city=' + this.state.city.value + '&' +
-			// 	'title=' + $('input[name="title"]')[0].value + '&' +
-			// 	'phoneNumber=' + $('input[name="phoneNumber"]')[0].value + '&' +
-			// 	'briefDescription=' + $('.briefDescription')[0].childNodes[2].childNodes[1].value + '&' +
-			// 	`${this.state.category.value === 'gift' || this.state.category.value === 'find' ? 'price=' + '0' : 'price=' + $('input[name="price"]')[0].value}` + '&' +
-			// 	`userId=${ this.props.state.loginUser.results[0].user_id }` + '&' +
-			// 	`status=${ this.props.state.loginUser.results[0].accountType }` + '&' +
-			// 	`dataDelete=${deleteDate}`
+			let now = moment(),
+				deleteDate = now.add(1, 'month').format('ll')
+			let paramsUrl =
+				'userName=' + globalState.loginUser.results[0].name + '&' +
+				'animalType=' + localState.animal.value + '&' +
+				'advertisementType=' + localState.category.value + '&' +
+				'city=' + localState.city.value + '&' +
+				'title=' + globalState.validatePlaceAnAd.titleName + '&' +
+				'phoneNumber=' + globalState.validatePlaceAnAd.phoneNumber + '&' +
+				'briefDescription=' + globalState.validatePlaceAnAd.textContent + '&' +
+				`${ localState.category.value === 'gift' || localState.category.value === 'find' ? 'price=' + '0' : 'price=' + globalState.validatePlaceAnAd.placePrice }` + '&' +
+				`userId=${ globalState.loginUser.results[0].user_id }` + '&' +
+				`status=${ globalState.loginUser.results[0].accountType }` + '&' +
+				`dataDelete=${ deleteDate }`
 
-			this.postImagesCard(process.env.URL + '/add-advertisement/img/animalType/' + this.state.animal.value + '/advertisementType/' + this.state.category.value, this.thisFormData, process.env.URL + '/add-advertisement', paramsUrl)
+			this.postImagesCard(process.env.URL + '/add-advertisement/img/animalType/' + localState.animal.value + '/advertisementType/' + localState.category.value, 'images', process.env.URL + '/add-advertisement', paramsUrl)
 
 			// очистка данных формы
 			handleResetPlace()
-			// $('input[name="title"]')[0].value = ''
-			// $('input[name="phoneNumber"]')[0].value = ''
-			// $('.briefDescription')[0].childNodes[2].childNodes[1].nextSibling.value = ''
-			// this.state.category.value === 'gift' || this.state.category.value === 'find' ? '' : $('input[name="price"]')[0].value = ''
-			// document.querySelectorAll('.loadingPhoto input')[0].value = ''
-			// document.querySelectorAll('.loadingPhoto input')[1].value = ''
-			// document.querySelectorAll('.loadingPhoto input')[2].value = ''
-			// document.querySelectorAll('.loadingPhoto input')[3].value = ''
-			// document.querySelectorAll('.loadingPhoto input')[4].value = ''
-
 			// this.thisFormData.delete('photo')
 
 		} else {
-			this.props.handleSnackbar('Заполните все поля и/или дайте согласие на обработку Ваших данных')
+			handleSnackbar('Заполните все поля и/или дайте согласие на обработку Ваших данных')
 		}
 	}
 }

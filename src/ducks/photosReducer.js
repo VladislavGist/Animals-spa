@@ -6,7 +6,7 @@ export const types = {
 
 export const actions = {
 
-	handleAddPhoto: () => ({ type: types.ADD_PHOTO, payload: true }),
+	handleAddPhoto: file => ({ type: types.ADD_PHOTO, payload: true, file01: file }),
 
 	handleResetPlace: () => dispatch => {
 		dispatch({ type: typesValidatePlace.RESET_PLACE })
@@ -24,7 +24,8 @@ export default (state = initialState, action) => {
 
 	case types.ADD_PHOTO: return {
 		...state,
-		addPhoto: action.payload
+		addPhoto: action.payload,
+		file01: action.file
 	}
 
 	case typesValidatePlace.RESET_PLACE: return initialState
