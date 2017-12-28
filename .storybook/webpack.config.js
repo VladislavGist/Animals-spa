@@ -1,18 +1,32 @@
-// you can use this file to add your custom webpack plugins, loaders and anything you like.
-// This is just the basic way to add additional webpack configurations.
-// For more information refer the docs: https://storybook.js.org/configurations/custom-webpack-config
+const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-// IMPORTANT
-// When you add this file, we won't add the default configurations which is similar
-// to "React Create App". This only has babel loader to load JavaScript.
+const extractSass = new ExtractTextPlugin({
+	filename: '[name].[contenthash].css',
+	disable: true
+})
 
 module.exports = {
+	entry: './src/index.js',
   plugins: [
-    // your custom plugins
+	  extractSass
   ],
+	devtool: 'cheap-module-source-map',
   module: {
-    rules: [
-      // add your custom rules.
-    ],
+	  rules: [
+		  {
+			  test: /\.sass/,
+			  use: extractSass.extract({
+				  use: [{
+					  loader: 'css-loader'
+				  }, {
+					  loader: 'resolve-url-loader'
+				  }, {
+					  loader: 'sass-loader?sourceMap'
+				  }],
+				  fallback: 'style-loader'
+			  })
+		  },
+    ]
   },
 };

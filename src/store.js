@@ -1,4 +1,5 @@
 import thunk from 'redux-thunk'
+import { reducer } from 'redux-form'
 import { combineReducers } from 'redux'
 import { hashHistory } from 'react-router'
 import { routerReducer } from 'react-router-redux'
@@ -26,23 +27,24 @@ import snackbarReducer from './ducks/snackbarReducer'
 
 const reducers = combineReducers({
 	routing: routerReducer,
-	menuReducer,
-	serverReducer,
-	updateState,
-	loginUser,
+	form: reducer,
 	sendData,
-	allParamsUrl,
-	photosReducer,
-	validatePlaceAnAd,
-	accountType,
-	userPersonalDatas,
+	loginUser,
 	preloader,
-	filterCity,
-	toggleAddMoreBtn,
 	regReducer,
-	reducerCardsComplAndRej,
+	filterCity,
+	menuReducer,
+	accountType,
+	updateState,
+	allParamsUrl,
+	serverReducer,
+	photosReducer,
+	snackbarReducer,
 	contactFormStatus,
-	snackbarReducer
+	toggleAddMoreBtn,
+	validatePlaceAnAd,
+	userPersonalDatas,
+	reducerCardsComplAndRej
 })
 
 export const store = createStore(reducers, composeWithDevTools(applyMiddleware(routerMiddleware(hashHistory), thunk)))
