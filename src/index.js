@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute } from 'react-router'
 
-import App from './App.jsx'
+import App from './App.js'
 import { store, history } from './store'
 import Conf from './components/conf/ConfComponent.js'
 import NotFound from './components/notFound/NotFoundComponent.js'
