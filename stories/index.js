@@ -9,6 +9,7 @@ injectTapEventPlugin()
 
 import { store } from '../src/store'
 
+import Wrapper from './Wrapper'
 import LoginFormComponent from '../src/components/forms/loginForm/loginFormComponent'
 
 storiesOf('loginFormComponent', module)
@@ -16,7 +17,9 @@ storiesOf('loginFormComponent', module)
 		return (
 			<MuiThemeProvider>
 				<Provider store={ store }>
-					<LoginFormComponent />
+					<Wrapper>
+						<LoginFormComponent />
+					</Wrapper>
 				</Provider>
 			</MuiThemeProvider>
 		)
