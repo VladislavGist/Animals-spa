@@ -86,8 +86,12 @@ export const validate = values => {
 	if (!values.email) {
 		errors.email = 'Поле обязательно для заполнения!'
 	} else if (!values.email.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)) {
-		errors.email = 'Введите корректную фамилию'
+		errors.email = 'Введите корректный emil'
 	}
 
 	return errors
 }
+
+export const normilizePhone = values => values.replace(/[^\d]/g, '')
+
+export const normilizeText = values => values.replace(/[^\D]/g, '')
