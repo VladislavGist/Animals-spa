@@ -1,3 +1,5 @@
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
+
 export const types = {
 	REG_STATUS: 'REG_REDUCER/REG_STATUS',
 	REG_STATUS_CLEAR: 'REG_REDUCER/REG_STATUS_CLEAR'
@@ -6,7 +8,6 @@ export const types = {
 export const actions = {
 
 	regAction: (url, param) => dispatch => {
-		console.log({param})
 		fetch(url, {
 			method: 'post',
 			headers: {
@@ -17,9 +18,9 @@ export const actions = {
 			.then(response => {
 				response.json()
 					.then(data => dispatch({ type: types.REG_STATUS, payload: data }))
-					.catch(() => dispatch({ type: types.REG_STATUS, payload: 'Ошибка запроса' }))
+					.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса')))
 			})
-			.catch(() => dispatch({ type: types.REG_STATUS, payload: 'Ошибка запроса' }))
+			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err }`)))
 	},
 
 	onHandleRegStatusClear: () => ({ type: types.REG_STATUS_CLEAR })

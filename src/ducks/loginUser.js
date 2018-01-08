@@ -16,7 +16,6 @@ export const actions = {
 			.then(response => {
 				if (response.status !== 200) {
 					response.json().then(data => {
-						console.log(data.error)
 						dispatch(actionsSnackbarReducer.handleSnackbar(data.error))
 						dispatch({ type: types.LOGIN_FALSE, payload: data })
 					})
@@ -24,7 +23,7 @@ export const actions = {
 					response.json().then(data => dispatch({ type: types.LOGIN_TRUE, payload: data }))
 				}
 			})
-			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${err}`)))
+			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err }`)))
 	},
 
 	updateDatasTrue: url => dispatch => {
