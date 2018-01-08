@@ -31,13 +31,14 @@ export const renderField = ({
 }) => {
 	if (type === 'select') {
 		return <SelectField
-			hintText={ label }
+			hintText={ extra.hintText }
 			name={ label }
 			{ ...input }
 			errorText={ touched && error }
 			floatingLabelStyle={ extra.floatingLabelStyle }
 			labelStyle={ extra.labelStyle }
 			floatingLabelText={ extra.floatingLabelText }
+			floatingLabelFixed={ extra.floatingLabelFixed }
 			floatingLabelFocusStyle={ extra.floatingLabelFocusStyle }
 		>
 			{ children }
