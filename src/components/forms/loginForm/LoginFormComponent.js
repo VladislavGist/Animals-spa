@@ -1,28 +1,46 @@
+import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 import { Form, Field, reduxForm } from 'redux-form'
 
-import { renderField, validate, normilizePhone } from '../formValidate'
+import { actions as loginUserActions } from '../../../ducks/loginUser'
+
+import { renderField, validate } from '../formValidate'
+import { normilizePhone, validateInputs } from '../validationsInputs'
 
 class LoginFormComponent extends Component {
 
+	state = { disabledButton: true }
+
+	componentWillUpdate(nextProps) {
+		if (nextProps !== this.props) {
+			this.disabledSubmitButton(nextProps)
+		}
+	}
+
+	disabledSubmitButton = nextProps => {
+		const { loginForm: { values } } = nextProps
+
+		if (values &&
+			values.password &&
+			values.phoneNumber &&
+			values.password.match(validateInputs.password) &&
+			values.phoneNumber.match(validateInputs.phoneNumber)) {
+
+			this.setState({ disabledButton: false })
+		} else {
+			this.setState({ disabledButton: true })
+		}
+	}
+
 	handleLogin = event => {
 		event.preventDefault()
-
-		console.log('login')
-		// const { } = this.props.state
-
-		// получить данные из формы
-
-		// проверка что все поля заполнены
-		// отправка формы
-		// вывод в тултип ошибку
+		const { loginForm: { values }, loginAction } = this.props
+		loginAction(`${ process.env.URL }/protected?password=${ values.password }&phone=${ values.phoneNumber }`)
 	}
 
 	render() {
-
-		const { loginUser } = this.props.state
-
 		return (
 			<Form onSubmit={ this.handleLogin } className='sendForm'>
 				<Field
@@ -38,22 +56,17 @@ class LoginFormComponent extends Component {
 					label='Пароль'
 					component={ renderField }
 				/>
-
-				<div>
-					{ loginUser.error ?
-						<p className='loginFormErrMess'>{ loginUser.error }</p>
-						: null }
-				</div>
-
 				<div>
 					<input
 						type='submit'
 						value='Войти'
-						className='button2'
-						onClick={ this.handleLogin }
+						className={ classNames({
+							'button2': true,
+							'disabledButton': this.state.disabledButton
+						}) }
+						disabled={ this.state.disabledButton }
 					/>
 				</div>
-
 			</Form>
 		)
 	}
@@ -64,4 +77,6 @@ LoginFormComponent = reduxForm({
 	validate
 })(LoginFormComponent)
 
-export default connect(state => ({ state }))(LoginFormComponent)
+export default connect(state => ({ state, loginForm: state.form.loginForm }),
+	dispatch => bindActionCreators({ ...loginUserActions }, dispatch)
+)(LoginFormComponent)

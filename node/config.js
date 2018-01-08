@@ -1,5 +1,5 @@
 let config;
-module.exports = config  = {
+module.exports = config = {
 	port: {
 		dev: 8080,
 		prod: 80

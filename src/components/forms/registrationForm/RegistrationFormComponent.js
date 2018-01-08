@@ -3,14 +3,13 @@ import React, { Component } from 'react'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
 
-import { renderField, validate, normilizePhone, normilizeText } from '../formValidate'
+import { renderField, validate } from '../formValidate'
+import { normilizePhone, normilizeText } from '../validationsInputs'
 
 class RegistrationFormComponent extends Component {
 
 	state = {
-		city: {
-			value: 'Москва'
-		}
+		city: { value: 'Москва' }
 	}
 
 	handleChangeCity = (event, index, value) => this.setState({ city: { value } })

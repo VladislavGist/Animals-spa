@@ -1,6 +1,7 @@
 import React from 'react'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
+import { validateInputs } from './validationsInputs'
 
 const style = {
 	floatingLabelStyle: {
@@ -61,37 +62,33 @@ export const validate = values => {
 
 	if (!values.phoneNumber) {
 		errors.phoneNumber = 'Поле обязательно для заполнения!'
-	} else if (!values.phoneNumber.match(/^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/)) {
+	} else if (!values.phoneNumber.match(validateInputs.phoneNumber)) {
 		errors.phoneNumber = 'Введите корректный номер телефона'
 	}
 
 	if (!values.password) {
 		errors.password = 'Поле обязательно для заполнения!'
-	} else if (!values.password.match(/^[a-z0-9_-]{6,18}$/)) {
+	} else if (!values.password.match(validateInputs.password)) {
 		errors.password = 'Введите корректный пароль'
 	}
 
 	if (!values.name) {
 		errors.name = 'Поле обязательно для заполнения!'
-	} else if (!values.name.match(/^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$/u)) {
+	} else if (!values.name.match(validateInputs.name)) {
 		errors.name = 'Введите корректное имя'
 	}
 
 	if (!values.surname) {
 		errors.surname = 'Поле обязательно для заполнения!'
-	} else if (!values.surname.match(/^[a-zA-Zа-яА-Я'][a-zA-Zа-яА-Я-' ]+[a-zA-Zа-яА-Я']?$/u)) {
+	} else if (!values.surname.match(validateInputs.surname)) {
 		errors.surname = 'Введите корректную фамилию'
 	}
 
 	if (!values.email) {
 		errors.email = 'Поле обязательно для заполнения!'
-	} else if (!values.email.match(/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/)) {
+	} else if (!values.email.match(validateInputs.email)) {
 		errors.email = 'Введите корректный emil'
 	}
 
 	return errors
 }
-
-export const normilizePhone = values => values.replace(/[^\d]/g, '')
-
-export const normilizeText = values => values.replace(/[^\D]/g, '')
