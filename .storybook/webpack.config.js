@@ -9,7 +9,12 @@ const extractSass = new ExtractTextPlugin({
 module.exports = {
 	entry: './src/index.js',
   plugins: [
-	  extractSass
+	  extractSass,
+	  new webpack.DefinePlugin({
+		  'process.env': {
+			  URL: JSON.stringify('http://localhost:8080')
+		  }
+	  })
   ],
 	devtool: 'cheap-module-source-map',
   module: {

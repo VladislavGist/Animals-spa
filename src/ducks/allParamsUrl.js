@@ -53,11 +53,7 @@ export const actions = {
 	},
 
 	postMethodAddCard: (globalState, localState, handleResetPlace, handleSnackbar) => {
-
-		console.log(globalState.photosReducer.file01)
-
 		const { validatePlaceAnAd: { titleName, phoneNumber, textContent, placePrice }, photosReducer: { addPhoto } } = globalState
-
 		const toggleValidatePrice = () => {
 			if (localState.category.value === 'gift' || localState.category.value === 'find') {
 				return true
