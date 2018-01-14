@@ -18,6 +18,8 @@ import TopHeader from './components/topHeader/TopHeaderComponent.js'
 import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
 import LinearProgressExampleDeterminate from './components/progressBar/ProgressBarComponent.js'
 
+import LoginFormComponent from './components/forms/loginForm/LoginFormComponent'
+
 class App extends Component {
 
 	render() {

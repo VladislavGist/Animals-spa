@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -19,12 +20,39 @@ import '../../contacts/ContactsStyles.sass'
 
 class AddCardFormComponent extends Component {
 
+	state = { disabledButton: true }
+
+	componentWillUpdate(nextProps) {
+		if (nextProps !== this.props) {
+			this.disabledSubmitButton(nextProps)
+		}
+	}
+
 	componentWillUnmount() {
 		// this.props.handleResetPlace()
 		// this.props.onResetMessage()
 	}
 
-	// handleChangeAnimalType = (event, index, value) => this.setState({ animal: { value } })
+	disabledSubmitButton = nextProps => {
+
+		const { addCardForm: { values }, addPhoto } = nextProps
+
+		if (values &&
+			values.animals &&
+			values.category &&
+			values.city &&
+			values.title &&
+			values.phoneNumber &&
+			values.textArea &&
+			values.check &&
+			values.title.match(validateInputs.title) &&
+			values.textArea.match(validateInputs.textArea) &&
+			values.phoneNumber.match(validateInputs.phoneNumber) &&
+			addPhoto
+		) { this.setState({ disabledButton: false }) }
+		else { this.setState({ disabledButton: true }) }
+	}
+
 	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
 
 	menuItems01 = values => {
@@ -85,7 +113,13 @@ class AddCardFormComponent extends Component {
 	handleCheckCheckbox = () => this.setState({ checkbox: !this.state.checked })
 
 	handleSendForm = () => {
-
+		const { addCardForm, postMethodAddCard, handleResetPlace, handleSnackbar } = this.props
+		postMethodAddCard(
+			this.props.state,
+			{ ...addCardForm.values },
+			handleResetPlace,
+			handleSnackbar
+		)
 	}
 
 	render() {
@@ -227,14 +261,14 @@ class AddCardFormComponent extends Component {
 											labelStyle: style.labelStyle,
 											floatingLabelText: 'Категория',
 											floatingLabelFixed: true,
-											hintText: this.props.addCardForm.values.category,
+											hintText: addCardForm && addCardForm.values.category,
 											selectedMenuItemStyle: style.floatingLabelFocusStyle
 										} }
 									>
-										{ this.menuItems01(this.props.addCardForm.values.animals) }
-										{ this.menuItems02(this.props.addCardForm.values.animals) }
-										{ this.menuItems03(this.props.addCardForm.values.animals) }
-										{ this.menuItems04(this.props.addCardForm.values.animals) }
+										{ this.menuItems01(addCardForm && addCardForm.values.animals) }
+										{ this.menuItems02(addCardForm && addCardForm.values.animals) }
+										{ this.menuItems03(addCardForm && addCardForm.values.animals) }
+										{ this.menuItems04(addCardForm && addCardForm.values.animals) }
 									</Field>
 
 									<Field
@@ -246,7 +280,7 @@ class AddCardFormComponent extends Component {
 											labelStyle: style.labelStyle,
 											floatingLabelText: 'Город',
 											floatingLabelFixed: true,
-											hintText: this.props.addCardForm.values.city,
+											hintText: addCardForm && addCardForm.values.city,
 											selectedMenuItemStyle: style.floatingLabelFocusStyle
 										} }
 									>
@@ -284,14 +318,14 @@ class AddCardFormComponent extends Component {
 									/>
 
 									{
-										addCardForm.values.category === 'gift' ||
-										addCardForm.values.category === 'find' ? '' : <Field
-											type='text'
-											label='Цена'
-											name='price'
-											normalize={ normilizeNumber }
-											component={ renderField }
-										/>
+										(addCardForm && addCardForm.values.category === 'gift') ||
+										(addCardForm && addCardForm.values.category === 'find') ? '' : <Field
+												type='text'
+												label='Цена'
+												name='price'
+												normalize={ normilizeNumber }
+												component={ renderField }
+											/>
 									}
 
 									<Field
@@ -311,22 +345,27 @@ class AddCardFormComponent extends Component {
 							<div className='wrapPhotos'>
 								<p className='subtitle'>Фотографии</p>
 								<p className='photoDescpipt'>Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg, jpg</b> </p>
-
 								<div className='buttonsAddPhoto'>
-									<AddPhotoInputComponent />
-									<AddPhotoInputComponent />
-									<AddPhotoInputComponent />
-									<AddPhotoInputComponent />
-									<AddPhotoInputComponent />
+									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_0 } />
+									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_1 } />
+									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_2 } />
+									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_3 } />
+									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_4 } />
 								</div>
-
 							</div>
 						</div>
 						<div>
-							<a href='javascript:void(0)' className='btnPlace' onClick={ this.handleSendForm }>
+							<button
+								className={ classNames({
+									btnPlace: true,
+									disabledButton: this.state.disabledButton
+								}) }
+								disabled={ this.state.disabledButton }
+								onClick={ this.handleSendForm }
+							>
 								<i className='fa fa-cloud-upload' aria-hidden='true' />
 								<span>Разместить</span>
-							</a>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -342,6 +381,14 @@ AddCardFormComponent = reduxForm({
 })(AddCardFormComponent)
 
 export default connect(
-	state => ({ state, addCardForm: state.form.addCardForm }),
-	dispatch => bindActionCreators({ }, dispatch)
+	state => ({
+		state,
+		addCardForm: state.form.addCardForm,
+		addPhoto: state.photosReducer.addPhoto
+	}),
+	dispatch => bindActionCreators({
+		...actionsAllParamsUrl,
+		...actionsPhotosReducer,
+		...actionsSnackbarReducer
+	}, dispatch)
 )(AddCardFormComponent)

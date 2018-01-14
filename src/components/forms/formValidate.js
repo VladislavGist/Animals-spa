@@ -31,7 +31,7 @@ export const renderField = ({
 	extra
 }) => {
 	if (type === 'select') {
-		return <SelectField
+		return (<SelectField
 			{ ...input }
 			name={ label }
 			hintText={ extra.hintText }
@@ -43,9 +43,9 @@ export const renderField = ({
 			floatingLabelFocusStyle={ extra.floatingLabelFocusStyle }
 		>
 			{ children }
-		</SelectField>
-	} else if (type === 'text' || type === 'tel') {
-		return <TextField
+		</SelectField>)
+	} else if (type === 'text' || type === 'tel' || type === 'password') {
+		return (<TextField
 			{ ...input }
 			type={ type }
 			name={ label }
@@ -55,14 +55,19 @@ export const renderField = ({
 			floatingLabelStyle={ style.labelStyle }
 			underlineFocusStyle={ style.underlineFocusStyle }
 			floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
-		/>
+		/>)
 	} else if (type === 'checkbox') {
-		return <Checkbox
+		return (<Checkbox
 			name={ label }
 			label={ label }
 			checked={ input.value ? true : false }
 			onCheck={ input.onChange }
 			style={ extra.style }
+		/>)
+	} else {
+		return <TextField
+			{ ...input }
+			type='text'
 		/>
 	}
 }

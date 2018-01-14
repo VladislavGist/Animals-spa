@@ -19,23 +19,16 @@ class AddPhotoInputComponent extends Component {
 		const { handleAddPhoto } = this.props
 
 		if (e.target.value.length && e.target.files[0].type === 'image/jpeg') {
-			this.setState({
-				active: true
-			})
-			handleAddPhoto(JSON.stringify(e.target.files[0]))
+			this.setState({ active: true })
+			handleAddPhoto(e.target.files[0])
 		} else {
 			this.props.handleSnackbar('Формат изображения должен быть jpeg или jpg')
-			this.setState({
-				active: false
-			})
+			this.setState({ active: false })
 		}
 	}
 
 	componentWillUnmount() {
-		this.setState({
-			active: false,
-			unmountValue: ''
-		})
+		this.setState({ active: false, unmountValue: '' })
 	}
 
 	render() {
@@ -65,6 +58,4 @@ class AddPhotoInputComponent extends Component {
 	}
 }
 
-export default connect(state => ({ state }),
-	dispatch => bindActionCreators({ ...actionsSnackbarReducer, ...actionsPhotosReducer }, dispatch)
-)(AddPhotoInputComponent)
+export default connect(state => ({ state }))(AddPhotoInputComponent)

@@ -20,6 +20,7 @@ class LoginFormComponent extends Component {
 	}
 
 	disabledSubmitButton = nextProps => {
+
 		const { loginForm: { values } } = nextProps
 
 		if (values &&
@@ -27,7 +28,6 @@ class LoginFormComponent extends Component {
 			values.phoneNumber &&
 			values.password.match(validateInputs.password) &&
 			values.phoneNumber.match(validateInputs.phoneNumber)) {
-
 			this.setState({ disabledButton: false })
 		} else {
 			this.setState({ disabledButton: true })
@@ -43,19 +43,21 @@ class LoginFormComponent extends Component {
 	render() {
 		return (
 			<Form onSubmit={ this.handleLogin } className='sendForm'>
-				<Field
-					name='phoneNumber'
-					type='tel'
-					label='Номер телефона'
-					normalize={ normilizeNumber }
-					component={ renderField }
-				/>
-				<Field
-					name='password'
-					type='password'
-					label='Пароль'
-					component={ renderField }
-				/>
+				<div className='wrapInputs'>
+					<Field
+						name='phoneNumber'
+						type='tel'
+						label='Номер телефона'
+						normalize={ normilizeNumber }
+						component={ renderField }
+					/>
+					<Field
+						name='password'
+						type='password'
+						label='Пароль'
+						component={ renderField }
+					/>
+				</div>
 				<div>
 					<input
 						type='submit'

@@ -79,78 +79,76 @@ class RegistrationFormComponent extends Component {
 			}
 		}
 
-		return(
-			<Form onSubmit={ this.handleReg } className='registrationForm'>
-				<div className='wrapInputs'>
-					<Field
-						type='text'
-						label='Имя'
-						name='name'
-						normalize={ normilizeText }
-						component={ renderField }
-					/>
-					<Field
-						type='text'
-						label='Фамилия'
-						name='surname'
-						normalize={ normilizeText }
-						component={ renderField }
-					/>
-					<Field
-						type='tel'
-						label='Номер телефона'
-						name='phoneNumber'
-						normalize={ normilizeNumber }
-						component={ renderField }
-					/>
-					<Field
-						type='password'
-						label='Пароль'
-						name='password'
-						component={ renderField }
-					/>
-					<Field
-						name='city'
-						component={ renderField }
-						type='select'
-						extra={ {
-							floatingLabelStyle: styles.floatingLabelStyle,
-							labelStyle: styles.labelStyle,
-							floatingLabelText: 'Город',
-							floatingLabelFixed: true,
-							hintText: this.state.city.value,
-							selectedMenuItemStyle: styles.floatingLabelFocusStyle
-						} }
-					>
-						{
-							filterCity.citys.map((elem, idx) => <MenuItem
-								className='selectItem'
-								name='selectItem'
-								value={ elem }
-								primaryText={ <option>{ elem }</option> }
-								key={ idx }
-							/>)
-						}
-					</Field>
+		return(<Form onSubmit={ this.handleReg } className='registrationForm'>
+			<div className='wrapInputs'>
+				<Field
+					type='text'
+					label='Имя'
+					name='name'
+					normalize={ normilizeText }
+					component={ renderField }
+				/>
+				<Field
+					type='text'
+					label='Фамилия'
+					name='surname'
+					normalize={ normilizeText }
+					component={ renderField }
+				/>
+				<Field
+					type='tel'
+					label='Номер телефона'
+					name='phoneNumber'
+					normalize={ normilizeNumber }
+					component={ renderField }
+				/>
+				<Field
+					type='password'
+					label='Пароль'
+					name='password'
+					component={ renderField }
+				/>
+				<Field
+					name='city'
+					component={ renderField }
+					type='select'
+					extra={ {
+						floatingLabelStyle: styles.floatingLabelStyle,
+						labelStyle: styles.labelStyle,
+						floatingLabelText: 'Город',
+						floatingLabelFixed: true,
+						hintText: this.state.city.value,
+						selectedMenuItemStyle: styles.floatingLabelFocusStyle
+					} }
+				>
+					{
+						filterCity.citys.map((elem, idx) => <MenuItem
+							className='selectItem'
+							name='selectItem'
+							value={ elem }
+							primaryText={ <option>{ elem }</option> }
+							key={ idx }
+						/>)
+					}
+				</Field>
 
-					<Field type='text' label='Email' name='email' component={ renderField } />
-				</div>
+				<Field type='text' label='Email' name='email' component={ renderField } />
+			</div>
 
-				<div>
-					<input
-						type='submit'
-						value='Зарегистрироваться'
-						className={ classNames({
-							'btnReg': true,
-							'button2': true,
-							'disabledButton': this.state.disabledButton
-						}) }
-						disabled={ this.state.disabledButton }
-					/>
-				</div>
+			<div>
+				<input
+					type='submit'
+					value='Зарегистрироваться'
+					className={ classNames({
+						'btnReg': true,
+						'button2': true,
+						'disabledButton': this.state.disabledButton
+					}) }
+					disabled={ this.state.disabledButton }
+				/>
+			</div>
 
-			</Form>
-		)
+		</Form>)
 	}
 }
 
