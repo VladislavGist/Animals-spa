@@ -38,9 +38,7 @@ class PlaceAnAd extends Component {
 	}
 
 	handleChangeAnimalType = (event, index, value) => this.setState({ animal: { value } })
-
 	handleChangeCategory = (event, index, value) => this.setState({ category: { value } })
-
 	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
 
 	// функция валидации поля
@@ -120,9 +118,7 @@ class PlaceAnAd extends Component {
 	}
 
 	handleCheckCheckbox = () => {
-		this.setState({
-			checkbox: !this.state.checked
-		})
+		this.setState({ checkbox: !this.state.checked })
 	}
 
 	handleSendForm = () => {

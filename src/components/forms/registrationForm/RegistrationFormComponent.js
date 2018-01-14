@@ -7,7 +7,7 @@ import { Form, Field, reduxForm } from 'redux-form'
 
 import { renderField, validate } from '../formValidate'
 import { actions as actionsRegReducer } from '../../../ducks/regReducer'
-import { normilizePhone, normilizeText, validateInputs } from '../validationsInputs'
+import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
 
 class RegistrationFormComponent extends Component {
 
@@ -64,7 +64,7 @@ class RegistrationFormComponent extends Component {
 
 	render() {
 
-		const { regReducer, filterCity } = this.props.state
+		const { filterCity } = this.props.state
 
 		const styles = {
 			floatingLabelStyle: {
@@ -76,10 +76,6 @@ class RegistrationFormComponent extends Component {
 			},
 			floatingLabelFocusStyle: {
 				'color': '#2396f1'
-			},
-			menuItem: {
-				display: 'flex',
-				alignItems: 'center'
 			}
 		}
 
@@ -104,7 +100,7 @@ class RegistrationFormComponent extends Component {
 						type='tel'
 						label='Номер телефона'
 						name='phoneNumber'
-						normalize={ normilizePhone }
+						normalize={ normilizeNumber }
 						component={ renderField }
 					/>
 					<Field
@@ -130,7 +126,6 @@ class RegistrationFormComponent extends Component {
 							filterCity.citys.map((elem, idx) => <MenuItem
 								className='selectItem'
 								name='selectItem'
-								style={ styles.menuItem }
 								value={ elem }
 								primaryText={ <option>{ elem }</option> }
 								key={ idx }

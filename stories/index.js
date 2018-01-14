@@ -11,6 +11,7 @@ import { store } from '../src/store'
 
 import Wrapper from './Wrapper'
 import TabsFormsComponent from '../src/components/forms/tabsForms/TabsFormsComponent'
+import AddCardFormComponent from '../src/components/forms/addCardForm/AddCardFormComponent'
 
 storiesOf('loginFormComponent', module)
 	.add('default', () => {
@@ -19,6 +20,19 @@ storiesOf('loginFormComponent', module)
 				<Provider store={ store }>
 					<Wrapper>
 						<TabsFormsComponent />
+					</Wrapper>
+				</Provider>
+			</MuiThemeProvider>
+		)
+	})
+
+storiesOf('AddCardFormComponent', module)
+	.add('default', () => {
+		return (
+			<MuiThemeProvider>
+				<Provider store={ store }>
+					<Wrapper>
+						<AddCardFormComponent />
 					</Wrapper>
 				</Provider>
 			</MuiThemeProvider>

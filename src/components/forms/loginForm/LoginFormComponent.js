@@ -7,7 +7,7 @@ import { Form, Field, reduxForm } from 'redux-form'
 import { actions as loginUserActions } from '../../../ducks/loginUser'
 
 import { renderField, validate } from '../formValidate'
-import { normilizePhone, validateInputs } from '../validationsInputs'
+import { normilizeNumber, validateInputs } from '../validationsInputs'
 
 class LoginFormComponent extends Component {
 
@@ -47,7 +47,7 @@ class LoginFormComponent extends Component {
 					name='phoneNumber'
 					type='tel'
 					label='Номер телефона'
-					normalize={ normilizePhone }
+					normalize={ normilizeNumber }
 					component={ renderField }
 				/>
 				<Field

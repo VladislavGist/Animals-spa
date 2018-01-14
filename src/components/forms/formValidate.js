@@ -1,4 +1,5 @@
 import React from 'react'
+import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import { validateInputs } from './validationsInputs'
@@ -31,35 +32,56 @@ export const renderField = ({
 }) => {
 	if (type === 'select') {
 		return <SelectField
-			hintText={ extra.hintText }
-			name={ label }
 			{ ...input }
+			name={ label }
+			hintText={ extra.hintText }
 			errorText={ touched && error }
-			floatingLabelStyle={ extra.floatingLabelStyle }
 			labelStyle={ extra.labelStyle }
 			floatingLabelText={ extra.floatingLabelText }
+			floatingLabelStyle={ extra.floatingLabelStyle }
 			floatingLabelFixed={ extra.floatingLabelFixed }
 			floatingLabelFocusStyle={ extra.floatingLabelFocusStyle }
 		>
 			{ children }
 		</SelectField>
-	} else {
+	} else if (type === 'text' || type === 'tel') {
 		return <TextField
+			{ ...input }
+			type={ type }
+			name={ label }
 			hintText={ label }
 			floatingLabelText={ label }
-			name={ label }
-			type={ type }
-			{ ...input }
-			underlineFocusStyle={ style.underlineFocusStyle }
+			errorText={ touched && error }
 			floatingLabelStyle={ style.labelStyle }
+			underlineFocusStyle={ style.underlineFocusStyle }
 			floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
-			errorText={ touched && error } />
+		/>
+	} else if (type === 'checkbox') {
+		return <Checkbox
+			name={ label }
+			label={ label }
+			checked={ input.value ? true : false }
+			onCheck={ input.onChange }
+			style={ extra.style }
+		/>
 	}
 }
 
 export const validate = values => {
 
 	const errors = {}
+
+	if (!values.textArea) {
+		errors.textArea = 'Поле обязательно для заполнения!'
+	} else if (!values.textArea.match(validateInputs.textArea)) {
+		errors.textArea = 'Введите корректное описание'
+	}
+
+	if (!values.title) {
+		errors.title = 'Поле обязательно для заполнения!'
+	} else if (!values.title.match(validateInputs.title)) {
+		errors.title = 'Введите корректное название'
+	}
 
 	if (!values.phoneNumber) {
 		errors.phoneNumber = 'Поле обязательно для заполнения!'
@@ -89,6 +111,12 @@ export const validate = values => {
 		errors.email = 'Поле обязательно для заполнения!'
 	} else if (!values.email.match(validateInputs.email)) {
 		errors.email = 'Введите корректный emil'
+	}
+
+	if (!values.price) {
+		errors.price = 'Поле обязательно для заполнения!'
+	} else if (!values.price.match(validateInputs.price)) {
+		errors.price = 'Введите корректную сумму'
 	}
 
 	return errors
