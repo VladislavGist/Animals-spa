@@ -300,13 +300,10 @@ class AddCardFormComponent extends Component {
 										name='check'
 										component={ renderField }
 										className='checkBoxLink'
-									  extra={ {
-										  style: style.checkbox
-									  } }
+										extra={ { style: style.checkbox } }
 									/>
 
 								</Form>
-
 								<Link to='conf' className='linkConf'>Политика конфиденциальности</Link>
 							</div>
 						</div>
