@@ -7,7 +7,7 @@ import { Form, Field, reduxForm } from 'redux-form'
 
 import { renderField, validate } from '../formValidate'
 import { actions as actionsRegReducer } from '../../../ducks/regReducer'
-import { normilizePhone, normilizeText, validateInputs } from '../validationsInputs'
+import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
 
 class RegistrationFormComponent extends Component {
 
@@ -64,7 +64,7 @@ class RegistrationFormComponent extends Component {
 
 	render() {
 
-		const { regReducer, filterCity } = this.props.state
+		const { filterCity } = this.props.state
 
 		const styles = {
 			floatingLabelStyle: {
@@ -76,86 +76,79 @@ class RegistrationFormComponent extends Component {
 			},
 			floatingLabelFocusStyle: {
 				'color': '#2396f1'
-			},
-			menuItem: {
-				display: 'flex',
-				alignItems: 'center'
 			}
 		}
 
-		return(
-			<Form onSubmit={ this.handleReg } className='registrationForm'>
-				<div className='wrapInputs'>
-					<Field
-						type='text'
-						label='Имя'
-						name='name'
-						normalize={ normilizeText }
-						component={ renderField }
-					/>
-					<Field
-						type='text'
-						label='Фамилия'
-						name='surname'
-						normalize={ normilizeText }
-						component={ renderField }
-					/>
-					<Field
-						type='tel'
-						label='Номер телефона'
-						name='phoneNumber'
-						normalize={ normilizePhone }
-						component={ renderField }
-					/>
-					<Field
-						type='password'
-						label='Пароль'
-						name='password'
-						component={ renderField }
-					/>
-					<Field
-						name='city'
-						component={ renderField }
-						type='select'
-						extra={ {
-							floatingLabelStyle: styles.floatingLabelStyle,
-							labelStyle: styles.labelStyle,
-							floatingLabelText: 'Город',
-							floatingLabelFixed: true,
-							hintText: this.state.city.value,
-							selectedMenuItemStyle: styles.floatingLabelFocusStyle
-						} }
-					>
-						{
-							filterCity.citys.map((elem, idx) => <MenuItem
-								className='selectItem'
-								name='selectItem'
-								style={ styles.menuItem }
-								value={ elem }
-								primaryText={ <option>{ elem }</option> }
-								key={ idx }
-							/>)
-						}
-					</Field>
+		return(<Form onSubmit={ this.handleReg } className='registrationForm'>
+			<div className='wrapInputs'>
+				<Field
+					type='text'
+					label='Имя'
+					name='name'
+					normalize={ normilizeText }
+					component={ renderField }
+				/>
+				<Field
+					type='text'
+					label='Фамилия'
+					name='surname'
+					normalize={ normilizeText }
+					component={ renderField }
+				/>
+				<Field
+					type='tel'
+					label='Номер телефона'
+					name='phoneNumber'
+					normalize={ normilizeNumber }
+					component={ renderField }
+				/>
+				<Field
+					type='password'
+					label='Пароль'
+					name='password'
+					component={ renderField }
+				/>
+				<Field
+					name='city'
+					component={ renderField }
+					type='select'
+					extra={ {
+						floatingLabelStyle: styles.floatingLabelStyle,
+						labelStyle: styles.labelStyle,
+						floatingLabelText: 'Город',
+						floatingLabelFixed: true,
+						hintText: this.state.city.value,
+						selectedMenuItemStyle: styles.floatingLabelFocusStyle
+					} }
+				>
+					{
+						filterCity.citys.map((elem, idx) => <MenuItem
+							className='selectItem'
+							name='selectItem'
+							value={ elem }
+							primaryText={ <option>{ elem }</option> }
+							key={ idx }
+						/>)
+					}
+				</Field>
 
-					<Field type='text' label='Email' name='email' component={ renderField } />
-				</div>
+				<Field type='text' label='Email' name='email' component={ renderField } />
+			</div>
 
-				<div>
-					<input
-						type='submit'
-						value='Зарегистрироваться'
-						className={ classNames({
-							'btnReg': true,
-							'button2': true,
-							'disabledButton': this.state.disabledButton
-						}) }
-						disabled={ this.state.disabledButton }
-					/>
-				</div>
+			<div>
+				<input
+					type='submit'
+					value='Зарегистрироваться'
+					className={ classNames({
+						'btnReg': true,
+						'button2': true,
+						'disabledButton': this.state.disabledButton
+					}) }
+					disabled={ this.state.disabledButton }
+				/>
+			</div>
 
-			</Form>
-		)
+		</Form>)
 	}
 }
 

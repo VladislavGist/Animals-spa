@@ -42,38 +42,37 @@ export default class TabsForms extends Component {
 		styles.tab[1] = styles.default_tab
 		styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[this.state.slideIndex], styles.active_tab)
 
-		return (
-			<Tabs
-				value={ this.state.value }
-				onChange={ this.handleChange }
-				className='sendAndRegTabs'
-				inkBarStyle={ styles.inkBarStyle }
-				contentContainerStyle={ styles.tabTemplateStyle }>
+		return (<Tabs
+			value={ this.state.value }
+			onChange={ this.handleChange }
+			className='sendAndRegTabs'
+			inkBarStyle={ styles.inkBarStyle }
+			contentContainerStyle={ styles.tabTemplateStyle }>
 
-				<Tab
-					label='Войти'
-					value='0'
-					className='tabBtn'
-					style={ styles.tab[0] }
-					onActive={ this.handleActive }>
-					<div>
-						<LoginFormComponent />
-					</div>
-				</Tab>
+			<Tab
+				label='Войти'
+				value='0'
+				className='tabBtn'
+				style={ styles.tab[0] }
+				onActive={ this.handleActive }
+			>
+				<div>
+					<LoginFormComponent />
+				</div>
+			</Tab>
 
-				<Tab
-					label='Регистрация'
-					value='1'
-					className='tabBtn'
-					style={ styles.tab[1] }
-					onActive={ this.handleActive }
-				>
-					<div>
-						<RegistrationFormComponent />
-					</div>
-				</Tab>
+			<Tab
+				label='Регистрация'
+				value='1'
+				className='tabBtn'
+				style={ styles.tab[1] }
+				onActive={ this.handleActive }
+			>
+				<div>
+					<RegistrationFormComponent />
+				</div>
+			</Tab>
 
-			</Tabs>
-		)
+		</Tabs>)
 	}
 }

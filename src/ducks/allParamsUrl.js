@@ -52,44 +52,36 @@ export const actions = {
 			.catch(() => console.log('Img catch'))
 	},
 
-	postMethodAddCard: (globalState, localState, handleResetPlace, handleSnackbar) => {
-		const { validatePlaceAnAd: { titleName, phoneNumber, textContent, placePrice }, photosReducer: { addPhoto } } = globalState
-		const toggleValidatePrice = () => {
-			if (localState.category.value === 'gift' || localState.category.value === 'find') {
-				return true
-			} else {
-				return placePrice === true
-			}
-		}
+	postMethodAddCard: (globalState, localState, handleResetPlace) => {
 
-		// если все поля объявлени заполнены, то отправить данные
-		if (titleName && phoneNumber && textContent && addPhoto && toggleValidatePrice() && localState.checked) {
+		moment.locale('ru')
+		let now = moment(), deleteDate = now.add(1, 'month').format('ll')
+		let paramsUrl = `userName=${ globalState.loginUser.results[0].name }&
+			animalType=${ localState.animals }&
+			advertisementType=${ localState.category }&
+			city=${ localState.city }&
+			title=${ localState.title }&
+			phoneNumber=${ localState.phoneNumber }&
+			briefDescription=${ localState.textArea }&
+			${ localState.category === 'gift'
+			|| localState.category === 'find' ? 'price=' + '0' : 'price=' + localState.textArea.price }&
+			userId=${ globalState.loginUser.results[0].user_id }&
+			status=${ globalState.loginUser.results[0].accountType }&
+			dataDelete=${ deleteDate }`
 
-			moment.locale('ru')
-			let now = moment(),
-				deleteDate = now.add(1, 'month').format('ll')
-			let paramsUrl =
-				'userName=' + globalState.loginUser.results[0].name + '&' +
-				'animalType=' + localState.animal.value + '&' +
-				'advertisementType=' + localState.category.value + '&' +
-				'city=' + localState.city.value + '&' +
-				'title=' + globalState.validatePlaceAnAd.titleName + '&' +
-				'phoneNumber=' + globalState.validatePlaceAnAd.phoneNumber + '&' +
-				'briefDescription=' + globalState.validatePlaceAnAd.textContent + '&' +
-				`${ localState.category.value === 'gift' || localState.category.value === 'find' ? 'price=' + '0' : 'price=' + globalState.validatePlaceAnAd.placePrice }` + '&' +
-				`userId=${ globalState.loginUser.results[0].user_id }` + '&' +
-				`status=${ globalState.loginUser.results[0].accountType }` + '&' +
-				`dataDelete=${ deleteDate }`
+		this.postImagesCard(`
+			${ process.env.URL }'/add-advertisement/img/animalType/'
+			${ localState.animals }'/advertisementType/'
+			${ localState.category }
+			'images'
+			${ process.env.URL }
+			'/add-advertisement'
+			${ paramsUrl }`
+		)
 
-			this.postImagesCard(process.env.URL + '/add-advertisement/img/animalType/' + localState.animal.value + '/advertisementType/' + localState.category.value, 'images', process.env.URL + '/add-advertisement', paramsUrl)
+		handleResetPlace()
+		// this.thisFormData.delete('photo')
 
-			// очистка данных формы
-			handleResetPlace()
-			// this.thisFormData.delete('photo')
-
-		} else {
-			handleSnackbar('Заполните все поля и/или дайте согласие на обработку Ваших данных')
-		}
 	}
 }
 

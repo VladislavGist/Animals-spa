@@ -7,7 +7,8 @@ import FlatButton from 'material-ui/FlatButton'
 import { actions as actionsFilterCity } from '../../ducks/filterCity'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 
-import SendAndRegistrationsTabs from '../sendAndRegistrationsTabs/SendAndRegistrationsTabsComponent.js'
+import TabsFormsComponent from '../forms/tabsForms/TabsFormsComponent'
+import SendAndRegistrationsTabsComponent from '../sendAndRegistrationsTabs/SendAndRegistrationsTabsComponent'
 
 import './SendDialogStyles.sass'
 
@@ -71,7 +72,7 @@ class LoginModal extends Component {
 			actionsContainerStyle={ styles.actionsContainerStyle }
 			bodyStyle={ styles.overlayStyle }
 		>
-			<SendAndRegistrationsTabs className='sendAndRegDialog' />
+			<TabsFormsComponent />
 		</Dialog>
 
 		const dialogModal02 = () => {
