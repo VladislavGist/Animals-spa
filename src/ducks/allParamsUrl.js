@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import axios from 'axios'
 import moment from 'moment'
 
 export const types = {
@@ -56,27 +57,13 @@ export const actions = {
 
 		moment.locale('ru')
 		let now = moment(), deleteDate = now.add(1, 'month').format('ll')
-		let paramsUrl = `userName=${ globalState.loginUser.results[0].name }&
-			animalType=${ localState.animals }&
-			advertisementType=${ localState.category }&
-			city=${ localState.city }&
-			title=${ localState.title }&
-			phoneNumber=${ localState.phoneNumber }&
-			briefDescription=${ localState.textArea }&
-			${ localState.category === 'gift'
-			|| localState.category === 'find' ? 'price=' + '0' : 'price=' + localState.textArea.price }&
-			userId=${ globalState.loginUser.results[0].user_id }&
-			status=${ globalState.loginUser.results[0].accountType }&
-			dataDelete=${ deleteDate }`
+		let paramsUrl = `userName=${ globalState.loginUser.results[0].name }&animalType=${ localState.animals }&advertisementType=${ localState.category }&city=${ localState.city }&title=${ localState.title }&phoneNumber=${ localState.phoneNumber }&briefDescription=${ localState.textArea }&${ localState.category === 'gift' || localState.category === 'find' ? 'price=' + '0' : 'price=' + localState.price }&userId=${ globalState.loginUser.results[0].user_id }&status=${ globalState.loginUser.results[0].accountType }&dataDelete=${ deleteDate }`
 
-		this.postImagesCard(`
-			${ process.env.URL }'/add-advertisement/img/animalType/'
-			${ localState.animals }'/advertisementType/'
-			${ localState.category }
-			'images'
-			${ process.env.URL }
-			'/add-advertisement'
-			${ paramsUrl }`
+		this.postImagesCard(
+			`${ process.env.URL }'/add-advertisement/img/animalType/'${ localState.animals }'/advertisementType/'${ localState.category }`,
+			'images',
+			`${ process.env.URL }'/add-advertisement'`,
+			`${ paramsUrl }`
 		)
 
 		handleResetPlace()
@@ -86,11 +73,8 @@ export const actions = {
 }
 
 export default (state = {}, action) => {
-
 	switch (action.type) {
-
 	case types.CHANGE_URL: return action.payload
-
 	default: return state
 	}
 }
