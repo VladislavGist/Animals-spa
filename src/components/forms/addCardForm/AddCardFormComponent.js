@@ -113,12 +113,21 @@ class AddCardFormComponent extends Component {
 	handleCheckCheckbox = () => this.setState({ checkbox: !this.state.checked })
 
 	handleSendForm = () => {
-		const { addCardForm, postMethodAddCard, handleResetPlace, handleSnackbar } = this.props
+		const { addCardForm, postMethodAddCard, handleResetPlace, images } = this.props
+
+		const formData = new FormData()
+
+		for (let i in images) {
+			if ((typeof images[i] === 'object') && (images[i] !== null)) {
+				formData.append('photo', images[i])
+			}
+		}
+
 		postMethodAddCard(
 			this.props.state,
 			{ ...addCardForm.values },
 			handleResetPlace,
-			handleSnackbar
+			formData
 		)
 	}
 
@@ -384,7 +393,8 @@ export default connect(
 	state => ({
 		state,
 		addCardForm: state.form.addCardForm,
-		addPhoto: state.photosReducer.addPhoto
+		addPhoto: state.photosReducer.addPhoto,
+		images: state.photosReducer
 	}),
 	dispatch => bindActionCreators({
 		...actionsAllParamsUrl,

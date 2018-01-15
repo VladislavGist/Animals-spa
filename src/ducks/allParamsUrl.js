@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import axios from 'axios'
 import moment from 'moment'
 
 export const types = {
@@ -34,8 +35,7 @@ export const actions = {
 			.catch(() => console.log('replaceStatusCard catch'))
 	},
 
-	postImagesCard: (url, thisFormData, anAdUrl, anAdParapms) => () => {
-
+	postImagesCard: (url, thisFormData, anAdUrl, anAdParapms) => {
 		fetch(url, { body: thisFormData, method: 'post' })
 			.then(() => {
 				fetch(anAdUrl, {
@@ -52,45 +52,26 @@ export const actions = {
 			.catch(() => console.log('Img catch'))
 	},
 
-	postMethodAddCard: (globalState, localState, handleResetPlace) => {
-
+	postMethodAddCard: (globalState, localState, handleResetPlace, images) => {
 		moment.locale('ru')
 		let now = moment(), deleteDate = now.add(1, 'month').format('ll')
-		let paramsUrl = `userName=${ globalState.loginUser.results[0].name }&
-			animalType=${ localState.animals }&
-			advertisementType=${ localState.category }&
-			city=${ localState.city }&
-			title=${ localState.title }&
-			phoneNumber=${ localState.phoneNumber }&
-			briefDescription=${ localState.textArea }&
-			${ localState.category === 'gift'
-			|| localState.category === 'find' ? 'price=' + '0' : 'price=' + localState.textArea.price }&
-			userId=${ globalState.loginUser.results[0].user_id }&
-			status=${ globalState.loginUser.results[0].accountType }&
-			dataDelete=${ deleteDate }`
+		let paramsUrl = `userName=${ globalState.loginUser.results[0].name }&animalType=${ localState.animals }&advertisementType=${ localState.category }&city=${ localState.city }&title=${ localState.title }&phoneNumber=${ localState.phoneNumber }&briefDescription=${ localState.textArea }&${ localState.category === 'gift' || localState.category === 'find' ? 'price=' + '0' : 'price=' + localState.price }&userId=${ globalState.loginUser.results[0].user_id }&status=${ globalState.loginUser.results[0].accountType }&dataDelete=${ deleteDate }`
 
-		this.postImagesCard(`
-			${ process.env.URL }'/add-advertisement/img/animalType/'
-			${ localState.animals }'/advertisementType/'
-			${ localState.category }
-			'images'
-			${ process.env.URL }
-			'/add-advertisement'
-			${ paramsUrl }`
+		actions.postImagesCard(
+			`${ process.env.URL }/add-advertisement/img/animalType/${ localState.animals }/advertisementType/${ localState.category }`,
+			images,
+			`${ process.env.URL }/add-advertisement`,
+			paramsUrl
 		)
 
 		handleResetPlace()
-		// this.thisFormData.delete('photo')
-
+		this.thisFormData.delete('photo')
 	}
 }
 
 export default (state = {}, action) => {
-
 	switch (action.type) {
-
 	case types.CHANGE_URL: return action.payload
-
 	default: return state
 	}
 }
