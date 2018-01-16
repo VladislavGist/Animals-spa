@@ -132,7 +132,12 @@ class RegistrationFormComponent extends Component {
 					}
 				</Field>
 
-				<Field type='text' label='Email' name='email' component={ renderField } />
+				<Field
+					type='text'
+					label='Email'
+					name='email'
+					component={ renderField }
+				/>
 			</div>
 
 			<div>
