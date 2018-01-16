@@ -20,9 +20,7 @@ export default class TabsForms extends Component {
 	render() {
 
 		const styles = {
-			inkBarStyle: {
-				backgroundColor: false
-			},
+			inkBarStyle: { backgroundColor: false },
 			default_tab: {
 				backgroundColor: 'white',
 				color: '#add1ed',

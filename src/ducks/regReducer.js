@@ -8,6 +8,7 @@ export const types = {
 export const actions = {
 
 	regAction: (url, param) => dispatch => {
+
 		fetch(url, {
 			method: 'post',
 			headers: {
@@ -28,13 +29,9 @@ export const actions = {
 }
 
 export default (state = '', action) => {
-
 	switch (action.type) {
-
 	case types.REG_STATUS: return action.payload
-
 	case types.REG_STATUS_CLEAR: return ''
-
 	default: return state
 	}
 }

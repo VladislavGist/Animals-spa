@@ -11,22 +11,16 @@ class SnackbarExampleSimple extends React.Component {
 	constructor(props) {
 		super(props)
 		this.elem = store.getState().snackbarReducer
-		this.state = {
-			open: false,
-		}
+		this.state = { open: false }
 	}
 
 	handleTouchTap = () => {
-		this.setState({
-			open: true
-		})
+		this.setState({ open: true })
 	}
 
 	handleRequestClose = () => {
 		// функция срабатывает спустя 4 сек., меняет store, очищаем значение переменной чтобы сратабывало не единожды
-		this.setState({
-			open: false,
-		})
+		this.setState({ open: false })
 		this.props.handleSnackbar('')
 		this.elem = ''
 	}

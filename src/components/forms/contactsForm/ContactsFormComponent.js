@@ -27,8 +27,6 @@ class ContactsFormComponent extends Component {
 
 		const { contactsForm: { values } } = nextProps
 
-		console.log({ values })
-
 		if (values &&
 			values.name &&
 			values.email &&
@@ -43,7 +41,9 @@ class ContactsFormComponent extends Component {
 		else { this.setState({ disabledButton: true }) }
 	}
 
-	handleMessage = () => {
+	handleMessage = event => {
+
+		event.preventDefault()
 
 		const { connectMess, contactsForm: { values } } = this.props
 
@@ -52,9 +52,7 @@ class ContactsFormComponent extends Component {
 
 	render() {
 
-		const style = {
-			checkbox: { marginTop: '20px' }
-		}
+		const style = { checkbox: { marginTop: '20px' } }
 
 		return (
 			<div className='contacts'>

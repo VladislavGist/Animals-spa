@@ -22,13 +22,9 @@ export const actions = {
 }
 
 export default (state = [], action) => {
-
 	switch (action.type) {
-
 	case types.GET_DATA_SERVER_COMPL_AND_REJ: return action.payload
-
 	case types.CLEAR_STATE_GET_DATA_SERVER_COMPL_AND_REJ: return []
-
 	default: return state
 	}
 }

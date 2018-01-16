@@ -1,5 +1,3 @@
-import { types as typesValidatePlace } from './validatePlaceAnAd'
-
 export const types = {
 	ADD_PHOTO_0: 'PHOTOS_REDUCER/ADD_PHOTO_0',
 	ADD_PHOTO_1: 'PHOTOS_REDUCER/ADD_PHOTO_1',
@@ -16,7 +14,6 @@ export const actions = {
 	handleAddPhoto_4: file => ({ type: types.ADD_PHOTO_4, payload: true, file_4: file }),
 
 	handleResetPlace: () => dispatch => {
-		dispatch({ type: typesValidatePlace.RESET_PLACE })
 		dispatch({ type: types.ADD_PHOTO_0, payload: false, file_0: null })
 		dispatch({ type: types.ADD_PHOTO_1, payload: false, file_1: null })
 		dispatch({ type: types.ADD_PHOTO_2, payload: false, file_2: null })
@@ -67,8 +64,6 @@ export default (state = initialState, action) => {
 		addPhoto: action.payload,
 		file_4: action.file_4
 	}
-
-	case typesValidatePlace.RESET_PLACE: return initialState
 
 	default: return state
 	}

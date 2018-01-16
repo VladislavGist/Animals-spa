@@ -8,23 +8,16 @@ import { actions as actionsFilterCity } from '../../ducks/filterCity'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 
 import TabsFormsComponent from '../forms/tabsForms/TabsFormsComponent'
-import SendAndRegistrationsTabsComponent from '../sendAndRegistrationsTabs/SendAndRegistrationsTabsComponent'
 
 import './SendDialogStyles.sass'
 
 class LoginModal extends Component {
 
-	state = {
-		open: false
-	}
+	state = { open: false }
 
-	handleOpen = () => {
-		this.setState({ open: true })
-	}
+	handleOpen = () => { this.setState({ open: true }) }
 
-	handleClose = () => {
-		this.setState({ open: false })
-	}
+	handleClose = () => { this.setState({ open: false }) }
 
 	render() {
 
@@ -38,9 +31,7 @@ class LoginModal extends Component {
 				right: '10px',
 				top: '-11px'
 			},
-			overlayStyle: {
-				padding: '30px 16px 26px'
-			},
+			overlayStyle: { padding: '30px 16px 26px' },
 			actionsContainerStyle: {
 				position: 'absolute',
 				top: '0',
@@ -83,17 +74,10 @@ class LoginModal extends Component {
 		
 				// фльтр объявлений по клику на город. на главной
 				if (allParamsUrl.split('/')[1] === '') {
-					getCards(process.env.URL + '/list-hot-adv/' + e.target.innerText)
+					getCards(`${ process.env.URL }/list-hot-adv/${ e.target.innerText }`)
 				} else {
 					// на остальных
-					getCards(
-						process.env.URL +
-						'/list-animals/animal_type/' +
-						allParamsUrl.split('/')[2] +
-						'/advertisement_type/' +
-						allParamsUrl.split('/')[3] +
-						'/city/' + e.target.innerText + '/count/10'
-					)
+					getCards(`${ process.env.URL }/list-animals/animal_type/${ allParamsUrl.split('/')[2] }/advertisement_type/${ allParamsUrl.split('/')[3] }/city/${ e.target.innerText }/count/10`)
 				}
 			}
 

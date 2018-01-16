@@ -43,9 +43,8 @@ class RegistrationFormComponent extends Component {
 		}
 	}
 
-	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
-
 	handleReg = event => {
+
 		event.preventDefault()
 
 		const { registrationForm, regAction } = this.props
@@ -59,7 +58,7 @@ class RegistrationFormComponent extends Component {
 			inpEmailReg: registrationForm.values.email
 		}
 
-		regAction(`${process.env.URL}/registr`, params)
+		regAction(`${ process.env.URL }/registr`, params)
 	}
 
 	render() {
@@ -67,16 +66,9 @@ class RegistrationFormComponent extends Component {
 		const { filterCity } = this.props.state
 
 		const styles = {
-			floatingLabelStyle: {
-				'color': '#b1adad'
-			},
-			labelStyle: {
-				'color': '#7c7c7c',
-				top: '21px'
-			},
-			floatingLabelFocusStyle: {
-				'color': '#2396f1'
-			}
+			floatingLabelStyle: { 'color': '#b1adad' },
+			labelStyle: { 'color': '#7c7c7c', top: '21px' },
+			floatingLabelFocusStyle: { 'color': '#2396f1' }
 		}
 
 		return(<Form onSubmit={ this.handleReg } className='registrationForm'>

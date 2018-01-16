@@ -9,19 +9,12 @@ export const types = {
 }
 
 export const actions = {
-
 	validateNameDispatch: e => ({ type: types.VALIDATE_NAME_USERDATA, payload: e }),
-
 	validatePhoneDispatch: e => ({ type: types.VALIDATE_PHONENUMBER_USERDATA, payload: e }),
-
 	validateCityDispatch: e => ({ type: types.VALIDATE_CITY_USERDATA, payload: e }),
-
 	validatePasswordDispatch: e => ({ type: types.VALIDATE_PASSWORD_USERDATA, payload: e }),
-
 	handleDataSentFalse: () => ({ type: types.DATASENT_FALSE, payload: false }),
-
 	updateUserDatas: url => dispatch => {
-
 		fetch(url)
 			.then(response => {
 				if (response.status !== 200) {

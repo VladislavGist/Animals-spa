@@ -6,13 +6,9 @@ export const types = {
 }
 
 export default (state = false, action) => {
-
 	switch (action.type) {
-
 	case types.COUNT_CARDS_TRUE: return action.payload
-
 	case types.COUNT_CARDS_FALSE: return action.payload
-
 	default: return state
 	}
 }

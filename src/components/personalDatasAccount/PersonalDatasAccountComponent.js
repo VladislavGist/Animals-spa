@@ -80,7 +80,7 @@ class PersonalDatasAccount extends Component {
 			let inputData = document.querySelector('input[name="phoneUpdate"]').value
 
 			// отоправка изменений
-			updateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=phoneNumber&value='${ inputData }'`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.results[0].user_id }&parametr=phoneNumber&value=${ inputData }`)
 		}
 	}
 
@@ -93,7 +93,7 @@ class PersonalDatasAccount extends Component {
 			let inputData = document.querySelector('input[name="cityUpdate"]').value
 
 			// отоправка изменений
-			updateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=city&value='${ inputData }'`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.results[0].user_id }&parametr=city&value=${ inputData }`)
 		}
 	}
 
@@ -106,7 +106,7 @@ class PersonalDatasAccount extends Component {
 			let inputData = document.querySelector('input[name="passwordUpdate"]').value
 
 			// отоправка изменений
-			updateUserDatas(`${process.env.URL}/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=password&value='${ inputData }'`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.results[0].user_id }&parametr=password&value=${ inputData }`)
 		}
 	}
 
@@ -190,9 +190,7 @@ class PersonalDatasAccount extends Component {
 	render() {
 
 		const styles = {
-			inkBarStyle: {
-				backgroundColor: false
-			},
+			inkBarStyle: { backgroundColor: false },
 			default_tab: {
 				backgroundColor: 'white',
 				color: '#add1ed',
@@ -202,12 +200,7 @@ class PersonalDatasAccount extends Component {
 				backgroundColor: '#2397f3',
 				color: 'white'
 			},
-			tabItemContainerStyle: {
-				minHeight: '100px'
-			},
-			tabTemplateStyle: {
-				
-			}
+			tabItemContainerStyle: { minHeight: '100px' }
 		}
 
 		styles.tab = []
@@ -289,7 +282,7 @@ class PersonalDatasAccount extends Component {
 						onChange={ this.handleChange }
 						className='sendAndRegTabs'
 						inkBarStyle={ styles.inkBarStyle }
-						contentContainerStyle={ styles.tabTemplateStyle }>
+					>
 
 						<Tab
 							label={ `Активные ${ state.serverReducer.advertisementList.length }` }

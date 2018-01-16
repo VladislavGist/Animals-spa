@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 
-import CardItem from '../cardItem/CardItemComponent'
 import { store } from '../../../store.js'
+import CardItem from '../cardItem/CardItemComponent'
 import { actions as actionsServerReducer } from '../../../ducks/serverReducer'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
@@ -45,7 +45,9 @@ class CardItems extends Component {
 		const { state, getCards, allCards } = this.props
 
 		getCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
+
 		allCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
+
 		this.countMore += 10
 	}
 

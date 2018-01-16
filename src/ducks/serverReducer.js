@@ -27,12 +27,11 @@ export const actions = {
 							dispatch({ type: types.GET_DATA_SERVER, payload: data })
 
 							// скрыть показать кнопку подгрузки объявлений при загрузке категории
-							let allCount = 0
 							let zaprosCount = 0
 							zaprosCount = urlutils.parse(url).pathname.split('/')[9]
 
 							// запрос к серверу и осуществление функционала
-							fetch(url + '/allcount')
+							fetch(`${ url }/allcount`)
 								.then(response => {
 									if (response.status !== 200) {
 										console.log('all cards error')
@@ -91,9 +90,7 @@ export default (state = initialState, action) => {
 	switch (action.type) {
 
 	case types.GET_DATA_SERVER: return {
-		advertisementList: [
-			...action.payload
-		]
+		advertisementList: [...action.payload ]
 	}
 
 	case types.CLEAR_STATE_DATA_SERVER: return initialState

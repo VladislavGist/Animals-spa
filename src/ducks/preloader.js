@@ -7,14 +7,11 @@ export const actions = {
 }
 
 export default (state = { loading: 0 }, action) => {
-
 	switch (action.type) {
-
 	case types.PRELOADER_UPDATE_LOADING: return {
 		...state,
 		loading: action.payload
 	}
-
 	default: return state
 	}
 }
