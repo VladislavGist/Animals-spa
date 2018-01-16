@@ -54,19 +54,15 @@ class DrawerUndockedExample extends Component {
 					className='mobileMenuBtn shadowMaterial1'
 					backgroundColor='#2196f3'
 					labelColor='white'
-					style={
-						style.RaisedBtn
-					}
-					buttonStyle={
-						style.RaisedBtnButton
-					}
+					style={ style.RaisedBtn }
+					buttonStyle={ style.RaisedBtnButton }
 				/>
 
 				<Drawer
 					docked={ false }
 					width={ 200 }
 					open={ this.state.open }
-					onRequestChange={ (open) => this.setState({ open }) }
+					onRequestChange={ open => this.setState({ open }) }
 				>
 					<MenuItem>
 						<LoginModal

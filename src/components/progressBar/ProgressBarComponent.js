@@ -8,9 +8,7 @@ class LinearProgressExampleDeterminate extends Component {
 
 	constructor(props) {
 		super(props)
-		this.state = {
-			completed: props.state.preloader.loading
-		}
+		this.state = { completed: props.state.preloader.loading }
 		this.subs = null
 		this.elem = store.getState().serverReducer
 	}
@@ -20,10 +18,7 @@ class LinearProgressExampleDeterminate extends Component {
 		this.subs = store.subscribe(() => {
 
 			if (store.getState().serverReducer !== this.elem) {
-				
-				this.setState({
-					completed: this.props.state.preloader.loading
-				})
+				this.setState({ completed: this.props.state.preloader.loading })
 			}
 
 			// сохранил текущую часть Store чтобы прелоадер корректно работал

@@ -138,12 +138,10 @@ class Menu extends Component {
 					</nav>
 				</div>
 
-				<div className={
-					classNames({
-						accordionContent: true,
-						hiddenBorder: this.border === false
-					})
-				}>
+				<div className={ classNames({
+					accordionContent: true,
+					hiddenBorder: this.border === false
+				}) } >
 					<div>
 
 						<Link to='/'>

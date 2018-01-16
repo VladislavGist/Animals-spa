@@ -11,9 +11,7 @@ import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
 class CardItem extends Component {
 
-	state = {
-		verticalRotate: false
-	}
+	state = { verticalRotate: false }
 
 	// остановка объявления
 	handlerDelete = e => {
@@ -21,7 +19,8 @@ class CardItem extends Component {
 		const { id, completedCard } = this.props
 
 		// отправили запрос на сервер об остановке объявления с нужным id
-		completedCard(`${process.env.URL}/completeCard?cardId=${id}`)
+		completedCard(`${ process.env.URL }/completeCard?cardId=${ id }`)
+
 		e.target.text = 'Остановлено'
 	}
 
@@ -36,7 +35,8 @@ class CardItem extends Component {
 
 		const { replaceStatusCard, cardId } = this.props
 
-		replaceStatusCard(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=accepted`)
+		replaceStatusCard(`${ process.env.URL }/replaceStatusCard?cardid=${ cardId }&status=accepted`)
+
 		e.target.textContent = 'Выполнено'
 	}
 
@@ -44,7 +44,8 @@ class CardItem extends Component {
 
 		const { replaceStatusCard, cardId } = this.props
 
-		replaceStatusCard(`${process.env.URL}/replaceStatusCard?cardid=${cardId}&status=rejected`)
+		replaceStatusCard(`${ process.env.URL }/replaceStatusCard?cardid=${ cardId }&status=rejected`)
+
 		e.target.textContent = 'Выполнено'
 	}
 
@@ -76,9 +77,7 @@ class CardItem extends Component {
 	}
 
 	handleReverseCard = () => {
-		this.setState({
-			verticalRotate: !this.state.verticalRotate
-		})
+		this.setState({ verticalRotate: !this.state.verticalRotate })
 	}
 
 	render() {
@@ -112,13 +111,11 @@ class CardItem extends Component {
 		return (
 			<div className='cardItemWrap'>
 				<div
-					className={
-						classNames({
-							'cardItem': true,
-							'horizontalBig': true,
-							'verticalRotate': this.state.verticalRotate
-						})
-					}
+					className={ classNames({
+						'cardItem': true,
+						'horizontalBig': true,
+						'verticalRotate': this.state.verticalRotate
+					}) }
 				>
 					<div className='contentWrap' onClick={ ::this.clickFunc }>
 						<div className='top' onClick={ this.handleReverseCard }>

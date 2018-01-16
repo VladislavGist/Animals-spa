@@ -10,23 +10,14 @@ export const types = {
 }
 
 export const actions = {
-
 	onValidatePassword: e => ({ type: types.VALIDATE_PASSWORD, payload: e }),
-
 	onValidatePhoneNumber: e => ({ type: types.VALIDATE_PNUMBER, payload: e }),
-
 	onValidateRegName: e => ({ type: types.VALIDATE_REG_NAME, payload: e }),
-
 	onValidateRegSurname: e => ({ type: types.VALIDATE_REG_SURNAME, payload: e }),
-
 	onvalidateRegPhone: e => ({ type: types.VALIDATE_REG_PHONENUMBER, payload: e }),
-
 	onRegValidatePassword: e => ({ type: types.VALIDATE_REG_PASSWORD, payload: e }),
-
 	onValidateRegCity: e => ({ type: types.VALIDATE_REG_CITY, payload: e }),
-
 	onValidateRegEmail: e => ({ type: types.VALIDATE_REG_EMAIL, payload: e })
-
 }
 
 export const initialState = {

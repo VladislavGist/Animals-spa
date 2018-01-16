@@ -5,21 +5,11 @@ import SelectField from 'material-ui/SelectField'
 import { validateInputs } from './validationsInputs'
 
 const style = {
-	floatingLabelStyle: {
-		'color': '#b1adad'
-	},
-	labelStyle: {
-		'color': '#7c7c7c'
-	},
-	floatingLabelFocusStyle: {
-		'color': '#2396f1'
-	},
-	underlineFocusStyle: {
-		'borderColor': '#2396f1'
-	},
-	checkbox: {
-		marginTop: '20px'
-	}
+	floatingLabelStyle: { 'color': '#b1adad' },
+	labelStyle: { 'color': '#7c7c7c' },
+	floatingLabelFocusStyle: { 'color': '#2396f1' },
+	underlineFocusStyle: { 'borderColor': '#2396f1' },
+	checkbox: { marginTop: '20px' }
 }
 
 export const renderField = ({

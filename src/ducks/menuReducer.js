@@ -361,13 +361,9 @@ const initialState = [
 ]
 
 export default (state = initialState, action) => {
-
 	switch (action.type) {
-
 	case types.SWITCH_MENU: return action.payload
-
 	case types.SWITCH_MENU_CLEAR: return []
-
 	default: return state
 	}
 }

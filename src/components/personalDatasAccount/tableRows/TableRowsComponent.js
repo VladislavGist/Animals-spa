@@ -5,14 +5,10 @@ import TextField from 'material-ui/TextField'
 
 export default class TableRowsComponent extends Component {
 
-	state = {
-		openElem: false
-	}
+	state = { openElem: false }
 
 	handleOpenElem = () => {
-		this.setState({
-			openElem: !this.state.openElem
-		})
+		this.setState({ openElem: !this.state.openElem })
 	}
 
 	render() {
@@ -27,12 +23,10 @@ export default class TableRowsComponent extends Component {
 					<a href='javascript:void(0)' className='toggleBtn' onClick={ this.handleOpenElem }>Изменить</a>
 				</td>
 			</tr>
-			<tr className={
-				classNames({
-					'trToggle': true,
-					'active': this.state.openElem
-				})
-			}>
+			<tr className={ classNames({
+				'trToggle': true,
+				'active': this.state.openElem
+			}) } >
 				<td>
 					<TextField
 						hintText={ hintText }

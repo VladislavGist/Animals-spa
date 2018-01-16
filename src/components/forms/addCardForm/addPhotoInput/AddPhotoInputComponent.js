@@ -27,9 +27,7 @@ class AddPhotoInputComponent extends Component {
 		}
 	}
 
-	componentWillUnmount() {
-		this.setState({ active: false, unmountValue: '' })
-	}
+	componentWillUnmount() { this.setState({ active: false, unmountValue: '' }) }
 
 	render() {
 

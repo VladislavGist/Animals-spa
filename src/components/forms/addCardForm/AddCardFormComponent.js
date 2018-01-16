@@ -9,14 +9,12 @@ import { Form, Field, reduxForm } from 'redux-form'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 import { actions as actionsPhotosReducer } from '../../../ducks/photosReducer'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
-import { actions as actionsValidatePlaceAnAd } from '../../../ducks/validatePlaceAnAd'
 
 import { renderField, validate } from '../formValidate'
 import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
 import AddPhotoInputComponent from './addPhotoInput/AddPhotoInputComponent'
 
 import './PlaceAnAdStyles.sass'
-import '../../contacts/ContactsStyles.sass'
 
 class AddCardFormComponent extends Component {
 
@@ -29,7 +27,7 @@ class AddCardFormComponent extends Component {
 	}
 
 	componentWillUnmount() {
-		// this.props.handleResetPlace()
+		this.props.handleResetPlace()
 		// this.props.onResetMessage()
 	}
 
@@ -110,9 +108,8 @@ class AddCardFormComponent extends Component {
 		}
 	}
 
-	handleCheckCheckbox = () => this.setState({ checkbox: !this.state.checked })
-
 	handleSendForm = () => {
+
 		const { addCardForm, postMethodAddCard, handleResetPlace, images } = this.props
 
 		const formData = new FormData()
@@ -137,22 +134,11 @@ class AddCardFormComponent extends Component {
 		const { addCardForm } = this.props
 
 		const style = {
-			floatingLabelStyle: {
-				'color': '#b1adad'
-			},
-			labelStyle: {
-				'color': '#7c7c7c',
-				top: '21px'
-			},
-			floatingLabelFocusStyle: {
-				'color': '#2396f1'
-			},
-			underlineFocusStyle: {
-				'borderColor': '#2396f1'
-			},
-			checkbox: {
-				marginTop: '20px'
-			}
+			floatingLabelStyle: { 'color': '#b1adad' },
+			labelStyle: { 'color': '#7c7c7c', top: '21px' },
+			floatingLabelFocusStyle: { 'color': '#2396f1' },
+			underlineFocusStyle: { 'borderColor': '#2396f1' },
+			checkbox: { marginTop: '20px' }
 		}
 
 		return (
