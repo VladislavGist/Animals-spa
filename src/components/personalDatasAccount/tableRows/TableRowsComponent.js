@@ -18,7 +18,7 @@ export default class TableRowsComponent extends Component {
 		return <tr>
 			<tr>
 				<td>{ name }</td>
-				<td>{ state.loginUser.results[0][resultsElem] || '' }</td>
+				<td>{ state.loginUser[resultsElem] || '' }</td>
 				<td>
 					<a href='javascript:void(0)' className='toggleBtn' onClick={ this.handleOpenElem }>Изменить</a>
 				</td>

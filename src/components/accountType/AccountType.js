@@ -12,11 +12,11 @@ class AccountType extends Component {
 		const { loginUser } = this.props.state
 		const { handlePrivateSeller, handlePermanentSeller, handleShelter } = this.props
 
-		if (loginUser && loginUser.results[0].accountType === 'PRIVATE_SELLER') {
+		if (loginUser && loginUser.accountType === 'PRIVATE_SELLER') {
 			handlePrivateSeller()
-		} else if (loginUser && loginUser.results[0].accountType === 'PERMANENT_SELLER') {
+		} else if (loginUser && loginUser.accountType === 'PERMANENT_SELLER') {
 			handlePermanentSeller()
-		} else if (loginUser && loginUser.results[0].accountType === 'SHELTER') {
+		} else if (loginUser && loginUser.accountType === 'SHELTER') {
 			handleShelter()
 		}
 	}

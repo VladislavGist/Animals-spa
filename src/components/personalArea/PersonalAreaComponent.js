@@ -18,7 +18,7 @@ class PersonalArea extends Component {
 	}
 
 	componentWillReceiveProps(nextState) {
-		if (!nextState.state.loginUser.results) {
+		if (!nextState.state.loginUser) {
 			location.hash = '/'
 		}
 	}

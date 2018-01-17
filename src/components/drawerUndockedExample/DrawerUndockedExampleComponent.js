@@ -18,13 +18,13 @@ class DrawerUndockedExample extends Component {
 	render() {
 
 		const loginFalse = () => {
-			if (this.props.state.loginUser.results[0].rules === null) {
+			if (this.props.state.loginUser.rules === null) {
 				return (
 					<div className='userBtns'>
 						<Link to='/personalArea' className='mobileBtnPersonalArea'>Личный кабинет</Link>
 					</div>
 				)
-			} else if (this.props.state.loginUser.results[0].rules === 'moderator') {
+			} else if (this.props.state.loginUser.rules === 'moderator') {
 				return (
 					<div className='userBtns'>
 						<Link to='/moderation' className='mobileBtnPersonalArea'>moderation</Link>

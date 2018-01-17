@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const types = {
 	TOOLTIP: 'CONT_FORM_STATUS/TOOLTIP',
 	TOOLTIP_CLEAR: 'CONT_FORM_STATUS/TOOLTIP_CLEAR'
