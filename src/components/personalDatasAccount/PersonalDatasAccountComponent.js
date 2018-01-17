@@ -43,11 +43,11 @@ class PersonalDatasAccount extends Component {
 			updateDatasTrue
 		} = this.props
 
-		loadCardsComplAndRej(`${ process.env.URL }/userCardsComplAndRejected?userid=${ state.loginUser.results[0].user_id }`)
-		getCards(`${ process.env.URL }/userCardsAccepted?userid=${ state.loginUser.results[0].user_id }`)
+		loadCardsComplAndRej(`${ process.env.URL }/userCardsComplAndRejected?userid=${ state.loginUser.user_id }`)
+		getCards(`${ process.env.URL }/userCardsAccepted?userid=${ state.loginUser.user_id }`)
 
 		// запрашивать от сервера последние данные по аккаунту
-		updateDatasTrue(`${ process.env.URL }/updateDatasAccount?userid=${ state.loginUser.results[0].user_id }`)
+		updateDatasTrue(`${ process.env.URL }/updateDatasAccount?userid=${ state.loginUser.user_id }`)
 	}
 
 	componentWillUnmount() {
@@ -67,7 +67,7 @@ class PersonalDatasAccount extends Component {
 			let inputData = document.querySelector('input[name="nameUpdate"]').value
 
 			// отоправка изменений
-			updateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.results[0].user_id }'&parametr=name&value='${ inputData }'`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.user_id }'&parametr=name&value='${ inputData }'`)
 		}
 	}
 
@@ -80,7 +80,7 @@ class PersonalDatasAccount extends Component {
 			let inputData = document.querySelector('input[name="phoneUpdate"]').value
 
 			// отоправка изменений
-			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.results[0].user_id }&parametr=phoneNumber&value=${ inputData }`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.user_id }&parametr=phoneNumber&value=${ inputData }`)
 		}
 	}
 
@@ -93,7 +93,7 @@ class PersonalDatasAccount extends Component {
 			let inputData = document.querySelector('input[name="cityUpdate"]').value
 
 			// отоправка изменений
-			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.results[0].user_id }&parametr=city&value=${ inputData }`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.user_id }&parametr=city&value=${ inputData }`)
 		}
 	}
 
@@ -106,7 +106,7 @@ class PersonalDatasAccount extends Component {
 			let inputData = document.querySelector('input[name="passwordUpdate"]').value
 
 			// отоправка изменений
-			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.results[0].user_id }&parametr=password&value=${ inputData }`)
+			updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.user_id }&parametr=password&value=${ inputData }`)
 		}
 	}
 
@@ -200,7 +200,7 @@ class PersonalDatasAccount extends Component {
 				backgroundColor: '#2397f3',
 				color: 'white'
 			},
-			tabItemContainerStyle: { minHeight: '100px' }
+			tabItemContainerStyle: { minHeight: '100px' },
 		}
 
 		styles.tab = []

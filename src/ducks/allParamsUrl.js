@@ -55,7 +55,7 @@ export const actions = {
 	postMethodAddCard: (globalState, localState, handleResetPlace, images) => {
 		moment.locale('ru')
 		let now = moment(), deleteDate = now.add(1, 'month').format('ll')
-		let paramsUrl = `userName=${ globalState.loginUser.results[0].name }&animalType=${ localState.animals }&advertisementType=${ localState.category }&city=${ localState.city }&title=${ localState.title }&phoneNumber=${ localState.phoneNumber }&briefDescription=${ localState.textArea }&${ localState.category === 'gift' || localState.category === 'find' ? 'price=' + '0' : 'price=' + localState.price }&userId=${ globalState.loginUser.results[0].user_id }&status=${ globalState.loginUser.results[0].accountType }&dataDelete=${ deleteDate }`
+		let paramsUrl = `userName=${ globalState.loginUser.name }&animalType=${ localState.animals }&advertisementType=${ localState.category }&city=${ localState.city }&title=${ localState.title }&phoneNumber=${ localState.phoneNumber }&briefDescription=${ localState.textArea }&${ localState.category === 'gift' || localState.category === 'find' ? 'price=' + '0' : 'price=' + localState.price }&userId=${ globalState.loginUser.user_id }&status=${ globalState.loginUser.accountType }&dataDelete=${ deleteDate }`
 
 		actions.postImagesCard(
 			`${ process.env.URL }/add-advertisement/img/animalType/${ localState.animals }/advertisementType/${ localState.category }`,

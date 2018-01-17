@@ -14,22 +14,20 @@ import ContactsFormComponent from './components/forms/contactsForm/ContactsFormC
 import WrapAnimalCard from './components/categories/wrapAnimalCard/WrapAnimalCardComponent'
 
 const onEnterFunc = (nextState, replaceState) => {
-	if (store.getState().loginUser === false || store.getState().loginUser.results[0].error !== undefined) {
-		replaceState('/')
-	}
+	if (!store.getState().loginUser || store.getState().loginUser.error) replaceState('/')
 }
 
 ReactDOM.render(
 	<Provider store={ store }>
 		<Router history={ history }>
 			<Route path='/' component={ App }>
-				<IndexRoute component={ WrapAnimalCard } />
-				<Route path='/animals/:type/:advertisment' component={ WrapAnimalCard }/>
-				<Route path='/personalArea' component={ PersonalArea } onEnter={ onEnterFunc } />
-				<Route path='/moderation' component={ Moderate } onEnter={ onEnterFunc } />
-				<Route path='/placeAnAd' component={ AddCardFormComponent } onEnter={ onEnterFunc } />
-				<Route path='/contacts' component={ ContactsFormComponent } />
 				<Route path='/conf' component={ Conf } />
+				<IndexRoute component={ WrapAnimalCard } />
+				<Route path='/contacts' component={ ContactsFormComponent } />
+				<Route path='/animals/:type/:advertisment' component={ WrapAnimalCard }/>
+				<Route path='/moderation' component={ Moderate } onEnter={ onEnterFunc } />
+				<Route path='/personalArea' component={ PersonalArea } onEnter={ onEnterFunc } />
+				<Route path='/placeAnAd' component={ AddCardFormComponent } onEnter={ onEnterFunc } />
 			</Route>
 			<Route path='*' component={ NotFound } />
 		</Router>

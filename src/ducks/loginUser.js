@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import axios from 'axios'
 
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
@@ -12,32 +13,22 @@ export const actions = {
 	loginFalse: () => ({ type: types.LOGIN_FALSE, payload: false }),
 
 	loginAction: url => dispatch => {
-		fetch(url)
-			.then(response => {
-				if (response.status !== 200) {
-					response.json().then(data => {
-						dispatch(actionsSnackbarReducer.handleSnackbar(data.error))
-						dispatch({ type: types.LOGIN_FALSE, payload: data })
-					})
-				} else {
-					response.json().then(data => dispatch({ type: types.LOGIN_TRUE, payload: data }))
-				}
-			})
-			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err }`)))
+		axios.get(url)
+			.then(
+				response => dispatch({ type: types.LOGIN_TRUE, payload: response.data }),
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка в данных или пользователя не существует'))
+			)
+			.catch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера loginAction'))
 	},
 
 	updateDatasTrue: url => dispatch => {
 
-		fetch(url)
-			.then(response => {
-				if (response.status !== 200) {
-					console.log('Ошибка при обновлении данных пользователя')
-				} else {
-					response.json()
-						.then(results => dispatch({ type: types.LOGIN_TRUE, payload: { results } }))
-				}
-			})
-			.catch(err => console.log(err))
+		axios.get(url)
+			.then(
+				response => dispatch({ type: types.LOGIN_TRUE, payload: response.data }),
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера при обновлении данных'))
+			)
+			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера updateDatasTruee')))
 	}
 
 }

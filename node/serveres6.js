@@ -326,7 +326,7 @@ app.get("/protected",
 										res.json(500, {error: "Ошибка при получении данных пользователя"});
 									} else {
 										if(results.length !== 0) {
-											res.json(200, {results});
+											res.json(200, results[0] );
 										} else {
 											res.json(404, {error: "Неверные данные или пользователь не существует"});
 										}
@@ -351,7 +351,7 @@ app.get("/updateDatasAccount", (req, res) => {
 		if(err) {
 			console.log(err);
 		} else {
-			res.json(200, results);
+			res.json(200, results[0]);
 		}
 	});
 });

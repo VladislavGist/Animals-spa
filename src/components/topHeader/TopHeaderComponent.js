@@ -13,13 +13,13 @@ class TopHeader extends Component {
 
 		const { loginUser } = this.props.state
 
-		if (!loginUser.results[0].rules) {
+		if (!loginUser.rules) {
 			return (
 				<div className='userBtns'>
 					<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
 				</div>
 			)
-		} else if (loginUser.results[0].rules === 'moderator') {
+		} else if (loginUser.rules === 'moderator') {
 			return (
 				<div className='userBtns'>
 					<Link to='/moderation' className='personalArea'>moderation</Link>
