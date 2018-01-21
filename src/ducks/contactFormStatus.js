@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 export const types = {
 	TOOLTIP: 'CONT_FORM_STATUS/TOOLTIP',
@@ -9,29 +10,21 @@ export const actions = {
 
 	connectMess: url => dispatch => {
 
-		fetch(url)
+		axios.get(url)
 			.then(
-				response => {
-					response.json()
-						.then(data => dispatch({ type: types.TOOLTIP, payload: data }))
-						.catch(err => dispatch({ type: types.TOOLTIP, payload: err }))
-				},
-				err => console.log('Не отправлено', err)
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Отправлено')),
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Не отправлено'))
 			)
-			.catch(() => dispatch({ type: 'TOOLTIP', payload: { message: 'Ошибка отправки сообщения' } }))
+			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера')))
 	},
 
 	onHandleConnectClear: () => ({ type: types.TOOLTIP_CLEAR })
 }
 
 export default (state = false, action) => {
-
 	switch (action.type) {
-
 	case types.TOOLTIP: return action.payload
-
 	case types.TOOLTIP_CLEAR: return false
-
 	default: return state
 	}
 }

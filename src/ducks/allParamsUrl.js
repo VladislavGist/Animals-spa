@@ -1,6 +1,7 @@
 import 'whatwg-fetch'
 import axios from 'axios'
 import moment from 'moment'
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 export const types = {
 	CHANGE_URL: 'ALL_PARAMS/CHANGE_URL'
@@ -35,34 +36,24 @@ export const actions = {
 			.catch(() => console.log('replaceStatusCard catch'))
 	},
 
-	postImagesCard: (url, thisFormData, anAdUrl, anAdParapms) => {
-		fetch(url, { body: thisFormData, method: 'post' })
-			.then(() => {
-				fetch(anAdUrl, {
-					method: 'post',
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded'
-					},
-					body: anAdParapms
-				})
-					.then(() => console.log('Объявление отправлено на сервер'))
-					.catch(() => console.log('Ошибка. catch'))
-			},
-			() => console.log('Img переданно не успешно'))
-			.catch(() => console.log('Img catch'))
-	},
-
-	postMethodAddCard: (globalState, localState, handleResetPlace, images) => {
+	postMethodAddCard: (globalState, localState, handleResetPlace, images) => dispatch => {
 		moment.locale('ru')
 		let now = moment(), deleteDate = now.add(1, 'month').format('ll')
 		let paramsUrl = `userName=${ globalState.loginUser.name }&animalType=${ localState.animals }&advertisementType=${ localState.category }&city=${ localState.city }&title=${ localState.title }&phoneNumber=${ localState.phoneNumber }&briefDescription=${ localState.textArea }&${ localState.category === 'gift' || localState.category === 'find' ? 'price=' + '0' : 'price=' + localState.price }&userId=${ globalState.loginUser.user_id }&status=${ globalState.loginUser.accountType }&dataDelete=${ deleteDate }`
 
-		actions.postImagesCard(
-			`${ process.env.URL }/add-advertisement/img/animalType/${ localState.animals }/advertisementType/${ localState.category }`,
-			images,
-			`${ process.env.URL }/add-advertisement`,
-			paramsUrl
-		)
+		axios({
+			method: 'post',
+			url: `${ process.env.URL }/add-advertisement/img/animalType/${ localState.animals }/advertisementType/${ localState.category }`,
+			data: images
+		})
+			.then(
+				() => {
+					axios({ url: `${ process.env.URL }/add-advertisement`, method: 'post', data: paramsUrl })
+					dispatch(actionsSnackbarReducer.handleSnackbar('Отправлено'))
+				},
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Не отправлено'))
+			)
+			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера')))
 
 		handleResetPlace()
 		this.thisFormData.delete('photo')

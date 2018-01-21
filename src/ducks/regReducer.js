@@ -14,14 +14,17 @@ export const actions = {
 			headers: {
 				'Content-type': 'application/x-www-form-urlencoded'
 			},
-			body: `name=${param.inpName}&surname=${param.inpSurname}&phone=${param.inpNumberReg}&password=${param.inpPasswordReg}&city=${param.inpCityReg}&email=${param.inpEmailReg}`
+			body: `name=${ param.inpName }&surname=${ param.inpSurname }&phone=${ param.inpNumberReg }&password=${ param.inpPasswordReg }&city=${ param.inpCityReg }&email=${ param.inpEmailReg }`
 		})
 			.then(response => {
 				response.json()
-					.then(data => dispatch({ type: types.REG_STATUS, payload: data }))
+					.then(data => {
+						dispatch(actionsSnackbarReducer.handleSnackbar('Вы успешно зарегистрированы'))
+						dispatch({ type: types.REG_STATUS, payload: data })
+					})
 					.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса')))
 			})
-			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err }`)))
+			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка сервера`)))
 	},
 
 	onHandleRegStatusClear: () => ({ type: types.REG_STATUS_CLEAR })
