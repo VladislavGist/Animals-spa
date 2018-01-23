@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 export const types = {
@@ -9,26 +10,18 @@ export const actions = {
 
 	regAction: (url, param) => dispatch => {
 
-		fetch(url, {
+		axios({
 			method: 'post',
-			headers: {
-				'Content-type': 'application/x-www-form-urlencoded'
-			},
-			body: `name=${ param.inpName }&surname=${ param.inpSurname }&phone=${ param.inpNumberReg }&password=${ param.inpPasswordReg }&city=${ param.inpCityReg }&email=${ param.inpEmailReg }`
+			url,
+			data: `name=${ param.inpName }&surname=${ param.inpSurname }&phone=${ param.inpNumberReg }&password=${ param.inpPasswordReg }&city=${ param.inpCityReg }&email=${ param.inpEmailReg }`
 		})
-			.then(response => {
-				response.json()
-					.then(data => {
-						dispatch(actionsSnackbarReducer.handleSnackbar('Вы успешно зарегистрированы'))
-						dispatch({ type: types.REG_STATUS, payload: data })
-					})
-					.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса')))
-			})
-			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка сервера`)))
+			.then(
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Вы успешно зарегистрированы')),
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса регистрации')))
+			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка сервера регистрации`)))
 	},
 
 	onHandleRegStatusClear: () => ({ type: types.REG_STATUS_CLEAR })
-
 }
 
 export default (state = '', action) => {

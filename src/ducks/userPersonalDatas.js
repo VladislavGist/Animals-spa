@@ -1,3 +1,6 @@
+import axios from 'axios'
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
+
 export const types = {
 	VALIDATE_NAME_USERDATA: 'USER_PERSONAL_DATAS/VALIDATE_NAME_USERDATA',
 	VALIDATE_PHONENUMBER_USERDATA: 'USER_PERSONAL_DATAS/VALIDATE_PHONENUMBER_USERDATA',
@@ -9,21 +12,23 @@ export const types = {
 }
 
 export const actions = {
+
 	validateNameDispatch: e => ({ type: types.VALIDATE_NAME_USERDATA, payload: e }),
+
 	validatePhoneDispatch: e => ({ type: types.VALIDATE_PHONENUMBER_USERDATA, payload: e }),
+
 	validateCityDispatch: e => ({ type: types.VALIDATE_CITY_USERDATA, payload: e }),
+
 	validatePasswordDispatch: e => ({ type: types.VALIDATE_PASSWORD_USERDATA, payload: e }),
+
 	handleDataSentFalse: () => ({ type: types.DATASENT_FALSE, payload: false }),
+
 	updateUserDatas: url => dispatch => {
-		fetch(url)
-			.then(response => {
-				if (response.status !== 200) {
-					dispatch({ type: types.DATASENT_ERROR, payload: 'Ошибка' })
-				} else {
-					dispatch({ type: types.DATASENT_TRUE, payload: true })
-				}
-			})
-			.catch(() => dispatch({ type: types.DATASENT_ERROR, payload: 'Ошибка' }))
+		axios.get(url)
+			.then(
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Изменено')),
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера. Не изменено')))
+			.catch(dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера')))
 	}
 }
 

@@ -431,9 +431,9 @@ app.get("/completeCard", function (req, res) {
 
 //cards на главной
 app.get("/list-hot-adv/:city", function (req, res) {
-	console.log("/list-hot-adv");
+
 	var func = function func(city) {
-		if (city != "Все регионы") {
+		if (city !== "Все регионы") {
 			return "AND city = \"" + city + "\" ";
 		} else {
 			return '';
