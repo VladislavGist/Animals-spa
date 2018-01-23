@@ -412,9 +412,9 @@ app.get("/completeCard", (req, res) => {
 
 //cards на главной
 app.get("/list-hot-adv/:city", (req, res) => {
-	console.log("/list-hot-adv");
+
 	let func = city => {
-		if(city != "Все регионы") {
+		if(city !== "Все регионы") {
 			return `AND city = "${city}" `;
 		} else {
 			return '';

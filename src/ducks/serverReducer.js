@@ -1,9 +1,7 @@
 import 'whatwg-fetch'
 import axios from 'axios'
-// const urlutils = require('url')
 
 import { types as preloaderTypes } from './preloader'
-// import { types as toggleTypes } from './toggleAddMoreBtn'
 
 export const types = {
 	GET_DATA_SERVER: 'SERVER_REDUCER/GET_DATA_SERVER',
@@ -17,14 +15,17 @@ export const actions = {
 		dispatch({ type: preloaderTypes.PRELOADER_UPDATE_LOADING, payload: 80 })
 
 		axios.get(url)
-			.then(response => {
-				dispatch({ type: types.CLEAR_STATE_DATA_SERVER })
-				dispatch({ type: types.GET_DATA_SERVER, payload: response.data })
-			})
+			.then(
+				response => {
+					dispatch({ type: types.CLEAR_STATE_DATA_SERVER })
+					dispatch({ type: types.GET_DATA_SERVER, payload: response.data })
+				},
+				err => console.log('err', err)
+			)
 			.then(() => {
 				dispatch({ type: preloaderTypes.PRELOADER_UPDATE_LOADING, payload: 100 })
 			})
-			.catch()
+			.catch(err => console.log('catch ', err))
 	},
 
 	onHandleClearState: () => ({ type: types.CLEAR_STATE_DATA_SERVER })
@@ -33,9 +34,7 @@ export const actions = {
 
 export default (state = { advertisementList: [] }, action) => {
 	switch (action.type) {
-	case types.GET_DATA_SERVER: return {
-		advertisementList: [...action.payload ]
-	}
+	case types.GET_DATA_SERVER: return { advertisementList: [...action.payload ] }
 	case types.CLEAR_STATE_DATA_SERVER: return state
 	default: return state
 	}

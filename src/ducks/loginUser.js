@@ -16,18 +16,15 @@ export const actions = {
 		axios.get(url)
 			.then(
 				response => dispatch({ type: types.LOGIN_TRUE, payload: response.data }),
-				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка в данных или пользователя не существует'))
-			)
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка в данных или пользователя не существует')))
 			.catch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера loginAction'))
 	},
 
 	updateDatasTrue: url => dispatch => {
-
 		axios.get(url)
 			.then(
 				response => dispatch({ type: types.LOGIN_TRUE, payload: response.data }),
-				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера при обновлении данных'))
-			)
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера при обновлении данных')))
 			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера updateDatasTruee')))
 	}
 

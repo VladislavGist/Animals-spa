@@ -12,7 +12,6 @@ import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 import { actions as actionsUserPersonalDatas } from '../../ducks/userPersonalDatas'
 import { actions as actionsReducerCardsComplAndRej } from '../../ducks/reducerCardsComplAndRej'
 
-import 'whatwg-fetch'
 import '../personalArea/PersonalAreaStyles.sass'
 import '../categories/cardItems/CardItemsStyles.sass'
 

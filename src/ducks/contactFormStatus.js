@@ -13,8 +13,7 @@ export const actions = {
 		axios.get(url)
 			.then(
 				() => dispatch(actionsSnackbarReducer.handleSnackbar('Отправлено')),
-				() => dispatch(actionsSnackbarReducer.handleSnackbar('Не отправлено'))
-			)
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Не отправлено')))
 			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера')))
 	},
 
