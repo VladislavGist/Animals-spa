@@ -15,7 +15,6 @@
     "add": "^2.0.6",
     "axios": "^0.17.1",
     "classnames": "^2.2.5",
-    "jquery": "^3.2.1",
     "material-ui": "0.16.7",
     "moment": "2.18.1",
     "mysql": "2.13.0",

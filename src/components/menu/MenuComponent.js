@@ -1,5 +1,3 @@
-import $ from 'jquery'
-import _ from 'underscore'
 import classNames from 'classnames'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
@@ -13,68 +11,23 @@ import './MenuStyles.sass'
 class MaterialLink extends Component {
 
 	render() {
-		return (
-			<Link to={ this.props.valueLink } className='button4'>
-				{ this.props.children }
-				<i className={ this.props.icons } aria-hidden='true' />
-			</Link>
-		)
+		return <Link to={ this.props.valueLink } className='button4'>
+			{ this.props.children }
+			<i className={ this.props.icons } aria-hidden='true' />
+		</Link>
 	}
 }
 
 class Menu extends Component {
 
-	constructor(props) {
-		super(props)
-		this.path = _.compact(props.state.routing.locationBeforeTransitions.pathname.split('/'))
-	}
-
-	componentDidMount() {
-
-		$('.moreInfo').click(() => {
-			$('.accordionContent').slideToggle(300)
-			$('.accordionContent').toggleClass('visible')
-		})
-
-		$('.accordionContent a').click(() => {
-			$('.accordionContent').slideToggle(300)
-			$('.accordionContent').toggleClass('visible')
-		})
-	}
+	state = { showMenu: false }
 
 	componentWillReceiveProps() {
-		if ($('.accordionContent').is(':visible')) {
-			$('.accordionContent').css({ 'display': 'none' })
-		}
-		$('.accordionContent').hasClass('visible') ? $('.moreInfo i')
-			.removeClass('fa fa-angle-up fa-angle-down')
-			.addClass('fa fa-angle-up') : $('.moreInfo i')
-			.removeClass('fa fa-angle-up fa-angle-down')
-			.addClass('fa fa-angle-down')
+		this.setState({ showMenu: false })
 	}
 
-	componentWillUpdate() {
-		//убирает линию над кнопкой разворота меню на опр. страницах при обновлении компонента
-		if (location.hash === '#/' || location.hash === '#/placeAnAd' || location.hash === '#/personalArea') {
-			$('.moreInfo').css({ 'border-top': 'none' })
-		} else {
-			$('.moreInfo').css({ 'border-top': '1px solid rgba(0,0,0,.1)' })
-		}
-	}
-
-	//убирает линию над кнопкой разворота меню на опр. страницах по клику
-	handleOpenMenu() {
-		if (location.hash === '#/' || location.hash === '#/placeAnAd' || location.hash === '#/personalArea') {
-			if ($('.accordionContent').hasClass('visible')) {
-				$('.moreInfo').css({ 'border-top': '1px solid rgba(0,0,0,.1)' })
-			} else {
-				$('.moreInfo').css({ 'border-top': 'none' })
-			}
-		}
-
-		$('.accordionContent').hasClass('visible') ?
-			$('.moreInfo i').removeClass('fa fa-angle-up fa-angle-down').addClass('fa fa-angle-up') :
-			$('.moreInfo i').removeClass('fa fa-angle-up fa-angle-down').addClass('fa fa-angle-down')
+	handleOpenMenu = () => {
+		this.setState({ showMenu: !this.state.showMenu })
 	}
 
 	render() {
@@ -107,40 +60,36 @@ class Menu extends Component {
 		} = this.props
 
 		return (
-
 			<div>
-				<div className={
-					classNames({
-						menu: true,
-						hidden: location.hash === '#/' || location.hash === '#/placeAnAd' || location.hash === '#/personalArea'
-					})
-				}>
-					<div className='img'>
-						<img src={ this.props.state.menuReducer[0].img } />
-					</div>
+				{
+					['#/', '#/placeAnAd', '#/personalArea'].indexOf(location.hash) === -1 ?
+						<div className={ classNames({ menu: true }) }>
+							<div className='img'>
+								<img src={ this.props.state.menuReducer[0].img } />
+							</div>
 
-					<div className='menuText'>
-						<h2>{ this.props.state.menuReducer[0].title }</h2>
-						<p>{ this.props.state.menuReducer[0].text }</p>
-					</div>
+							<div className='menuText'>
+								<h2>{ this.props.state.menuReducer[0].title }</h2>
+								<p>{ this.props.state.menuReducer[0].text }</p>
+							</div>
 
-					<nav className='buttons'>
-						{
-							this.props.state.menuReducer[0].categoryNames.myLinks.map((elem, idx) => <MaterialLink
-								valueLink={ lin[idx] }
-								icons={ icons[idx] }
-								key={ key[idx] }>
+							<nav className='buttons'>
 								{
-									name[idx]
-								} </MaterialLink>
-							)
-						}
-					</nav>
-				</div>
+									this.props.state.menuReducer[0].categoryNames.myLinks.map((elem, idx) => <MaterialLink
+										valueLink={ lin[idx] }
+										icons={ icons[idx] }
+										key={ key[idx] }>
+										{
+											name[idx]
+										} </MaterialLink>)
+								}
+							</nav>
+						</div> : null
+				}
 
 				<div className={ classNames({
 					accordionContent: true,
-					hiddenBorder: this.border === false
+					visible: this.state.showMenu
 				}) } >
 					<div>
 
@@ -179,60 +128,73 @@ class Menu extends Component {
 							<h3>Зайцы / кролики</h3>
 						</Link>
 
-						<Link to="/animals/guineapig/buy" onClick={ onGuineapig }>
-							<img src="uploads/guineapig.jpg" className="img" />
+						<Link to='/animals/guineapig/buy' onClick={ onGuineapig }>
+							<img src='uploads/guineapig.jpg' className='img' />
 							<h3>Морские свинки</h3>
 						</Link>
-						<Link to="/animals/champ/buy" onClick={ onHandleChamp }>
-							<img src="uploads/champ.jpg" className="img" />
+
+						<Link to='/animals/champ/buy' onClick={ onHandleChamp }>
+							<img src='uploads/champ.jpg' className='img' />
 							<h3>Хорьки</h3>
 						</Link>
-						<Link to="/animals/snak/buy" onClick={ onHandleSnak }>
-							<img src="uploads/snak.jpg" className="img" />
+
+						<Link to='/animals/snak/buy' onClick={ onHandleSnak }>
+							<img src='uploads/snak.jpg' className='img' />
 							<h3>Змеи</h3>
 						</Link>
-						<Link to="/animals/iguana/buy" onClick={ onHandleIguana }>
-							<img src="uploads/iguana.jpg" className="img" />
+
+						<Link to='/animals/iguana/buy' onClick={ onHandleIguana }>
+							<img src='uploads/iguana.jpg' className='img' />
 							<h3>Игуаны</h3>
 						</Link>
-						<Link to="/animals/turtle/buy" onClick={ onHandleTurtle }>
-							<img src="uploads/turtle.jpg" className="img" />
+
+						<Link to='/animals/turtle/buy' onClick={ onHandleTurtle }>
+							<img src='uploads/turtle.jpg' className='img' />
 							<h3>Черепахи</h3>
 						</Link>
-						<Link to="/animals/snail/buy" onClick={ onHandleSnail }>
-							<img src="uploads/snail.jpg" className="img" />
+
+						<Link to='/animals/snail/buy' onClick={ onHandleSnail }>
+							<img src='uploads/snail.jpg' className='img' />
 							<h3>Улитки</h3>
 						</Link>
-						<Link to="/animals/fish/buy" onClick={ onHandleFish }>
-							<img src="uploads/fish.jpg" className="img" />
+
+						<Link to='/animals/fish/buy' onClick={ onHandleFish }>
+							<img src='uploads/fish.jpg' className='img' />
 							<h3>Рыбки</h3>
 						</Link>
-						<Link to="/animals/insects/buy" onClick={ onHandleInsects }>
-							<img src="uploads/insects.jpg" className="img" />
+
+						<Link to='/animals/insects/buy' onClick={ onHandleInsects }>
+							<img src='uploads/insects.jpg' className='img' />
 							<h3>Насекомые</h3>
 						</Link>
-						<Link to="/animals/horse/buy" onClick={ onHandleHorse }>
-							<img src="uploads/horse.jpg" className="img" />
+
+						<Link to='/animals/horse/buy' onClick={ onHandleHorse }>
+							<img src='uploads/horse.jpg' className='img' />
 							<h3>Лошади</h3>
 						</Link>
-						<Link to="/animals/cow/buy" onClick={ onHandleCow }>
-							<img src="uploads/cow.jpg" className="img" />
+
+						<Link to='/animals/cow/buy' onClick={ onHandleCow }>
+							<img src='uploads/cow.jpg' className='img' />
 							<h3>Коровы / быки</h3>
 						</Link>
-						<Link to="/animals/pig/buy" onClick={ onHandlePig }>
-							<img src="uploads/pig.jpg" className="img" />
+
+						<Link to='/animals/pig/buy' onClick={ onHandlePig }>
+							<img src='uploads/pig.jpg' className='img' />
 							<h3>Свиньи</h3>
 						</Link>
-						<Link to="/animals/goat/buy" onClick={ onHandleGoat }>
-							<img src="uploads/goat.jpg" className="img" />
+
+						<Link to='/animals/goat/buy' onClick={ onHandleGoat }>
+							<img src='uploads/goat.jpg' className='img' />
 							<h3>Козы</h3>
 						</Link>
-						<Link to="/animals/sheep/buy" onClick={ onHandleSheep }>
-							<img src="uploads/sheep.jpg" className="img" />
+
+						<Link to='/animals/sheep/buy' onClick={ onHandleSheep }>
+							<img src='uploads/sheep.jpg' className='img' />
 							<h3>Овцы</h3>
 						</Link>
-						<Link to="/animals/domesticbird/buy" onClick={ onHandleDomesticbird }>
-							<img src="uploads/domesticbird.jpg" className="img" />
+
+						<Link to='/animals/domesticbird/buy' onClick={ onHandleDomesticbird }>
+							<img src='uploads/domesticbird.jpg' className='img' />
 							<h3>Домашняя птица</h3>
 						</Link>
 
@@ -245,7 +207,7 @@ class Menu extends Component {
 				</a>
 
 			</div>
-		);
+		)
 	}
 }
 
