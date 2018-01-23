@@ -8,7 +8,6 @@ import TableRowsComponent from './tableRows/TableRowsComponent'
 
 import { actions as actionsLoginUser } from '../../ducks/loginUser'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
-import { actions as actionsUserPersonalDatas } from '../../ducks/userPersonalDatas'
 import { actions as actionsReducerCardsComplAndRej } from '../../ducks/reducerCardsComplAndRej'
 
 import '../personalArea/PersonalAreaStyles.sass'
@@ -159,7 +158,6 @@ class PersonalDatasAccount extends Component {
 export default connect(
 	state => ({ state }),
 	dispatch => bindActionCreators({
-		...actionsUserPersonalDatas,
 		...actionsReducerCardsComplAndRej,
 		...actionsServerReducer,
 		...actionsLoginUser

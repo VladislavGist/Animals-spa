@@ -1,7 +1,8 @@
 import 'whatwg-fetch'
 import axios from 'axios'
 
-import { types as preloaderTypes } from './preloader'
+import { actions as actionsTypes } from './preloader'
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 export const types = {
 	GET_DATA_SERVER: 'SERVER_REDUCER/GET_DATA_SERVER',
@@ -12,7 +13,7 @@ export const actions = {
 
 	getCards: url => dispatch => {
 
-		dispatch({ type: preloaderTypes.PRELOADER_UPDATE_LOADING, payload: 80 })
+		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
 		axios.get(url)
 			.then(
@@ -20,12 +21,12 @@ export const actions = {
 					dispatch({ type: types.CLEAR_STATE_DATA_SERVER })
 					dispatch({ type: types.GET_DATA_SERVER, payload: response.data })
 				},
-				err => console.log('err', err)
+				err => dispatch(actionsSnackbarReducer.handleSnackbar(err))
 			)
 			.then(() => {
-				dispatch({ type: preloaderTypes.PRELOADER_UPDATE_LOADING, payload: 100 })
+				dispatch(actionsTypes.handleUpdateStateLoading(100))
 			})
-			.catch(err => console.log('catch ', err))
+			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(err)))
 	},
 
 	onHandleClearState: () => ({ type: types.CLEAR_STATE_DATA_SERVER })
