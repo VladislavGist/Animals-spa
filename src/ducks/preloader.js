@@ -3,7 +3,7 @@ export const types = {
 }
 
 export const actions = {
-	handleUpdateStateLoading: e => ({ type: 'UPDATE_LOADING', payload: e })
+	handleUpdateStateLoading: e => ({ type: types.PRELOADER_UPDATE_LOADING, payload: e })
 }
 
 export default (state = { loading: 0 }, action) => {

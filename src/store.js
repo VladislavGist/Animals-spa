@@ -12,14 +12,12 @@ import preloader from './ducks/preloader'
 import filterCity from './ducks/filterCity'
 import regReducer from './ducks/regReducer'
 import menuReducer from './ducks/menuReducer'
-import updateState from './ducks/updateState'
 import accountType from './ducks/accountType'
 import allParamsUrl from './ducks/allParamsUrl'
 import serverReducer from './ducks/serverReducer'
 import photosReducer from './ducks/photosReducer'
 import snackbarReducer from './ducks/snackbarReducer'
 import toggleAddMoreBtn from './ducks/toggleAddMoreBtn'
-import userPersonalDatas from './ducks/userPersonalDatas'
 import contactFormStatus from './ducks/contactFormStatus'
 import reducerCardsComplAndRej from './ducks/reducerCardsComplAndRej'
 
@@ -32,14 +30,12 @@ const reducers = combineReducers({
 	filterCity,
 	menuReducer,
 	accountType,
-	updateState,
 	allParamsUrl,
 	serverReducer,
 	photosReducer,
 	snackbarReducer,
 	contactFormStatus,
 	toggleAddMoreBtn,
-	userPersonalDatas,
 	reducerCardsComplAndRej
 })
 
