@@ -62,7 +62,7 @@ class Menu extends Component {
 		return (
 			<div>
 				{
-					['#/', '#/placeAnAd', '#/personalArea'].indexOf(location.hash) === -1 ?
+					['/', '/placeAnAd', '/personalArea'].indexOf(this.props.state.routing.locationBeforeTransitions.pathname) === -1 ?
 						<div className={ classNames({ menu: true }) }>
 							<div className='img'>
 								<img src={ this.props.state.menuReducer[0].img } />

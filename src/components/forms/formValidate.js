@@ -35,7 +35,7 @@ export const renderField = ({
 		>
 			{ children }
 		</SelectField>)
-	} else if (type === 'text' || type === 'tel' || type === 'password') {
+	} else if (type === 'text' || type === 'tel' || type === 'password' ) {
 		return (<TextField
 			{ ...input }
 			type={ type }
