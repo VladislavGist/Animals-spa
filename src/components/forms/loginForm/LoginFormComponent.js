@@ -25,9 +25,9 @@ class LoginFormComponent extends Component {
 
 		if (values &&
 			values.password &&
-			values.phoneNumber &&
+			values.username &&
 			values.password.match(validateInputs.password) &&
-			values.phoneNumber.match(validateInputs.phoneNumber)) {
+			values.username.match(validateInputs.phoneNumber)) {
 			this.setState({ disabledButton: false })
 		} else {
 			this.setState({ disabledButton: true })
@@ -45,7 +45,7 @@ class LoginFormComponent extends Component {
 			<Form onSubmit={ this.handleLogin } className='sendForm'>
 				<div className='wrapInputs'>
 					<Field
-						name='phoneNumber'
+						name='username'
 						type='tel'
 						label='Номер телефона'
 						normalize={ normilizeNumber }

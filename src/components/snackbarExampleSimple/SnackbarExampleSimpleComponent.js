@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Snackbar from 'material-ui/Snackbar'
 import { bindActionCreators } from 'redux'
+import Snackbar from 'material-ui/Snackbar'
 
 import { store } from '../../store'
 import { actions as actionsSnackbarReducer } from '../../ducks/snackbarReducer'

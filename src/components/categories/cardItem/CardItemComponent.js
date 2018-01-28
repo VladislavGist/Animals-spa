@@ -26,7 +26,7 @@ class CardItem extends Component {
 
 	//повышение счетчика просмотров
 	clickFunc = () => {
-		if (location.hash !== '#/personalArea') {
+		if (this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
 			this.props.updateCardView( this.props.cardId )
 		}
 	}
@@ -165,7 +165,7 @@ class CardItem extends Component {
 							<p className='subTitleReverse'>{ briefDescription }</p>
 							<div className='buttonsList'>
 								{
-									location.hash === '#/personalArea' ? null : (
+									this.props.state.routing.locationBeforeTransitions.pathname === '/personalArea' ? null : (
 										<div className='visibles'>
 											<i className='fa fa-eye' aria-hidden='true' />
 											<p>{ views }</p>
@@ -199,7 +199,7 @@ class CardItem extends Component {
 }
 
 // {
-// 	location.hash === "#/personalArea" ? null :
+// 	this.props.state.routing.locationBeforeTransitions.pathname === "/personalArea" ? null :
 // 	<div>
 // 		<div className="button3" title="Сделать репост в социальную сеть">
 // 			<a href="javascript:void(0)" className="buttonCircle">
