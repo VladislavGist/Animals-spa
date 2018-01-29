@@ -1,9 +1,6 @@
-design/
-node_modules/
-nodeApi/node_modules/
-nodeApi/uploads
-nodeApi/www
-.idea/
+.idea
+design
+node_modules
 bugs
-nodeApi/yarn.lock
 yarn.lock
+
