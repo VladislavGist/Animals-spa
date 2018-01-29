@@ -58,7 +58,7 @@ class RegistrationFormComponent extends Component {
 			inpEmailReg: registrationForm.values.email
 		}
 
-		regAction(`${ process.env.URL }/registr`, params)
+		regAction(`${ process.env.URL }/api/registr`, params)
 	}
 
 	render() {

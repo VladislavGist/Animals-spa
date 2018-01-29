@@ -44,9 +44,9 @@ class CardItems extends Component {
 
 		const { state, getCards, allCards } = this.props
 
-		getCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
+		getCards(process.env.URL + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
 
-		allCards(process.env.URL + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
+		allCards(process.env.URL + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
 
 		this.countMore += 10
 	}

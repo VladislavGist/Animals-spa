@@ -8,7 +8,10 @@ export const types = {
 export const actions = {
 
 	connectMess: url => dispatch => {
-		axios.get(url)
+		axios({
+			method: 'post',
+			url
+		})
 			.then(
 				() => dispatch(actionsSnackbarReducer.handleSnackbar('Отправлено')),
 				() => dispatch(actionsSnackbarReducer.handleSnackbar('Не отправлено')))

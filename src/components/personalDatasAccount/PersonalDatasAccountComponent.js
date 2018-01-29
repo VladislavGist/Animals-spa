@@ -28,11 +28,11 @@ class PersonalDatasAccount extends Component {
 			updateDatasTrue
 		} = this.props
 
-		loadCardsComplAndRej(`${ process.env.URL }/userCardsComplAndRejected?userid=${ state.loginUser.user_id }`)
-		getCards(`${ process.env.URL }/userCardsAccepted?userid=${ state.loginUser.user_id }`)
+		loadCardsComplAndRej(`${ process.env.URL }/api/userCardsComplAndRejected?userid=${ state.loginUser.user_id }`)
+		getCards(`${ process.env.URL }/api/userCardsAccepted?userid=${ state.loginUser.user_id }`)
 
 		// запрашивать от сервера последние данные по аккаунту
-		updateDatasTrue(`${ process.env.URL }/updateDatasAccount?userid=${ state.loginUser.user_id }`)
+		updateDatasTrue(`${ process.env.URL }/api/updateDatasAccount?userid=${ state.loginUser.user_id }`)
 	}
 
 	componentWillUnmount() {

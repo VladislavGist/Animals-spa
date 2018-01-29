@@ -1,11 +1,6 @@
-import { Field } from 'redux-form'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-
-import { actions as actionsPhotosReducer } from '../../../../ducks/photosReducer'
-import { actions as actionsSnackbarReducer } from '../../../../ducks/snackbarReducer'
 
 class AddPhotoInputComponent extends Component {
 

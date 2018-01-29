@@ -74,10 +74,10 @@ class LoginModal extends Component {
 		
 				// фльтр объявлений по клику на город. на главной
 				if (allParamsUrl.split('/')[1] === '') {
-					getCards(`${ process.env.URL }/list-hot-adv/${ e.target.innerText }`)
+					getCards(`${ process.env.URL }/api/list-hot-adv/${ e.target.innerText }`)
 				} else {
 					// на остальных
-					getCards(`${ process.env.URL }/list-animals/animal_type/${ allParamsUrl.split('/')[2] }/advertisement_type/${ allParamsUrl.split('/')[3] }/city/${ e.target.innerText }/count/10`)
+					getCards(`${ process.env.URL }/api/list-animals/animal_type/${ allParamsUrl.split('/')[2] }/advertisement_type/${ allParamsUrl.split('/')[3] }/city/${ e.target.innerText }/count/10`)
 				}
 			}
 
