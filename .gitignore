@@ -3,7 +3,6 @@ design
 node_modules
 bugs
 yarn.lock
-
 nodeApi/.idea
 nodeApi/node_modules
 nodeApi/uploads
