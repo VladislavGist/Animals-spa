@@ -1,9 +1,9 @@
 design/
 node_modules/
-node/node_modules/
-node/uploads
-node/public
+nodeApi/node_modules/
+nodeApi/uploads
+nodeApi/www
 .idea/
 bugs
-node/yarn.lock
+nodeApi/yarn.lock
 yarn.lock
