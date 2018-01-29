@@ -20,10 +20,10 @@ class AnimalCard extends Component {
 
 		//выводит объявлений на главной странице
 		if (animal_type === undefined) {
-			getCards(`${ process.env.URL }/list-hot-adv/${ state.filterCity.cityTopHeader }`)
+			getCards(`${ process.env.URL }/api/list-hot-adv/${ state.filterCity.cityTopHeader }`)
 		} else {
 			//выводит на остальных
-			getCards(`${ process.env.URL }/list-animals/animal_type/${ animal_type }/advertisement_type/${ advertisment }/city/${ state.filterCity.cityTopHeader }/count/10`)
+			getCards(`${ process.env.URL }/api/list-animals/animal_type/${ animal_type }/advertisement_type/${ advertisment }/city/${ state.filterCity.cityTopHeader }/count/10`)
 		}
 	}
 
@@ -38,7 +38,7 @@ class AnimalCard extends Component {
 
 			this.path[1] = path[1]
 
-			getCards(`${ process.env.URL }/list-animals/animal_type/${ path[1] }/advertisement_type/${ path[2] }/city/${ filterCity.cityTopHeader }/count/10`)
+			getCards(`${ process.env.URL }/api/list-animals/animal_type/${ path[1] }/advertisement_type/${ path[2] }/city/${ filterCity.cityTopHeader }/count/10`)
 		}
 	}
 

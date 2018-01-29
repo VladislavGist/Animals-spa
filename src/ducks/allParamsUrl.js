@@ -37,12 +37,12 @@ export const actions = {
 
 		axios({
 			method: 'post',
-			url: `${ process.env.URL }/add-advertisement/img/animalType/${ localState.animals }/advertisementType/${ localState.category }`,
+			url: `${ process.env.URL }/api/add-advertisement/img/animalType/${ localState.animals }/advertisementType/${ localState.category }`,
 			data: images
 		})
 			.then(
 				() => {
-					axios({ url: `${ process.env.URL }/add-advertisement`, method: 'post', data: paramsUrl })
+					axios({ url: `${ process.env.URL }/api/add-advertisement`, method: 'post', data: paramsUrl })
 					dispatch(actionsSnackbarReducer.handleSnackbar('Отправлено'))
 				},
 				() => dispatch(actionsSnackbarReducer.handleSnackbar('Не отправлено'))

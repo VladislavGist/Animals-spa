@@ -47,7 +47,7 @@ class ContactsFormComponent extends Component {
 
 		const { connectMess, contactsForm: { values } } = this.props
 
-		connectMess(`${process.env.URL}/sendus?name=${ values.name }&email=${ values.email }&title=${ values.title }&mess=${ values.textArea }`)
+		connectMess(`${ process.env.URL }/api/sendus?name=${ values.name }&email=${ values.email }&title=${ values.title }&mess=${ values.textArea }`)
 	}
 
 	render() {

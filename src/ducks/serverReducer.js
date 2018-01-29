@@ -21,12 +21,16 @@ export const actions = {
 					dispatch({ type: types.CLEAR_STATE_DATA_SERVER })
 					dispatch({ type: types.GET_DATA_SERVER, payload: response.data })
 				},
-				err => dispatch(actionsSnackbarReducer.handleSnackbar(err))
+				err => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса'))
 			)
 			.then(() => {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))
 			})
-			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(err)))
+			.catch(err => {
+				dispatch(actionsTypes.handleUpdateStateLoading(100))
+				console.log({ err })
+				dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера'))
+			})
 	},
 
 	onHandleClearState: () => ({ type: types.CLEAR_STATE_DATA_SERVER })
