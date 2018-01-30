@@ -4,7 +4,7 @@
   "description": "",
   "main": "public/index.html",
   "scripts": {
-    "dev": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base nodeApi/www --port 8090 --host localhost",
+    "dev": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base ./www --port 8090 --host localhost",
     "build": "NODE_ENV=production webpack -p",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

@@ -1,6 +1,5 @@
 import path from 'path'
 import cors from 'cors'
-import React from 'react'
 import express from 'express'
 import passport from 'passport'
 import bodyParser from 'body-parser'
@@ -21,7 +20,7 @@ import congif from '../configs/config'
 // )
 
 export default [
-	express.static(path.join(__dirname, '../www')),
+	express.static(path.join(__dirname, '../client/www')),
 	cookieParser(),
 	bodyParser.urlencoded({ extended: true }),
 	bodyParser.json(),
