@@ -11,7 +11,7 @@ const URL_PATH = NODE_ENV === 'dev' ? urlPaths.dev : urlPaths.prod
 const URL_SERVER_PATH = NODE_ENV === 'dev' ? urlServerPath.dev : urlServerPath.prod
 
 module.exports = {
-	entry: path.resolve(__dirname, 'index.js'),
+	entry: path.resolve(__dirname, 'src/main.js'),
 	externals: [nodeExternals()],
 	output: {
 		path: path.resolve(__dirname, 'dist'),
