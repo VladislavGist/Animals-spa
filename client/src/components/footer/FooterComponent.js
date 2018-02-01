@@ -1,7 +1,9 @@
 import { Link } from 'react-router'
 import React, { Component } from 'react'
 
-import './FooterStyles.sass'
+if (process.env.BROWSER) {
+	require('./FooterStyles.sass')
+}
 
 export default class Footer extends Component {
 

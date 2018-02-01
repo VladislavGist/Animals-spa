@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import Snackbar from 'material-ui/Snackbar'
 
-import { store } from '../../store'
+import { store } from '../../routing'
 import { actions as actionsSnackbarReducer } from '../../ducks/snackbarReducer'
 
 class SnackbarExampleSimple extends React.Component {

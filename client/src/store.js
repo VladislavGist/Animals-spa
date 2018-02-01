@@ -5,7 +5,7 @@ import { hashHistory } from 'react-router'
 import { routerReducer } from 'react-router-redux'
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import { syncHistoryWithStore, routerMiddleware } from 'react-router-redux'
+import { routerMiddleware } from 'react-router-redux'
 
 import loginUser from './ducks/loginUser'
 import preloader from './ducks/preloader'
@@ -39,5 +39,11 @@ const reducers = combineReducers({
 	reducerCardsComplAndRej
 })
 
-export const store = createStore(reducers, composeWithDevTools(applyMiddleware(routerMiddleware(hashHistory), thunk)))
-export const history = syncHistoryWithStore(hashHistory, store)
+const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(routerMiddleware(hashHistory), thunk))(createStore)
+
+export default function configureStore(initialState) {
+
+	const store = createStoreWithMiddleware(reducers, initialState)
+
+	return store
+}

@@ -10,8 +10,10 @@ import { actions as actionsLoginUser } from '../../ducks/loginUser'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 import { actions as actionsReducerCardsComplAndRej } from '../../ducks/reducerCardsComplAndRej'
 
-import '../personalArea/PersonalAreaStyles.sass'
-import '../categories/cardItems/CardItemsStyles.sass'
+if (process.env.BROWSER) {
+	require('../personalArea/PersonalAreaStyles.sass')
+	require('../categories/cardItems/CardItemsStyles.sass')
+}
 
 class PersonalDatasAccount extends Component {
 

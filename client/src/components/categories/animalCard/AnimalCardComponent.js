@@ -11,7 +11,7 @@ class AnimalCard extends Component {
 
 	constructor(props) {
 		super(props)
-		this.path = _.compact(props.state.routing.locationBeforeTransitions.pathname.split('/'))
+		this.path = _.compact(props.state.routing.locationBeforeTransitions && props.state.routing.locationBeforeTransitions.pathname.split('/'))
 	}
 
 	componentDidMount() {
@@ -32,7 +32,7 @@ class AnimalCard extends Component {
 		const { getCards } = this.props
 		const { filterCity } = this.props.state
 
-		let path = _.compact(next.state.routing.locationBeforeTransitions.pathname.split('/'))
+		let path = _.compact(next.state.routing.locationBeforeTransitions && next.state.routing.locationBeforeTransitions.pathname.split('/'))
 
 		if (this.path[1] !== path[1]) {
 

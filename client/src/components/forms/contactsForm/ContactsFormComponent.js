@@ -11,7 +11,9 @@ import { normilizeText, validateInputs } from '../validationsInputs'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 import { actions as actionsContactFormStatus } from '../../../ducks/contactFormStatus'
 
-import './ContactsStyles.sass'
+if (process.env.BROWSER) {
+	require('./ContactsStyles.sass')
+}
 
 class ContactsFormComponent extends Component {
 

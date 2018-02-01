@@ -66,6 +66,7 @@ module.exports = {
 		extractSass,
 		new webpack.DefinePlugin({
 			'process.env': {
+				BROWSER: JSON.stringify(true),
 				NODE_ENV: JSON.stringify(PROCESS_ENV),
 				URL: JSON.stringify(URL_PATH)
 			}

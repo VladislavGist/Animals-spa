@@ -9,7 +9,9 @@ import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 
 import TabsFormsComponent from '../forms/tabsForms/TabsFormsComponent'
 
-import './SendDialogStyles.sass'
+if (process.env.BROWSER) {
+	require('./SendDialogStyles.sass')
+}
 
 class LoginModal extends Component {
 
@@ -41,6 +43,7 @@ class LoginModal extends Component {
 		}
 
 		const { allParamsUrl, filterCity } = this.props.state
+
 		const { dispatchCityTopHeader, getCards } = this.props
 
 		const actions = [

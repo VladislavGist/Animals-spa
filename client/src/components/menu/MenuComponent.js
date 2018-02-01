@@ -6,7 +6,9 @@ import { bindActionCreators } from 'redux'
 
 import { actions as menuReducer } from '../../ducks/menuReducer'
 
-import './MenuStyles.sass'
+if (process.env.BROWSER) {
+	require('./MenuStyles.sass')
+}
 
 class MaterialLink extends Component {
 
@@ -62,7 +64,7 @@ class Menu extends Component {
 		return (
 			<div>
 				{
-					['/', '/placeAnAd', '/personalArea'].indexOf(this.props.state.routing.locationBeforeTransitions.pathname) === -1 ?
+					['/', '/placeAnAd', '/personalArea'].indexOf(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname) === -1 ?
 						<div className={ classNames({ menu: true }) }>
 							<div className='img'>
 								<img src={ this.props.state.menuReducer[0].img } />

@@ -5,7 +5,9 @@ import React, { Component } from 'react'
 import LoginModal from '../sendDialog/SendDialogComponent.js'
 import DrawerUndockedExample from '../drawerUndockedExample/DrawerUndockedExampleComponent.js'
 
-import './TopHeaderStyles.sass'
+if (process.env.BROWSER) {
+	require('./TopHeaderStyles.sass')
+}
 
 class TopHeader extends Component {
 

@@ -7,18 +7,17 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin()
 
-import './styles/styles.sass'
-import './styles/base.sass'
-import './App.sass'
+if (process.env.BROWSER) {
+	require('./styles/styles.sass')
+	require('./styles/base.sass')
+	require('./App.sass')
+}
 
 import Menu from './components/menu/MenuComponent.js'
 import Footer from './components/footer/FooterComponent.js'
-// import { store } from './components/store.jsx'
 import TopHeader from './components/topHeader/TopHeaderComponent.js'
 import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
 import LinearProgressExampleDeterminate from './components/progressBar/ProgressBarComponent.js'
-
-import LoginFormComponent from './components/forms/loginForm/LoginFormComponent'
 
 class App extends Component {
 

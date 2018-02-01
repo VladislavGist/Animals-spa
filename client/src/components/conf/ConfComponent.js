@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 
-import './ConfStyles.sass'
+if (process.env.BROWSER) {
+	require('./ConfStyles.sass')
+}
 
 export default class Conf extends Component {
 

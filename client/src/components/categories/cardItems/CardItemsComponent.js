@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 
-import { store } from '../../../store.js'
+import { store } from '../../../routing'
 import CardItem from '../cardItem/CardItemComponent'
 import { actions as actionsServerReducer } from '../../../ducks/serverReducer'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
-import './CardItemsStyles.sass'
+if (process.env.BROWSER) {
+	require('./CardItemsStyles.sass')
+}
 
 class CardItems extends Component {
 
@@ -26,7 +28,7 @@ class CardItems extends Component {
 			this.topPosition = document.documentElement.scrollTop
 		}
 
-		this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname)
+		this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname)
 	}
 
 	componentWillUnmount() {

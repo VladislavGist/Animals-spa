@@ -5,7 +5,9 @@ import { bindActionCreators } from 'redux'
 
 import SlickSlider from '../../slickSlider/SlickSliderComponent'
 
-import './CardItemStyles.sass'
+if (process.env.BROWSER) {
+	require('./CardItemStyles.sass')
+}
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
@@ -26,7 +28,7 @@ class CardItem extends Component {
 
 	//повышение счетчика просмотров
 	clickFunc = () => {
-		if (this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
+		if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
 			this.props.updateCardView( this.props.cardId )
 		}
 	}
@@ -165,7 +167,7 @@ class CardItem extends Component {
 							<p className='subTitleReverse'>{ briefDescription }</p>
 							<div className='buttonsList'>
 								{
-									this.props.state.routing.locationBeforeTransitions.pathname === '/personalArea' ? null : (
+									(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname) === '/personalArea' ? null : (
 										<div className='visibles'>
 											<i className='fa fa-eye' aria-hidden='true' />
 											<p>{ views }</p>

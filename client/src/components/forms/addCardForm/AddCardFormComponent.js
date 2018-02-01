@@ -14,7 +14,9 @@ import { renderField, validate } from '../formValidate'
 import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
 import AddPhotoInputComponent from './addPhotoInput/AddPhotoInputComponent'
 
-import './PlaceAnAdStyles.sass'
+if (process.env.BROWSER) {
+	require('./PlaceAnAdStyles.sass')
+}
 
 class AddCardFormComponent extends Component {
 
