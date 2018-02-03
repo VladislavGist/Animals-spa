@@ -1,5 +1,4 @@
 import path from 'path'
-import cors from 'cors'
 import express from 'express'
 import passport from 'passport'
 import bodyParser from 'body-parser'
@@ -26,19 +25,26 @@ export default [
 	cookieParser(),
 	bodyParser.urlencoded({ extended: true }),
 	bodyParser.json(),
-	cors({ origin: process.env.URL_PATH }),
 	cookieSession({ keys: [congif.secret] }),
 	passport.initialize(),
 	passport.session(),
+	requestTime,
+	logger,
 	(req, res, next) => {
 
-		match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+		match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
 
-			if (redirectLocation) { res.send(301, redirectLocation.pathname + redirectLocation.search) }
+			if (redirectLocation) {
+				res.send(301, redirectLocation.pathname + redirectLocation.search)
+			}
 
-			else if (error) { res.send(500, error.message) }
+			else if (error) {
+				res.send(500, error.message)
+			}
 
-			else if (!renderProps) { res.send(404, 'Not found') }
+			else if (!renderProps) {
+				res.send(404, 'Not found')
+			}
 
 			else {
 
@@ -50,15 +56,15 @@ export default [
 					renderProps.params,
 					renderProps.location.query
 				)
-					.then(() => {
+				.then(() => {
 
-						const componentHTML = ReactDOM.renderToString(<Provider store={ store }>
-								<RouterContext { ...renderProps } />
-							</Provider>)
+					const componentHTML = ReactDOM.renderToString(<Provider store={ store }>
+						<RouterContext { ...renderProps } />
+					</Provider>)
 
-						const initialState = store.getState()
+					const initialState = store.getState()
 
-						res.end(`
+					res.end(`
 							<!DOCTYPE html>
 								<html lang="ru">
 								<head>
@@ -95,11 +101,9 @@ export default [
 								</body>
 								</html>
 						`)
-					})
+				})
 			}
 		})
 		next()
-	},
-	requestTime,
-	logger
+	}
 ]
