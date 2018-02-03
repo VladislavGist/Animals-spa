@@ -15,7 +15,7 @@ const app = express()
 
 require('../auth/auth')
 
-app.use(cors({ origin: process.env.URL_PATH }))
+app.use(cors([ process.env.URL_PATH, 'http://localhost:8090'] ))
 app.use('/api', routes)
 app.use('/static', express.static('./../www'))
 

@@ -7,6 +7,8 @@ import CardItems from '../cardItems/CardItemsComponent'
 import { actions as serverReducer } from '../../../ducks/serverReducer'
 import { actions as preloaderReducer } from '../../../ducks/preloader'
 
+import connectDataFetches from '../../../../HOCS/connectDataFetches'
+
 class AnimalCard extends Component {
 
 	constructor(props) {
@@ -59,4 +61,4 @@ class AnimalCard extends Component {
 
 export default connect(state => ({ state }),
 	dispatch => bindActionCreators({ ...serverReducer, ...preloaderReducer }, dispatch)
-)(AnimalCard)
+)(connectDataFetches(AnimalCard, [serverReducer]))
