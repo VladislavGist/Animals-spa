@@ -4,7 +4,9 @@ import React, { Component } from 'react'
 import AccountType from '../accountType/AccountType.js'
 import PersonalDatasAccount from '../personalDatasAccount/PersonalDatasAccountComponent.js'
 
-import './PersonalAreaStyles.sass'
+if (process.env.BROWSER) {
+	require('./PersonalAreaStyles.sass')
+}
 
 class PersonalArea extends Component {
 

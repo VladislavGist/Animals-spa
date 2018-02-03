@@ -11,7 +11,9 @@ import { normilizeText, validateInputs } from '../validationsInputs'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 import { actions as actionsContactFormStatus } from '../../../ducks/contactFormStatus'
 
-import './ContactsStyles.sass'
+if (process.env.BROWSER) {
+	require('./ContactsStyles.sass')
+}
 
 class ContactsFormComponent extends Component {
 
@@ -47,7 +49,7 @@ class ContactsFormComponent extends Component {
 
 		const { connectMess, contactsForm: { values } } = this.props
 
-		connectMess(`${ process.env.URL }/api/sendus?name=${ values.name }&email=${ values.email }&title=${ values.title }&mess=${ values.textArea }`)
+		connectMess(`${ process.env.URL_PATH }/api/sendus?name=${ values.name }&email=${ values.email }&title=${ values.title }&mess=${ values.textArea }`)
 	}
 
 	render() {

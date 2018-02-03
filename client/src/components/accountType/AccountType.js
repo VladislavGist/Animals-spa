@@ -107,6 +107,7 @@ class AccountType extends Component {
 	<a href="javascript:void(0)" className="button1">Активировать</a>
 */
 
-export default connect(state => ({ state }),
+export default connect(
+	state => ({ state }),
 	dispatch => bindActionCreators({ ...actionsAccountType, ...actionsLoginUser }, dispatch)
 )(AccountType)

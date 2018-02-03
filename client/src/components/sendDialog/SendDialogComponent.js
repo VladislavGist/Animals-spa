@@ -9,7 +9,9 @@ import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 
 import TabsFormsComponent from '../forms/tabsForms/TabsFormsComponent'
 
-import './SendDialogStyles.sass'
+if (process.env.BROWSER) {
+	require('./SendDialogStyles.sass')
+}
 
 class LoginModal extends Component {
 
@@ -41,6 +43,7 @@ class LoginModal extends Component {
 		}
 
 		const { allParamsUrl, filterCity } = this.props.state
+
 		const { dispatchCityTopHeader, getCards } = this.props
 
 		const actions = [
@@ -74,10 +77,10 @@ class LoginModal extends Component {
 		
 				// фльтр объявлений по клику на город. на главной
 				if (allParamsUrl.split('/')[1] === '') {
-					getCards(`${ process.env.URL }/api/list-hot-adv/${ e.target.innerText }`)
+					getCards(`${ process.env.URL_PATH }/api/list-hot-adv/${ e.target.innerText }`)
 				} else {
 					// на остальных
-					getCards(`${ process.env.URL }/api/list-animals/animal_type/${ allParamsUrl.split('/')[2] }/advertisement_type/${ allParamsUrl.split('/')[3] }/city/${ e.target.innerText }/count/10`)
+					getCards(`${ process.env.URL_PATH }/api/list-animals/animal_type/${ allParamsUrl.split('/')[2] }/advertisement_type/${ allParamsUrl.split('/')[3] }/city/${ e.target.innerText }/count/10`)
 				}
 			}
 

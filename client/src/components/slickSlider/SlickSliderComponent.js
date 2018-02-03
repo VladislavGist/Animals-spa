@@ -1,8 +1,10 @@
 import Slider from 'react-slick'
 import React, { Component } from 'react'
 
-import './SlickSliderStyles.sass'
-import '../../styles/styles.sass'
+if (process.env.BROWSER) {
+	require('./SlickSliderStyles.sass')
+	require('../../styles/styles.sass')
+}
 
 export default class SlickSlider extends Component {
 

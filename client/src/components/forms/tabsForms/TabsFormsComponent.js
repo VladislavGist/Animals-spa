@@ -4,7 +4,9 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import LoginFormComponent from '../loginForm/LoginFormComponent'
 import RegistrationFormComponent from '../registrationForm/RegistrationFormComponent'
 
-import './tabsFormsStyles.sass'
+if (process.env.BROWSER) {
+	require('./tabsFormsStyles.sass')
+}
 
 export default class TabsForms extends Component {
 

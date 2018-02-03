@@ -11,7 +11,7 @@ class AnimalCard extends Component {
 
 	constructor(props) {
 		super(props)
-		this.path = _.compact(props.state.routing.locationBeforeTransitions.pathname.split('/'))
+		this.path = _.compact(props.state.routing.locationBeforeTransitions && props.state.routing.locationBeforeTransitions.pathname.split('/'))
 	}
 
 	componentDidMount() {
@@ -20,10 +20,10 @@ class AnimalCard extends Component {
 
 		//выводит объявлений на главной странице
 		if (animal_type === undefined) {
-			getCards(`${ process.env.URL }/api/list-hot-adv/${ state.filterCity.cityTopHeader }`)
+			getCards(`${ process.env.URL_PATH }/api/list-hot-adv/${ state.filterCity.cityTopHeader }`)
 		} else {
 			//выводит на остальных
-			getCards(`${ process.env.URL }/api/list-animals/animal_type/${ animal_type }/advertisement_type/${ advertisment }/city/${ state.filterCity.cityTopHeader }/count/10`)
+			getCards(`${ process.env.URL_PATH }/api/list-animals/animal_type/${ animal_type }/advertisement_type/${ advertisment }/city/${ state.filterCity.cityTopHeader }/count/10`)
 		}
 	}
 
@@ -32,13 +32,13 @@ class AnimalCard extends Component {
 		const { getCards } = this.props
 		const { filterCity } = this.props.state
 
-		let path = _.compact(next.state.routing.locationBeforeTransitions.pathname.split('/'))
+		let path = _.compact(next.state.routing.locationBeforeTransitions && next.state.routing.locationBeforeTransitions.pathname.split('/'))
 
 		if (this.path[1] !== path[1]) {
 
 			this.path[1] = path[1]
 
-			getCards(`${ process.env.URL }/api/list-animals/animal_type/${ path[1] }/advertisement_type/${ path[2] }/city/${ filterCity.cityTopHeader }/count/10`)
+			getCards(`${ process.env.URL_PATH }/api/list-animals/animal_type/${ path[1] }/advertisement_type/${ path[2] }/city/${ filterCity.cityTopHeader }/count/10`)
 		}
 	}
 

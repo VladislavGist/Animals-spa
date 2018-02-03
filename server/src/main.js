@@ -1,5 +1,4 @@
-// import fs from 'fs'
-// import https from 'https'
+import cors from 'cors'
 import express from 'express'
 
 import db from '../db'
@@ -16,8 +15,11 @@ const app = express()
 
 require('../auth/auth')
 
-app.use(middlewares)
+app.use(cors({ origin: process.env.URL_PATH }))
 app.use('/api', routes)
+app.use('/static', express.static('./../www'))
+
+app.use(middlewares)
 
 // const httpsOptions = {
 // 	key: fs.readFileSync('server.key'), // путь к ключу

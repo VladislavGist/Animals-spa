@@ -1,4 +1,5 @@
 const config = {
+	staticUrl: `${ process.env.URL_PATH }/static`,
 	db: {
 		host: 'localhost',
 		user: 'root',
@@ -17,7 +18,7 @@ const config = {
 		prod: 80
 	},
 	urlPaths: {
-		dev: 'http://localhost:8090',
+		dev: 'http://localhost:8080',
 		prod: 'http://oblako.pet'
 	},
 	urlServerPath: {

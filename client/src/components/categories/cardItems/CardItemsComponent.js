@@ -3,12 +3,16 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 
-import { store } from '../../../store.js'
+import { store } from '../../../routing'
 import CardItem from '../cardItem/CardItemComponent'
 import { actions as actionsServerReducer } from '../../../ducks/serverReducer'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
-import './CardItemsStyles.sass'
+import connectDataFetches from '../../../../HOCS/connectDataFetches'
+
+if (process.env.BROWSER) {
+	require('./CardItemsStyles.sass')
+}
 
 class CardItems extends Component {
 
@@ -26,7 +30,7 @@ class CardItems extends Component {
 			this.topPosition = document.documentElement.scrollTop
 		}
 
-		this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions.pathname)
+		this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname)
 	}
 
 	componentWillUnmount() {
@@ -44,9 +48,9 @@ class CardItems extends Component {
 
 		const { state, getCards, allCards } = this.props
 
-		getCards(process.env.URL + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
+		getCards(process.env.URL_PATH + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
 
-		allCards(process.env.URL + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
+		allCards(process.env.URL_PATH + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
 
 		this.countMore += 10
 	}

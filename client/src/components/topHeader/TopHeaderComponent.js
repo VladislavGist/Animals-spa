@@ -5,7 +5,9 @@ import React, { Component } from 'react'
 import LoginModal from '../sendDialog/SendDialogComponent.js'
 import DrawerUndockedExample from '../drawerUndockedExample/DrawerUndockedExampleComponent.js'
 
-import './TopHeaderStyles.sass'
+if (process.env.BROWSER) {
+	require('./TopHeaderStyles.sass')
+}
 
 class TopHeader extends Component {
 
@@ -43,7 +45,7 @@ class TopHeader extends Component {
 				<div className='menuHeader'>
 					<div className='top_logo'>
 						<Link to='/'>
-							<img src='uploads/logo2.png' width='120' alt='logotype' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/logo2.png` } width='120' alt='logotype' />
 						</Link>
 						<h1 className='h1'>Продай, купи, отдай в дар, сообщи о находке или размести объявление о пропаже любого животного.</h1>
 					</div>

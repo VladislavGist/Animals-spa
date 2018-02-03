@@ -28,6 +28,7 @@ module.exports = {
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': {
+				BROWSER: JSON.stringify(false),
 				NODE_ENV: JSON.stringify(NODE_ENV),
 				URL_PATH: JSON.stringify(URL_PATH),
 				URL_SERVER_PATH: JSON.stringify(URL_SERVER_PATH),

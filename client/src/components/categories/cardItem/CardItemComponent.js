@@ -5,7 +5,9 @@ import { bindActionCreators } from 'redux'
 
 import SlickSlider from '../../slickSlider/SlickSliderComponent'
 
-import './CardItemStyles.sass'
+if (process.env.BROWSER) {
+	require('./CardItemStyles.sass')
+}
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
@@ -19,14 +21,14 @@ class CardItem extends Component {
 		const { id, completedCard } = this.props
 
 		// отправили запрос на сервер об остановке объявления с нужным id
-		completedCard(`${ process.env.URL }/api/completeCard?cardId=${ id }`)
+		completedCard(`${ process.env.URL_PATH }/api/completeCard?cardId=${ id }`)
 
 		e.target.text = 'Остановлено'
 	}
 
 	//повышение счетчика просмотров
 	clickFunc = () => {
-		if (this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
+		if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
 			this.props.updateCardView( this.props.cardId )
 		}
 	}
@@ -35,7 +37,7 @@ class CardItem extends Component {
 
 		const { replaceStatusCard, cardId } = this.props
 
-		replaceStatusCard(`${ process.env.URL }/api/replaceStatusCard?cardid=${ cardId }&status=accepted`)
+		replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=accepted`)
 
 		e.target.textContent = 'Выполнено'
 	}
@@ -44,7 +46,7 @@ class CardItem extends Component {
 
 		const { replaceStatusCard, cardId } = this.props
 
-		replaceStatusCard(`${ process.env.URL }/api/replaceStatusCard?cardid=${ cardId }&status=rejected`)
+		replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=rejected`)
 
 		e.target.textContent = 'Выполнено'
 	}
@@ -165,7 +167,7 @@ class CardItem extends Component {
 							<p className='subTitleReverse'>{ briefDescription }</p>
 							<div className='buttonsList'>
 								{
-									this.props.state.routing.locationBeforeTransitions.pathname === '/personalArea' ? null : (
+									(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname) === '/personalArea' ? null : (
 										<div className='visibles'>
 											<i className='fa fa-eye' aria-hidden='true' />
 											<p>{ views }</p>

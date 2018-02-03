@@ -10,8 +10,10 @@ import { actions as actionsLoginUser } from '../../ducks/loginUser'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 import { actions as actionsReducerCardsComplAndRej } from '../../ducks/reducerCardsComplAndRej'
 
-import '../personalArea/PersonalAreaStyles.sass'
-import '../categories/cardItems/CardItemsStyles.sass'
+if (process.env.BROWSER) {
+	require('../personalArea/PersonalAreaStyles.sass')
+	require('../categories/cardItems/CardItemsStyles.sass')
+}
 
 class PersonalDatasAccount extends Component {
 
@@ -28,11 +30,11 @@ class PersonalDatasAccount extends Component {
 			updateDatasTrue
 		} = this.props
 
-		loadCardsComplAndRej(`${ process.env.URL }/api/userCardsComplAndRejected?userid=${ state.loginUser.user_id }`)
-		getCards(`${ process.env.URL }/api/userCardsAccepted?userid=${ state.loginUser.user_id }`)
+		loadCardsComplAndRej(`${ process.env.URL_PATH }/api/userCardsComplAndRejected?userid=${ state.loginUser.user_id }`)
+		getCards(`${ process.env.URL_PATH }/api/userCardsAccepted?userid=${ state.loginUser.user_id }`)
 
 		// запрашивать от сервера последние данные по аккаунту
-		updateDatasTrue(`${ process.env.URL }/api/updateDatasAccount?userid=${ state.loginUser.user_id }`)
+		updateDatasTrue(`${ process.env.URL_PATH }/api/updateDatasAccount?userid=${ state.loginUser.user_id }`)
 	}
 
 	componentWillUnmount() {
