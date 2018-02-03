@@ -1,9 +1,11 @@
-import React, { Component } from 'react'
+import React  from 'react'
 import Promise from 'bluebird'
 
-export default function connectDataFetches(Component, actionCreators) {
+import _ from 'underscore'
 
-	return class DataFetchesWrapper extends Component {
+export default function connectDataFetches(Components, actionCreators) {
+
+	return class DataFetchesWrapper extends React.Component {
 
 		static propTypes = {
 			dispatch: React.PropTypes.func.isRequired,
@@ -12,9 +14,29 @@ export default function connectDataFetches(Component, actionCreators) {
 		}
 
 		static fetchData(dispatch, params = {}, query={}) {
+
+			const obj = actionCreators[0]
+
 			return Promise.all(
-				actionCreators.map(actionCreator => dispatch(actionCreator(params, query)))
+				_.mapObject(obj, val => {
+					dispatch(val(params, query))
+				})
 			)
+
+			// return Promise.all(
+			// 	for (let i in obj) {
+			// 		console.log(obj[i])
+			// 		dispatch(obj[i](params, query))
+			// 	}
+			// )
+
+			// return Promise.all(
+			// 	actionCreators.map(item => {
+			//
+			// 		// console.log('item: ', item)
+			// 		dispatch(item(params, query))
+			// 	})
+			// )
 		}
 
 		componentDidMount() {
@@ -29,7 +51,8 @@ export default function connectDataFetches(Component, actionCreators) {
 		}
 
 		render() {
-			return <Component { ...this.props } />
+
+			return <Components { ...this.props } />
 		}
 
 	}

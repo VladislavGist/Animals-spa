@@ -5,6 +5,8 @@ import { actions } from '../../../ducks/serverReducer'
 
 import AnimalCard from '../animalCard/AnimalCardComponent'
 
+import connectDataFetches from '../../../../HOCS/connectDataFetches'
+
 class WrapAnimalCard extends Component {
 
 	constructor() {

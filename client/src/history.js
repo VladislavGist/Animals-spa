@@ -1,6 +1,3 @@
-if (process.env.BROWSER) {
+const { createMemoryHistory } = require('history')
 
-	const { createHistory } = require('history')
-
-	module.exports = createHistory()
-}
+module.exports = createMemoryHistory()

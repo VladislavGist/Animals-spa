@@ -34,9 +34,6 @@ export default [
 
 		match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
 
-			// console.log({ routes })
-			// console.log({ error, redirectLocation, renderProps })
-
 			if (redirectLocation) { res.send(301, redirectLocation.pathname + redirectLocation.search) }
 
 			else if (error) { res.send(500, error.message) }
@@ -44,6 +41,8 @@ export default [
 			else if (!renderProps) { res.send(404, 'Not found') }
 
 			else {
+
+				global.navigator = { userAgent: 'all' }
 
 				fetchComponentsData(
 					store.dispatch,
@@ -58,11 +57,6 @@ export default [
 							</Provider>)
 
 						const initialState = store.getState()
-
-						// const metaData = extractMetaDataFromState({
-						// 	route: renderProps.routers[renderProps.routes.length],
-						// 	state: initialState
-						// })
 
 						res.end(`
 							<!DOCTYPE html>

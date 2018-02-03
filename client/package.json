@@ -16,7 +16,7 @@
     "axios": "^0.17.1",
     "bluebird": "^3.5.1",
     "classnames": "^2.2.5",
-    "history": "1.13.1",
+    "history": "^3.x.x",
     "material-ui": "0.16.7",
     "moment": "2.18.1",
     "mysql": "2.13.0",
