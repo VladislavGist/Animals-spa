@@ -15,7 +15,7 @@ if (process.env.BROWSER) {
 	require('./ContactsStyles.sass')
 }
 
-class ContactsFormComponent extends Component {
+class ContactsForm extends Component {
 
 	state = { disabledButton: true }
 
@@ -126,10 +126,10 @@ class ContactsFormComponent extends Component {
 	}
 }
 
-ContactsFormComponent = reduxForm({
+ContactsForm = reduxForm({
 	form: 'contactsForm',
 	validate
-})(ContactsFormComponent)
+})(ContactsForm)
 
 export default connect(
 	state => ({
@@ -138,4 +138,4 @@ export default connect(
 	}),
 	dispatch => bindActionCreators({
 		...actionsContactFormStatus, ...actionsSnackbarReducer }, dispatch)
-)(ContactsFormComponent)
+)(ContactsForm)

@@ -1,3 +1,6 @@
-const { createMemoryHistory } = require('history')
+if (process.env.BROWSER) {
 
-module.exports = createMemoryHistory()
+	const { createHashHistory } = require('history')
+
+	module.exports = createHashHistory()
+}

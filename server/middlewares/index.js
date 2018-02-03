@@ -9,11 +9,9 @@ import { RouterContext, match } from 'react-router'
 import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
 
-import { store } from '../../client/src/routing'
-import { routes } from '../../client/src/routing'
+import { store, routes } from '../../client/src/routing'
 import fetchComponentsData from '../utils/fetchComponentsData'
 
-import logger from './logger'
 import requestTime from './requestTime'
 
 import config from '../configs/config'
@@ -28,6 +26,7 @@ export default [
 	requestTime,
 	(req, res, next) => {
 
+		console.log({ routes })
 		console.log(req.url)
 
 		match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
