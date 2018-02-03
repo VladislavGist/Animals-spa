@@ -19,7 +19,7 @@ export const actions = {
 			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса на завершение')))
 	},
 
-	updateCardView: cardId => () => axios(`${ process.env.URL }/updatecardviews/${ cardId }`),
+	updateCardView: cardId => () => axios(`${ process.env.URL_PATH }/updatecardviews/${ cardId }`),
 
 	replaceStatusCard: url => dispatch => {
 		axios.get(url)
@@ -37,12 +37,12 @@ export const actions = {
 
 		axios({
 			method: 'post',
-			url: `${ process.env.URL }/api/add-advertisement/img/animalType/${ localState.animals }/advertisementType/${ localState.category }`,
+			url: `${ process.env.URL_PATH }/api/add-advertisement/img/animalType/${ localState.animals }/advertisementType/${ localState.category }`,
 			data: images
 		})
 			.then(
 				() => {
-					axios({ url: `${ process.env.URL }/api/add-advertisement`, method: 'post', data: paramsUrl })
+					axios({ url: `${ process.env.URL_PATH }/api/add-advertisement`, method: 'post', data: paramsUrl })
 					dispatch(actionsSnackbarReducer.handleSnackbar('Отправлено'))
 				},
 				() => dispatch(actionsSnackbarReducer.handleSnackbar('Не отправлено'))

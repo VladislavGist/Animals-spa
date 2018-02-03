@@ -8,7 +8,7 @@ export const actions = {
 	onHandleCat: () => {
 		const data = [
 			{
-				img: 'uploads/catMenu.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/catMenu.jpg`,
 				title: 'Кошки',
 				text: '',
 				categoryNames: {
@@ -25,7 +25,7 @@ export const actions = {
 	onHandleDog: () => {
 		const data = [
 			{
-				img: 'uploads/dogMenu.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/dogMenu.jpg`,
 				title: 'Собаки',
 				text: '',
 				categoryNames: {
@@ -42,7 +42,7 @@ export const actions = {
 	onHandleParrot: () => {
 		const data = [
 			{
-				img: 'uploads/parrot.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/parrot.jpg`,
 				title: 'Попугаи',
 				text: '',
 				categoryNames: {
@@ -59,7 +59,7 @@ export const actions = {
 	onHandleHamster: () => {
 		const data = [
 			{
-				img: 'uploads/hamster.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/hamster.jpg`,
 				title: 'Хомяки',
 				text: '',
 				categoryNames: {
@@ -76,7 +76,7 @@ export const actions = {
 	onHandleMouse: () => {
 		const data = [
 			{
-				img: 'uploads/mouse.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/mouse.jpg`,
 				title: 'Мыши / крысы',
 				text: '',
 				categoryNames: {
@@ -93,7 +93,7 @@ export const actions = {
 	onHandleHare: () => {
 		const data = [
 			{
-				img: 'uploads/hare.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/hare.jpg`,
 				title: 'Зайцы / кролики',
 				text: '',
 				categoryNames: {
@@ -110,7 +110,7 @@ export const actions = {
 	onGuineapig: () => {
 		const data = [
 			{
-				img: 'uploads/guineapig.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/guineapig.jpg`,
 				title: 'Морские свинки',
 				text: '',
 				categoryNames: {
@@ -127,7 +127,7 @@ export const actions = {
 	onHandleChamp: () => {
 		const data = [
 			{
-				img: 'uploads/champ.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/champ.jpg`,
 				title: 'Хорьки',
 				text: '',
 				categoryNames: {
@@ -144,7 +144,7 @@ export const actions = {
 	onHandleSnak: () => {
 		const data = [
 			{
-				img: 'uploads/snak.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/snak.jpg`,
 				title: 'Змеи',
 				text: '',
 				categoryNames: {
@@ -161,7 +161,7 @@ export const actions = {
 	onHandleIguana: () => {
 		const data = [
 			{
-				img: 'uploads/iguana.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/iguana.jpg`,
 				title: 'Игуаны',
 				text: '',
 				categoryNames: {
@@ -178,7 +178,7 @@ export const actions = {
 	onHandleTurtle: () => {
 		const data = [
 			{
-				img: 'uploads/turtle.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/turtle.jpg`,
 				title: 'Черепахи',
 				text: '',
 				categoryNames: {
@@ -195,7 +195,7 @@ export const actions = {
 	onHandleSnail: () => {
 		const data = [
 			{
-				img: 'uploads/snail.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/snail.jpg`,
 				title: 'Улитки',
 				text: '',
 				categoryNames: {
@@ -212,7 +212,7 @@ export const actions = {
 	onHandleFish: () => {
 		const data = [
 			{
-				img: 'uploads/fish.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/fish.jpg`,
 				title: 'Рыбки',
 				text: '',
 				categoryNames: {
@@ -229,7 +229,7 @@ export const actions = {
 	onHandleInsects: () => {
 		const data = [
 			{
-				img: 'uploads/insects.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/insects.jpg`,
 				title: 'Насекомые',
 				text: '',
 				categoryNames: {
@@ -246,7 +246,7 @@ export const actions = {
 	onHandleHorse: () => {
 		const data = [
 			{
-				img: 'uploads/horse.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/horse.jpg`,
 				title: 'Лошади',
 				text: '',
 				categoryNames: {
@@ -263,7 +263,7 @@ export const actions = {
 	onHandleCow: () => {
 		const data = [
 			{
-				img: 'uploads/cow.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/cow.jpg`,
 				title: 'Коровы / быки',
 				text: '',
 				categoryNames: {
@@ -280,7 +280,7 @@ export const actions = {
 	onHandlePig: () => {
 		const data = [
 			{
-				img: 'uploads/pig.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/pig.jpg`,
 				title: 'Свиньи',
 				text: '',
 				categoryNames: {
@@ -297,7 +297,7 @@ export const actions = {
 	onHandleGoat: () => {
 		const data = [
 			{
-				img: 'uploads/goat.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/goat.jpg`,
 				title: 'Козы',
 				text: '',
 				categoryNames: {
@@ -314,7 +314,7 @@ export const actions = {
 	onHandleSheep: () => {
 		const data = [
 			{
-				img: 'uploads/sheep.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/sheep.jpg`,
 				title: 'Овцы',
 				text: '',
 				categoryNames: {
@@ -331,7 +331,7 @@ export const actions = {
 	onHandleDomesticbird: () => {
 		const data = [
 			{
-				img: 'uploads/domesticbird.jpg',
+				img: `${ process.env.URL_PATH }/static/uploads/domesticbird.jpg`,
 				title: 'Домашняя птица',
 				text: '',
 				categoryNames: {
@@ -348,7 +348,7 @@ export const actions = {
 
 const initialState = [
 	{
-		img: 'uploads/catMenu.jpg',
+		img: `${ process.env.URL_PATH }/static/uploads/catMenu.jpg`,
 		title: 'Кошки',
 		text: '',
 		categoryNames: {

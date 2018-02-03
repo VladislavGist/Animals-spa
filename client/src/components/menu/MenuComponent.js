@@ -96,107 +96,107 @@ class Menu extends Component {
 					<div>
 
 						<Link to='/'>
-							<img src='uploads/index.png' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/index.png` } className='img' />
 							<h3>На главную</h3>
 						</Link>
 
 						<Link to='/animals/cat/buy' onClick={ onHandleCat }>
-							<img src='uploads/catMenu.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/catMenu.jpg` } className='img' />
 							<h3>Кошки</h3>
 						</Link>
 
 						<Link to='/animals/dog/buy' onClick={ onHandleDog }>
-							<img src='uploads/dogMenu.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/dogMenu.jpg` } className='img' />
 							<h3>Собаки</h3>
 						</Link>
 
 						<Link to='/animals/parrot/buy' onClick={ onHandleParrot }>
-							<img src='uploads/parrot.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/parrot.jpg` } className='img' />
 							<h3>Попугаи</h3>
 						</Link>
 
 						<Link to='/animals/hamster/buy' onClick={ onHandleHamster }>
-							<img src='uploads/hamster.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/hamster.jpg` } className='img' />
 							<h3>Хомяки</h3>
 						</Link>
 
 						<Link to='/animals/mouse/buy' onClick={ onHandleMouse }>
-							<img src='uploads/mouse.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/mouse.jpg` } className='img' />
 							<h3>Мыши / крысы</h3>
 						</Link>
 
 						<Link to='/animals/hare/buy' onClick={ onHandleHare }>
-							<img src='uploads/hare.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/hare.jpg` } className='img' />
 							<h3>Зайцы / кролики</h3>
 						</Link>
 
 						<Link to='/animals/guineapig/buy' onClick={ onGuineapig }>
-							<img src='uploads/guineapig.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/guineapig.jpg` } className='img' />
 							<h3>Морские свинки</h3>
 						</Link>
 
 						<Link to='/animals/champ/buy' onClick={ onHandleChamp }>
-							<img src='uploads/champ.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/champ.jpg` } className='img' />
 							<h3>Хорьки</h3>
 						</Link>
 
 						<Link to='/animals/snak/buy' onClick={ onHandleSnak }>
-							<img src='uploads/snak.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/snak.jpg` } className='img' />
 							<h3>Змеи</h3>
 						</Link>
 
 						<Link to='/animals/iguana/buy' onClick={ onHandleIguana }>
-							<img src='uploads/iguana.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/iguana.jpg` } className='img' />
 							<h3>Игуаны</h3>
 						</Link>
 
 						<Link to='/animals/turtle/buy' onClick={ onHandleTurtle }>
-							<img src='uploads/turtle.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/turtle.jpg` } className='img' />
 							<h3>Черепахи</h3>
 						</Link>
 
 						<Link to='/animals/snail/buy' onClick={ onHandleSnail }>
-							<img src='uploads/snail.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/snail.jpg` } className='img' />
 							<h3>Улитки</h3>
 						</Link>
 
 						<Link to='/animals/fish/buy' onClick={ onHandleFish }>
-							<img src='uploads/fish.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/fish.jpg` } className='img' />
 							<h3>Рыбки</h3>
 						</Link>
 
 						<Link to='/animals/insects/buy' onClick={ onHandleInsects }>
-							<img src='uploads/insects.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/insects.jpg` } className='img' />
 							<h3>Насекомые</h3>
 						</Link>
 
 						<Link to='/animals/horse/buy' onClick={ onHandleHorse }>
-							<img src='uploads/horse.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/horse.jpg` } className='img' />
 							<h3>Лошади</h3>
 						</Link>
 
 						<Link to='/animals/cow/buy' onClick={ onHandleCow }>
-							<img src='uploads/cow.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/cow.jpg` } className='img' />
 							<h3>Коровы / быки</h3>
 						</Link>
 
 						<Link to='/animals/pig/buy' onClick={ onHandlePig }>
-							<img src='uploads/pig.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/pig.jpg` } className='img' />
 							<h3>Свиньи</h3>
 						</Link>
 
 						<Link to='/animals/goat/buy' onClick={ onHandleGoat }>
-							<img src='uploads/goat.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/goat.jpg` } className='img' />
 							<h3>Козы</h3>
 						</Link>
 
 						<Link to='/animals/sheep/buy' onClick={ onHandleSheep }>
-							<img src='uploads/sheep.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/sheep.jpg` } className='img' />
 							<h3>Овцы</h3>
 						</Link>
 
 						<Link to='/animals/domesticbird/buy' onClick={ onHandleDomesticbird }>
-							<img src='uploads/domesticbird.jpg' className='img' />
+							<img src={ `${ process.env.URL_PATH }/static/uploads/domesticbird.jpg` } className='img' />
 							<h3>Домашняя птица</h3>
 						</Link>
 

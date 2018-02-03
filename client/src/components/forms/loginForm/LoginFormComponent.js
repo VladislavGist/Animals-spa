@@ -37,7 +37,7 @@ class LoginFormComponent extends Component {
 	handleLogin = event => {
 		event.preventDefault()
 		const { loginForm: { values }, loginAction } = this.props
-		loginAction(`${ process.env.URL }/api/protected?password=${ values.password }&phone=${ values.phoneNumber }`)
+		loginAction(`${ process.env.URL_PATH }/api/protected?password=${ values.password }&phone=${ values.phoneNumber }`)
 	}
 
 	render() {

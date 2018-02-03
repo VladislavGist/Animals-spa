@@ -15,7 +15,7 @@ const extractSass = new ExtractTextPlugin({
 module.exports = {
 	entry: './src/index.js',
 	output: {
-		path: path.resolve(__dirname, 'client/www'),
+		path: path.resolve(__dirname, '../www'),
 		filename: 'bundle.js',
 		publicPath: '/'
 	},
@@ -68,7 +68,7 @@ module.exports = {
 			'process.env': {
 				BROWSER: JSON.stringify(true),
 				NODE_ENV: JSON.stringify(PROCESS_ENV),
-				URL: JSON.stringify(URL_PATH)
+				URL_PATH: JSON.stringify(URL_PATH)
 			}
 		}),
 		new webpack.optimize.UglifyJsPlugin()

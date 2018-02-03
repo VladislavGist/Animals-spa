@@ -11,7 +11,7 @@ export default class Footer extends Component {
 		return (
 			<footer>
 				<Link to='/' className='footerLogo'>
-					<img src='uploads/logo2.png' width='120' alt='logotype' />
+					<img src={ `${ process.env.URL_PATH }/static/uploads/logo2.png` } width='120' alt='logotype' />
 				</Link>
 				<div className='linksFooter'>
 					<Link to='/contacts'>Контакты</Link>

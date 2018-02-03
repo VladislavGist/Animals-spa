@@ -1,5 +1,3 @@
-import path from 'path'
-import express from 'express'
 import passport from 'passport'
 import bodyParser from 'body-parser'
 
@@ -18,21 +16,21 @@ import fetchComponentsData from '../utils/fetchComponentsData'
 import logger from './logger'
 import requestTime from './requestTime'
 
-import congif from '../configs/config'
+import config from '../configs/config'
 
 export default [
-	express.static(path.join(__dirname, '../client/www')),
 	cookieParser(),
 	bodyParser.urlencoded({ extended: true }),
 	bodyParser.json(),
-	cookieSession({ keys: [congif.secret] }),
+	cookieSession({ keys: [config.secret] }),
 	passport.initialize(),
 	passport.session(),
 	requestTime,
-	logger,
 	(req, res, next) => {
 
-		match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
+		console.log(req.url)
+
+		match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
 
 			if (redirectLocation) {
 				res.send(301, redirectLocation.pathname + redirectLocation.search)
@@ -87,7 +85,7 @@ export default [
 									<script src="https://use.fontawesome.com/d12eda1a75.js"></script>
 									<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
 									<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-									<link rel="stylesheet" type="text/css" href="./main.css" />
+									<link rel="stylesheet" type="text/css" href="${ config.staticUrl }/main.css" />
 
 								</head>
 								<body>
@@ -95,7 +93,7 @@ export default [
 									<script type='application/javascript'>
 										window.__INITIAL_STATE__ = ${ JSON.stringify(initialState) }
 									</script>
-									<script src="./bundle.js"></script>
+									<script src="${ config.staticUrl }/bundle.js"></script>
 									<script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter44570849 = new Ya.Metrika({ id:44570849, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/44570849" style="position:absolute; left:-9999px;" alt="" /></div>
 									</noscript>
 								</body>
