@@ -8,8 +8,6 @@ import CardItem from '../cardItem/CardItemComponent'
 import { actions as actionsServerReducer } from '../../../ducks/serverReducer'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
-import connectDataFetches from '../../../../HOCS/connectDataFetches'
-
 if (process.env.BROWSER) {
 	require('./CardItemsStyles.sass')
 }
