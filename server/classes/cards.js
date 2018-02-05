@@ -52,7 +52,7 @@ export default class Cards {
 			return ''
 		}
 
-		connectDB().query(`SELECT * FROM cards WHERE status='accepted' AND advType IN('missing', 'find', 'gift', 'buy') ${ func(req.params.city) } ORDER BY(card_id) DESC LIMIT 15`, (err, results) => {
+		connectDB().query(`SELECT * FROM cards WHERE status='accepted' AND advType IN('missing', 'find', 'gift', 'buy') ORDER BY(card_id) DESC LIMIT 15`, (err, results) => {
 			res.write(JSON.stringify(results))
 			res.end()
 		})
