@@ -2,10 +2,13 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { actions } from '../../../ducks/serverReducer'
+// import { actions as preloaderReducer } from '../../../ducks/preloader'
+import { actions as serverReducer } from '../../../ducks/serverReducer'
+
+import connectDataFetches from '../../../../HOCS/connectDataFetches'
 
 import AnimalCard from '../animalCard/AnimalCardComponent'
 
-import connectDataFetches from '../../../../HOCS/connectDataFetches'
 
 class WrapAnimalCard extends Component {
 
@@ -32,6 +35,7 @@ class WrapAnimalCard extends Component {
 					key={ params.advertisment }
 					animal_type={ this.animal_type }
 					advertisment={ this.advertisment }
+					getCards={ this.props.getCards }
 				/>
 			</div>
 		)
@@ -40,5 +44,5 @@ class WrapAnimalCard extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => bindActionCreators(actions, dispatch)
-)(WrapAnimalCard)
+	dispatch => bindActionCreators({ ...actions, ...serverReducer }, dispatch)
+)(connectDataFetches(WrapAnimalCard, [serverReducer.getCards]))

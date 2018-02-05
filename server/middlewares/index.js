@@ -26,22 +26,13 @@ export default [
 	requestTime,
 	(req, res, next) => {
 
-		console.log({ routes })
-		console.log(req.url)
-
 		match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
 
-			if (redirectLocation) {
-				res.send(301, redirectLocation.pathname + redirectLocation.search)
-			}
+			if (redirectLocation) { res.send(301, redirectLocation.pathname + redirectLocation.search) }
 
-			else if (error) {
-				res.send(500, error.message)
-			}
+			else if (error) { res.send(500, error.message) }
 
-			else if (!renderProps) {
-				res.send(404, 'Not found')
-			}
+			else if (!renderProps) { res.send(404, 'Not found') }
 
 			else {
 
@@ -88,7 +79,7 @@ export default [
 
 								</head>
 								<body>
-									<div id="app">${ componentHTML }</div>
+									<div id="app">div${ componentHTML }</div>
 									<script type='application/javascript'>
 										window.__INITIAL_STATE__ = ${ JSON.stringify(initialState) }
 									</script>

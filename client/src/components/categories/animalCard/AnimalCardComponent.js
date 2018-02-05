@@ -1,13 +1,9 @@
 import _ from 'underscore'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
+// import { bindActionCreators } from 'redux'
 
 import CardItems from '../cardItems/CardItemsComponent'
-import { actions as serverReducer } from '../../../ducks/serverReducer'
-import { actions as preloaderReducer } from '../../../ducks/preloader'
-
-import connectDataFetches from '../../../../HOCS/connectDataFetches'
 
 class AnimalCard extends Component {
 
@@ -55,10 +51,8 @@ class AnimalCard extends Component {
 				}
 				<CardItems datas={ state.serverReducer.advertisementList } />
 			</div>
-		);
+		)
 	}
 }
 
-export default connect(state => ({ state }),
-	dispatch => bindActionCreators({ ...serverReducer, ...preloaderReducer }, dispatch)
-)(connectDataFetches(AnimalCard, [serverReducer]))
+export default connect(state => ({ state }))(AnimalCard)

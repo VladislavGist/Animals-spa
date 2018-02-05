@@ -20,8 +20,8 @@ const onEnterFunc = (nextState, replaceState) => {
 	if (!store.getState().loginUser || store.getState().loginUser.error) replaceState('/')
 }
 
-export const routes = <Route path='/' component={ App } >
-	<IndexRoute component={ WrapAnimalCard } />
+export const routes = <Route component={ App } >
+	<Route path='/' component={ WrapAnimalCard } />
 	<Route path='/conf' component={ Conf } />
 	<Route path='/contacts' component={ ContactsForm } />
 	<Route path='/animals/:type/:advertisment' component={ WrapAnimalCard }/>

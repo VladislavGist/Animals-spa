@@ -21,6 +21,8 @@ import LinearProgressExampleDeterminate from './components/progressBar/ProgressB
 
 class App extends Component {
 
+
+
 	render() {
 
 		const { location } = this.props
