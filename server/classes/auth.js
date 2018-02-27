@@ -65,7 +65,6 @@ export default class Auth {
 										done(null, false, { error: 'Ошибка при получении данных пользователя' })
 									} else {
 										if (resultsThree.length !== 0) {
-											console.log(resultsThree[0])
 											done(null, resultsThree[0])
 										} else {
 											done(null, false, { error: 'Неверные данные или пользователь не существует' })

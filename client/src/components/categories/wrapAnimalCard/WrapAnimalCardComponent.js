@@ -12,12 +12,6 @@ import AnimalCard from '../animalCard/AnimalCardComponent'
 
 class WrapAnimalCard extends Component {
 
-	constructor() {
-		super()
-		this.animal_type
-		this.advertisment
-	}
-
 	componentWillUnmount() {
 		this.props.onHandleClearState()
 	}
@@ -26,15 +20,12 @@ class WrapAnimalCard extends Component {
 
 		const { params } = this.props
 
-		this.animal_type = params.type
-		this.advertisment = params.advertisment
-
 		return (
 			<div>
 				<AnimalCard
 					key={ params.advertisment }
-					animal_type={ this.animal_type }
-					advertisment={ this.advertisment }
+					animal_type={ params.type }
+					advertisment={ params.advertisment }
 					getCards={ this.props.getCards }
 				/>
 			</div>
