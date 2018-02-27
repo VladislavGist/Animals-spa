@@ -1,5 +1,4 @@
 import passport from 'passport'
-import bodyParser from 'body-parser'
 
 import React from 'react'
 import ReactDOM from 'react-dom/server'
@@ -18,8 +17,6 @@ import config from '../configs/config'
 
 export default [
 	cookieParser(),
-	bodyParser.urlencoded({ extended: true }),
-	bodyParser.json(),
 	cookieSession({ keys: [config.secret] }),
 	passport.initialize(),
 	passport.session(),

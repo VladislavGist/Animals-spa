@@ -6,7 +6,6 @@ import mustBeAuth from '../auth/mustBeAuth'
 const router = express.Router()
 
 const Cards = new CardsClass
-
 const upload = multer({ storage: Cards.storage })
 
 router.get('/list-hot-adv', Cards.indexPageCards)

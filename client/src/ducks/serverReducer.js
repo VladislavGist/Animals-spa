@@ -15,43 +15,19 @@ export const actions = {
 
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
-		// axios.get(`${ process.env.URL_PATH }/api/list-hot-adv`)
-		// 	.then(
-		// 		response => {
-		// 			console.log({ response })
-		// 		}
-		// 		,
-		// 		rejected => {
-		// 			console.log({ rejected })
-		// 		}
-		// 	)
-		// 	.catch(err => console.log({ err }))
-
-		axios.get(url = `${ process.env.URL_PATH }/api/list-hot-adv`)
+		axios.get(url)
 			.then(
 				response => {
-
-					console.log('yes')
-					console.log('url: ', url)
-					console.log('response: ', response)
-
 					dispatch({ type: types.CLEAR_STATE_DATA_SERVER })
 					dispatch({ type: types.GET_DATA_SERVER, payload: response.data })
 				},
-				err => {
-					console.log('no')
-					console.log('url: ', url)
-					console.log('err: ', err)
-
-					dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса'))
-				}
+				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса'))
 			)
 			.then(() => {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))
 			})
-			.catch(err => {
+			.catch(() => {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))
-				// console.log({ err })
 				dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера'))
 			})
 	},

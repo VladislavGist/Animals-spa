@@ -6,7 +6,6 @@ import nodemailer from 'nodemailer'
 
 import { connectDB } from '../db'
 
-
 export default class App {
 
 	deleteCardsTimer() {
@@ -84,19 +83,9 @@ export default class App {
 		}, 1000)
 	}
 
-	getPublic(req, res) {
-		// res.sendFile(path.join(__dirname, 'nodeApi'))
-		res.end()
-	}
-
 	sendUs(req, res) {
 
-		const datas = {
-			name: req.body.name,
-			email: req.body.email,
-			title: req.body.title,
-			mess: req.body.mess
-		}
+		const { name, email, title, mess } = req.body
 
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
@@ -107,10 +96,10 @@ export default class App {
 		})
 
 		const mailOptions = {
-			from: `Animals ${ datas.email }`,
+			from: `Animals ${ email }`,
 			to: 'studio_kseven@mail.ru',
-			subject: `Тема письма: ${ datas.title }`,
-			html: `<p>Имя: ${ datas.name } <br/> Сообщение: ${ datas.mess } <br/> Моя почта: ${ datas.email }</p>`
+			subject: `Тема письма: ${ title }`,
+			html: `<p>Имя: ${ name } <br/> Сообщение: ${ mess } <br/> Моя почта: ${ email }</p>`
 		}
 
 		transporter.sendMail(mailOptions, err => {
@@ -124,6 +113,8 @@ export default class App {
 
 	disabledBtn(req, res) {
 
+		const { animal_type, advertisement_type, city } = req.query
+
 		const func = city => {
 			if(city !== 'Все регионы') {
 				return `AND city = '${ city }' `
@@ -131,7 +122,7 @@ export default class App {
 			return ''
 		}
 
-		connectDB().query(`SELECT COUNT(card_id) FROM cards WHERE status='accepted' AND animalType = '${ req.params.animaltype }' AND advType = '${ req.params.advertisementtype }' ${ func(req.params.city) } ORDER BY(card_id) DESC LIMIT ${ req.params.count }`, (err, results) => {
+		connectDB().query(`SELECT * FROM cards WHERE status='accepted' AND animalType = '${ animal_type }' AND advType = '${ advertisement_type }' ${ func(city) } ORDER BY(card_id) DESC`, (err, results) => {
 			res.write(JSON.stringify(results))
 			res.end()
 		})
@@ -139,14 +130,16 @@ export default class App {
 
 	filterCity(req, res) {
 
+		const { animal_type, advertisement_type, city, count } = req.query
+
 		const func = city => {
 			if(city !== 'Все регионы') {
-				return `AND city = '${ city }' `
+				return `AND city='${ city }' `
 			}
 			return ''
 		}
 
-		connectDB().query(`SELECT * FROM cards WHERE status='accepted' AND animalType = '${ req.params.animaltype }' AND advType = '${ req.params.advertisementtype }' ${ func(req.params.city) } ORDER BY(card_id) DESC LIMIT ${ req.params.count }`, (err, results) => {
+		connectDB().query(`SELECT * FROM cards WHERE status='accepted' AND animalType='${ animal_type }' AND advType='${ advertisement_type }' ${ func(city) } ORDER BY(card_id) DESC LIMIT ${ count }`, (err, results) => {
 			res.write(JSON.stringify(results))
 			res.end()
 		})

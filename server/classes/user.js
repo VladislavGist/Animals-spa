@@ -6,8 +6,6 @@ class User {
 
 		const { userId, parametr, value } = req.body
 
-		console.log({ userId, parametr, value })
-
 		connectDB().query(`UPDATE users SET ${ parametr }=${ value } WHERE user_id=${ userId };`, err => {
 			if (err) {
 				console.log('Информация о пользователе не изменена')
@@ -20,8 +18,6 @@ class User {
 	}
 
 	userDatas(req, res) {
-
-		console.log('session ', req.session)
 
 		connectDB().query(`SELECT user_id, name, surname, phoneNumber, city, accountType, rules FROM users WHERE user_id='${ req.query.userid }';`, (err, results) => {
 			if (err) console.log(err)

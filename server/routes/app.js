@@ -9,8 +9,8 @@ const App = new AppClass
 
 router.post('/sendus', App.sendUs)
 
-router.get('/list-animals/animal_type/:animaltype/advertisement_type/:advertisementtype/city/:city/count/:count/allcount', App.disabledBtn)
+router.get('/list-animals/allcount', App.disabledBtn)
 
-router.get('/list-animals/animal_type/:animaltype/advertisement_type/:advertisementtype/city/:city/count/:count', App.filterCity)
+router.get('/list-animals', App.filterCity)
 
 export default router
