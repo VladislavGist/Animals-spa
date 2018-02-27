@@ -5,7 +5,6 @@ import AuthClass from '../classes/auth'
 
 const Auth = new AuthClass
 
-
 // аутентификация
 passport.use(new Strategy(Auth.findUser))
 
