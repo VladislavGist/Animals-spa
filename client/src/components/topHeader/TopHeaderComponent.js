@@ -2,6 +2,8 @@ import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
+import { moduleName } from '../../ducks/loginUser'
+
 import LoginModal from '../sendDialog/SendDialogComponent.js'
 import DrawerUndockedExample from '../drawerUndockedExample/DrawerUndockedExampleComponent.js'
 
@@ -13,32 +15,33 @@ class TopHeader extends Component {
 
 	loginFalse = () => {
 
-		const { loginUser } = this.props.state
+		// const { user } = this.props
 
-		if (!loginUser.rules) {
+		// if (user && loginUser.user.role === 'user') {
 			return (
 				<div className='userBtns'>
 					<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
 				</div>
 			)
-		} else if (loginUser.rules === 'moderator') {
-			return (
-				<div className='userBtns'>
-					<Link to='/moderation' className='personalArea'>moderation</Link>
-				</div>
-			)
-		}
+		// } else if (loginUser.user.role === 'moderator') {
+		// 	return (
+		// 		<div className='userBtns'>
+		// 			<Link to='/moderation' className='personalArea'>moderation</Link>
+		// 		</div>
+		// 	)
+		// }
 	}
 
 	handleClick = () => {
-		if (!this.props.state.loginUser) {
+		if (!this.props.loginUser.user) {
 			return false
 		}
 	}
 
 	render() {
+		const { user, filterCity } = this.props
 
-		const { loginUser, filterCity } = this.props.state
+		console.log(user)
 
 		return (
 			<header>
@@ -53,11 +56,11 @@ class TopHeader extends Component {
 					<LoginModal titleBtn={ filterCity.cityTopHeader } dialogModal='02' />
 
 					{
-						!loginUser || loginUser.error !== undefined ? <LoginModal titleBtn='Вход / регистрация' dialogModal='01' /> : this.loginFalse()
+						!user ? <LoginModal titleBtn='Вход / регистрация' dialogModal='01' /> : this.loginFalse()
 					}
 
 					{
-						!loginUser || loginUser.error !== undefined ?
+						!user ?
 							<LoginModal
 								titleBtn='Подать объявление'
 								classNameMobile='needLoginMobile'
@@ -84,4 +87,7 @@ class TopHeader extends Component {
 // 	</span>
 // </div>
 
-export default connect(state => ({ state }))(TopHeader)
+export default connect(state => ({
+	user: state.loginUser.user,
+	filterCity: state.filterCity,
+}))(TopHeader)

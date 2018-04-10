@@ -1,7 +1,8 @@
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-// import { push } from 'react-router-redux'
+
+import './config'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
@@ -21,10 +22,7 @@ import LinearProgressExampleDeterminate from './components/progressBar/ProgressB
 
 class App extends Component {
 
-
-
 	render() {
-
 		const { location } = this.props
 
 		const classes = classNames({
@@ -33,39 +31,23 @@ class App extends Component {
 		})
 
 		return (
-
 			<MuiThemeProvider>
-
 				<div className='wrapApp'>
-
 					{ this.props.state.preloader.loading > 0 && this.props.state.preloader.loading !== 100 ?
 						<LinearProgressExampleDeterminate className='progressBar' /> : null
 					}
-
 					<div className='container'>
-
 						<TopHeader />
-
-						<div className='wrapBackground'>
+						{/* <div className='wrapBackground'>
 							<div className='wrapper'>
-
 								<Menu />
-
-								<div className={ classes }>
-									{ this.props.children }
-								</div>
-
+								<div className={ classes }>{ this.props.children }</div>
 							</div>
-
 							<Footer />
-
-						</div>
+						</div> */}
 					</div>
-
-					<SnackbarExampleSimple />
-
+					{/* <SnackbarExampleSimple /> */}
 				</div>
-
 			</MuiThemeProvider>
 		)
 	}

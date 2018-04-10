@@ -1,39 +1,103 @@
-import 'whatwg-fetch'
-import axios from 'axios'
+import firebase from 'firebase'
+import { Record } from 'immutable'
+import { push } from 'react-router-redux'
 
+import { appName } from '../config'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
+export const moduleName = 'auth'
+
+const ReducerSchema = Record({
+	user: null,
+	userError: null,
+	userLoading: false
+})
+
 export const types = {
-	LOGIN_FALSE: 'LOGIN_USER/LOGIN_FALSE',
-	LOGIN_TRUE: 'LOGIN_USER/LOGIN_TRUE'
+	SIGN_UP_REQUEST: `${ appName }/${ moduleName }/SIGN_UP_REQUEST`,
+	SIGN_UP_SUCCESS: `${ appName }/${ moduleName }/SIGN_UP_SUCCESS`,
+	SIGN_UP_ERROR: `${ appName }/${ moduleName }/SIGN_UP_ERROR`,
+
+	SIGN_IN_REQUEST: `${ appName }/${ moduleName }/SIGN_IN_REQUEST`,
+	SIGN_IN_SUCCESS: `${ appName }/${ moduleName }/SIGN_IN_SUCCESS`,
+	SIGN_IN_ERROR: `${ appName }/${ moduleName }/SIGN_IN_ERROR`,
+
+	SIGN_OUT_REQUEST: `${ appName }/${ moduleName }/SIGN_OUT_REQUEST`,
+	SIGN_OUT_SUCCESS: `${ appName }/${ moduleName }/SIGN_OUT_SUCCESS`,
+	SIGN_OUT_ERROR: `${ appName }/${ moduleName }/SIGN_OUT_ERROR`
 }
 
 export const actions = {
+	loginFalse: () => dispatch => {
+		dispatch({ type: types.SIGN_OUT_REQUEST })
 
-	loginFalse: () => ({ type: types.LOGIN_FALSE, payload: false }),
+		firebase.auth().signOut()
+			.then(() => dispatch({ type: types.SIGN_OUT_SUCCESS }))
+			.then(() => dispatch(push('/')))
+			.catch(err => dispatch({ type: types.SIGN_OUT_ERROR, payload: err }))
+	},
 
-	loginAction: url => dispatch => {
-		axios.get(url)
-			.then(
-				response => dispatch({ type: types.LOGIN_TRUE, payload: response.data }),
-				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка в данных или пользователя не существует')))
-			.catch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера loginAction'))
+	loginAction: ({ email, password }) => dispatch => {
+		dispatch({ type: types.SIGN_IN_REQUEST })
+
+		firebase.auth().signInWithEmailAndPassword(email, password)
+			.then(user => dispatch({ type: types.SIGN_IN_SUCCESS, payload: { user } }))
+			.then(() => dispatch(push('/')))
+			.catch(error => dispatch({ type: types.SIGN_IN_ERROR, error }))
+	},
+
+	signUp: (email, password) => dispatch => {
+		dispatch({ type: types.SIGN_UP_REQUEST })
+
+		firebase.auth().createUserWithEmailAndPassword(email, password)
+			.then(user => {
+				// create user and add user to db
+				firebase.database().ref(`users/${ user.uid }`).set({
+					articles: '',
+					name: 'Имя пользователя',
+					email: 'такой то емейл',
+					role: 'user'
+				})
+
+				dispatch({ type: types.SIGN_UP_SUCCESS, payload: { user } })
+			})
+			.then(() => dispatch(push('/admin')))
+			.catch(error => dispatch({ type: types.SIGN_UP_ERROR, error }))
 	},
 
 	updateDatasTrue: url => dispatch => {
-		axios.get(url)
-			.then(
-				response => dispatch({ type: types.LOGIN_TRUE, payload: response.data }),
-				() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера при обновлении данных')))
-			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера updateDatasTruee')))
+		// axios.get(url)
+		// 	.then(
+		// 		response => dispatch({ type: types.LOGIN_TRUE, payload: response.data }),
+		// 		() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера при обновлении данных')))
+		// 	.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера updateDatasTruee')))
 	}
 
 }
 
-export default (state = false, action) => {
-	switch (action.type) {
-	case types.LOGIN_FALSE: return action.payload
-	case types.LOGIN_TRUE: return action.payload
+export default (state = new ReducerSchema(), action) => {
+	const { type, payload, error } = action
+
+	switch (type) {
+	case types.SIGN_UP_REQUEST: return state.set('userLoading', true).set('userError', false).set('user', null)
+	case types.SIGN_UP_SUCCESS: return state.set('userLoading', false).set('userError', false).set('user', payload.user)
+	case types.SIGN_UP_ERROR: return state.set('userError', error)
+
+	case types.SIGN_IN_REQUEST: return state.set('userLoading', true).set('userError', false)
+	case types.SIGN_IN_SUCCESS: return state.set('userLoading', false).set('userError', false).set('user', payload.user)
+	case types.SIGN_IN_ERROR: return state.set('userError', error)
+
+	case types.SIGN_OUT_REQUEST: return state.set('userLoading', true)
+	case types.SIGN_OUT_SUCCESS: return state.set('user', null).set('userError', null).set('userLoading', false)
+		.set('cards', null).set('cardsLoading', false).set('cardsError', false)
+	case types.SIGN_OUT_ERROR: return state.set('userError', error)	
+
 	default: return state
 	}
 }
+
+firebase.auth().onAuthStateChanged(user => {
+	const { store } = require('../routing')
+
+	user && store.dispatch({ type: types.SIGN_IN_SUCCESS, payload: { user }})
+})
