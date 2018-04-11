@@ -17,7 +17,6 @@ class WrapAnimalCard extends Component {
 	}
 
 	render() {
-
 		const { params } = this.props
 
 		return (

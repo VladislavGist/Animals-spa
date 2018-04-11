@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
+import firebase from 'firebase'
 
 import { store } from '../../../routing'
 import CardItem from '../cardItem/CardItemComponent'
@@ -14,47 +15,47 @@ if (process.env.BROWSER) {
 
 class CardItems extends Component {
 
-	constructor() {
-		super()
-		this.elem = store.getState().serverReducer
-		this.countMore = 20
-		this.topPosition = 0
-	}
+	// constructor() {
+	// 	super()
+	// 	this.elem = store.getState().serverReducer
+	// 	this.countMore = 20
+	// 	this.topPosition = 0
+	// }
 
 	componentDidMount() {
 
 		// смотрим расстояние от верха. Нужно для корректной работы "еще объявления"
-		window.onscroll = () => {
-			this.topPosition = document.documentElement.scrollTop
-		}
+		// window.onscroll = () => {
+		// 	this.topPosition = document.documentElement.scrollTop
+		// }
 
-		this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname)
+		// firebase.database().ref('/users')
+
+		// this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname)
 	}
 
 	componentWillUnmount() {
-		this.props.onHandleClearState()
-		this.countMore = 20
-		this.topPosition = 0
+		// this.props.onHandleClearState()
+		// this.countMore = 20
+		// this.topPosition = 0
 	}
 
 	componentWillUpdate() {
 		// при каждом изменении url будем скролится на то место на котором были
-		document.documentElement.scrollTop = this.topPosition
+		// document.documentElement.scrollTop = this.topPosition
 	}
 
 	addMoreCards = () => {
+		// const { state, getCards, allCards } = this.props
 
-		const { state, getCards, allCards } = this.props
+		// getCards(process.env.URL_PATH + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
 
-		getCards(process.env.URL_PATH + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
+		// allCards(process.env.URL_PATH + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
 
-		allCards(process.env.URL_PATH + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
-
-		this.countMore += 10
+		// this.countMore += 10
 	}
 
 	render() {
-
 		const { state, datas } = this.props
 
 		return (
