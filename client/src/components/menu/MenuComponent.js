@@ -205,7 +205,7 @@ class Menu extends Component {
 							menuDatas.map((item, idx) => (
 								<Link to={ item.path } onClick={ item.func } key={ idx }>
 									<img src={ item.image } className='img' />
-									<h3>{ item.text }</h3>
+									<h3>{ item.title }</h3>
 								</Link>
 							))
 						}
