@@ -9,6 +9,7 @@ export const moduleName = 'auth'
 
 const ReducerSchema = Record({
 	user: null,
+	userDatas: null,
 	userError: null,
 	userLoading: false
 })
@@ -41,7 +42,9 @@ export const actions = {
 		dispatch({ type: types.SIGN_IN_REQUEST })
 
 		firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(user => dispatch({ type: types.SIGN_IN_SUCCESS, payload: { user } }))
+			.then(user => {
+				dispatch({ type: types.SIGN_IN_SUCCESS, payload: { user } })
+			})
 			.then(() => dispatch(push('/')))
 			.catch(error => dispatch({ type: types.SIGN_IN_ERROR, error }))
 	},
@@ -59,7 +62,7 @@ export const actions = {
 					role: 'user'
 				})
 
-				dispatch({ type: types.SIGN_UP_SUCCESS, payload: { user } })
+				dispatch({ type: types.SIGN_UP_SUCCESS, payload: { ...user } })
 			})
 			.then(() => dispatch(push('/admin')))
 			.catch(error => dispatch({ type: types.SIGN_UP_ERROR, error }))
@@ -76,15 +79,15 @@ export const actions = {
 }
 
 export default (state = new ReducerSchema(), action) => {
-	const { type, payload, error } = action
+	const { type, payload, userDatas, error } = action
 
 	switch (type) {
 	case types.SIGN_UP_REQUEST: return state.set('userLoading', true).set('userError', false).set('user', null)
-	case types.SIGN_UP_SUCCESS: return state.set('userLoading', false).set('userError', false).set('user', payload.user)
+	case types.SIGN_UP_SUCCESS: return state.set('userLoading', false).set('userError', false).set('user', payload)
 	case types.SIGN_UP_ERROR: return state.set('userError', error)
 
 	case types.SIGN_IN_REQUEST: return state.set('userLoading', true).set('userError', false)
-	case types.SIGN_IN_SUCCESS: return state.set('userLoading', false).set('userError', false).set('user', payload.user)
+	case types.SIGN_IN_SUCCESS: return state.set('userLoading', false).set('userError', false).set('user', payload).set('userDatas', userDatas)
 	case types.SIGN_IN_ERROR: return state.set('userError', error)
 
 	case types.SIGN_OUT_REQUEST: return state.set('userLoading', true)
@@ -99,5 +102,9 @@ export default (state = new ReducerSchema(), action) => {
 firebase.auth().onAuthStateChanged(user => {
 	const { store } = require('../routing')
 
-	user && store.dispatch({ type: types.SIGN_IN_SUCCESS, payload: { user }})
+	if (user) {
+		firebase.database().ref(`users/${ user.uid }`).on('value', snapshot => {
+			store.dispatch({ type: types.SIGN_IN_SUCCESS, payload: user, userDatas: snapshot.val() })
+		})
+	}
 })

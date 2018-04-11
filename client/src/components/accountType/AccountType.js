@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 
-import { actions as actionsLoginUser } from '../../ducks/loginUser'
+import { actions as authActions } from '../../ducks/auth'
 import { actions as actionsAccountType } from '../../ducks/accountType'
 
 class AccountType extends Component {
@@ -109,5 +109,5 @@ class AccountType extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => bindActionCreators({ ...actionsAccountType, ...actionsLoginUser }, dispatch)
+	dispatch => bindActionCreators({ ...actionsAccountType, ...authActions }, dispatch)
 )(AccountType)

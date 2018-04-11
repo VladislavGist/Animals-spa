@@ -7,7 +7,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { routerMiddleware } from 'react-router-redux'
 
-import loginUser from './ducks/loginUser'
+import auth from './ducks/auth'
 import preloader from './ducks/preloader'
 import filterCity from './ducks/filterCity'
 import regReducer from './ducks/regReducer'
@@ -24,7 +24,7 @@ import reducerCardsComplAndRej from './ducks/reducerCardsComplAndRej'
 const reducers = combineReducers({
 	routing: routerReducer,
 	form: reducer,
-	loginUser,
+	auth,
 	preloader,
 	regReducer,
 	filterCity,
@@ -42,8 +42,6 @@ const reducers = combineReducers({
 const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(routerMiddleware(hashHistory), thunk))(createStore)
 
 export default function configureStore(initialState) {
-
 	const store = createStoreWithMiddleware(reducers, initialState)
-
 	return store
 }

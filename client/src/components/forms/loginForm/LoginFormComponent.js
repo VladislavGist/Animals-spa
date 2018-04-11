@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { Form, Field, reduxForm } from 'redux-form'
 
-import { actions as loginUserActions } from '../../../ducks/loginUser'
+import { actions as authActions } from '../../../ducks/auth'
 
 import { renderField, validate } from '../formValidate'
 import { normilizeNumber, validateInputs } from '../validationsInputs'
@@ -80,5 +80,5 @@ LoginFormComponent = reduxForm({
 })(LoginFormComponent)
 
 export default connect(state => ({ state, loginForm: state.form.loginForm }),
-	dispatch => bindActionCreators({ ...loginUserActions }, dispatch)
+	dispatch => bindActionCreators({ ...authActions }, dispatch)
 )(LoginFormComponent)

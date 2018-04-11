@@ -16,14 +16,14 @@ if (process.env.BROWSER) {
 
 import Menu from './components/menu/MenuComponent.js'
 import Footer from './components/footer/FooterComponent.js'
-import TopHeader from './components/topHeader/TopHeaderComponent.js'
+import Sidebar from './components/sidebar/Sidebar.js'
 import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
 import LinearProgressExampleDeterminate from './components/progressBar/ProgressBarComponent.js'
 
 class App extends Component {
 
 	render() {
-		const { location } = this.props
+		const { location, preloaderLoading } = this.props
 
 		const classes = classNames({
 			spaContent: true,
@@ -33,18 +33,18 @@ class App extends Component {
 		return (
 			<MuiThemeProvider>
 				<div className='wrapApp'>
-					{ this.props.state.preloader.loading > 0 && this.props.state.preloader.loading !== 100 ?
-						<LinearProgressExampleDeterminate className='progressBar' /> : null
+					{
+						(preloaderLoading > 0 && preloaderLoading !== 100) && <LinearProgressExampleDeterminate className='progressBar' />
 					}
 					<div className='container'>
-						<TopHeader />
-						{/* <div className='wrapBackground'>
+						<Sidebar />
+						<div className='wrapBackground'>
 							<div className='wrapper'>
-								<Menu />
+								{/* <Menu /> */}
 								<div className={ classes }>{ this.props.children }</div>
 							</div>
 							<Footer />
-						</div> */}
+						</div>
 					</div>
 					{/* <SnackbarExampleSimple /> */}
 				</div>
@@ -54,7 +54,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-	state,
+	preloaderLoading: state.preloader.loading,
 	location: ownProps.location.pathname
 })
 

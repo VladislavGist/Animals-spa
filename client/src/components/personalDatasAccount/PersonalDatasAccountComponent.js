@@ -6,7 +6,7 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import CardItem from '../categories/cardItem/CardItemComponent'
 import TableRowsComponent from './tableRows/TableRowsComponent'
 
-import { actions as actionsLoginUser } from '../../ducks/loginUser'
+import { actions as authActions } from '../../ducks/auth'
 import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 import { actions as actionsReducerCardsComplAndRej } from '../../ducks/reducerCardsComplAndRej'
 
@@ -162,6 +162,6 @@ export default connect(
 	dispatch => bindActionCreators({
 		...actionsReducerCardsComplAndRej,
 		...actionsServerReducer,
-		...actionsLoginUser
+		...authActions
 	}, dispatch)
 )(PersonalDatasAccount)

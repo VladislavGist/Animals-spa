@@ -12,13 +12,13 @@ import AddCardFormComponent from './components/forms/addCardForm/AddCardFormComp
 import ContactsForm from './components/forms/contactsForm/ContactsFormComponent'
 import WrapAnimalCard from './components/categories/wrapAnimalCard/WrapAnimalCardComponent'
 
+import { moduleName } from '../src/ducks/auth'
+
 const initialState = process.env.BROWSER ? window.__INITIAL_STATE__ : {}
 
 export const store = configureStore(initialState)
 
-const onEnterFunc = (nextState, replaceState) => {
-	if (!store.getState().loginUser || store.getState().loginUser.error) replaceState('/')
-}
+const onEnterFunc = (nextState, replaceState) => !store.getState()[moduleName].user && replaceState('/')
 
 export const routes = <Route component={ App } >
 	<Route path='/' component={ WrapAnimalCard } />

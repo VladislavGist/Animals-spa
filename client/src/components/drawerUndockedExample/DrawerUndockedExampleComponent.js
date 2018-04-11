@@ -5,6 +5,8 @@ import Drawer from 'material-ui/Drawer'
 import MenuItem from 'material-ui/MenuItem'
 import RaisedButton from 'material-ui/RaisedButton'
 
+import { moduleName } from '../../ducks/auth'
+
 import LoginModal from '../sendDialog/SendDialogComponent.js'
 
 class DrawerUndockedExample extends Component {
@@ -16,15 +18,16 @@ class DrawerUndockedExample extends Component {
 	handleClose = () => this.setState({ open: false })
 
 	render() {
+		const { user, filterCity } = this.props
 
 		const loginFalse = () => {
-			if (this.props.state.loginUser.rules === null) {
+			if (user.role === 'user') {
 				return (
 					<div className='userBtns'>
 						<Link to='/personalArea' className='mobileBtnPersonalArea'>Личный кабинет</Link>
 					</div>
 				)
-			} else if (this.props.state.loginUser.rules === 'moderator') {
+			} else if (user.role === 'moderator') {
 				return (
 					<div className='userBtns'>
 						<Link to='/moderation' className='mobileBtnPersonalArea'>moderation</Link>
@@ -42,8 +45,6 @@ class DrawerUndockedExample extends Component {
 				'height': '40px'
 			}
 		}
-
-		const { state } = this.props
 
 		return (
 
@@ -66,7 +67,7 @@ class DrawerUndockedExample extends Component {
 				>
 					<MenuItem>
 						<LoginModal
-							titleBtn={ state.filterCity.cityTopHeader }
+							titleBtn={ filterCity.cityTopHeader }
 							classNameMobile='regionsBtnMobile'
 							dialogModal='02'
 						/>
@@ -74,7 +75,7 @@ class DrawerUndockedExample extends Component {
 
 					<MenuItem onTouchTap={ this.handleClose }>
 						{
-							state.loginUser === false || state.loginUser.error !== undefined ?
+							!user ?
 								<LoginModal
 									classesBtn='accountBtnMobile'
 									classNameMobile='mobileSign'
@@ -87,7 +88,7 @@ class DrawerUndockedExample extends Component {
 
 					<MenuItem onTouchTap={ this.handleClose }>
 						{
-							state.loginUser === false ?
+							!user ?
 								<LoginModal
 									titleBtn='Подать объявление'
 									classesBtn='button2 mobileBtnPersonalArea'
@@ -105,4 +106,7 @@ class DrawerUndockedExample extends Component {
 	}
 }
 
-export default connect(state => ({ state }))(DrawerUndockedExample)
+export default connect(state => ({
+	user: state[moduleName].user,
+	filterCity: state.filterCity
+}))(DrawerUndockedExample)
