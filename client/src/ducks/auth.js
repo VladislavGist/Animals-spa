@@ -5,6 +5,8 @@ import { push } from 'react-router-redux'
 import { appName } from '../config'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
+import { normalizeFirebaseDatas } from '../ducks/utils'
+
 export const moduleName = 'auth'
 
 const ReducerSchema = Record({
@@ -104,7 +106,10 @@ firebase.auth().onAuthStateChanged(user => {
 
 	if (user) {
 		firebase.database().ref(`users/${ user.uid }`).on('value', snapshot => {
-			store.dispatch({ type: types.SIGN_IN_SUCCESS, payload: user, userDatas: snapshot.val() })
+			let value = snapshot.val()
+			let articles = snapshot.val().articles
+
+			store.dispatch({ type: types.SIGN_IN_SUCCESS, payload: user, userDatas: { ...value, articles: normalizeFirebaseDatas(articles) } })
 		})
 	}
 })
