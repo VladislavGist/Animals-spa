@@ -8,7 +8,7 @@ export const actions = {
 	onHandleCat: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/catMenu.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2FcatMenu.jpg?alt=media&token=283aae65-4450-4ae4-b41d-46da0e35a24b',
 				title: 'Кошки',
 				text: '',
 				categoryNames: {
@@ -25,7 +25,7 @@ export const actions = {
 	onHandleDog: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/dogMenu.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2FdogMenu.jpg?alt=media&token=61db6dd0-933d-4050-be3f-631038d95c0e',
 				title: 'Собаки',
 				text: '',
 				categoryNames: {
@@ -42,7 +42,7 @@ export const actions = {
 	onHandleParrot: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/parrot.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fparrot.jpg?alt=media&token=a9042563-7b2e-4744-9741-79204e25af64',
 				title: 'Попугаи',
 				text: '',
 				categoryNames: {
@@ -59,7 +59,7 @@ export const actions = {
 	onHandleHamster: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/hamster.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fhamster.jpg?alt=media&token=2bb626a5-41a1-4998-93a9-9875481fb40f',
 				title: 'Хомяки',
 				text: '',
 				categoryNames: {
@@ -76,7 +76,7 @@ export const actions = {
 	onHandleMouse: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/mouse.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fmouse.jpg?alt=media&token=15e5b1c7-7ba5-4044-aa62-d9d120a2a079',
 				title: 'Мыши / крысы',
 				text: '',
 				categoryNames: {
@@ -93,7 +93,7 @@ export const actions = {
 	onHandleHare: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/hare.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fhare.jpg?alt=media&token=f8f5156b-a298-4e7b-afc7-b13b14265132',
 				title: 'Зайцы / кролики',
 				text: '',
 				categoryNames: {
@@ -110,7 +110,7 @@ export const actions = {
 	onGuineapig: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/guineapig.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fguineapig.jpg?alt=media&token=9a932a7a-20d2-47ba-b22f-30f25b412c19',
 				title: 'Морские свинки',
 				text: '',
 				categoryNames: {
@@ -127,7 +127,7 @@ export const actions = {
 	onHandleChamp: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/champ.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fchamp.jpg?alt=media&token=c8890970-fd64-4c27-9bd2-8a830c0e81e3',
 				title: 'Хорьки',
 				text: '',
 				categoryNames: {
@@ -144,7 +144,7 @@ export const actions = {
 	onHandleSnak: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/snak.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fsnak.jpg?alt=media&token=384d3814-2c4d-4f46-b1d7-0a6cfa39b15d',
 				title: 'Змеи',
 				text: '',
 				categoryNames: {
@@ -161,7 +161,7 @@ export const actions = {
 	onHandleIguana: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/iguana.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Figuana.jpg?alt=media&token=37124f1d-10eb-48ac-815b-d3464403af50',
 				title: 'Игуаны',
 				text: '',
 				categoryNames: {
@@ -178,7 +178,7 @@ export const actions = {
 	onHandleTurtle: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/turtle.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fturtle.jpg?alt=media&token=9aff78ad-9093-4d31-ac25-40f959688521',
 				title: 'Черепахи',
 				text: '',
 				categoryNames: {
@@ -195,7 +195,7 @@ export const actions = {
 	onHandleSnail: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/snail.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fsnail.jpg?alt=media&token=4f010780-da2b-4ce0-92f7-3147e5086c46',
 				title: 'Улитки',
 				text: '',
 				categoryNames: {
@@ -212,7 +212,7 @@ export const actions = {
 	onHandleFish: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/fish.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Ffish.jpg?alt=media&token=7f70e25d-0b99-49fd-8221-949d77ac1147',
 				title: 'Рыбки',
 				text: '',
 				categoryNames: {
@@ -229,7 +229,7 @@ export const actions = {
 	onHandleInsects: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/insects.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Finsects.jpg?alt=media&token=08555cd0-d6ec-4877-85f0-ae9ed47602d9',
 				title: 'Насекомые',
 				text: '',
 				categoryNames: {
@@ -246,7 +246,7 @@ export const actions = {
 	onHandleHorse: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/horse.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fhorse.jpg?alt=media&token=639589a1-86e1-48c4-8e0e-c9b37af5b18a',
 				title: 'Лошади',
 				text: '',
 				categoryNames: {
@@ -263,7 +263,7 @@ export const actions = {
 	onHandleCow: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/cow.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fcow.jpg?alt=media&token=713eca65-2a74-4d73-8b26-4a0628111245',
 				title: 'Коровы / быки',
 				text: '',
 				categoryNames: {
@@ -280,7 +280,7 @@ export const actions = {
 	onHandlePig: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/pig.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fpig.jpg?alt=media&token=8aa8d17a-d9f9-4fb4-8baf-a20682406757',
 				title: 'Свиньи',
 				text: '',
 				categoryNames: {
@@ -297,7 +297,7 @@ export const actions = {
 	onHandleGoat: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/goat.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fgoat.jpg?alt=media&token=032e4074-0e53-416e-930a-a53d89cbac7e',
 				title: 'Козы',
 				text: '',
 				categoryNames: {
@@ -314,7 +314,7 @@ export const actions = {
 	onHandleSheep: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/sheep.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fsheep.jpg?alt=media&token=2c2af997-46b4-4919-b15c-2bf7d6e462f5',
 				title: 'Овцы',
 				text: '',
 				categoryNames: {
@@ -331,7 +331,7 @@ export const actions = {
 	onHandleDomesticbird: () => {
 		const data = [
 			{
-				img: `${ process.env.URL_PATH }/static/uploads/domesticbird.jpg`,
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fdomesticbird.jpg?alt=media&token=94cbd183-326c-4b38-a251-8d159c011631',
 				title: 'Домашняя птица',
 				text: '',
 				categoryNames: {
@@ -348,7 +348,7 @@ export const actions = {
 
 const initialState = [
 	{
-		img: `${ process.env.URL_PATH }/static/uploads/catMenu.jpg`,
+		img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2FcatMenu.jpg?alt=media&token=283aae65-4450-4ae4-b41d-46da0e35a24b',
 		title: 'Кошки',
 		text: '',
 		categoryNames: {

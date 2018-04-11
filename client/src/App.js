@@ -40,7 +40,7 @@ class App extends Component {
 						<Sidebar />
 						<div className='wrapBackground'>
 							<div className='wrapper'>
-								{/* <Menu /> */}
+								<Menu />
 								<div className={ classes }>{ this.props.children }</div>
 							</div>
 							<Footer />

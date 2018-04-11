@@ -38,28 +38,135 @@ class Menu extends Component {
 			icons = this.props.state.menuReducer[0].categoryNames.icons,
 			key = this.props.state.menuReducer[0].categoryNames.key
 
-		const {
-			onHandleCat,
-			onHandleDog,
-			onHandleParrot,
-			onHandleHamster,
-			onHandleMouse,
-			onHandleHare,
-			onGuineapig,
-			onHandleChamp,
-			onHandleSnak,
-			onHandleIguana,
-			onHandleTurtle,
-			onHandleSnail,
-			onHandleFish,
-			onHandleInsects,
-			onHandleHorse,
-			onHandleCow,
-			onHandlePig,
-			onHandleGoat,
-			onHandleSheep,
-			onHandleDomesticbird
-		} = this.props
+		const menuDatas = [
+			{
+				path: '/',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Findex.png?alt=media&token=2447c385-80e6-4e3d-9518-814fe2222de0',
+				title: 'На главную',
+				func: null
+			},
+			{
+				path: '/animals/cat/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2FcatMenu.jpg?alt=media&token=283aae65-4450-4ae4-b41d-46da0e35a24b',
+				title: 'Кошки',
+				func: this.props.onHandleCat
+			},
+			{
+				path: '/animals/dog/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2FdogMenu.jpg?alt=media&token=61db6dd0-933d-4050-be3f-631038d95c0e',
+				title: 'Собаки',
+				func: this.props.onHandleDog
+			},
+			{
+				path: '/animals/parrot/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fparrot.jpg?alt=media&token=a9042563-7b2e-4744-9741-79204e25af64',
+				title: 'Попугаи',
+				func: this.props.onHandleParrot
+			},
+			{
+				path: '/animals/hamster/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fhamster.jpg?alt=media&token=2bb626a5-41a1-4998-93a9-9875481fb40f',
+				title: 'Хомяки',
+				func: this.props.onHandleHamster
+			},
+			{
+				path: '/animals/mouse/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fmouse.jpg?alt=media&token=15e5b1c7-7ba5-4044-aa62-d9d120a2a079',
+				title: 'Мыши / крысы',
+				func: this.props.onHandleMouse
+			},
+			{
+				path: '/animals/hare/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fhare.jpg?alt=media&token=f8f5156b-a298-4e7b-afc7-b13b14265132',
+				title: 'Зайцы / кролики',
+				func: this.props.onHandleHare
+			},
+			{
+				path: '/animals/guineapig/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fguineapig.jpg?alt=media&token=9a932a7a-20d2-47ba-b22f-30f25b412c19',
+				title: 'Морские свинки',
+				func: this.props.onGuineapig
+			},
+			{
+				path: '/animals/champ/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fchamp.jpg?alt=media&token=c8890970-fd64-4c27-9bd2-8a830c0e81e3',
+				title: 'Хорьки',
+				func: this.props.onHandleChamp
+			},
+			{
+				path: '/animals/snak/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fsnak.jpg?alt=media&token=384d3814-2c4d-4f46-b1d7-0a6cfa39b15d',
+				title: 'Змеи',
+				func:  this.props.onHandleSnak
+			},
+			{
+				path: '/animals/iguana/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Figuana.jpg?alt=media&token=37124f1d-10eb-48ac-815b-d3464403af50',
+				title: 'Игуаны',
+				func:  this.props.onHandleIguana
+			},
+			{
+				path: '/animals/turtle/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fturtle.jpg?alt=media&token=9aff78ad-9093-4d31-ac25-40f959688521',
+				title: 'Черепахи',
+				func:  this.props.onHandleTurtle
+			},
+			{
+				path: '/animals/snail/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fsnail.jpg?alt=media&token=4f010780-da2b-4ce0-92f7-3147e5086c46',
+				title: 'Улитки',
+				func:  this.props.onHandleSnail
+			},
+			{
+				path: '/animals/fish/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Ffish.jpg?alt=media&token=7f70e25d-0b99-49fd-8221-949d77ac1147',
+				title: 'Рыбки',
+				func:  this.props.onHandleFish
+			},
+			{
+				path: '/animals/insects/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Finsects.jpg?alt=media&token=08555cd0-d6ec-4877-85f0-ae9ed47602d9',
+				title: 'Насекомые',
+				func:  this.props.onHandleInsects
+			},
+			{
+				path: '/animals/horse/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fhorse.jpg?alt=media&token=639589a1-86e1-48c4-8e0e-c9b37af5b18a',
+				title: 'Лошади',
+				func:  this.props.onHandleHorse.onHandleHorse
+			},
+			{
+				path: '/animals/cow/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fcow.jpg?alt=media&token=713eca65-2a74-4d73-8b26-4a0628111245',
+				title: 'Коровы / быки',
+				func:  this.props.onHandleCow
+			},
+			{
+				path: '/animals/pig/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fpig.jpg?alt=media&token=8aa8d17a-d9f9-4fb4-8baf-a20682406757',
+				title: 'Свиньи',
+				func:  this.props.onHandlePig
+			},
+			{
+				path: '/animals/goat/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fgoat.jpg?alt=media&token=032e4074-0e53-416e-930a-a53d89cbac7e',
+				title: 'Козы',
+				func:  this.props.onHandleGoat
+			},
+			{
+				path: '/animals/sheep/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fsheep.jpg?alt=media&token=2c2af997-46b4-4919-b15c-2bf7d6e462f5',
+				title: 'Овцы',
+				func:  this.props.onHandleSheep
+			},
+			{
+				path: '/animals/domesticbird/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fdomesticbird.jpg?alt=media&token=94cbd183-326c-4b38-a251-8d159c011631',
+				title: 'Домашняя птица',
+				func:  this.props.onHandleDomesticbird
+			}
+
+		]
 
 		return (
 			<div>
@@ -80,10 +187,10 @@ class Menu extends Component {
 									this.props.state.menuReducer[0].categoryNames.myLinks.map((elem, idx) => <MaterialLink
 										valueLink={ lin[idx] }
 										icons={ icons[idx] }
-										key={ key[idx] }>
-										{
-											name[idx]
-										} </MaterialLink>)
+										key={ key[idx] }
+									>
+										{ name[idx] }
+									</MaterialLink>)
 								}
 							</nav>
 						</div> : null
@@ -94,112 +201,14 @@ class Menu extends Component {
 					visible: this.state.showMenu
 				}) } >
 					<div>
-
-						<Link to='/'>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/index.png` } className='img' />
-							<h3>На главную</h3>
-						</Link>
-
-						<Link to='/animals/cat/buy' onClick={ onHandleCat }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/catMenu.jpg` } className='img' />
-							<h3>Кошки</h3>
-						</Link>
-
-						<Link to='/animals/dog/buy' onClick={ onHandleDog }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/dogMenu.jpg` } className='img' />
-							<h3>Собаки</h3>
-						</Link>
-
-						<Link to='/animals/parrot/buy' onClick={ onHandleParrot }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/parrot.jpg` } className='img' />
-							<h3>Попугаи</h3>
-						</Link>
-
-						<Link to='/animals/hamster/buy' onClick={ onHandleHamster }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/hamster.jpg` } className='img' />
-							<h3>Хомяки</h3>
-						</Link>
-
-						<Link to='/animals/mouse/buy' onClick={ onHandleMouse }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/mouse.jpg` } className='img' />
-							<h3>Мыши / крысы</h3>
-						</Link>
-
-						<Link to='/animals/hare/buy' onClick={ onHandleHare }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/hare.jpg` } className='img' />
-							<h3>Зайцы / кролики</h3>
-						</Link>
-
-						<Link to='/animals/guineapig/buy' onClick={ onGuineapig }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/guineapig.jpg` } className='img' />
-							<h3>Морские свинки</h3>
-						</Link>
-
-						<Link to='/animals/champ/buy' onClick={ onHandleChamp }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/champ.jpg` } className='img' />
-							<h3>Хорьки</h3>
-						</Link>
-
-						<Link to='/animals/snak/buy' onClick={ onHandleSnak }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/snak.jpg` } className='img' />
-							<h3>Змеи</h3>
-						</Link>
-
-						<Link to='/animals/iguana/buy' onClick={ onHandleIguana }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/iguana.jpg` } className='img' />
-							<h3>Игуаны</h3>
-						</Link>
-
-						<Link to='/animals/turtle/buy' onClick={ onHandleTurtle }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/turtle.jpg` } className='img' />
-							<h3>Черепахи</h3>
-						</Link>
-
-						<Link to='/animals/snail/buy' onClick={ onHandleSnail }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/snail.jpg` } className='img' />
-							<h3>Улитки</h3>
-						</Link>
-
-						<Link to='/animals/fish/buy' onClick={ onHandleFish }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/fish.jpg` } className='img' />
-							<h3>Рыбки</h3>
-						</Link>
-
-						<Link to='/animals/insects/buy' onClick={ onHandleInsects }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/insects.jpg` } className='img' />
-							<h3>Насекомые</h3>
-						</Link>
-
-						<Link to='/animals/horse/buy' onClick={ onHandleHorse }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/horse.jpg` } className='img' />
-							<h3>Лошади</h3>
-						</Link>
-
-						<Link to='/animals/cow/buy' onClick={ onHandleCow }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/cow.jpg` } className='img' />
-							<h3>Коровы / быки</h3>
-						</Link>
-
-						<Link to='/animals/pig/buy' onClick={ onHandlePig }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/pig.jpg` } className='img' />
-							<h3>Свиньи</h3>
-						</Link>
-
-						<Link to='/animals/goat/buy' onClick={ onHandleGoat }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/goat.jpg` } className='img' />
-							<h3>Козы</h3>
-						</Link>
-
-						<Link to='/animals/sheep/buy' onClick={ onHandleSheep }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/sheep.jpg` } className='img' />
-							<h3>Овцы</h3>
-						</Link>
-
-						<Link to='/animals/domesticbird/buy' onClick={ onHandleDomesticbird }>
-							<img src={ `${ process.env.URL_PATH }/static/uploads/domesticbird.jpg` } className='img' />
-							<h3>Домашняя птица</h3>
-						</Link>
-
+						{
+							menuDatas.map((item, idx) => (
+								<Link to={ item.path } onClick={ item.func } key={ idx }>
+									<img src={ item.image } className='img' />
+									<h3>{ item.text }</h3>
+								</Link>
+							))
+						}
 					</div>
 				</div>
 
