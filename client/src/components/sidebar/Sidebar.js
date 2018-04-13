@@ -16,13 +16,13 @@ class Sidebar extends Component {
 	switchMenuRoles = () => {
 		const { user, userDatas } = this.props
 
-		if (user && userDatas.role === 'user') {
+		if (userDatas && userDatas.role === 'user') {
 			return (
 				<div className='userBtns'>
 					<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
 				</div>
 			)
-		} else if (user && userDatas.role === 'moderator') {
+		} else if (userDatas && userDatas.role === 'moderator') {
 			return (
 				<div className='userBtns'>
 					<Link to='/moderation' className='personalArea'>moderation</Link>

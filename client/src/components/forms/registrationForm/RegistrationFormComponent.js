@@ -1,13 +1,12 @@
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
 
 import { renderField, validate } from '../formValidate'
-import { actions as actionsRegReducer } from '../../../ducks/regReducer'
 import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
+import { actions as authActions } from '../../../ducks/auth'
 
 class RegistrationFormComponent extends Component {
 
@@ -44,10 +43,9 @@ class RegistrationFormComponent extends Component {
 	}
 
 	handleReg = event => {
-
 		event.preventDefault()
 
-		const { registrationForm, regAction } = this.props
+		const { registrationForm, signUp } = this.props
 
 		let params = {
 			inpName: registrationForm.values.name,
@@ -58,12 +56,18 @@ class RegistrationFormComponent extends Component {
 			inpEmailReg: registrationForm.values.email
 		}
 
-		regAction(`${ process.env.URL_PATH }/api/registr`, params)
+		signUp({
+			email: params.inpEmailReg,
+			password: params.inpPasswordReg,
+			name: params.inpName,
+			surName: params.inpSurname,
+			city: params.inpCityReg,
+			phoneNumber: params.inpNumberReg
+		})
 	}
 
 	render() {
-
-		const { filterCity } = this.props.state
+		const { filterCity } = this.props
 
 		const styles = {
 			floatingLabelStyle: { 'color': '#b1adad' },
@@ -155,11 +159,9 @@ RegistrationFormComponent = reduxForm({
 	validate
 })(RegistrationFormComponent)
 
-export default connect(
-	state => ({
-		state,
-		registrationForm: state.form.registrationForm
-	}),
-	dispatch => bindActionCreators({
-		...actionsRegReducer
-}, dispatch))(RegistrationFormComponent)
+const mapStateToProps = state => ({
+	filterCity: state.filterCity,
+	registrationForm: state.form.registrationForm
+})
+
+export default connect(mapStateToProps, { ...authActions })(RegistrationFormComponent)

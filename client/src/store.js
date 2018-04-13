@@ -10,7 +10,6 @@ import { routerMiddleware } from 'react-router-redux'
 import auth from './ducks/auth'
 import preloader from './ducks/preloader'
 import filterCity from './ducks/filterCity'
-import regReducer from './ducks/regReducer'
 import menuReducer from './ducks/menuReducer'
 import accountType from './ducks/accountType'
 import allParamsUrl from './ducks/allParamsUrl'
@@ -26,7 +25,6 @@ const reducers = combineReducers({
 	form: reducer,
 	auth,
 	preloader,
-	regReducer,
 	filterCity,
 	menuReducer,
 	accountType,

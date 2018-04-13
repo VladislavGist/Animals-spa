@@ -51,23 +51,28 @@ export const actions = {
 			.catch(error => dispatch({ type: types.SIGN_IN_ERROR, error }))
 	},
 
-	signUp: (email, password) => dispatch => {
+	signUp: ({ email, password, name, surName, city, phoneNumber }) => dispatch => {
 		dispatch({ type: types.SIGN_UP_REQUEST })
 
 		firebase.auth().createUserWithEmailAndPassword(email, password)
 			.then(user => {
-				// create user and add user to db
 				firebase.database().ref(`users/${ user.uid }`).set({
 					articles: '',
-					name: 'Имя пользователя',
-					email: 'такой то емейл',
+					name,
+					surName,
+					email,
+					city,
 					role: 'user'
 				})
-
+				
 				dispatch({ type: types.SIGN_UP_SUCCESS, payload: { ...user } })
+				dispatch(actionsSnackbarReducer.handleSnackbar('Успешная регистрация'))
 			})
-			.then(() => dispatch(push('/admin')))
-			.catch(error => dispatch({ type: types.SIGN_UP_ERROR, error }))
+			.then(() => dispatch(push('/')))
+			.catch(error => {
+				dispatch({ type: types.SIGN_UP_ERROR, error })
+				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка сервиса при регистрации: ${ error }`))
+			})
 	},
 
 	updateDatasTrue: url => dispatch => {

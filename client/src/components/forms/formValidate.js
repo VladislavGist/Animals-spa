@@ -21,7 +21,6 @@ export const renderField = ({
 	extra
 }) => {
 	if (type === 'select') {
-
 		return (<SelectField
 			{ ...input }
 			name={ label }

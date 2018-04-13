@@ -8,15 +8,14 @@ import { actions as actionsServerReducer } from '../../ducks/serverReducer'
 class Moderate extends Component {
 
 	componentWillMount() {
-		this.props.getCards(`${ process.env.URL_PATH }/api/moderate`)
+		// this.props.getCards(`${ process.env.URL_PATH }/api/moderate`)
 	}
 
 	componentWillUnmount() {
-		this.props.onHandleClearState()
+		// this.props.onHandleClearState()
 	}
 
 	render() {
-
 		const { serverReducer } = this.props
 
 		return (

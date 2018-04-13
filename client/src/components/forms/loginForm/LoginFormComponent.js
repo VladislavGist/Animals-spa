@@ -79,6 +79,6 @@ LoginFormComponent = reduxForm({
 	validate
 })(LoginFormComponent)
 
-export default connect(state => ({ state, loginForm: state.form.loginForm }),
-	dispatch => bindActionCreators({ ...authActions }, dispatch)
-)(LoginFormComponent)
+export default connect(state => ({
+	loginForm: state.form.loginForm
+}), { ...authActions })(LoginFormComponent)
