@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 
 import CardItem from '../categories/cardItem/CardItemComponent.js'
-import { actions as actionsServerReducer } from '../../ducks/serverReducer'
+import { actions as actionsArticles } from '../../ducks/articles'
 
 class Moderate extends Component {
 
@@ -44,6 +44,6 @@ class Moderate extends Component {
 }
 
 export default connect(
-	state => ({ serverReducer: state.serverReducer }),
-	dispatch => bindActionCreators({ ...actionsServerReducer }, dispatch)
+	state => ({ serverReducer: state.articles }),
+	dispatch => bindActionCreators({ ...actionsArticles }, dispatch)
 )(Moderate)

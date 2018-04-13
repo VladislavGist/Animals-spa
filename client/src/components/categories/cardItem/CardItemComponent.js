@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
+import _ from 'lodash'
 
 import SlickSlider from '../../slickSlider/SlickSliderComponent'
 
@@ -17,7 +18,6 @@ class CardItem extends Component {
 
 	// остановка объявления
 	handlerDelete = e => {
-
 		const { id, completedCard } = this.props
 
 		// отправили запрос на сервер об остановке объявления с нужным id
@@ -28,13 +28,12 @@ class CardItem extends Component {
 
 	//повышение счетчика просмотров
 	clickFunc = () => {
-		if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
-			this.props.updateCardView( this.props.cardId )
-		}
+		// if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
+		// 	this.props.updateCardView( this.props.cardId )
+		// }
 	}
 
 	handleAccepted = e => {
-
 		const { replaceStatusCard, cardId } = this.props
 
 		replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=accepted`)
@@ -43,7 +42,6 @@ class CardItem extends Component {
 	}
 
 	handleRejected = e => {
-
 		const { replaceStatusCard, cardId } = this.props
 
 		replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=rejected`)
@@ -108,7 +106,9 @@ class CardItem extends Component {
 			mass.push(<i className='fa fa-star' aria-hidden='true' key={ i } />)
 		}
 
-		let imagePath = imgPath.split(' ')
+		let imagePath = []
+
+		_.forEach(imgPath, (value, key) => { imagePath.push(value) })
 
 		return (
 			<div className='cardItemWrap'>
@@ -141,7 +141,7 @@ class CardItem extends Component {
 								<p className='city'>{ city.indexOf('обл.') === -1 ? 'г. ' + city : city }</p>
 								<div className='userItem'>
 									{ mass }
-									<p className={ `userName ${ userStatus === 'seller' ? 'gold' : null }` }>{ userName }</p>
+									{ userName && <p className={ `userName ${ userStatus === 'seller' ? 'gold' : null }` }>{ userName }</p> }
 								</div>
 								<div className='priceMobile'>
 									<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
@@ -168,7 +168,7 @@ class CardItem extends Component {
 							<div className='buttonsList'>
 								{
 									(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname) === '/personalArea' ? null : (
-										<div className='visibles'>
+										views && <div className='visibles'>
 											<i className='fa fa-eye' aria-hidden='true' />
 											<p>{ views }</p>
 										</div>

@@ -110,6 +110,7 @@ class AddCardFormComponent extends Component {
 	handleSendForm = () => {
 		const {
 			uid,
+			userDatas,
 			addCardForm,
 			addArticle,
 			handleResetPlace,
@@ -128,6 +129,7 @@ class AddCardFormComponent extends Component {
 			handleResetPlace,
 			{
 				uid,
+				userName: `${ userDatas.name } ${ userDatas.surName }`,
 				...addCardForm.values,
 				images: formData
 			}
@@ -390,6 +392,7 @@ AddCardFormComponent = reduxForm({
 export default connect(
 	state => ({
 		uid: state.auth.user.uid,
+		userDatas: state.auth.userDatas,
 		filterCity: state.filterCity,
 		addCardForm: state.form.addCardForm,
 		addPhoto: state.photosReducer.addPhoto,

@@ -66,7 +66,7 @@ export const actions = {
 		// )
 	},
 
-	addArticle: (handleResetPlace, { uid, title, textArea, animals, category, city, phoneNumber, images }) => dispatch => {
+	addArticle: (handleResetPlace, { uid, userName, title, textArea, animals, category, city, phoneNumber, images }) => dispatch => {
 		moment.locale('ru')
 		let now = moment(),
 			addDate = moment().format("DD-MM-YYYY"),
@@ -104,6 +104,7 @@ export const actions = {
 
 		firebase.database().ref(`users/${ uid }/articles/${ adArticle }`)
 			.set({
+				userName,
 				addDate,
 				deleteDate,
 				title,

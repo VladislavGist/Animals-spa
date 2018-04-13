@@ -13,7 +13,7 @@ import filterCity from './ducks/filterCity'
 import menuReducer from './ducks/menuReducer'
 import accountType from './ducks/accountType'
 import allParamsUrl from './ducks/allParamsUrl'
-import serverReducer from './ducks/serverReducer'
+import articles from './ducks/articles'
 import photosReducer from './ducks/photosReducer'
 import snackbarReducer from './ducks/snackbarReducer'
 import toggleAddMoreBtn from './ducks/toggleAddMoreBtn'
@@ -29,7 +29,7 @@ const reducers = combineReducers({
 	menuReducer,
 	accountType,
 	allParamsUrl,
-	serverReducer,
+	articles,
 	photosReducer,
 	snackbarReducer,
 	contactFormStatus,

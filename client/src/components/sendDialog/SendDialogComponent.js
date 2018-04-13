@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import FlatButton from 'material-ui/FlatButton'
 
 import { actions as actionsFilterCity } from '../../ducks/filterCity'
-import { actions as actionsServerReducer } from '../../ducks/serverReducer'
+import { actions as actionsArticles } from '../../ducks/articles'
 
 import TabsFormsComponent from '../forms/tabsForms/TabsFormsComponent'
 
@@ -123,6 +123,7 @@ class LoginModal extends Component {
 	}
 }
 
-export default connect(state => ({ state }),
-	dispatch => bindActionCreators({ ...actionsFilterCity, ...actionsServerReducer }, dispatch)
+export default connect(
+	state => ({ state }),
+	{ ...actionsFilterCity, ...actionsArticles }
 )(LoginModal)

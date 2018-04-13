@@ -1,12 +1,11 @@
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import firebase from 'firebase'
 
 import { store } from '../../../routing'
 import CardItem from '../cardItem/CardItemComponent'
-import { actions as actionsServerReducer } from '../../../ducks/serverReducer'
+import { actions as actionsArticles } from '../../../ducks/articles'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
 if (process.env.BROWSER) {
@@ -23,13 +22,10 @@ class CardItems extends Component {
 	// }
 
 	componentDidMount() {
-
 		// смотрим расстояние от верха. Нужно для корректной работы "еще объявления"
 		// window.onscroll = () => {
 		// 	this.topPosition = document.documentElement.scrollTop
 		// }
-
-		// firebase.database().ref('/users')
 
 		// this.props.onReplaceAllUrl(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname)
 	}
@@ -46,53 +42,47 @@ class CardItems extends Component {
 	}
 
 	addMoreCards = () => {
-		// const { state, getCards, allCards } = this.props
-
-		// getCards(process.env.URL_PATH + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore)
-
-		// allCards(process.env.URL_PATH + '/api' + '/list-animals/animal_type/' + state.allParamsUrl.split('/')[2] + '/advertisement_type/' + state.allParamsUrl.split('/')[3]  + '/city/' + state.filterCity.cityTopHeader + '/count/' + this.countMore + '/allcount')
-
-		// this.countMore += 10
+		
 	}
 
 	render() {
-		const { state, datas } = this.props
+		const { datas, pathName } = this.props
 
 		return (
 			<div className={
 				classNames({
 					wrapCardsContent: true,
-					indexPageClassWrap: state.allParamsUrl === '/'
+					indexPageClassWrap: pathName === '/'
 				})
 			}
 			>
 				<article className={
 					classNames({
 						cardItems: true,
-						indexPageClass: state.allParamsUrl === '/'
+						indexPageClass: pathName === '/'
 					})
 				}>
 					{
 						datas.length > 0 ? datas.map(elem => <CardItem
-							cardId={ elem.card_id }
-							key={ elem.card_id }
+							cardId={ elem.key }
+							key={ elem.key }
 							title={ elem.title }
-							briefDescription={ elem.briefDescription }
+							briefDescription={ elem.textArea }
 							city={ elem.city }
 							userName={ elem.userName }
-							userStatus={ elem.userStatus }
+							userStatus={ null }
 							phoneNumber={ elem.phoneNumber }
-							rating={ elem.rating }
+							rating={ null }
 							price={ elem.price }
-							imgPath={ elem.imgPath }
-							advType={ elem.advType }
-							views={ elem.views }
+							imgPath={ elem.images }
+							advType={ elem.category }
+							views={ null }
 						/>) : <p className='noCardsTitle'>Объявлений нет</p>
 					}
-					{ datas.length > 0 && state.allParamsUrl !== '/' ?
+					{/* { datas.length > 0 && pathName !== '/' ?
 						(state.toggleAddMoreBtn ?
 							<a href='javascript:void(0)' className='addMore button2' onClick={ this.addMoreCards }>Ещё объявления</a>
-							: null) : null }
+							: null) : null } */}
 				</article>
 				<aside className='cardsBanners'>
 					Здесь будет реклама Яндекс.Директ
@@ -102,6 +92,8 @@ class CardItems extends Component {
 	}
 }
 
-export default connect(state => ({ state }),
-	dispatch => bindActionCreators({ ...actionsServerReducer, ...actionsAllParamsUrl }, dispatch)
-)(CardItems)
+const mapStateToProps = state => ({
+	pathName: state.routing.locationBeforeTransitions.pathname,
+})
+
+export default connect(mapStateToProps, { ...actionsArticles, ...actionsAllParamsUrl })(CardItems)

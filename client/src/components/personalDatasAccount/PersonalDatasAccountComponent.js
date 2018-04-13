@@ -7,7 +7,7 @@ import CardItem from '../categories/cardItem/CardItemComponent'
 import TableRowsComponent from './tableRows/TableRowsComponent'
 
 import { actions as authActions } from '../../ducks/auth'
-import { actions as actionsServerReducer } from '../../ducks/serverReducer'
+import { actions as actionsArticles } from '../../ducks/articles'
 import { actions as actionsReducerCardsComplAndRej } from '../../ducks/reducerCardsComplAndRej'
 
 if (process.env.BROWSER) {
@@ -161,7 +161,7 @@ export default connect(
 	state => ({ state }),
 	dispatch => bindActionCreators({
 		...actionsReducerCardsComplAndRej,
-		...actionsServerReducer,
+		...actionsArticles,
 		...authActions
 	}, dispatch)
 )(PersonalDatasAccount)
