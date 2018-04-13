@@ -46,7 +46,7 @@ class App extends Component {
 							<Footer />
 						</div>
 					</div>
-					{/* <SnackbarExampleSimple /> */}
+					<SnackbarExampleSimple />
 				</div>
 			</MuiThemeProvider>
 		)

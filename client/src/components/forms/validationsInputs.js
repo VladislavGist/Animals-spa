@@ -9,8 +9,6 @@ export const validateInputs = {
 	price: /^[0-9]{2,6}$/
 }
 
-// /^[a-z0-9_-]{6,18}$/,
-
 export const normilizeNumber = values => values.replace(/[^\d]/g, '')
 
 export const normilizeText = values => values.replace(/[^\D]/g, '')

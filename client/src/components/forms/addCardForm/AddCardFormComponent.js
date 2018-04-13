@@ -30,11 +30,9 @@ class AddCardFormComponent extends Component {
 
 	componentWillUnmount() {
 		this.props.handleResetPlace()
-		// this.props.onResetMessage()
 	}
 
 	disabledSubmitButton = nextProps => {
-
 		const { addCardForm: { values }, addPhoto } = nextProps
 
 		if (values &&
@@ -56,7 +54,6 @@ class AddCardFormComponent extends Component {
 	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
 
 	menuItems01 = values => {
-
 		if (['cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare',
 			'guineapig', 'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish',
 			'insects', 'horse', 'cow', 'pig', 'goat', 'sheep', 'domesticbird'].indexOf(values) !== -1) {
@@ -111,29 +108,42 @@ class AddCardFormComponent extends Component {
 	}
 
 	handleSendForm = () => {
+		const {
+			uid,
+			addCardForm,
+			addArticle,
+			handleResetPlace,
+			images
+		} = this.props
 
-		const { addCardForm, postMethodAddCard, handleResetPlace, images } = this.props
-
-		const formData = new FormData()
+		const formData = []
 
 		for (let i in images) {
-			if ((typeof images[i] === 'object') && (images[i] !== null)) {
-				formData.append('photo', images[i])
+			if ((typeof images[i] === 'object') && images[i]) {
+				formData.push(images[i])
 			}
 		}
 
-		postMethodAddCard(
-			this.props.state,
-			{ ...addCardForm.values },
+		addArticle(
 			handleResetPlace,
-			formData
+			{
+				uid,
+				...addCardForm.values,
+				images: formData
+			}
 		)
 	}
 
 	render() {
-
-		const { filterCity } = this.props.state
-		const { addCardForm } = this.props
+		const {
+			filterCity,
+			addCardForm,
+			handleAddPhoto_0,
+			handleAddPhoto_1,
+			handleAddPhoto_2,
+			handleAddPhoto_3,
+			handleAddPhoto_4,
+			images } = this.props
 
 		const style = {
 			floatingLabelStyle: { 'color': '#b1adad' },
@@ -343,11 +353,11 @@ class AddCardFormComponent extends Component {
 								<p className='subtitle'>Фотографии</p>
 								<p className='photoDescpipt'>Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg, jpg</b> </p>
 								<div className='buttonsAddPhoto'>
-									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_0 } />
-									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_1 } />
-									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_2 } />
-									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_3 } />
-									<AddPhotoInputComponent handleAddPhoto={ this.props.handleAddPhoto_4 } />
+									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_0 } photo={ images.file_0 } />
+									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_1 } photo={ images.file_1 } />
+									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_2 } photo={ images.file_2 } />
+									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_3 } photo={ images.file_3 } />
+									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_4 } photo={ images.file_4 } />
 								</div>
 							</div>
 						</div>
@@ -379,7 +389,8 @@ AddCardFormComponent = reduxForm({
 
 export default connect(
 	state => ({
-		state,
+		uid: state.auth.user.uid,
+		filterCity: state.filterCity,
 		addCardForm: state.form.addCardForm,
 		addPhoto: state.photosReducer.addPhoto,
 		images: state.photosReducer
