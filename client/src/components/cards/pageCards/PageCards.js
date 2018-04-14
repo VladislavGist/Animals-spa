@@ -9,27 +9,22 @@ import CardsList from '../cardsList/CardsList'
 class PageCards extends Component {
 
 	componentDidMount() {
-		const { getCards } = this.props
+		const { getCards, params, filterCity } = this.props
 
-		//выводит объявлений на главной странице
-		// if (animal_type === undefined) {
-		getCards()
-		// } else {
-		// 	//выводит на остальных
-		// 	getCards(`${ process.env.URL_PATH }/api/list-animals?animal_type=${ animal_type }&advertisement_type=${ advertisment }&city=${ state.filterCity.cityTopHeader }&count=10`)
-		// }
+		// index page cards
+		if (!params.type) getCards({ filterCity })
+
+		// all pages cards
+		// getCards({ type_cards: params.type, advertisement_cards: params.advertisement, filterCity })
 	}
 
 	componentWillReceiveProps(next) {
-		// const { getCards } = this.props
-		// console.log(next)
-		// const { filterCity } = this.props.state
-		// let path = _.compact(next.state.routing.locationBeforeTransitions && next.state.routing.locationBeforeTransitions.pathname.split('/'))
+		const { pathName, filterCity, params } = this.props
 
-		// if (this.path[1] !== path[1]) {
-		// 	this.path[1] = path[1]
-		// 	getCards(`${ process.env.URL_PATH }/api/list-animals/animal_type/${ path[1] }/advertisement_type/${ path[2] }/city/${ filterCity.cityTopHeader }/count/10`)
-		// }
+		// all pages cards
+		if ((next.pathName !== pathName) || (next.filterCity !== filterCity)) {
+			next.getCards({ type_cards: params.type, advertisement_cards: params.advertisement, filterCity: next.filterCity })
+		}
 	}
 
 	render() {
@@ -46,5 +41,6 @@ class PageCards extends Component {
 
 export default connect(state => ({
 	pathName: state.routing.locationBeforeTransitions.pathname,
-	articlesList: state[moduleName].articlesList
+	articlesList: state[moduleName].articlesList,
+	filterCity: state.filterCity.cityTopHeader
 }), { ...actionsArticles })(PageCards)

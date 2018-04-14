@@ -71,7 +71,7 @@ class RegistrationFormComponent extends Component {
 
 		const styles = {
 			floatingLabelStyle: { 'color': '#b1adad' },
-			labelStyle: { 'color': '#7c7c7c', top: '21px' },
+			labelStyle: { 'color': '#7c7c7c', top: '7px' },
 			floatingLabelFocusStyle: { 'color': '#2396f1' }
 		}
 

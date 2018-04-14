@@ -149,7 +149,7 @@ class AddCardFormComponent extends Component {
 
 		const style = {
 			floatingLabelStyle: { 'color': '#b1adad' },
-			labelStyle: { 'color': '#7c7c7c', top: '21px' },
+			labelStyle: { 'color': '#7c7c7c', top: '10px' },
 			floatingLabelFocusStyle: { 'color': '#2396f1' },
 			underlineFocusStyle: { 'borderColor': '#2396f1' },
 			checkbox: { marginTop: '20px' }

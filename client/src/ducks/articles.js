@@ -35,7 +35,7 @@ export default (state = new initialState(), action) => {
 }
 
 export const actions = {
-	getCards: () => dispatch => {
+	getCards: ({ type_cards, advertisement_cards, filterCity }) => dispatch => {
 		dispatch({ type: types.FETCH_ARTICLES_REQUEST })
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
@@ -44,7 +44,12 @@ export const actions = {
 				let articlesList = []
 
 				normalizeFirebaseDatas(datas.val()).forEach(item => {
-					normalizeFirebaseDatas(item.articles).forEach(card => card.moderate && articlesList.push(card))
+					normalizeFirebaseDatas(item.articles).forEach(card => {
+
+						if (card.moderate && card.city === filterCity) {
+							articlesList.push(card)
+						}
+					})
 				})
 				
 				dispatch({ type: types.FETCH_ARTICLES_SUCCESS, payload: articlesList })

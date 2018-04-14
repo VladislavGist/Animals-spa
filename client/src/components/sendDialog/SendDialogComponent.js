@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import FlatButton from 'material-ui/FlatButton'
 
 import { actions as actionsFilterCity } from '../../ducks/filterCity'
-import { actions as actionsArticles } from '../../ducks/articles'
 
 import TabsFormsComponent from '../forms/tabsForms/TabsFormsComponent'
 
@@ -22,7 +21,6 @@ class LoginModal extends Component {
 	handleClose = () => { this.setState({ open: false }) }
 
 	render() {
-
 		const styles = {
 			contentStyle: {
 				maxWidth: '585px',
@@ -31,7 +29,7 @@ class LoginModal extends Component {
 			flatIcon: {
 				minWidth: '30px',
 				right: '10px',
-				top: '-11px'
+				top: '-9px'
 			},
 			overlayStyle: { padding: '30px 16px 26px' },
 			actionsContainerStyle: {
@@ -42,9 +40,7 @@ class LoginModal extends Component {
 			}
 		}
 
-		const { allParamsUrl, filterCity } = this.props.state
-
-		const { dispatchCityTopHeader, getCards } = this.props
+		const { dispatchCityTopHeader, citys } = this.props
 
 		const actions = [
 			<FlatButton
@@ -74,14 +70,6 @@ class LoginModal extends Component {
 			let handleCityTopHeader = e => {
 				dispatchCityTopHeader(e.target.innerText)
 				this.handleClose()
-		
-				// фльтр объявлений по клику на город. на главной
-				if (allParamsUrl.split('/')[1] === '') {
-					getCards(`${ process.env.URL_PATH }/api/list-hot-adv/${ e.target.innerText }`)
-				} else {
-					// на остальных
-					getCards(`${ process.env.URL_PATH }/api/list-animals/animal_type/${ allParamsUrl.split('/')[2] }/advertisement_type/${ allParamsUrl.split('/')[3] }/city/${ e.target.innerText }/count/10`)
-				}
 			}
 
 			return (
@@ -100,7 +88,7 @@ class LoginModal extends Component {
 						<a href='javascript:void(0)' onClick={ handleCityTopHeader } className='allCitys'>Все регионы</a>
 						<div className='modalAllCity'>
 							{
-								filterCity.citys.map((elem, idx) => <a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>)
+								citys.map((elem, idx) => <a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>)
 							}
 						</div>
 					</div>
@@ -124,6 +112,8 @@ class LoginModal extends Component {
 }
 
 export default connect(
-	state => ({ state }),
-	{ ...actionsFilterCity, ...actionsArticles }
+	state => ({
+		citys: state.filterCity.citys
+	}),
+	{ ...actionsFilterCity }
 )(LoginModal)
