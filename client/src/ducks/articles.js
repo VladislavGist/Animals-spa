@@ -35,7 +35,7 @@ export default (state = new initialState(), action) => {
 }
 
 export const actions = {
-	getCards: ({ type_cards, advertisement_cards, filterCity }) => dispatch => {
+	getCards: ({ type_cards, advertisment_cards, filterCity }) => dispatch => {
 		dispatch({ type: types.FETCH_ARTICLES_REQUEST })
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
@@ -45,8 +45,10 @@ export const actions = {
 
 				normalizeFirebaseDatas(datas.val()).forEach(item => {
 					normalizeFirebaseDatas(item.articles).forEach(card => {
-
-						let dunamicParamCity = false
+						
+						let dunamicParamCity = false,
+							dynamicType = false,
+							dunamicAdvert = false
 
 						if (filterCity === 'Все регионы') {
 							dunamicParamCity = true
@@ -56,7 +58,24 @@ export const actions = {
 							dunamicParamCity = false
 						}
 
-						if (card.moderate && dunamicParamCity) {
+						if (!type_cards) {
+							dynamicType = true
+						} else if (card.animals === type_cards) {
+							dynamicType = true
+						} else {
+							dynamicType = false
+						}
+
+						if (!advertisment_cards) {
+							dunamicAdvert = true
+						} else if (card.category === advertisment_cards) {
+							dunamicAdvert = true
+						} else {
+							dunamicAdvert = false
+						}
+
+						
+						if (card.moderate && dunamicParamCity && dynamicType && dunamicAdvert) {
 							articlesList.push(card)
 						}
 					})
