@@ -46,7 +46,17 @@ export const actions = {
 				normalizeFirebaseDatas(datas.val()).forEach(item => {
 					normalizeFirebaseDatas(item.articles).forEach(card => {
 
-						if (card.moderate && card.city === filterCity) {
+						let dunamicParamCity = false
+
+						if (filterCity === 'Все регионы') {
+							dunamicParamCity = true
+						} else if (card.city === filterCity) {
+							dunamicParamCity = true
+						} else {
+							dunamicParamCity = false
+						}
+
+						if (card.moderate && dunamicParamCity) {
 							articlesList.push(card)
 						}
 					})
