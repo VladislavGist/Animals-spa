@@ -7,33 +7,34 @@ import { actions as actionsArticles } from '../../ducks/articles'
 class Moderate extends Component {
 
 	componentWillMount() {
-		// this.props.getCards(`${ process.env.URL_PATH }/api/moderate`)
+		const { getCards } = this.props
+		getCards({ moderate: false })
 	}
 
 	componentWillUnmount() {
-		// this.props.onHandleClearState()
+		this.props.onHandleClearState()
 	}
 
 	render() {
-		const { serverReducer } = this.props
+		const { articlesList } = this.props
 
 		return (
 			<div>
 				{
-					serverReducer.advertisementList.length ? serverReducer.advertisementList.map(elem => <Card
-						cardId={ elem.card_id }
-						key={ elem.card_id }
-						title={ elem.title }
-						briefDescription={ elem.briefDescription }
-						city={ elem.city }
-						userName={ elem.userName }
-						userStatus={ elem.userStatus }
-						phoneNumber={ elem.phoneNumber }
-						rating={ elem.rating }
-						price={ elem.price }
-						imgPath={ elem.imgPath }
-						advType={ elem.advType }
-						views={ elem.views }
+					articlesList.length ? articlesList.map(card => <Card
+						cardId={ card.key }
+						key={ card.key }
+						title={ card.title }
+						briefDescription={ card.textArea }
+						city={ card.city }
+						userName={ card.userName }
+						phoneNumber={ card.phoneNumber }
+						price={ card.price }
+						imgPath={ card.images }
+						advType={ card.advType }
+						views={ null }
+						rating={ null }
+						userStatus={ null }
 						moderate={ true }
 					/>) : <p>Объявлений на модерацию нет</p>
 				}
@@ -43,6 +44,8 @@ class Moderate extends Component {
 }
 
 export default connect(
-	state => ({ serverReducer: state.articles }),
+	state => ({
+		articlesList: state.articles.articlesList
+	}),
 	{ ...actionsArticles }
 )(Moderate)

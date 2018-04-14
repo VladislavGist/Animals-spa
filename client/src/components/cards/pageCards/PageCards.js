@@ -12,10 +12,10 @@ class PageCards extends Component {
 		const { getCards, params, filterCity } = this.props
 
 		// index page cards
-		if (!params.type) getCards({ filterCity })
+		if (!params.type) getCards({ moderate: 'resolve', filterCity })
 
 		// all pages cards
-		getCards({ type_cards: params.type, advertisment_cards: params.advertisment, filterCity })
+		getCards({ moderate: 'resolve', type_cards: params.type, advertisment_cards: params.advertisment, filterCity })
 	}
 
 	componentWillReceiveProps(next) {
@@ -23,7 +23,7 @@ class PageCards extends Component {
 
 		// all pages cards
 		if ((next.pathName !== pathName) || (next.filterCity !== filterCity)) {
-			next.getCards({ type_cards: next.params.type, advertisment_cards: next.params.advertisment, filterCity: next.filterCity })
+			next.getCards({ moderate: 'resolve', type_cards: next.params.type, advertisment_cards: next.params.advertisment, filterCity: next.filterCity })
 		}
 	}
 

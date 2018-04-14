@@ -35,7 +35,7 @@ export default (state = new initialState(), action) => {
 }
 
 export const actions = {
-	getCards: ({ type_cards, advertisment_cards, filterCity }) => dispatch => {
+	getCards: ({ moderate, type_cards, advertisment_cards, filterCity, role }) => dispatch => {
 		dispatch({ type: types.FETCH_ARTICLES_REQUEST })
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
@@ -48,7 +48,8 @@ export const actions = {
 						
 						let dunamicParamCity = false,
 							dynamicType = false,
-							dunamicAdvert = false
+							dunamicAdvert = false,
+							dynamicRole = false
 
 						if (filterCity === 'Все регионы') {
 							dunamicParamCity = true
@@ -74,9 +75,20 @@ export const actions = {
 							dunamicAdvert = false
 						}
 
-						
-						if (card.moderate && dunamicParamCity && dynamicType && dunamicAdvert) {
-							articlesList.push(card)
+						if (!role) {
+							dynamicRole = true
+						} else if (card.role === role) {
+							dynamicRole = true
+						}
+
+						if (!moderate) {
+							if (card.moderate === moderate && !card.compleate) {
+								articlesList.push(card)
+							}
+						} else {
+							if (card.moderate === moderate && !card.compleate && dunamicParamCity && dynamicType && dunamicAdvert) {
+								articlesList.push(card)
+							}
 						}
 					})
 				})

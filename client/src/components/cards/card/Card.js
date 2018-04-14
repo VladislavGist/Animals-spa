@@ -1,9 +1,11 @@
 import _ from 'lodash'
+import firebase from 'firebase'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
+import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 
 import SlickSlider from '../../slickSlider/SlickSliderComponent'
 
@@ -33,19 +35,19 @@ class Card extends Component {
 	}
 
 	handleAccepted = e => {
-		const { replaceStatusCard, cardId } = this.props
+		const { handleSnackbar, uid, cardId } = this.props
 
-		// replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=accepted`)
-
-		// e.target.textContent = 'Выполнено'
+		firebase.database().ref(`users/${ uid }/articles/${ cardId }/moderate`).set('resolve')
+			.then(() => handleSnackbar('Принято'))
+			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	handleRejected = e => {
-		const { replaceStatusCard, cardId } = this.props
+		const { handleSnackbar, uid, cardId } = this.props
 
-		// replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=rejected`)
-
-		// e.target.textContent = 'Выполнено'
+		firebase.database().ref(`users/${ uid }/articles/${ cardId }/moderate`).set('rejected')
+			.then(() => handleSnackbar('Отклонено'))
+			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	stausesReplace = status => {
@@ -206,7 +208,8 @@ class Card extends Component {
 
 export default connect(
 	state => ({
-		pathname: state.routing.locationBeforeTransitions.pathname
+		pathname: state.routing.locationBeforeTransitions.pathname,
+		uid: state.auth.user.uid
 	}),
-	{ ...actionsAllParamsUrl }
+	{ ...actionsAllParamsUrl, ...actionsSnackbarReducer }
 )(Card)
