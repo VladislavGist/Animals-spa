@@ -66,7 +66,7 @@ export const actions = {
 		// )
 	},
 
-	addArticle: (handleResetPlace, { uid, userName, title, textArea, animals, category, city, phoneNumber, images }) => dispatch => {
+	addArticle: (handleResetPlace, { uid, userName, title, textArea, animals, category, city, price = null, phoneNumber, images }) => dispatch => {
 		moment.locale('ru')
 		let now = moment(),
 			addDate = moment().format("DD-MM-YYYY"),
@@ -113,6 +113,7 @@ export const actions = {
 				category,
 				city,
 				phoneNumber,
+				price,
 				moderate: false,
 				compleate: false
 			}, error => {

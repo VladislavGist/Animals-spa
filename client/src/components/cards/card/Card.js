@@ -1,18 +1,17 @@
+import _ from 'lodash'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import _ from 'lodash'
+
+import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
 import SlickSlider from '../../slickSlider/SlickSliderComponent'
 
 if (process.env.BROWSER) {
-	require('./CardItemStyles.sass')
+	require('./card.sass')
 }
 
-import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
-
-class CardItem extends Component {
+class Card extends Component {
 
 	state = { verticalRotate: false }
 
@@ -21,9 +20,9 @@ class CardItem extends Component {
 		const { id, completedCard } = this.props
 
 		// отправили запрос на сервер об остановке объявления с нужным id
-		completedCard(`${ process.env.URL_PATH }/api/completeCard?cardId=${ id }`)
+		// completedCard(`${ process.env.URL_PATH }/api/completeCard?cardId=${ id }`)
 
-		e.target.text = 'Остановлено'
+		// e.target.text = 'Остановлено'
 	}
 
 	//повышение счетчика просмотров
@@ -36,34 +35,26 @@ class CardItem extends Component {
 	handleAccepted = e => {
 		const { replaceStatusCard, cardId } = this.props
 
-		replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=accepted`)
+		// replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=accepted`)
 
-		e.target.textContent = 'Выполнено'
+		// e.target.textContent = 'Выполнено'
 	}
 
 	handleRejected = e => {
 		const { replaceStatusCard, cardId } = this.props
 
-		replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=rejected`)
+		// replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=rejected`)
 
-		e.target.textContent = 'Выполнено'
+		// e.target.textContent = 'Выполнено'
 	}
 
 	stausesReplace = status => {
 		switch(status) {
-		case 'buy':
-			return 'Продажа'
-			break
-		case 'gift':
-			return 'Даром'
-			break
-		case 'missing':
-			return 'Пропало животное'
-			break
-		case 'find':
-			return 'Найдено животное'
-			break
-		default: return ''
+		case 'buy': return 'Продажа'; break
+		case 'gift': return 'Даром'; break
+		case 'missing': return 'Пропало животное'; break
+		case 'find': return 'Найдено животное'; break
+		default: return null
 		}
 	}
 
@@ -71,17 +62,14 @@ class CardItem extends Component {
 		if (text.length >= 80) {
 			let res = text.substring(0, 80)
 			return res += ' ...'
-		} else {
-			return text
 		}
+
+		return text
 	}
 
-	handleReverseCard = () => {
-		this.setState({ verticalRotate: !this.state.verticalRotate })
-	}
+	handleReverseCard = () => this.setState({ verticalRotate: !this.state.verticalRotate })
 
 	render() {
-
 		const {
 			price,
 			advType,
@@ -97,14 +85,16 @@ class CardItem extends Component {
 			deleted,
 			deleteInfo,
 			dataDelete,
-			moderate
+			moderate,
+
+			pathname
 		} = this.props
 
-		const mass = []
+		// const mass = []
 
-		for (let i = 0; i < rating; i++) {
-			mass.push(<i className='fa fa-star' aria-hidden='true' key={ i } />)
-		}
+		// for (let i = 0; i < rating; i++) {
+		// 	mass.push(<i className='fa fa-star' aria-hidden='true' key={ i } />)
+		// }
 
 		let imagePath = []
 
@@ -119,32 +109,32 @@ class CardItem extends Component {
 						'verticalRotate': this.state.verticalRotate
 					}) }
 				>
-					<div className='contentWrap' onClick={ ::this.clickFunc }>
+					<div className='contentWrap' onClick={ this.clickFunc }>
 						<div className='top' onClick={ this.handleReverseCard }>
 							<div>
-								<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
+								<p className='price'>{ price && price > 0 && `${ price } руб.` }</p>
 							</div>
 							<div>
 								<div className='info'>
-									<i className={
-										classNames({
+									<i className={ classNames({
 											'fa': true,
 											'fa-eur': advType === 'buy',
 											'fa-globe': advType === 'gift',
 											'fa-exclamation-triangle': advType === 'missing',
 											'fa-bell-o': advType === 'find'
-										})
-									} aria-hidden='true' />
+										}) }
+										aria-hidden='true'
+									/>
 									<span className='categoty'>{ this.stausesReplace(advType) }</span>
 								</div>
 								<p className='number'>{ phoneNumber }</p>
-								<p className='city'>{ city.indexOf('обл.') === -1 ? 'г. ' + city : city }</p>
+								<p className='city'>{ city.indexOf('обл.') === -1 ? `г. ${ city }` : city }</p>
 								<div className='userItem'>
-									{ mass }
-									{ userName && <p className={ `userName ${ userStatus === 'seller' ? 'gold' : null }` }>{ userName }</p> }
+									{/* { mass } */}
+									{ userName && <p className={ `userName ${ (userStatus === 'seller') && 'gold' }` }>{ userName }</p> }
 								</div>
 								<div className='priceMobile'>
-									<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
+									<p className='price'>{ price && price > 0 && `${ price } руб.` }</p>
 								</div>
 							</div>
 						</div>
@@ -167,12 +157,11 @@ class CardItem extends Component {
 							<p className='subTitleReverse'>{ briefDescription }</p>
 							<div className='buttonsList'>
 								{
-									(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname) === '/personalArea' ? null : (
-										views && <div className='visibles'>
-											<i className='fa fa-eye' aria-hidden='true' />
-											<p>{ views }</p>
-										</div>
-									)
+									pathname !== '/personalArea' &&
+									views && <div className='visibles'>
+										<i className='fa fa-eye' aria-hidden='true' />
+										<p>{ views }</p>
+									</div>
 								}
 								<button className='btnReverse' onClick={ this.handleReverseCard }>
 									<i className='fa fa-reply' aria-hidden='true' />
@@ -182,18 +171,18 @@ class CardItem extends Component {
 					</div>
 				</div>
 				{
-					deleted || deleteInfo ?
+					deleted || deleteInfo &&
 						<div className='cardInfoInAccount'>
-							{ deleted ? <a href='javascript:void(0)' className='button1' onClick={ ::this.handlerDelete }>Завершить</a> : null }
+							{ deleted ? <a href='javascript:void(0)' className='button1' onClick={ this.handlerDelete }>Завершить</a> : null }
 							{ deleteInfo ? <p>Будет удалено { dataDelete }</p> : null }
-						</div> : null
+						</div>
 				}
 				{
-					moderate ?
+					moderate &&
 						<div className='moderation'>
-							<button className='btnAccepted' onClick={ ::this.handleAccepted }>Пропустить</button>
-							<button className='btnRejected' onClick={ ::this.handleRejected }>Отклонить</button>
-						</div> : null
+							<button className='btnAccepted' onClick={ this.handleAccepted }>Пропустить</button>
+							<button className='btnRejected' onClick={ this.handleRejected }>Отклонить</button>
+						</div>
 				}
 			</div>
 		)
@@ -216,6 +205,8 @@ class CardItem extends Component {
 // }
 
 export default connect(
-	state => ({ state }),
-	dispatch => bindActionCreators({ ...actionsAllParamsUrl }, dispatch)
-)(CardItem)
+	state => ({
+		pathname: state.routing.locationBeforeTransitions.pathname
+	}),
+	{ ...actionsAllParamsUrl }
+)(Card)

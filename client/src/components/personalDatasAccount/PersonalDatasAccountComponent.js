@@ -1,9 +1,8 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { Tabs, Tab } from 'material-ui/Tabs'
 
-import CardItem from '../categories/cardItem/CardItemComponent'
+import Card from '../cards/card/Card'
 import TableRowsComponent from './tableRows/TableRowsComponent'
 
 import { actions as authActions } from '../../ducks/auth'
@@ -12,7 +11,7 @@ import { actions as actionsReducerCardsComplAndRej } from '../../ducks/reducerCa
 
 if (process.env.BROWSER) {
 	require('../personalArea/PersonalAreaStyles.sass')
-	require('../categories/cardItems/CardItemsStyles.sass')
+	require('../cards/cardsList/cardsList.sass')
 }
 
 class PersonalDatasAccount extends Component {
@@ -159,9 +158,5 @@ class PersonalDatasAccount extends Component {
 
 export default connect(
 	state => ({ state }),
-	dispatch => bindActionCreators({
-		...actionsReducerCardsComplAndRej,
-		...actionsArticles,
-		...authActions
-	}, dispatch)
+	{ ...actionsReducerCardsComplAndRej, ...actionsArticles, ...authActions }
 )(PersonalDatasAccount)

@@ -1,18 +1,12 @@
-import _ from 'underscore'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { actions as articlesActions } from '../../../ducks/articles'
 
 import { moduleName } from '../../../ducks/articles'
+import { actions as actionsArticles } from '../../../ducks/articles'
 
-import CardItems from '../cardItems/CardItemsComponent'
+import CardsList from '../cardsList/CardsList'
 
-class AnimalCard extends Component {
-
-	// constructor(props) {
-	// 	super(props)
-	// 	this.path = _.compact(props.state.routing.locationBeforeTransitions && props.state.routing.locationBeforeTransitions.pathname.split('/'))
-	// }
+class PageCards extends Component {
 
 	componentDidMount() {
 		const { getCards } = this.props
@@ -27,16 +21,13 @@ class AnimalCard extends Component {
 	}
 
 	componentWillReceiveProps(next) {
-
 		// const { getCards } = this.props
+		// console.log(next)
 		// const { filterCity } = this.props.state
-
 		// let path = _.compact(next.state.routing.locationBeforeTransitions && next.state.routing.locationBeforeTransitions.pathname.split('/'))
 
 		// if (this.path[1] !== path[1]) {
-
 		// 	this.path[1] = path[1]
-
 		// 	getCards(`${ process.env.URL_PATH }/api/list-animals/animal_type/${ path[1] }/advertisement_type/${ path[2] }/city/${ filterCity.cityTopHeader }/count/10`)
 		// }
 	}
@@ -47,7 +38,7 @@ class AnimalCard extends Component {
 		return (
 			<div>
 				{ pathName === '/' && <h2 className='newCardsTitle'>Новые объявления</h2> }
-				<CardItems datas={ articlesList } />
+				<CardsList cardsList={ articlesList } />
 			</div>
 		)
 	}
@@ -56,4 +47,4 @@ class AnimalCard extends Component {
 export default connect(state => ({
 	pathName: state.routing.locationBeforeTransitions.pathname,
 	articlesList: state[moduleName].articlesList
-}), { ...articlesActions })(AnimalCard)
+}), { ...actionsArticles })(PageCards)

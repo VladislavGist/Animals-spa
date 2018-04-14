@@ -1,8 +1,7 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 
-import CardItem from '../categories/cardItem/CardItemComponent.js'
+import Card from '../cards/card/Card'
 import { actions as actionsArticles } from '../../ducks/articles'
 
 class Moderate extends Component {
@@ -21,7 +20,7 @@ class Moderate extends Component {
 		return (
 			<div>
 				{
-					serverReducer.advertisementList.length ? serverReducer.advertisementList.map(elem => <CardItem
+					serverReducer.advertisementList.length ? serverReducer.advertisementList.map(elem => <Card
 						cardId={ elem.card_id }
 						key={ elem.card_id }
 						title={ elem.title }
@@ -45,5 +44,5 @@ class Moderate extends Component {
 
 export default connect(
 	state => ({ serverReducer: state.articles }),
-	dispatch => bindActionCreators({ ...actionsArticles }, dispatch)
+	{ ...actionsArticles }
 )(Moderate)
