@@ -105,7 +105,7 @@ export const validate = values => {
 	if (!values.email) {
 		errors.email = 'Поле обязательно для заполнения!'
 	} else if (!values.email.match(validateInputs.email)) {
-		errors.email = 'Введите корректный emil'
+		errors.email = 'Введите корректный email'
 	}
 
 	if (!values.price) {
