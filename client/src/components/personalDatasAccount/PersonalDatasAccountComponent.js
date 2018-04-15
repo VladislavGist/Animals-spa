@@ -28,7 +28,7 @@ class PersonalDatasAccount extends Component {
 				color: '#add1ed',
 				height: 'auto'
 			},
-			active_tab:{
+			active_tab: {
 				backgroundColor: '#2397f3',
 				color: 'white'
 			},
@@ -76,7 +76,7 @@ class PersonalDatasAccount extends Component {
 											imgPath={ card.images }
 											advType={ card.category }
 											userName={ card.userName }
-											dataDelete={ card.deleteDate }
+											deleteDate={ card.deleteDate }
 											phoneNumber={ card.phoneNumber }
 											briefDescription={ card.textArea }
 											views={ null }
@@ -109,14 +109,13 @@ class PersonalDatasAccount extends Component {
 											imgPath={ card.images }
 											advType={ card.category }
 											userName={ card.userName }
-											dataDelete={ card.deleteDate }
+											deleteDate={ card.deleteDate }
 											phoneNumber={ card.phoneNumber }
 											briefDescription={ card.textArea }
+											compleate={ card.compleate }
 											views={ null }
 											rating={ null }
-											deleted={ true }
 											userStatus={ null }
-											deleteInfo={ true }
 										/>) : <p>Завершенных объявлений нет</p>
 								}
 							</div>
@@ -135,7 +134,7 @@ export default connect(
 
 		return {
 			resolveCards: articles && articles.filter(card => card.moderate === 'resolve' && !card.compleate),
-			rejectedCards: articles && articles.filter(card => (card.moderate === 'rejected' || card.moderate === false) && card.compleate)
+			rejectedCards: articles && articles.filter(card => (card.moderate === 'rejected' || !card.moderate) || (card.moderate === 'resolve' && card.compleate))
 		}
 	}
 )(PersonalDatasAccount)
