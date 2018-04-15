@@ -2,7 +2,6 @@ import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 import { Form, Field, reduxForm } from 'redux-form'
 
 import { renderField, validate } from '../formValidate'
@@ -26,7 +25,6 @@ class ContactsForm extends Component {
 	}
 
 	disabledSubmitButton = nextProps => {
-
 		const { contactsForm: { values } } = nextProps
 
 		if (values &&
@@ -44,16 +42,25 @@ class ContactsForm extends Component {
 	}
 
 	handleMessage = event => {
-
 		event.preventDefault()
 
-		const { connectMess, contactsForm: { values } } = this.props
+		const { contactsForm: { values }, handleSnackbar } = this.props
 
-		connectMess(`${ process.env.URL_PATH }/api/sendus?name=${ values.name }&email=${ values.email }&title=${ values.title }&mess=${ values.textArea }`)
+		fetch('https://us-central1-animals-bbfac.cloudfunctions.net/hell', {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			method: 'POST',
+			body: JSON.stringify(values)
+		})
+			.then(res => {
+				if (res.status === 200) {
+					handleSnackbar('Отправлено')
+				} else {
+					handleSnackbar('Ошибка отправки')
+				}
+			})
 	}
 
 	render() {
-
 		const style = { checkbox: { marginTop: '20px' } }
 
 		return (
@@ -136,6 +143,5 @@ export default connect(
 		state,
 		contactsForm: state.form.contactsForm
 	}),
-	dispatch => bindActionCreators({
-		...actionsContactFormStatus, ...actionsSnackbarReducer }, dispatch)
+	{ ...actionsContactFormStatus, ...actionsSnackbarReducer }
 )(ContactsForm)

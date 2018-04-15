@@ -193,14 +193,19 @@ TableRowsComponent = reduxForm({
 })(TableRowsComponent)
 
 export default connect(
-	state => ({
-		uid: state.auth.user.uid,
-		rows: state.form.rows,
-		citys: state.filterCity.citys,
-		name: state.auth.userDatas.name,
-		surName: state.auth.userDatas.surName,
-		email: state.auth.userDatas.email,
-		city: state.auth.userDatas.city
-	}),
+	state => {
+		let user = state.auth.user,
+			userDatas = state.auth.userDatas
+
+		return {
+			rows: state.form.rows,
+			citys: state.filterCity.citys,
+			uid: user && user.uid,
+			name: userDatas && userDatas.name,
+			surName: userDatas && userDatas.surName,
+			email: userDatas && userDatas.email,
+			city: userDatas && userDatas.city
+		}
+	},
 	{ ...actionsSnackbarReducer })
 (TableRowsComponent)
