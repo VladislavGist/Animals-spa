@@ -4,9 +4,9 @@ import React, { Component } from 'react'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
 
-import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 import { renderField, validate } from '../../forms/formValidate'
 import { normilizeNumber, validateInputs } from '../../forms/validationsInputs'
+import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 
 class TableRowsComponent extends Component {
 
@@ -29,10 +29,10 @@ class TableRowsComponent extends Component {
 		const { rows: { values } } = nextProps
 
 		if (
-			values &&
-			(values.name && values.name.match(validateInputs.name)) ||
-			(values.surName && values.surName.match(validateInputs.surname)) ||
-			(values.email && values.email.match(validateInputs.email))
+			 Object.keys(values).length > 1 &&
+			(values.name ? values.name.match(validateInputs.name) : true) &&
+			(values.surName ? values.surName.match(validateInputs.surname) : true) &&
+			(values.email ? values.email.match(validateInputs.email) : true)
 		) {
 			this.setState({ disabledButton: false })
 		} else {
@@ -86,7 +86,6 @@ class TableRowsComponent extends Component {
 		}
 
 		return <Form onSubmit={ this.handleSubmitForm } className='registrationForm TableRowsComponent'>
-
 			<br />
 			<div>
 				<p>Ваше имя: { name }</p>
@@ -110,7 +109,7 @@ class TableRowsComponent extends Component {
 				<p>Ваша фамилия: { surName }</p>
 				<div>
 					<a href='javascript:void(0)' onClick={ () => this.setState({ changeSurName: !changeSurName }) }>
-						{ changeName ? 'Свернуть' : 'Изменить' }
+						{ changeSurName ? 'Свернуть' : 'Изменить' }
 					</a>
 				</div>
 				{
@@ -128,7 +127,7 @@ class TableRowsComponent extends Component {
 				<p>Город: { city }</p>
 				<div>
 					<a href='javascript:void(0)' onClick={ () => this.setState({ changeCity: !changeCity }) }>
-						{ changeName ? 'Свернуть' : 'Изменить' }
+						{ changeCity ? 'Свернуть' : 'Изменить' }
 					</a>
 				</div>
 				{
@@ -163,7 +162,7 @@ class TableRowsComponent extends Component {
 				<p>Email: { email }</p>
 				<div>
 					<a href='javascript:void(0)' onClick={ () => this.setState({ changeEmail: !changeEmail }) }>
-						{ changeName ? 'Свернуть' : 'Изменить' }
+						{ changeEmail ? 'Свернуть' : 'Изменить' }
 					</a>
 				</div>
 				{

@@ -8,11 +8,6 @@ if (process.env.BROWSER) {
 }
 
 class PersonalArea extends Component {
-
-	// componentWillReceiveProps(nextState) {
-	// 	if (!nextState.state.loginUser) location.hash = '/'
-	// }
-
 	render() {
 		return (
 			<div className='personalArea'>
