@@ -17,16 +17,6 @@ class Card extends Component {
 
 	state = { verticalRotate: false }
 
-	// остановка объявления
-	handlerDelete = e => {
-		const { id, completedCard } = this.props
-
-		// отправили запрос на сервер об остановке объявления с нужным id
-		// completedCard(`${ process.env.URL_PATH }/api/completeCard?cardId=${ id }`)
-
-		// e.target.text = 'Остановлено'
-	}
-
 	//повышение счетчика просмотров
 	clickFunc = () => {
 		// if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
@@ -37,7 +27,10 @@ class Card extends Component {
 	handleAccepted = e => {
 		const { handleSnackbar, uid, cardId } = this.props
 
-		firebase.database().ref(`users/${ uid }/articles/${ cardId }/moderate`).set('resolve')
+		firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
+			moderate: 'resolve',
+			compleate: false
+		})
 			.then(() => handleSnackbar('Принято'))
 			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
@@ -45,7 +38,10 @@ class Card extends Component {
 	handleRejected = e => {
 		const { handleSnackbar, uid, cardId } = this.props
 
-		firebase.database().ref(`users/${ uid }/articles/${ cardId }/moderate`).set('rejected')
+		firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
+			moderate: 'rejected',
+			compleate: true
+		})
 			.then(() => handleSnackbar('Отклонено'))
 			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
@@ -209,7 +205,7 @@ class Card extends Component {
 export default connect(
 	state => ({
 		pathname: state.routing.locationBeforeTransitions.pathname,
-		uid: state.auth.user.uid
+		uid: state.auth.user && state.auth.user.uid
 	}),
 	{ ...actionsAllParamsUrl, ...actionsSnackbarReducer }
 )(Card)

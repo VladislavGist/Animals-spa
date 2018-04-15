@@ -5,11 +5,8 @@ export const types = {
 }
 
 export const actions = {
-
 	handleShelter: () => ({ type: types.SHELTER }),
-
 	handlePermanentSeller: () => ({ type: types.PERMANENT_SELLER }),
-
 	handlePrivateSeller: () => ({ type: types.PRIVATE_SELLER })
 }
 
@@ -24,9 +21,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-
 	switch (action.type) {
-
 	case types.PRIVATE_SELLER: return {
 		type: types.PRIVATE_SELLER,
 		price: 0,
@@ -36,7 +31,6 @@ export default (state = initialState, action) => {
 			'Рейтинг': 'Нет'
 		}
 	}
-
 	case types.PERMANENT_SELLER: return {
 		type: types.PERMANENT_SELLER,
 		price: 300,
@@ -46,7 +40,6 @@ export default (state = initialState, action) => {
 			'Рейтинг': 'Да'
 		}
 	}
-
 	case types.SHELTER: return {
 		type: types.SHELTER,
 		price: 200,
@@ -56,7 +49,6 @@ export default (state = initialState, action) => {
 			'Рейтинг': 'Да'
 		}
 	}
-
 	default: return state
 	}
 }

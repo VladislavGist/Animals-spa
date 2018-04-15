@@ -37,7 +37,10 @@ export const actions = {
 		firebase.auth().signOut()
 			.then(() => dispatch({ type: types.SIGN_OUT_SUCCESS }))
 			.then(() => dispatch(push('/')))
-			.catch(err => dispatch({ type: types.SIGN_OUT_ERROR, payload: err }))
+			.catch(err => {
+				console.log(err)
+				dispatch({ type: types.SIGN_OUT_ERROR, payload: err })
+			})
 	},
 
 	loginAction: ({ email, password }) => dispatch => {
@@ -62,7 +65,8 @@ export const actions = {
 					surName,
 					email,
 					city,
-					role: 'user'
+					role: 'user',
+					accountType: 'PRIVATE_SELLER'
 				})
 				
 				dispatch({ type: types.SIGN_UP_SUCCESS, payload: { ...user } })
@@ -98,8 +102,7 @@ export default (state = new ReducerSchema(), action) => {
 	case types.SIGN_IN_ERROR: return state.set('userError', error)
 
 	case types.SIGN_OUT_REQUEST: return state.set('userLoading', true)
-	case types.SIGN_OUT_SUCCESS: return state.set('user', null).set('userError', null).set('userLoading', false)
-		.set('cards', null).set('cardsLoading', false).set('cardsError', false)
+	case types.SIGN_OUT_SUCCESS: return state.set('user', null).set('userError', null).set('userLoading', false).set('userDatas', null)
 	case types.SIGN_OUT_ERROR: return state.set('userError', error)	
 
 	default: return state

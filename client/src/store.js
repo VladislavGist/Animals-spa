@@ -18,7 +18,6 @@ import photosReducer from './ducks/photosReducer'
 import snackbarReducer from './ducks/snackbarReducer'
 import toggleAddMoreBtn from './ducks/toggleAddMoreBtn'
 import contactFormStatus from './ducks/contactFormStatus'
-import reducerCardsComplAndRej from './ducks/reducerCardsComplAndRej'
 
 const reducers = combineReducers({
 	routing: routerReducer,
@@ -33,8 +32,7 @@ const reducers = combineReducers({
 	photosReducer,
 	snackbarReducer,
 	contactFormStatus,
-	toggleAddMoreBtn,
-	reducerCardsComplAndRej
+	toggleAddMoreBtn
 })
 
 const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(routerMiddleware(hashHistory), thunk))(createStore)

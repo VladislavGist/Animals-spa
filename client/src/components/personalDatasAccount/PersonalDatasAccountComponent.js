@@ -5,10 +5,6 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import Card from '../cards/card/Card'
 import TableRowsComponent from './tableRows/TableRowsComponent'
 
-import { actions as authActions } from '../../ducks/auth'
-import { actions as actionsArticles } from '../../ducks/articles'
-import { actions as actionsReducerCardsComplAndRej } from '../../ducks/reducerCardsComplAndRej'
-
 if (process.env.BROWSER) {
 	require('../personalArea/PersonalAreaStyles.sass')
 	require('../cards/cardsList/cardsList.sass')
@@ -20,31 +16,10 @@ class PersonalDatasAccount extends Component {
 
 	handleChange = value => this.setState({ value: value })
 
-	componentWillMount() {
-
-		const {
-			loadCardsComplAndRej,
-			getCards,
-			state,
-			updateDatasTrue
-		} = this.props
-
-		loadCardsComplAndRej(`${ process.env.URL_PATH }/api/userCardsComplAndRejected?userid=${ state.loginUser.user_id }`)
-		getCards(`${ process.env.URL_PATH }/api/userCardsAccepted?userid=${ state.loginUser.user_id }`)
-
-		// запрашивать от сервера последние данные по аккаунту
-		updateDatasTrue(`${ process.env.URL_PATH }/api/updateDatasAccount?userid=${ state.loginUser.user_id }`)
-	}
-
-	componentWillUnmount() {
-		this.props.onHandleClearState()
-		this.props.handleDataSentFalse()
-		this.props.clearReducerCardsComplAndRej()
-	}
-
 	handleActive = e => this.setState({ slideIndex: e.props.value })
 
 	render() {
+		const { resolveCards, rejectedCards } = this.props
 
 		const styles = {
 			inkBarStyle: { backgroundColor: false },
@@ -65,8 +40,6 @@ class PersonalDatasAccount extends Component {
 		styles.tab[1] = styles.default_tab
 		styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[ this.state.slideIndex ], styles.active_tab)
 
-		const { state } = this.props
-
 		return (
 			<div className='personalDatasAccount'>
 				<div>
@@ -84,9 +57,8 @@ class PersonalDatasAccount extends Component {
 						className='sendAndRegTabs'
 						inkBarStyle={ styles.inkBarStyle }
 					>
-
 						<Tab
-							label={ `Активные ${ state.serverReducer.advertisementList.length }` }
+							label={ `Активные ${ resolveCards && resolveCards.length }` }
 							value='0'
 							className='tabBtn'
 							style={ styles.tab[0] }
@@ -94,24 +66,24 @@ class PersonalDatasAccount extends Component {
 						>
 							<div>
 								{
-									state.serverReducer.advertisementList.length > 0 ?
-										state.serverReducer.advertisementList.map(elem => <CardItem
-											key={ elem.card_id }
-											id={ elem.card_id }
-											title={ elem.title }
-											briefDescription={ elem.briefDescription }
-											city={ elem.city }
-											userName={ elem.userName }
-											userStatus={ elem.userStatus }
-											phoneNumber={ elem.phoneNumber }
-											rating={ elem.rating }
-											price={ elem.price }
-											imgPath={ elem.imgPath }
-											advType={ elem.advType }
+									resolveCards && resolveCards.length > 0 ?
+										resolveCards.map(card => <Card
+											key={ card.key }
+											city={ card.city }
+											cardId={ card.key }
+											title={ card.title }
+											price={ card.price }
+											imgPath={ card.images }
+											advType={ card.category }
+											userName={ card.userName }
+											dataDelete={ card.deleteDate }
+											phoneNumber={ card.phoneNumber }
+											briefDescription={ card.textArea }
+											views={ null }
+											rating={ null }
 											deleted={ true }
-											dataDelete={ elem.data_delete }
+											userStatus={ null }
 											deleteInfo={ true }
-											onClick={ this.handleClickCard }
 										/>) : <p>Активных объявлений нет</p>
 								}
 							</div>
@@ -119,7 +91,7 @@ class PersonalDatasAccount extends Component {
 						</Tab>
 
 						<Tab
-							label={ `Завершенные/Отклоненные ${ state.reducerCardsComplAndRej.length }` }
+							label={ `Завершенные/Отклоненные ${ rejectedCards && rejectedCards.length }` }
 							value='1'
 							className='tabBtn'
 							style={ styles.tab[1] }
@@ -127,22 +99,23 @@ class PersonalDatasAccount extends Component {
 						>
 							<div>
 								{
-									state.reducerCardsComplAndRej.length > 0 ?
-										state.reducerCardsComplAndRej.map(elem => <CardItem
-											key={ elem.card_id }
-											id={ elem.card_id }
-											title={ elem.title }
-											briefDescription={ elem.briefDescription }
-											city={ elem.city }
-											userName={ elem.userName }
-											userStatus={ elem.userStatus }
-											phoneNumber={ elem.phoneNumber }
-											rating={ elem.rating }
-											price={ elem.price }
-											imgPath={ elem.imgPath }
-											advType={ elem.advType }
-											deleted={ false }
-											dataDelete={ elem.data_delete }
+									rejectedCards && rejectedCards.length > 0 ?
+										rejectedCards.map(card => <Card
+											key={ card.key }
+											city={ card.city }
+											cardId={ card.key }
+											title={ card.title }
+											price={ card.price }
+											imgPath={ card.images }
+											advType={ card.category }
+											userName={ card.userName }
+											dataDelete={ card.deleteDate }
+											phoneNumber={ card.phoneNumber }
+											briefDescription={ card.textArea }
+											views={ null }
+											rating={ null }
+											deleted={ true }
+											userStatus={ null }
 											deleteInfo={ true }
 										/>) : <p>Завершенных объявлений нет</p>
 								}
@@ -157,6 +130,12 @@ class PersonalDatasAccount extends Component {
 }
 
 export default connect(
-	state => ({ state }),
-	{ ...actionsReducerCardsComplAndRej, ...actionsArticles, ...authActions }
+	state => {
+		let articles = state.auth.userDatas && state.auth.userDatas.articles
+
+		return {
+			resolveCards: articles && articles.filter(card => card.moderate === 'resolve' && !card.compleate),
+			rejectedCards: articles && articles.filter(card => (card.moderate === 'rejected' || card.moderate === false) && card.compleate)
+		}
+	}
 )(PersonalDatasAccount)
