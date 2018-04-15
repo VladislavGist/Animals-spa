@@ -17,6 +17,16 @@ class Card extends Component {
 
 	state = { verticalRotate: false }
 
+	handleDelete = () => {
+		const { handleSnackbar, uid, cardId } = this.props
+
+		firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
+			compleate: true
+		})
+			.then(() => handleSnackbar('Завершено'))
+			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+	}
+
 	//повышение счетчика просмотров
 	clickFunc = () => {
 		// if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
@@ -82,8 +92,9 @@ class Card extends Component {
 			imgPath,
 			deleted,
 			deleteInfo,
-			dataDelete,
+			deleteDate,
 			moderate,
+			compleate,
 
 			pathname
 		} = this.props
@@ -169,11 +180,16 @@ class Card extends Component {
 					</div>
 				</div>
 				{
-					deleted || deleteInfo &&
+					deleted || deleteInfo ?
 						<div className='cardInfoInAccount'>
-							{ deleted ? <a href='javascript:void(0)' className='button1' onClick={ this.handlerDelete }>Завершить</a> : null }
-							{ deleteInfo ? <p>Будет удалено { dataDelete }</p> : null }
-						</div>
+							{ deleted && <a href='javascript:void(0)' className='button1' onClick={ this.handleDelete }>Завершить</a> }
+							{ deleteInfo && <p>Будет удалено: { deleteDate }</p> }
+						</div> : null
+				}
+				{
+					compleate && <div className='cardInfoInAccount'>
+						<p>Будет удалено: { deleteDate }</p>
+					</div>
 				}
 				{
 					moderate &&

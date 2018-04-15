@@ -1,127 +1,185 @@
-import MenuItem from 'material-ui/MenuItem'
+import firebase from 'firebase'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
 
+import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 import { renderField, validate } from '../../forms/formValidate'
 import { normilizeNumber, validateInputs } from '../../forms/validationsInputs'
 
 class TableRowsComponent extends Component {
 
-	handleSubmitForm = () => {}
+	state = {
+		changeName: false,
+		changeSurName: false,
+		changeEmail: false,
+		changeCity: false,
+
+		disabledButton: true
+	}
+
+	componentWillUpdate(nextProps) {
+		if (nextProps !== this.props) {
+			this.disabledSubmitButton(nextProps)
+		}
+	}
+
+	disabledSubmitButton = nextProps => {
+		const { rows: { values } } = nextProps
+
+		if (
+			values &&
+			(values.name && values.name.match(validateInputs.name)) ||
+			(values.surName && values.surName.match(validateInputs.surname)) ||
+			(values.email && values.email.match(validateInputs.email))
+		) {
+			this.setState({ disabledButton: false })
+		} else {
+			this.setState({ disabledButton: true })
+		}
+	}
+
+	handleSubmitForm = () => {
+		const {
+			handleSnackbar,
+			uid,
+			rows: { values },
+			name,
+			surName,
+			email,
+			city
+		} = this.props
+
+		firebase.database().ref(`users/${ uid }`).update({
+			name: values.name || name,
+			surName: values.surName || surName,
+			email: values.email || email,
+			city: values.city || city
+		})
+			.then(() => handleSnackbar('Изменено'))
+			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+	}
 
 	render() {
+		const {
+			citys,
+			name,
+			surName,
+			email,
+			city
+		} = this.props
 
-		const { filterCity } = this.props.state
+		const {
+			changeName,
+			changeSurName,
+			changeCity,
+			changeEmail,
+
+			disabledButton
+		} = this.state
 
 		const styles = {
 			floatingLabelStyle: { 'color': '#b1adad' },
-			labelStyle: { 'color': '#7c7c7c', top: '21px' },
+			labelStyle: { 'color': '#7c7c7c', top: '7px' },
 			floatingLabelFocusStyle: { 'color': '#2396f1' }
 		}
 
-		// отправка данных на сервер
-		// onHandlePOSTName = () => {
-		//
-		// 	const { state, updateUserDatas } = this.props
-		//
-		// 	// проверка
-		// 	// взять и передать данные
-		//
-		// 	updateUserDatas(`${ process.env.URL }/updateUserData?userId='${ state.loginUser.user_id }'&parametr=name&value='${ '' }'`)
-		// }
-		//
-		// onHandlePOSTPhoneNumber = () => {
-		//
-		// 	const { state, updateUserDatas } = this.props
-		//
-		// 	// проверка
-		// 	// взять и передать данные
-		//
-		// 	updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.user_id }&parametr=phoneNumber&value=${ '' }`)
-		// }
-		//
-		// onHandlePOSTPhoneCity = () => {
-		//
-		// 	const { state, updateUserDatas } = this.props
-		//
-		// 	// проверка
-		// 	// взять и передать данные
-		//
-		// 	updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.user_id }&parametr=city&value=${ '' }`)
-		// }
-		//
-		// onHandlePOSTPhonePassword = () => {
-		//
-		// 	const { state, updateUserDatas } = this.props
-		//
-		// 	// проверка
-		// 	// взять и передать данные
-		//
-		// 	updateUserDatas(`${ process.env.URL }/updateUserData?userId=${ state.loginUser.user_id }&parametr=password&value=${ '' }`)
-		// }
-
 		return <Form onSubmit={ this.handleSubmitForm } className='registrationForm TableRowsComponent'>
 
+			<br />
 			<div>
-				<Field
-					name='name'
-					type='text'
-					label='Новое имя пользователя'
-					normalize={ normilizeNumber }
-					component={ renderField }
-				/>
+				<p>Ваше имя: { name }</p>
+				<div>
+					<a href='javascript:void(0)' onClick={ () => this.setState({ changeName: !changeName }) }>
+						{ changeName ? 'Свернуть' : 'Изменить' }
+					</a>
+				</div>
+				{
+					changeName && <Field
+						name='name'
+						type='text'
+						label='Новое имя пользователя'
+						component={ renderField }
+					/>
+				}
 			</div>
+			<br />
 
 			<div>
-				<Field
-					name='phoneNumber'
-					type='tel'
-					label='Номер телефона'
-					normalize={ normilizeNumber }
-					component={ renderField }
-				/>
+				<p>Ваша фамилия: { surName }</p>
+				<div>
+					<a href='javascript:void(0)' onClick={ () => this.setState({ changeSurName: !changeSurName }) }>
+						{ changeName ? 'Свернуть' : 'Изменить' }
+					</a>
+				</div>
+				{
+					changeSurName && <Field
+						name='surName'
+						type='text'
+						label='Фамилия'
+						component={ renderField }
+					/>
+				}
 			</div>
+			<br />
 
 			<div>
-				<Field
-					name='city'
-					component={ renderField }
-					type='select'
-					extra={ {
-						floatingLabelStyle: styles.floatingLabelStyle,
-						labelStyle: styles.labelStyle,
-						floatingLabelText: 'Город',
-						floatingLabelFixed: true,
-						hintText: this.props.rows && this.props.rows.values.city,
-						selectedMenuItemStyle: styles.floatingLabelFocusStyle
-					} }
-				>
-					{
-						filterCity.citys.map((elem, idx) => <MenuItem
-							className='selectItem'
-							name='selectItem'
-							value={ elem }
-							primaryText={ <option>{ elem }</option> }
-							key={ idx }
-						/>)
-					}
-				</Field>
+				<p>Город: { city }</p>
+				<div>
+					<a href='javascript:void(0)' onClick={ () => this.setState({ changeCity: !changeCity }) }>
+						{ changeName ? 'Свернуть' : 'Изменить' }
+					</a>
+				</div>
+				{
+					changeCity && <Field
+						name='city'
+						component={ renderField }
+						type='select'
+						extra={ {
+							floatingLabelStyle: styles.floatingLabelStyle,
+							labelStyle: styles.labelStyle,
+							floatingLabelText: 'Город',
+							floatingLabelFixed: true,
+							hintText: this.props.rows && this.props.rows.values.city,
+							selectedMenuItemStyle: styles.floatingLabelFocusStyle
+						} }
+					>
+						{
+							citys.map((elem, idx) => <MenuItem
+								className='selectItem'
+								name='selectItem'
+								value={ elem }
+								primaryText={ <option>{ elem }</option> }
+								key={ idx }
+							/>)
+						}
+					</Field>
+				}
 			</div>
+			<br />
 
 			<div>
-				<Field
-					name='password'
-					type='password'
-					label='Введите новый пароль'
-					normalize={ normilizeNumber }
-					component={ renderField }
-				/>
+				<p>Email: { email }</p>
+				<div>
+					<a href='javascript:void(0)' onClick={ () => this.setState({ changeEmail: !changeEmail }) }>
+						{ changeName ? 'Свернуть' : 'Изменить' }
+					</a>
+				</div>
+				{
+					changeEmail && <Field
+						name='email'
+						type='text'
+						label='Новый email'
+						component={ renderField }
+					/>
+				}
 			</div>
+			<br />
 
 			<div>
 				<br/>
-				<a href='javascript:void(0)' onClick={ this.handleSubmitForm }>Применить</a>
+				{ !disabledButton && <a href='javascript:void(0)'onClick={ this.handleSubmitForm }>Применить</a> }
 			</div>
 
 		</Form>
@@ -134,4 +192,15 @@ TableRowsComponent = reduxForm({
 	validate
 })(TableRowsComponent)
 
-export default connect(state => ({ state, rows: state.form.rows }))(TableRowsComponent)
+export default connect(
+	state => ({
+		uid: state.auth.user.uid,
+		rows: state.form.rows,
+		citys: state.filterCity.citys,
+		name: state.auth.userDatas.name,
+		surName: state.auth.userDatas.surName,
+		email: state.auth.userDatas.email,
+		city: state.auth.userDatas.city
+	}),
+	{ ...actionsSnackbarReducer })
+(TableRowsComponent)
