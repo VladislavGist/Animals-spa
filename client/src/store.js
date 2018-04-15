@@ -7,43 +7,37 @@ import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { routerMiddleware } from 'react-router-redux'
 
-import loginUser from './ducks/loginUser'
+import auth from './ducks/auth'
 import preloader from './ducks/preloader'
 import filterCity from './ducks/filterCity'
-import regReducer from './ducks/regReducer'
 import menuReducer from './ducks/menuReducer'
 import accountType from './ducks/accountType'
 import allParamsUrl from './ducks/allParamsUrl'
-import serverReducer from './ducks/serverReducer'
+import articles from './ducks/articles'
 import photosReducer from './ducks/photosReducer'
 import snackbarReducer from './ducks/snackbarReducer'
 import toggleAddMoreBtn from './ducks/toggleAddMoreBtn'
 import contactFormStatus from './ducks/contactFormStatus'
-import reducerCardsComplAndRej from './ducks/reducerCardsComplAndRej'
 
 const reducers = combineReducers({
 	routing: routerReducer,
 	form: reducer,
-	loginUser,
+	auth,
 	preloader,
-	regReducer,
 	filterCity,
 	menuReducer,
 	accountType,
 	allParamsUrl,
-	serverReducer,
+	articles,
 	photosReducer,
 	snackbarReducer,
 	contactFormStatus,
-	toggleAddMoreBtn,
-	reducerCardsComplAndRej
+	toggleAddMoreBtn
 })
 
 const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(routerMiddleware(hashHistory), thunk))(createStore)
 
 export default function configureStore(initialState) {
-
 	const store = createStoreWithMiddleware(reducers, initialState)
-
 	return store
 }

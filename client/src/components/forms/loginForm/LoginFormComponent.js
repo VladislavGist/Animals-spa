@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { Form, Field, reduxForm } from 'redux-form'
 
-import { actions as loginUserActions } from '../../../ducks/loginUser'
+import { actions as authActions } from '../../../ducks/auth'
 
 import { renderField, validate } from '../formValidate'
 import { normilizeNumber, validateInputs } from '../validationsInputs'
@@ -25,9 +25,9 @@ class LoginFormComponent extends Component {
 
 		if (values &&
 			values.password &&
-			values.username &&
+			values.email &&
 			values.password.match(validateInputs.password) &&
-			values.username.match(validateInputs.phoneNumber)) {
+			values.email.match(validateInputs.email)) {
 			this.setState({ disabledButton: false })
 		} else {
 			this.setState({ disabledButton: true })
@@ -37,7 +37,8 @@ class LoginFormComponent extends Component {
 	handleLogin = event => {
 		event.preventDefault()
 		const { loginForm: { values }, loginAction } = this.props
-		loginAction(`${ process.env.URL_PATH }/api/protected?password=${ values.password }&phone=${ values.phoneNumber }`)
+
+		loginAction({ email: values.email, password: values.password })
 	}
 
 	render() {
@@ -45,10 +46,9 @@ class LoginFormComponent extends Component {
 			<Form onSubmit={ this.handleLogin } className='sendForm'>
 				<div className='wrapInputs'>
 					<Field
-						name='username'
-						type='tel'
-						label='Номер телефона'
-						normalize={ normilizeNumber }
+						name='email'
+						type='text'
+						label='Email'
 						component={ renderField }
 					/>
 					<Field
@@ -79,6 +79,6 @@ LoginFormComponent = reduxForm({
 	validate
 })(LoginFormComponent)
 
-export default connect(state => ({ state, loginForm: state.form.loginForm }),
-	dispatch => bindActionCreators({ ...loginUserActions }, dispatch)
-)(LoginFormComponent)
+export default connect(state => ({
+	loginForm: state.form.loginForm
+}), { ...authActions })(LoginFormComponent)

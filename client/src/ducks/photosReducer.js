@@ -32,39 +32,32 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-
 	switch (action.type) {
-
 	case types.ADD_PHOTO_0: return {
 		...state,
 		addPhoto: action.payload,
 		file_0: action.file_0
 	}
-
 	case types.ADD_PHOTO_1: return {
 		...state,
 		addPhoto: action.payload,
 		file_1: action.file_1
 	}
-
 	case types.ADD_PHOTO_2: return {
 		...state,
 		addPhoto: action.payload,
 		file_2: action.file_2
 	}
-
 	case types.ADD_PHOTO_3: return {
 		...state,
 		addPhoto: action.payload,
 		file_3: action.file_3
 	}
-
 	case types.ADD_PHOTO_4: return {
 		...state,
 		addPhoto: action.payload,
 		file_4: action.file_4
 	}
-
 	default: return state
 	}
 }

@@ -10,7 +10,6 @@ class AddPhotoInputComponent extends Component {
 	}
 
 	changeInput = e => {
-
 		const { handleAddPhoto } = this.props
 
 		if (e.target.value.length && e.target.files[0].type === 'image/jpeg') {
@@ -22,10 +21,17 @@ class AddPhotoInputComponent extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.photo) {
+			this.setState({ active: true })
+		} else {
+			this.setState({ active: false })
+		}
+	}
+
 	componentWillUnmount() { this.setState({ active: false, unmountValue: '' }) }
 
 	render() {
-
 		return <div className={
 			classNames({
 				loadingPhoto: true,

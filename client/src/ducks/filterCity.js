@@ -83,14 +83,11 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-
 	switch (action.type) {
-
 	case types.REPLACE_CITY: return {
 		...state,
 		cityTopHeader: action.payload
 	}
-
 	default: return state
 	}
 }

@@ -3,4 +3,4 @@ design
 node_modules
 bugs
 yarn.lock
-
+.DS_Store

@@ -1,4 +1,3 @@
-import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
 import AccountType from '../accountType/AccountType.js'
@@ -10,11 +9,9 @@ if (process.env.BROWSER) {
 
 class PersonalArea extends Component {
 
-	componentWillReceiveProps(nextState) {
-		if (!nextState.state.loginUser) {
-			location.hash = '/'
-		}
-	}
+	// componentWillReceiveProps(nextState) {
+	// 	if (!nextState.state.loginUser) location.hash = '/'
+	// }
 
 	render() {
 		return (
@@ -26,4 +23,4 @@ class PersonalArea extends Component {
 	}
 }
 
-export default connect(state => ({ state }))(PersonalArea)
+export default PersonalArea

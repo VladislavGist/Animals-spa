@@ -1,71 +1,58 @@
+import _ from 'lodash'
+import firebase from 'firebase'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
+
+import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
+import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 
 import SlickSlider from '../../slickSlider/SlickSliderComponent'
 
 if (process.env.BROWSER) {
-	require('./CardItemStyles.sass')
+	require('./card.sass')
 }
 
-import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
-
-class CardItem extends Component {
+class Card extends Component {
 
 	state = { verticalRotate: false }
 
-	// остановка объявления
-	handlerDelete = e => {
-
-		const { id, completedCard } = this.props
-
-		// отправили запрос на сервер об остановке объявления с нужным id
-		completedCard(`${ process.env.URL_PATH }/api/completeCard?cardId=${ id }`)
-
-		e.target.text = 'Остановлено'
-	}
-
 	//повышение счетчика просмотров
 	clickFunc = () => {
-		if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
-			this.props.updateCardView( this.props.cardId )
-		}
+		// if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
+		// 	this.props.updateCardView( this.props.cardId )
+		// }
 	}
 
 	handleAccepted = e => {
+		const { handleSnackbar, uid, cardId } = this.props
 
-		const { replaceStatusCard, cardId } = this.props
-
-		replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=accepted`)
-
-		e.target.textContent = 'Выполнено'
+		firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
+			moderate: 'resolve',
+			compleate: false
+		})
+			.then(() => handleSnackbar('Принято'))
+			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	handleRejected = e => {
+		const { handleSnackbar, uid, cardId } = this.props
 
-		const { replaceStatusCard, cardId } = this.props
-
-		replaceStatusCard(`${ process.env.URL_PATH }/api/replaceStatusCard?cardid=${ cardId }&status=rejected`)
-
-		e.target.textContent = 'Выполнено'
+		firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
+			moderate: 'rejected',
+			compleate: true
+		})
+			.then(() => handleSnackbar('Отклонено'))
+			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	stausesReplace = status => {
 		switch(status) {
-		case 'buy':
-			return 'Продажа'
-			break
-		case 'gift':
-			return 'Даром'
-			break
-		case 'missing':
-			return 'Пропало животное'
-			break
-		case 'find':
-			return 'Найдено животное'
-			break
-		default: return ''
+		case 'buy': return 'Продажа'; break
+		case 'gift': return 'Даром'; break
+		case 'missing': return 'Пропало животное'; break
+		case 'find': return 'Найдено животное'; break
+		default: return null
 		}
 	}
 
@@ -73,17 +60,14 @@ class CardItem extends Component {
 		if (text.length >= 80) {
 			let res = text.substring(0, 80)
 			return res += ' ...'
-		} else {
-			return text
 		}
+
+		return text
 	}
 
-	handleReverseCard = () => {
-		this.setState({ verticalRotate: !this.state.verticalRotate })
-	}
+	handleReverseCard = () => this.setState({ verticalRotate: !this.state.verticalRotate })
 
 	render() {
-
 		const {
 			price,
 			advType,
@@ -99,16 +83,20 @@ class CardItem extends Component {
 			deleted,
 			deleteInfo,
 			dataDelete,
-			moderate
+			moderate,
+
+			pathname
 		} = this.props
 
-		const mass = []
+		// const mass = []
 
-		for (let i = 0; i < rating; i++) {
-			mass.push(<i className='fa fa-star' aria-hidden='true' key={ i } />)
-		}
+		// for (let i = 0; i < rating; i++) {
+		// 	mass.push(<i className='fa fa-star' aria-hidden='true' key={ i } />)
+		// }
 
-		let imagePath = imgPath.split(' ')
+		let imagePath = []
+
+		_.forEach(imgPath, (value, key) => { imagePath.push(value) })
 
 		return (
 			<div className='cardItemWrap'>
@@ -119,32 +107,32 @@ class CardItem extends Component {
 						'verticalRotate': this.state.verticalRotate
 					}) }
 				>
-					<div className='contentWrap' onClick={ ::this.clickFunc }>
+					<div className='contentWrap' onClick={ this.clickFunc }>
 						<div className='top' onClick={ this.handleReverseCard }>
 							<div>
-								<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
+								<p className='price'>{ price && price > 0 && `${ price } руб.` }</p>
 							</div>
 							<div>
 								<div className='info'>
-									<i className={
-										classNames({
+									<i className={ classNames({
 											'fa': true,
 											'fa-eur': advType === 'buy',
 											'fa-globe': advType === 'gift',
 											'fa-exclamation-triangle': advType === 'missing',
 											'fa-bell-o': advType === 'find'
-										})
-									} aria-hidden='true' />
+										}) }
+										aria-hidden='true'
+									/>
 									<span className='categoty'>{ this.stausesReplace(advType) }</span>
 								</div>
 								<p className='number'>{ phoneNumber }</p>
-								<p className='city'>{ city.indexOf('обл.') === -1 ? 'г. ' + city : city }</p>
+								<p className='city'>{ city.indexOf('обл.') === -1 ? `г. ${ city }` : city }</p>
 								<div className='userItem'>
-									{ mass }
-									<p className={ `userName ${ userStatus === 'seller' ? 'gold' : null }` }>{ userName }</p>
+									{/* { mass } */}
+									{ userName && <p className={ `userName ${ (userStatus === 'seller') && 'gold' }` }>{ userName }</p> }
 								</div>
 								<div className='priceMobile'>
-									<p className='price'>{ price > 0 ? price + ' руб.' : null }</p>
+									<p className='price'>{ price && price > 0 && `${ price } руб.` }</p>
 								</div>
 							</div>
 						</div>
@@ -167,12 +155,11 @@ class CardItem extends Component {
 							<p className='subTitleReverse'>{ briefDescription }</p>
 							<div className='buttonsList'>
 								{
-									(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname) === '/personalArea' ? null : (
-										<div className='visibles'>
-											<i className='fa fa-eye' aria-hidden='true' />
-											<p>{ views }</p>
-										</div>
-									)
+									pathname !== '/personalArea' &&
+									views && <div className='visibles'>
+										<i className='fa fa-eye' aria-hidden='true' />
+										<p>{ views }</p>
+									</div>
 								}
 								<button className='btnReverse' onClick={ this.handleReverseCard }>
 									<i className='fa fa-reply' aria-hidden='true' />
@@ -182,18 +169,18 @@ class CardItem extends Component {
 					</div>
 				</div>
 				{
-					deleted || deleteInfo ?
+					deleted || deleteInfo &&
 						<div className='cardInfoInAccount'>
-							{ deleted ? <a href='javascript:void(0)' className='button1' onClick={ ::this.handlerDelete }>Завершить</a> : null }
+							{ deleted ? <a href='javascript:void(0)' className='button1' onClick={ this.handlerDelete }>Завершить</a> : null }
 							{ deleteInfo ? <p>Будет удалено { dataDelete }</p> : null }
-						</div> : null
+						</div>
 				}
 				{
-					moderate ?
+					moderate &&
 						<div className='moderation'>
-							<button className='btnAccepted' onClick={ ::this.handleAccepted }>Пропустить</button>
-							<button className='btnRejected' onClick={ ::this.handleRejected }>Отклонить</button>
-						</div> : null
+							<button className='btnAccepted' onClick={ this.handleAccepted }>Пропустить</button>
+							<button className='btnRejected' onClick={ this.handleRejected }>Отклонить</button>
+						</div>
 				}
 			</div>
 		)
@@ -216,6 +203,9 @@ class CardItem extends Component {
 // }
 
 export default connect(
-	state => ({ state }),
-	dispatch => bindActionCreators({ ...actionsAllParamsUrl }, dispatch)
-)(CardItem)
+	state => ({
+		pathname: state.routing.locationBeforeTransitions.pathname,
+		uid: state.auth.user && state.auth.user.uid
+	}),
+	{ ...actionsAllParamsUrl, ...actionsSnackbarReducer }
+)(Card)

@@ -11,7 +11,7 @@ export default class Footer extends Component {
 		return (
 			<footer>
 				<Link to='/' className='footerLogo'>
-					<img src={ `${ process.env.URL_PATH }/static/uploads/logo2.png` } width='120' alt='logotype' />
+					<img src='https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Flogo2.png?alt=media&token=bb1bf9a9-419b-475d-b28a-4a60b8d6783c' width='120' alt='logotype' />
 				</Link>
 				<div className='linksFooter'>
 					<Link to='/contacts'>Контакты</Link>

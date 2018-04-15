@@ -1,35 +1,34 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
 
-import { actions as actionsLoginUser } from '../../ducks/loginUser'
+import { actions as authActions } from '../../ducks/auth'
 import { actions as actionsAccountType } from '../../ducks/accountType'
 
 class AccountType extends Component {
 
 	componentWillMount() {
-
-		const { loginUser } = this.props.state
+		const { accountType } = this.props
 		const { handlePrivateSeller, handlePermanentSeller, handleShelter } = this.props
 
-		if (loginUser && loginUser.accountType === 'PRIVATE_SELLER') {
+		if (accountType === 'PRIVATE_SELLER') {
 			handlePrivateSeller()
-		} else if (loginUser && loginUser.accountType === 'PERMANENT_SELLER') {
+		} else if (accountType === 'PERMANENT_SELLER') {
 			handlePermanentSeller()
-		} else if (loginUser && loginUser.accountType === 'SHELTER') {
+		} else if (accountType === 'SHELTER') {
 			handleShelter()
 		}
 	}
 
 	//генерирование таблиц
 	table = () => {
+		const { accountsTypes } = this.props
 
 		let generateTable = () => {
 
 			let obj, mass = [], tr, td
 
 			//получили данные
-			obj = this.props.state.accountType.tableData
+			obj = accountsTypes.tableData
 
 			//прошлись циклом и вывели  td
 			for(let i in obj) {
@@ -62,8 +61,7 @@ class AccountType extends Component {
 	}
 
 	render() {
-
-		const { accountType } = this.props.state
+		const { accountType, accountsTypes} = this.props
 		const { handlePermanentSeller, loginFalse } = this.props
 
 		return (
@@ -72,8 +70,8 @@ class AccountType extends Component {
 				<p className='subTitle'>Тип аккаунта</p>
 				<div className='buttons'>
 					<a href='javascript:void(0)'
-						className={ `typeBtn ${ accountType.type === 'PRIVATE_SELLER' ? 'active' : '' }` }
-						onClick={ handlePermanentSeller }
+						className={ `typeBtn ${ accountType === 'PRIVATE_SELLER' && 'active' }` }
+						// onClick={ handlePermanentSeller }
 					>
 						<i className='fa fa-smile-o' aria-hidden='true' />
 						<p>Частный <br /> продавец</p>
@@ -81,12 +79,11 @@ class AccountType extends Component {
 					
 				</div>
 
-				<p className='price'>{ accountType.price } рублей</p>
+				<p className='price'>{ accountsTypes.price } рублей</p>
 				<p className='inMonth'>В месяц</p>
-				{
-					this.table()
-				}
-				
+
+				{ this.table() }
+
 				<a href='javascript:void(0)'
 					className='exitBtn button2'
 					onClick={ loginFalse }
@@ -108,6 +105,9 @@ class AccountType extends Component {
 */
 
 export default connect(
-	state => ({ state }),
-	dispatch => bindActionCreators({ ...actionsAccountType, ...actionsLoginUser }, dispatch)
+	state => ({
+		accountType: state.auth.userDatas && state.auth.userDatas.accountType,
+		accountsTypes: state.accountType
+	}),
+	{ ...actionsAccountType, ...authActions }
 )(AccountType)
