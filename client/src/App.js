@@ -2,6 +2,8 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
+import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
+
 import './config'
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -17,10 +19,18 @@ if (process.env.BROWSER) {
 import Menu from './components/menu/MenuComponent.js'
 import Footer from './components/footer/FooterComponent.js'
 import Sidebar from './components/sidebar/Sidebar.js'
-import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
 import LinearProgressExampleDeterminate from './components/progressBar/ProgressBarComponent.js'
+import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
 
 class App extends Component {
+
+	// componentDidMount() {
+	// 	fetch('https://us-central1-animals-bbfac.cloudfunctions.net/delete', {
+	// 		method: 'GET'
+	// 	})
+	// 		.then(res => console.log(res))
+	// 		.catch(err => console.log(err))
+	// }
 
 	render() {
 		const { location, preloaderLoading } = this.props
@@ -55,7 +65,8 @@ class App extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
 	preloaderLoading: state.preloader.loading,
-	location: ownProps.location.pathname
+	location: ownProps.location.pathname,
+	authError: state.auth.userError && state.auth.userError.code
 })
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, { ...actionsSnackbar })(App)

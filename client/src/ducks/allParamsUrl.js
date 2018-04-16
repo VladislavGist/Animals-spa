@@ -4,6 +4,7 @@ import { Record } from 'immutable'
 import moment from 'moment'
 import { reset } from 'redux-form'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
+import { actions as actionsPreloader } from '../ducks/preloader'
 
 import { generateId, normalizeFirebaseDatas, getRandomInt } from '../ducks/utils'
 
@@ -83,9 +84,9 @@ export const actions = {
 			uploadTask.on('state_changed',
 				snapshot => {
 					let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-					console.log('Upload is ' + progress + '% done')
+					dispatch(actionsPreloader.handleUpdateStateLoading(progress))
 				},
-				error => dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка при добавлении изображения ${ error }`)),
+				error => dispatch(actionsSnackbarReducer.handleSnackbar('Не правильный формат или файл больше 5 мб')),
 				() => {
 					const downloadURL = uploadTask.snapshot.downloadURL
 
@@ -93,40 +94,42 @@ export const actions = {
 						.push(downloadURL, error => {
 							if (error) {
 								dispatch({ type: types.ADD_ARTICLE_ERROR })
-								dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка при добавлении изображения ${ error }`))
+								dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сети'))
 							}
 
-							dispatch({ type: types.ADD_ARTICLE_SUCCESS })
+							if (i === images.length - 1) {
+								firebase.database().ref(`users/${ uid }/articles/${ adArticle }`)
+									.update({
+										userName,
+										addDate,
+										deleteDate,
+										title,
+										textArea,
+										animals,
+										category,
+										city,
+										phoneNumber,
+										price,
+										moderate: false,
+										compleate: false
+									}, error => {
+										if (error) {
+											dispatch({ type: types.ADD_ARTICLE_ERROR })
+											dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка при добавлении объявления ${ error }`))
+										}
+
+										dispatch({ type: types.ADD_ARTICLE_SUCCESS })
+										dispatch(actionsSnackbarReducer.handleSnackbar('Успешно добавлено'))
+										handleResetPlace()
+										dispatch(reset('addCardForm'))
+									})
+							}
 						})
 				}
 			)
 		}
 
-		firebase.database().ref(`users/${ uid }/articles/${ adArticle }`)
-			.set({
-				userName,
-				addDate,
-				deleteDate,
-				title,
-				textArea,
-				animals,
-				category,
-				city,
-				phoneNumber,
-				price,
-				moderate: false,
-				compleate: false
-			}, error => {
-				if (error) {
-					dispatch({ type: types.ADD_ARTICLE_ERROR })
-					dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка при добавлении объявления ${ error }`))
-				}
-
-				dispatch({ type: types.ADD_ARTICLE_SUCCESS })
-				dispatch(actionsSnackbarReducer.handleSnackbar('Успешно добавлено'))
-				handleResetPlace()
-				dispatch(reset('addCardForm'))
-			})
+		
 	}
 }
 

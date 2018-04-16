@@ -13,7 +13,9 @@
 	"firebase-functions": "^1.0.1",
 	"nodemailer": "^4.4.2",
 	"express": "^4",
-	"cors": "*"
+	"cors": "*",
+	"moment": "*",
+	"firebase": "*"
   },
   "private": true
 }

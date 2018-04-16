@@ -1,14 +1,58 @@
+const moment = require('moment')
 const admin = require('firebase-admin')
 const nodemailer = require('nodemailer')
 const functions = require('firebase-functions')
 
+let normalizeFirebaseDatas = obj => {
+	let res = []
+
+	for(let key in obj) {
+		res.push( Object.assign({}, { key }, obj[key]))
+	}
+
+	return res
+}
+
 admin.initializeApp()
 
-const cors = require('cors')({
+let cors = require('cors')({
 	origin: true
 })
 
-exports.hell = functions.https.onRequest((request, response) => {
+exports.testQuotes = functions.https.onRequest((request, response) => {
+	cors(request, response, () => {
+		response.json(200, { cont: 'yes' })
+	})
+})
+
+exports.delete = functions.https.onRequest((request, response) => {
+	cors(request, response, () => {
+		moment.locale('ru')
+
+		let nowDate = moment().format('DD-MM-YYYY');
+
+		admin.database().ref('users').on('value', usersList => {
+			normalizeFirebaseDatas(usersList.val()).forEach(user => {
+				
+				admin.database().ref(`users/${ user.key }/articles`).on('value', cardsList => {
+					normalizeFirebaseDatas(cardsList.val()).forEach((card, idx, array) => {
+
+						if (card.deleteDate === nowDate) {
+							admin.database().ref(`users/${ user.key }/articles/${ card.key }`).set(null)
+						}
+
+						if (idx === array.length) {
+							response.json(200, { res: 'yesss' })
+						}
+					})
+				})
+			})
+			
+		})
+	})
+})
+
+exports.sendemail = functions.https.onRequest((request, response) => {
 	cors(request, response, () => {
 		let datas = JSON.parse(request.body)
 
