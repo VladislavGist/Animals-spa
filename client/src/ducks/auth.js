@@ -38,7 +38,6 @@ export const actions = {
 			.then(() => dispatch({ type: types.SIGN_OUT_SUCCESS }))
 			.then(() => dispatch(push('/')))
 			.catch(err => {
-				console.log(err)
 				dispatch({ type: types.SIGN_OUT_ERROR, payload: err })
 			})
 	},
@@ -51,7 +50,15 @@ export const actions = {
 				dispatch({ type: types.SIGN_IN_SUCCESS, payload: { user } })
 			})
 			.then(() => dispatch(push('/')))
-			.catch(error => dispatch({ type: types.SIGN_IN_ERROR, error }))
+			.catch(error => {
+				if (error.code === 'auth/user-not-found') {
+					dispatch(actionsSnackbarReducer.handleSnackbar('Пользователь не найден'))
+				} else if (error.code === 'auth/wrong-password') {
+					dispatch(actionsSnackbarReducer.handleSnackbar('Неверный пароль'))
+				} else {
+					dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка входа: ${ error.code }`))
+				}
+			})
 	},
 
 	signUp: ({ email, password, name, surName, city, phoneNumber }) => dispatch => {
@@ -74,8 +81,11 @@ export const actions = {
 			})
 			.then(() => dispatch(push('/')))
 			.catch(error => {
-				dispatch({ type: types.SIGN_UP_ERROR, error })
-				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка сервиса при регистрации: ${ error }`))
+				if (error.code === 'auth/email-already-in-use') {
+					dispatch(actionsSnackbarReducer.handleSnackbar('Пользователь с таким емейлом уже зарегистрирован'))
+				} else {
+					dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка регистрации: ${ error.code }`))
+				}
 			})
 	},
 

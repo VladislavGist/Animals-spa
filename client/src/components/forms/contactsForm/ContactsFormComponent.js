@@ -46,7 +46,7 @@ class ContactsForm extends Component {
 
 		const { contactsForm: { values }, handleSnackbar } = this.props
 
-		fetch('https://us-central1-animals-bbfac.cloudfunctions.net/hell', {
+		fetch('https://us-central1-animals-bbfac.cloudfunctions.net/sendemail', {
 			'Content-Type': 'application/x-www-form-urlencoded',
 			method: 'POST',
 			body: JSON.stringify(values)
@@ -54,10 +54,9 @@ class ContactsForm extends Component {
 			.then(res => {
 				if (res.status === 200) {
 					handleSnackbar('Отправлено')
-				} else {
-					handleSnackbar('Ошибка отправки')
 				}
 			})
+			.catch(() => handleSnackbar('Ошибка отправки. Пожалуйста напишите мне в Вк'))
 	}
 
 	render() {

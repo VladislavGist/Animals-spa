@@ -16,8 +16,7 @@ export default class Footer extends Component {
 				<div className='linksFooter'>
 					<Link to='/contacts'>Контакты</Link>
 					<p>
-						Разработано:
-						<a href='https://vk.com/vladfebruary' target='_blank'>KSEVEN</a>
+						Разработано: <a href='https://vk.com/vladfebruary' target='_blank'>KSEVEN</a>
 					</p>
 				</div>
 				<p className='years'>2017</p>
