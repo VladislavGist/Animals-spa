@@ -22,6 +22,7 @@ class Moderate extends Component {
 			<div>
 				{
 					articlesList.length ? articlesList.map(card => <Card
+						addDate={ card.addDate }
 						userId={ card.userId }
 						cardId={ card.key }
 						key={ card.key }

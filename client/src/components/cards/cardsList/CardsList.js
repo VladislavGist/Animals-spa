@@ -21,6 +21,7 @@ class CardsList extends Component {
 				<article className={ classNames({ cardItems: true, indexPageClass: pathName === '/' }) }>
 					{
 						cardsList.length ? cardsList.map(card => <Card
+							addDate={ card.addDate }
 							cardId={ card.key }
 							key={ card.key }
 							title={ card.title }
