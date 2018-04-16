@@ -37,8 +37,6 @@ class Card extends Component {
 	handleAccepted = e => {
 		const { handleSnackbar, userId, cardId } = this.props
 
-		console.log(userId)
-
 		firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
 			moderate: 'resolve',
 			compleate: false
