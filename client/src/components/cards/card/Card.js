@@ -35,9 +35,11 @@ class Card extends Component {
 	}
 
 	handleAccepted = e => {
-		const { handleSnackbar, uid, cardId } = this.props
+		const { handleSnackbar, userId, cardId } = this.props
 
-		firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
+		console.log(userId)
+
+		firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
 			moderate: 'resolve',
 			compleate: false
 		})
@@ -46,9 +48,9 @@ class Card extends Component {
 	}
 
 	handleRejected = e => {
-		const { handleSnackbar, uid, cardId } = this.props
+		const { handleSnackbar, userId, cardId } = this.props
 
-		firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
+		firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
 			moderate: 'rejected',
 			compleate: true
 		})

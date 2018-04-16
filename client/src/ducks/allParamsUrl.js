@@ -100,6 +100,7 @@ export const actions = {
 							if (i === images.length - 1) {
 								firebase.database().ref(`users/${ uid }/articles/${ adArticle }`)
 									.update({
+										userId: uid,
 										userName,
 										addDate,
 										deleteDate,
