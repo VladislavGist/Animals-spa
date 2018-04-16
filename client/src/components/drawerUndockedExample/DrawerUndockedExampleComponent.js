@@ -18,16 +18,16 @@ class DrawerUndockedExample extends Component {
 	handleClose = () => this.setState({ open: false })
 
 	render() {
-		const { user, filterCity } = this.props
+		const { userDatas, filterCity } = this.props
 
 		const loginFalse = () => {
-			if (user.role === 'user') {
+			if (userDatas.role === 'user') {
 				return (
 					<div className='userBtns'>
 						<Link to='/personalArea' className='mobileBtnPersonalArea'>Личный кабинет</Link>
 					</div>
 				)
-			} else if (user.role === 'moderator') {
+			} else if (userDatas.role === 'moderator') {
 				return (
 					<div className='userBtns'>
 						<Link to='/moderation' className='mobileBtnPersonalArea'>moderation</Link>
@@ -75,7 +75,7 @@ class DrawerUndockedExample extends Component {
 
 					<MenuItem onTouchTap={ this.handleClose }>
 						{
-							!user ?
+							!userDatas ?
 								<LoginModal
 									classesBtn='accountBtnMobile'
 									classNameMobile='mobileSign'
@@ -88,7 +88,7 @@ class DrawerUndockedExample extends Component {
 
 					<MenuItem onTouchTap={ this.handleClose }>
 						{
-							!user ?
+							!userDatas ?
 								<LoginModal
 									titleBtn='Подать объявление'
 									classesBtn='button2 mobileBtnPersonalArea'
@@ -107,6 +107,6 @@ class DrawerUndockedExample extends Component {
 }
 
 export default connect(state => ({
-	user: state[moduleName].user,
+	userDatas: state[moduleName].userDatas,
 	filterCity: state.filterCity
 }))(DrawerUndockedExample)
