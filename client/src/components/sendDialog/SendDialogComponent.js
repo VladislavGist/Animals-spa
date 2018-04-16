@@ -62,7 +62,7 @@ class LoginModal extends Component {
 			actionsContainerStyle={ styles.actionsContainerStyle }
 			bodyStyle={ styles.overlayStyle }
 		>
-			<TabsFormsComponent />
+			<TabsFormsComponent handleClose={ this.handleClose } />
 		</Dialog>
 
 		const dialogModal02 = () => {

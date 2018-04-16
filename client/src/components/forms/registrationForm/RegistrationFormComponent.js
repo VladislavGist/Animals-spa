@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -5,8 +6,10 @@ import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
 
 import { renderField, validate } from '../formValidate'
-import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
 import { actions as authActions } from '../../../ducks/auth'
+import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
+
+import LoginModal from '../../sendDialog/SendDialogComponent'
 
 class RegistrationFormComponent extends Component {
 
@@ -25,6 +28,7 @@ class RegistrationFormComponent extends Component {
 		const { registrationForm: { values } } = nextProps
 
 		if (values &&
+			values.check &&
 			values.name &&
 			values.surname &&
 			values.phoneNumber &&
@@ -66,13 +70,20 @@ class RegistrationFormComponent extends Component {
 		})
 	}
 
+	handleHideModal = () => {
+		const { handleClose } = this.props
+
+		handleClose()
+	}
+
 	render() {
 		const { filterCity } = this.props
 
 		const styles = {
 			floatingLabelStyle: { 'color': '#b1adad' },
 			labelStyle: { 'color': '#7c7c7c', top: '7px' },
-			floatingLabelFocusStyle: { 'color': '#2396f1' }
+			floatingLabelFocusStyle: { 'color': '#2396f1' },
+			checkbox: { marginTop: '20px' }
 		}
 
 		return(<Form onSubmit={ this.handleReg } className='registrationForm'>
@@ -134,6 +145,16 @@ class RegistrationFormComponent extends Component {
 					name='email'
 					component={ renderField }
 				/>
+
+				<Field
+					type='checkbox'
+					label='Даю согласие на обработку персональных данных'
+					name='check'
+					component={ renderField }
+					className='checkBoxLink'
+					extra={ { style: styles.checkbox } }
+				/>
+				<Link to='conf' onClick={ this.handleHideModal }>Политика конфиденциальности</Link>
 			</div>
 
 			<div>
@@ -148,14 +169,13 @@ class RegistrationFormComponent extends Component {
 					disabled={ this.state.disabledButton }
 				/>
 			</div>
-
 		</Form>)
 	}
 }
 
 RegistrationFormComponent = reduxForm({
 	form: 'registrationForm',
-	initialValues: { city: 'Москва' },
+	initialValues: { city: 'Москва', check: false },
 	validate
 })(RegistrationFormComponent)
 
