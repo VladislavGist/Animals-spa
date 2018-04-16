@@ -15,7 +15,7 @@ const extractSass = new ExtractTextPlugin({
 module.exports = {
 	entry: './src/index.js',
 	output: {
-		path: path.resolve(__dirname, '../www'),
+		path: path.resolve(__dirname, 'public'),
 		filename: 'bundle.js',
 		publicPath: '/'
 	},
@@ -24,7 +24,7 @@ module.exports = {
 			{
 				test: /\.js$/,
 				use: 'babel-loader',
-				exclude: [/node_modules/, /www/]
+				exclude: [/node_modules/, /public/]
 			},
 			{
 				test: /\.sass/,
