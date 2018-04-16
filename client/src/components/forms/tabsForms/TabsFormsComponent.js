@@ -20,6 +20,7 @@ export default class TabsForms extends Component {
 	handleChange = value => this.setState({ value: value })
 
 	render() {
+		const { handleClose } = this.props
 
 		const styles = {
 			inkBarStyle: { backgroundColor: false },
@@ -69,7 +70,7 @@ export default class TabsForms extends Component {
 				onActive={ this.handleActive }
 			>
 				<div>
-					<RegistrationFormComponent />
+					<RegistrationFormComponent handleClose={ handleClose } />
 				</div>
 			</Tab>
 
