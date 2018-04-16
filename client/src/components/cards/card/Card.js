@@ -79,6 +79,7 @@ class Card extends Component {
 
 	render() {
 		const {
+			addDate,
 			price,
 			advType,
 			rating,
@@ -138,6 +139,7 @@ class Card extends Component {
 								</div>
 								<p className='number'>{ phoneNumber }</p>
 								<p className='city'>{ city.indexOf('обл.') === -1 ? `г. ${ city }` : city }</p>
+								{ addDate && <p className='number'>{ addDate }</p> }
 								<div className='userItem'>
 									{/* { mass } */}
 									{ userName && <p className={ `userName ${ (userStatus === 'seller') && 'gold' }` }>{ userName }</p> }

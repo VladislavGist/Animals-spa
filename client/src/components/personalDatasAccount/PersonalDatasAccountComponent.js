@@ -69,6 +69,7 @@ class PersonalDatasAccount extends Component {
 									resolveCards && resolveCards.length > 0 ?
 										resolveCards.map(card => <Card
 											key={ card.key }
+											addDate={ card.addDate }
 											city={ card.city }
 											cardId={ card.key }
 											title={ card.title }
@@ -101,6 +102,7 @@ class PersonalDatasAccount extends Component {
 								{
 									rejectedCards && rejectedCards.length > 0 ?
 										rejectedCards.map(card => <Card
+											addDate={ card.addDate }
 											key={ card.key }
 											city={ card.city }
 											cardId={ card.key }
