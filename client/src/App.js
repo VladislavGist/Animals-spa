@@ -1,5 +1,3 @@
-import moment from 'moment'
-import firebase from 'firebase'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -7,6 +5,7 @@ import React, { Component } from 'react'
 import { normalizeFirebaseDatas } from './/ducks/utils'
 
 import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
+import { actions as actionsAllParamsUrl } from '../src/ducks/allParamsUrl'
 
 import './config'
 
@@ -29,22 +28,9 @@ import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarEx
 class App extends Component {
 
 	componentDidMount() {
-		moment.locale('ru')
-		const nowDate = moment().format('DD-MM-YYYY');
+		const { removeCardsInDb } = this.props
 
-		firebase.database().ref('users').on('value', usersList => {
-			normalizeFirebaseDatas(usersList.val()).forEach(user => {
-				
-				firebase.database().ref(`users/${ user.key }/articles`).on('value', cardsList => {
-					normalizeFirebaseDatas(cardsList.val()).forEach((card, idx, array) => {
-						if (card.deleteDate === nowDate || card.deleteDate < nowDate) {
-							firebase.database().ref(`users/${ user.key }/articles/${ card.key }`).set(null)
-						}
-					})
-				})
-			})
-			
-		})
+		removeCardsInDb()
 	}
 
 	render() {
@@ -84,4 +70,4 @@ const mapStateToProps = (state, ownProps) => ({
 	authError: state.auth.userError && state.auth.userError.code
 })
 
-export default connect(mapStateToProps, { ...actionsSnackbar })(App)
+export default connect(mapStateToProps, { ...actionsSnackbar, ...actionsAllParamsUrl })(App)
