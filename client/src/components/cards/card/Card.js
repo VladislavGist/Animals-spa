@@ -185,14 +185,14 @@ class Card extends Component {
 					deleted || deleteInfo ?
 						<div className='cardInfoInAccount'>
 							{ deleted && <a href='javascript:void(0)' className='button1' onClick={ this.handleDelete }>Завершить</a> }
-							{/* { deleteInfo && <p>Будет удалено: { deleteDate }</p> } */}
+							{ deleteInfo && <p>Будет удалено: { deleteDate }</p> }
 						</div> : null
 				}
-				{/* {
+				{
 					compleate && <div className='cardInfoInAccount'>
 						<p>Будет удалено: { deleteDate }</p>
 					</div>
-				} */}
+				}
 				{
 					moderate &&
 						<div className='moderation'>
