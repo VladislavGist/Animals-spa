@@ -6,7 +6,7 @@ import { reset } from 'redux-form'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 import { actions as actionsPreloader } from '../ducks/preloader'
 
-import { generateId, normalizeFirebaseDatas, getRandomInt } from '../ducks/utils'
+import { generateId, normalizeFirebaseDatas, normalizeImgs, getRandomInt } from '../ducks/utils'
 
 export const moduleName = 'articles'
 
@@ -30,41 +30,41 @@ const initialState = Record({
 })
 
 export const actions = {
-	onReplaceAllUrl: e => ({ type: types.CHANGE_URL, payload: e ? e : {} }),
-
-	completedCard: url => dispatch => {
-		// axios.get(url)
-		// 	.then(
-		// 		() => dispatch(actionsSnackbarReducer.handleSnackbar('Успешно остановлено')),
-		// 		() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка. Не остановлено')))
-		// 	.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка запроса на завершение')))
-	},
-
 	// updateCardView: cardId => () => axios(`${ process.env.URL_PATH }/updatecardviews/${ cardId }`),
 
-	replaceStatusCard: url => dispatch => {
-		// axios.get(url)
-		// 	.then(
-		// 		() => {},
-		// 		() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка изменения статуса')))
-		// 	.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка cервера изменения статуса')))
-	},
+	removeCardsInDb: () => dispatch => {
+		moment.locale('ru')
+		const nowDate = moment().format('DD-MM-YYYY')
 
-	loadArticles: () => dispatch => {
-		// dispatch({ type: types.FETCH_ARTICLES_REQUEST })
-
-		// firebase.database().ref('users').on('value',
-		// 	datas => {
-		// 		let articlesList = []
-
-		// 		normalizeFirebaseDatas(datas.val()).forEach(item => {
-		// 			normalizeFirebaseDatas(item.articles).forEach(card => card.moderate && articlesList.push(card))
-		// 		})
+		firebase.database().ref('users').on('value', usersList => {
+			normalizeFirebaseDatas(usersList.val()).forEach(user => {
 				
-		// 		dispatch({ type: types.FETCH_ARTICLES_SUCCESS, payload: articlesList })
-		// 	},
-		// 	() => dispatch({ type: types.ADD_ARTICLE_ERROR })
-		// )
+				firebase.database().ref(`users/${ user.key }/articles`).on('value', articlesList => {
+					normalizeFirebaseDatas(articlesList.val()).forEach((article, idx, array) => {
+
+						firebase.database().ref(`users/${ user.key }/articles/${ article.key }`).on('value', item => {
+
+							firebase.database().ref(`users/${ user.key }/articles/${ article.key }/images`).on('value', img => {
+							
+								normalizeImgs(img.val()).forEach(item => {
+									
+									if (moment(article.deleteDate, 'DD-MM-YYYY') === moment(nowDate, 'DD-MM-YYYY') || moment(article.deleteDate, 'DD-MM-YYYY') < moment(nowDate, 'DD-MM-YYYY')) {
+										firebase.database().ref(`users/${ user.key }/articles/${ article.key }`).set(null)
+											.then(() => {
+
+												firebase.storage().ref().child('images').child(item.key).delete()
+													.then(res => console.log('removed'))
+													.catch(err => console.log(err))
+											})
+											.catch(err => {})
+									}
+								})
+							})
+						})
+					})
+				})
+			})
+		})
 	},
 
 	addArticle: (handleResetPlace, { uid, userName, title, textArea, animals, category, city, price = null, phoneNumber, images }) => dispatch => {
@@ -79,7 +79,7 @@ export const actions = {
 		for(let i = 0; i < images.length; i++) {
 			let imageName = generateId()
 
-			let uploadTask = firebase.storage().ref(`images/${ generateId() }`).put(images[i])
+			let uploadTask = firebase.storage().ref(`images/${ imageName }`).put(images[i])
 			
 			uploadTask.on('state_changed',
 				snapshot => {
@@ -90,8 +90,8 @@ export const actions = {
 				() => {
 					const downloadURL = uploadTask.snapshot.downloadURL
 
-					firebase.database().ref(`users/${ uid }/articles/${ adArticle }/images`)
-						.push(downloadURL, error => {
+					firebase.database().ref(`users/${ uid }/articles/${ adArticle }/images/${ imageName }`)
+						.set(downloadURL, error => {
 							if (error) {
 								dispatch({ type: types.ADD_ARTICLE_ERROR })
 								dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сети'))
