@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "animals-bbfac"
+    "default": "animals-bbfac",
+    "staging": "animals-bbfac"
   }
 }
