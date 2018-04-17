@@ -1,6 +1,10 @@
+import moment from 'moment'
+import firebase from 'firebase'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
+
+import { normalizeFirebaseDatas } from './/ducks/utils'
 
 import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
 
@@ -16,21 +20,32 @@ if (process.env.BROWSER) {
 	require('./App.sass')
 }
 
+import Sidebar from './components/sidebar/Sidebar.js'
 import Menu from './components/menu/MenuComponent.js'
 import Footer from './components/footer/FooterComponent.js'
-import Sidebar from './components/sidebar/Sidebar.js'
 import LinearProgressExampleDeterminate from './components/progressBar/ProgressBarComponent.js'
 import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
 
 class App extends Component {
 
-	// componentDidMount() {
-	// 	fetch('https://us-central1-animals-bbfac.cloudfunctions.net/delete', {
-	// 		method: 'GET'
-	// 	})
-	// 		.then(res => console.log(res))
-	// 		.catch(err => console.log(err))
-	// }
+	componentDidMount() {
+		moment.locale('ru')
+		const nowDate = moment().format('DD-MM-YYYY');
+
+		firebase.database().ref('users').on('value', usersList => {
+			normalizeFirebaseDatas(usersList.val()).forEach(user => {
+				
+				firebase.database().ref(`users/${ user.key }/articles`).on('value', cardsList => {
+					normalizeFirebaseDatas(cardsList.val()).forEach((card, idx, array) => {
+						if (card.deleteDate === nowDate || card.deleteDate < nowDate) {
+							firebase.database().ref(`users/${ user.key }/articles/${ card.key }`).set(null)
+						}
+					})
+				})
+			})
+			
+		})
+	}
 
 	render() {
 		const { location, preloaderLoading } = this.props
