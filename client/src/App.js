@@ -5,7 +5,6 @@ import React, { Component } from 'react'
 import { normalizeFirebaseDatas } from './/ducks/utils'
 
 import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
-import { actions as actionsAllParamsUrl } from '../src/ducks/allParamsUrl'
 
 import './config'
 
@@ -26,12 +25,6 @@ import LinearProgressExampleDeterminate from './components/progressBar/ProgressB
 import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
 
 class App extends Component {
-
-	componentDidMount() {
-		const { removeCardsInDb } = this.props
-
-		removeCardsInDb()
-	}
 
 	render() {
 		const { location, preloaderLoading } = this.props
@@ -70,4 +63,4 @@ const mapStateToProps = (state, ownProps) => ({
 	authError: state.auth.userError && state.auth.userError.code
 })
 
-export default connect(mapStateToProps, { ...actionsSnackbar, ...actionsAllParamsUrl })(App)
+export default connect(mapStateToProps, { ...actionsSnackbar })(App)

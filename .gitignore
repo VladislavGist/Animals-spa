@@ -1,4 +1,5 @@
 .idea
-/public/bundle.js
-/public/main.css
+main.css
 .DS_Store
+client/public/main.css
+client/public/bundle.js
