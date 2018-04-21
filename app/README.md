@@ -2,15 +2,12 @@
 
 ## Stack of technologies:
 * Yarn
+* Webpack 3
 * React 15
 * Redux
-* Nodejs
+* Firebase
+* Nodejs (Firebase functions)
 
 ### Frontend:
 * dev: yarn run dev
-* build: yarn run build (build in node/public)
-
-### Backend:
-* dev: yarn run dev - запустит server.js и будет отслеживать изменения
-* npm yarn nodemon - компиляция при изменении serveres6.js в server.js
-* build: yarn run build - скомпилирует serveres6.js в server.js
+* build: yarn run build (build in /public)
