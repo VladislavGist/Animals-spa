@@ -3,8 +3,15 @@ import React, { Component } from 'react'
 
 import Card from '../cards/card/Card'
 import { actions as actionsArticles } from '../../ducks/articles'
+import { actions as actionsAllParamsUrl } from '../../ducks/allParamsUrl'
 
 class Moderate extends Component {
+
+	hancleDeleteCards = () => {
+		const { removeCardsInDb } = this.props
+
+		removeCardsInDb()
+	}
 
 	componentWillMount() {
 		const { getCards } = this.props
@@ -20,6 +27,9 @@ class Moderate extends Component {
 
 		return (
 			<div>
+				<a href='javascript:void(0)' onClick={ this.hancleDeleteCards }>Удалить объявления с прошедшей датой</a>
+				<br />
+				<br />
 				{
 					articlesList.length ? articlesList.map(card => <Card
 						addDate={ card.addDate }
@@ -49,5 +59,5 @@ export default connect(
 	state => ({
 		articlesList: state.articles.articlesList
 	}),
-	{ ...actionsArticles }
+	{ ...actionsArticles, ...actionsAllParamsUrl }
 )(Moderate)
