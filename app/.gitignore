@@ -7,3 +7,4 @@ yarn.lock
 public/bundle.js
 public/main.css
 public/404.html
+./../.DS_Store
