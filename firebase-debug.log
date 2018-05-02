@@ -247,3 +247,60 @@
   
  Wed May 02 2018 07:49:41 GMT+0300 (MSK)
 [debug] [2018-05-02T04:49:43.278Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-02T04:52:27.716Z] ----------------------------------------------------------------------
+[debug] [2018-05-02T04:52:27.718Z] Command:       /usr/local/Cellar/node/9.10.1/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-05-02T04:52:27.718Z] CLI Version:   3.18.4
+[debug] [2018-05-02T04:52:27.718Z] Platform:      darwin
+[debug] [2018-05-02T04:52:27.718Z] Node Version:  v9.10.1
+[debug] [2018-05-02T04:52:27.719Z] Time:          Wed May 02 2018 07:52:27 GMT+0300 (MSK)
+[debug] [2018-05-02T04:52:27.719Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-02T04:52:27.726Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-02T04:52:27.726Z] > authorizing via signed-in user
+[debug] [2018-05-02T04:52:27.728Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/animals-bbfac  
+  
+ Wed May 02 2018 07:52:27 GMT+0300 (MSK)
+[debug] [2018-05-02T04:52:28.766Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-02T04:52:28.766Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/animals-bbfac/tokens  
+  
+ Wed May 02 2018 07:52:28 GMT+0300 (MSK)
+[debug] [2018-05-02T04:52:29.576Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'animals-bbfac'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing public directory for upload...
+[debug] [2018-05-02T04:52:31.324Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/animals-bbfac/uploads/-LBUBSgKYB_ovNcgUVEC?fileCount=22&message=  
+  
+ Wed May 02 2018 07:52:31 GMT+0300 (MSK)
+[debug] [2018-05-02T04:53:46.533Z] Error: connect ETIMEDOUT 23.251.151.130:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1173:14)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 23.251.151.130:443
+[debug] [2018-05-02T05:49:10.762Z] ----------------------------------------------------------------------
+[debug] [2018-05-02T05:49:10.764Z] Command:       /usr/local/Cellar/node/9.10.1/bin/node /usr/local/bin/firebase deploy
+[debug] [2018-05-02T05:49:10.764Z] CLI Version:   3.18.4
+[debug] [2018-05-02T05:49:10.764Z] Platform:      darwin
+[debug] [2018-05-02T05:49:10.764Z] Node Version:  v9.10.1
+[debug] [2018-05-02T05:49:10.765Z] Time:          Wed May 02 2018 08:49:10 GMT+0300 (MSK)
+[debug] [2018-05-02T05:49:10.765Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-02T05:49:10.774Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-02T05:49:10.774Z] > authorizing via signed-in user
+[debug] [2018-05-02T05:49:10.775Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-02T05:49:10.775Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/zMtSAkXUtiI6-xZQldUWgvHF5Gl9jvbi0MlKawjYapM',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Wed May 02 2018 08:49:10 GMT+0300 (MSK)
+[debug] [2018-05-02T05:49:10.944Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-02T05:49:10.965Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/animals-bbfac  
+  
+ Wed May 02 2018 08:49:10 GMT+0300 (MSK)
+[debug] [2018-05-02T05:49:11.994Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-02T05:49:11.995Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/animals-bbfac/tokens  
+  
+ Wed May 02 2018 08:49:11 GMT+0300 (MSK)
+[debug] [2018-05-02T05:49:12.860Z] <<< HTTP RESPONSE 200
