@@ -130,7 +130,7 @@ class AddCardFormComponent extends Component {
 			handleResetPlace,
 			{
 				uid,
-				userName: `${ userDatas.name } ${ userDatas.surName }`,
+				userName: addCardForm.values.refreshName || `${ userDatas.name } ${ userDatas.surName }`,
 				...addCardForm.values,
 				images: formData
 			}
@@ -142,6 +142,7 @@ class AddCardFormComponent extends Component {
 			filterCity,
 			addCardForm,
 			addCard,
+			userDatas,
 			handleAddPhoto_0,
 			handleAddPhoto_1,
 			handleAddPhoto_2,
@@ -168,6 +169,15 @@ class AddCardFormComponent extends Component {
 							<div className='wrapForm'>
 								<p className='subtitle'>Данные</p>
 								<Form onSubmit={ this.handleSendForm } className='newAnimalForm'>
+
+									{
+										userDatas.role === 'moderator' && <Field
+											type='text'
+											label='Имя пользователя'
+											name='refreshName'
+											component={ renderField }
+										/>
+									}
 
 									<Field
 										name='animals'
