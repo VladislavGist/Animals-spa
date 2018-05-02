@@ -54,6 +54,20 @@ export const renderField = ({
 			onCheck={ input.onChange }
 			style={ extra.style }
 		/>)
+	} else if (type === 'textarea') {
+		return (
+			<TextField
+				{ ...input }
+				name={ label }
+				hintText={ label }
+				floatingLabelText={ label }
+				errorText={ touched && error }
+				floatingLabelStyle={ style.labelStyle }
+				underlineFocusStyle={ style.underlineFocusStyle }
+				floatingLabelFocusStyle={ style.floatingLabelFocusStyle }
+				{ ...extra }
+			/>
+		)
 	} else {
 		return <TextField
 			{ ...input }

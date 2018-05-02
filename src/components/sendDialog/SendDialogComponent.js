@@ -53,7 +53,7 @@ class LoginModal extends Component {
 
 		const dialogModal01 = () => <Dialog
 			actions={ actions }
-			modal={ true }
+			modal={ false }
 			autoScrollBodyContent={ true }
 			repositionOnUpdate={ true }
 			autoDetectWindowHeight={ true }
@@ -61,6 +61,7 @@ class LoginModal extends Component {
 			contentStyle={ styles.contentStyle }
 			actionsContainerStyle={ styles.actionsContainerStyle }
 			bodyStyle={ styles.overlayStyle }
+			onRequestClose={ this.handleClose }
 		>
 			<TabsFormsComponent handleClose={ this.handleClose } />
 		</Dialog>
@@ -75,7 +76,7 @@ class LoginModal extends Component {
 			return (
 				<Dialog
 					actions={ actions }
-					modal={ true }
+					modal={ false }
 					autoScrollBodyContent={ true }
 					repositionOnUpdate={ true }
 					autoDetectWindowHeight={ true }
@@ -83,6 +84,7 @@ class LoginModal extends Component {
 					contentStyle={ styles.contentStyle }
 					actionsContainerStyle={ styles.actionsContainerStyle }
 					bodyStyle={ styles.overlayStyle }
+					onRequestClose={ this.handleClose }
 				>
 					<div className='modalCityWrap'>
 						<a href='javascript:void(0)' onClick={ handleCityTopHeader } className='allCitys'>Все регионы</a>

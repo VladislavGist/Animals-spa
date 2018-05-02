@@ -306,7 +306,6 @@ class AddCardFormComponent extends Component {
 										type='text'
 										label='Название объявления'
 										name='title'
-										normalize={ normilizeText }
 										component={ renderField }
 									/>
 
@@ -319,10 +318,16 @@ class AddCardFormComponent extends Component {
 									/>
 
 									<Field
-										type='text'
+										type='textarea'
 										label='Описание объявления'
 										name='textArea'
-										normalize={ normilizeText }
+										
+										extra={ {
+											multiLine: true,
+											rows: 2,
+											rowsMax: 4
+										} }
+										
 										component={ renderField }
 									/>
 
