@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
+import { SelectField } from 'redux-form-material-ui'
 
 import { renderField, validate } from '../formValidate'
 import { actions as authActions } from '../../../ducks/auth'
@@ -117,23 +118,20 @@ class RegistrationFormComponent extends Component {
 				/>
 				<Field
 					name='city'
-					component={ renderField }
-					type='select'
-					extra={ {
-						floatingLabelStyle: styles.floatingLabelStyle,
-						labelStyle: styles.labelStyle,
-						floatingLabelText: 'Город',
-						floatingLabelFixed: true,
-						hintText: this.state.city.value,
-						selectedMenuItemStyle: styles.floatingLabelFocusStyle
-					} }
+					component={ SelectField }
+					floatingLabelStyle={ styles.floatingLabelStyle }
+					labelStyle={ styles.labelStyle }
+					floatingLabelText='Город'
+					floatingLabelFixed={ true }
+					hintText={ this.state.city.value }
+					selectedMenuItemStyle={ styles.floatingLabelFocusStyle }
 				>
 					{
 						filterCity.citys.map((elem, idx) => <MenuItem
 							className='selectItem'
 							name='selectItem'
 							value={ elem }
-							primaryText={ <option>{ elem }</option> }
+							primaryText={ elem }
 							key={ idx }
 						/>)
 					}

@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
+import { SelectField } from 'redux-form-material-ui'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
@@ -60,7 +61,7 @@ class AddCardFormComponent extends Component {
 			'insects', 'horse', 'cow', 'pig', 'goat', 'sheep', 'domesticbird'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'buy' }
-				primaryText={ <option value={ 'buy' }>Продать</option> }
+				primaryText='Продать'
 				className='selectItem'
 				name='selectItem'
 				key='3ff3f3'
@@ -74,7 +75,7 @@ class AddCardFormComponent extends Component {
 			'pig', 'goat', 'sheep', 'domesticbird'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'gift' }
-				primaryText={ <option value={ 'gift' }>Даром</option> }
+				primaryText='Даром'
 				className='selectItem'
 				name='selectItem'
 				key='3ff3f3greg'
@@ -87,7 +88,7 @@ class AddCardFormComponent extends Component {
 			'horse', 'cow', 'goat', 'sheep'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'missing' }
-				primaryText={ <option value={ 'missing' }>Пропажа</option> }
+				primaryText='Пропажа'
 				className='selectItem'
 				name='selectItem'
 				key='3g343f3'
@@ -100,7 +101,7 @@ class AddCardFormComponent extends Component {
 			'horse', 'cow', 'goat', 'sheep'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'find' }
-				primaryText={ <option value={ 'find' }>Находка</option> }
+				primaryText='Находка'
 				className='selectItem'
 				name='selectItem'
 				key='73gf3f3'
@@ -130,7 +131,7 @@ class AddCardFormComponent extends Component {
 			handleResetPlace,
 			{
 				uid,
-				userName: `${ userDatas.name } ${ userDatas.surName }`,
+				userName: addCardForm.values.refreshName || `${ userDatas.name } ${ userDatas.surName }`,
 				...addCardForm.values,
 				images: formData
 			}
@@ -142,6 +143,7 @@ class AddCardFormComponent extends Component {
 			filterCity,
 			addCardForm,
 			addCard,
+			userDatas,
 			handleAddPhoto_0,
 			handleAddPhoto_1,
 			handleAddPhoto_2,
@@ -169,112 +171,118 @@ class AddCardFormComponent extends Component {
 								<p className='subtitle'>Данные</p>
 								<Form onSubmit={ this.handleSendForm } className='newAnimalForm'>
 
+									{
+										userDatas.role === 'moderator' && <Field
+											type='text'
+											label='Имя пользователя'
+											name='refreshName'
+											component={ renderField }
+										/>
+									}
+
 									<Field
 										name='animals'
-										component={ renderField }
-										type='select'
-										extra={ {
-											floatingLabelStyle: style.floatingLabelStyle,
-											labelStyle: style.labelStyle,
-											floatingLabelText: 'Животное',
-											floatingLabelFixed: true,
-											hintText: 'Кошки'
-										} }
+										component={ SelectField }
+										floatingLabelStyle={ style.floatingLabelStyle }
+										labelStyle={ style.labelStyle }
+										floatingLabelText={ 'Животное' }
+										floatingLabelFixed={ true }
+										hintText='Кошки'
 									>
 										<MenuItem
-											value={ 'cat' }
-											primaryText={ <option value='cat' >Кошки</option> }
+											value='cat'
+											primaryText='Кошки'
+										/>
+											
+										<MenuItem
+											value='dog'
+											primaryText='Собаки'
+										/>
+
+										<MenuItem
+											value='parrot'
+											primaryText='Попугаи'
+										/>
+										
+										<MenuItem
+											value='hamster'
+											primaryText='Хомяки'
 										/>
 										<MenuItem
-											value={ 'dog' }
-											primaryText={ <option value='dog' >Собаки</option> }
+											value='mouse'
+											primaryText='Мыши / крысы'
 										/>
 										<MenuItem
-											value={ 'parrot' }
-											primaryText={ <option value='parrot' >Попугаи</option> }
+											value='hare'
+											primaryText='Зайцы / кролики'
 										/>
 										<MenuItem
-											value={ 'hamster' }
-											primaryText={ <option value='hamster' >Хомяки</option> }
+											value='guineapig'
+											primaryText='Морские свинки'
 										/>
 										<MenuItem
-											value={ 'mouse' }
-											primaryText={ <option value='mouse' >Мыши / крысы</option> }
+											value='champ'
+											primaryText='Хорьки'
 										/>
 										<MenuItem
-											value={ 'hare' }
-											primaryText={ <option value='hare' >Зайцы / кролики</option> }
+											value='snak'
+											primaryText='Змеи'
 										/>
 										<MenuItem
-											value={ 'guineapig' }
-											primaryText={ <option value='guineapig' >Морские свинки</option> }
+											value='iguana'
+											primaryText='Игуаны'
 										/>
 										<MenuItem
-											value={ 'champ' }
-											primaryText={ <option value='champ' >Хорьки</option> }
+											value='turtle'
+											primaryText='Черепахи'
 										/>
 										<MenuItem
-											value={ 'snak' }
-											primaryText={ <option value='snak' >Змеи</option> }
+											value='snail'
+											primaryText='Улитки'
 										/>
 										<MenuItem
-											value={ 'iguana' }
-											primaryText={ <option value='iguana' >Игуаны</option> }
+											value='fish'
+											primaryText='Рыбки'
 										/>
 										<MenuItem
-											value={ 'turtle' }
-											primaryText={ <option value='turtle' >Черепахи</option> }
+											value='insects'
+											primaryText='Насекомые'
 										/>
 										<MenuItem
-											value={ 'snail' }
-											primaryText={ <option value='snail' >Улитки</option> }
+											value='horse'
+											primaryText='Лошади'
 										/>
 										<MenuItem
-											value={ 'fish' }
-											primaryText={ <option value='fish' >Рыбки</option> }
+											value='cow'
+											primaryText='Коровы / быки'
 										/>
 										<MenuItem
-											value={ 'insects' }
-											primaryText={ <option value='insects' >Насекомые</option> }
+											value='pig'
+											primaryText='Свиньи'
 										/>
 										<MenuItem
-											value={ 'horse' }
-											primaryText={ <option value='horse' >Лошади</option> }
+											value='goat'
+											primaryText='Козы'
 										/>
 										<MenuItem
-											value={ 'cow' }
-											primaryText={ <option value='cow' >Коровы / быки</option> }
+											value='sheep'
+											primaryText='Овцы'
 										/>
 										<MenuItem
-											value={ 'pig' }
-											primaryText={ <option value='pig' >Свиньи</option> }
-										/>
-										<MenuItem
-											value={ 'goat' }
-											primaryText={ <option value='goat' >Козы</option> }
-										/>
-										<MenuItem
-											value={ 'sheep' }
-											primaryText={ <option value='sheep' >Овцы</option> }
-										/>
-										<MenuItem
-											value={ 'domesticbird' }
-											primaryText={ <option value='domesticbird' >Домашняя птица</option> }
+											value='domesticbird'
+											primaryText='Домашняя птица'
 										/>
 									</Field>
 
 									<Field
 										name='category'
-										component={ renderField }
-										type='select'
-										extra={ {
-											floatingLabelStyle: style.floatingLabelStyle,
-											labelStyle: style.labelStyle,
-											floatingLabelText: 'Категория',
-											floatingLabelFixed: true,
-											hintText: addCardForm && addCardForm.values.category,
-											selectedMenuItemStyle: style.floatingLabelFocusStyle
-										} }
+										component={ SelectField }
+										floatingLabelStyle={ style.floatingLabelStyle }
+										labelStyle={ style.labelStyle }
+										floatingLabelText='Категория'
+										floatingLabelFixed={ true }
+										hintText={ addCardForm && addCardForm.values.category }
+										selectedMenuItemStyle={ style.floatingLabelFocusStyle }
 									>
 										{ this.menuItems01(addCardForm && addCardForm.values.animals) }
 										{ this.menuItems02(addCardForm && addCardForm.values.animals) }
@@ -284,21 +292,18 @@ class AddCardFormComponent extends Component {
 
 									<Field
 										name='city'
-										component={ renderField }
-										type='select'
-										extra={ {
-											floatingLabelStyle: style.floatingLabelStyle,
-											labelStyle: style.labelStyle,
-											floatingLabelText: 'Город',
-											floatingLabelFixed: true,
-											hintText: addCardForm && addCardForm.values.city,
-											selectedMenuItemStyle: style.floatingLabelFocusStyle
-										} }
+										component={ SelectField }
+										floatingLabelStyle={ style.floatingLabelStyle }
+										labelStyle={ style.labelStyle }
+										floatingLabelText='Город'
+										floatingLabelFixed={ true }
+										hintText={ addCardForm && addCardForm.values.city }
+										selectedMenuItemStyle={ style.floatingLabelFocusStyle }
 									>
 										{
 											filterCity.citys.map((elem, idx) => <MenuItem
 												value={ elem }
-												primaryText={ <option value={ elem } >{ elem }</option> }
+												primaryText={ elem }
 												key={ idx }
 											/>)
 										}

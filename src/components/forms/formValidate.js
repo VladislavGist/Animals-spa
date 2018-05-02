@@ -1,7 +1,6 @@
 import React from 'react'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
 import { validateInputs } from './validationsInputs'
 
 const style = {
@@ -20,21 +19,7 @@ export const renderField = ({
 	children,
 	extra
 }) => {
-	if (type === 'select') {
-		return (<SelectField
-			{ ...input }
-			name={ label }
-			hintText={ extra.hintText }
-			errorText={ touched && error }
-			labelStyle={ extra.labelStyle }
-			floatingLabelText={ extra.floatingLabelText }
-			floatingLabelStyle={ extra.floatingLabelStyle }
-			floatingLabelFixed={ extra.floatingLabelFixed }
-			floatingLabelFocusStyle={ extra.floatingLabelFocusStyle }
-		>
-			{ children }
-		</SelectField>)
-	} else if (type === 'text' || type === 'tel' || type === 'password' ) {
+	if (type === 'text' || type === 'tel' || type === 'password' ) {
 		return (<TextField
 			{ ...input }
 			type={ type }
