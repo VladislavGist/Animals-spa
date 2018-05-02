@@ -66,8 +66,10 @@ class ContactsForm extends Component {
 			<div className='contacts'>
 				<div className='formContacts'>
 					<p className='conTitle'>
-						Свяжитесь с нами по любым интересующим Вас вопросам (что-то не работает, реклама, сотрудничество, идеи и т.д.)
+						Свяжитесь с нами по любым интересующим вас вопросам
 					</p>
+					<p><a href='https://vk.com/vladfebruary' target='_blank'>vk.com/vladfebruary</a></p>
+
 					<Form onSubmit={ this.handleMessage } className='sendForm'>
 						<Field
 							type='text'
@@ -97,6 +99,8 @@ class ContactsForm extends Component {
 							component={ renderField }
 						/>
 						<div>
+							<br />
+							<br />
 							<button
 								className={ classNames({
 									button2: true,
@@ -107,6 +111,8 @@ class ContactsForm extends Component {
 							>
 								Отправить
 							</button>
+							<br />
+							<br />
 						</div>
 						<Field
 							type='checkbox'
@@ -121,11 +127,7 @@ class ContactsForm extends Component {
 				</div>
 
 				<div className='author'>
-					<p className='conTitle'>CEO: Дружбинский Владислав Романович. <br/> Автор, основатель и главный разработчик веб-приложения.</p>
-					<a href='https://vk.com/vladfebruary' target='_blank'>vk.com/vladfebruary</a>
-					<div className='imageAuthor'>
-						<img src='https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fauthor.jpg?alt=media&token=63616105-157e-4bff-ad4f-1037e1458a50' alt='author' />
-					</div>
+					
 				</div>
 			</div>
 		)
