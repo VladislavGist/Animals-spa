@@ -77,7 +77,7 @@ class RegistrationFormComponent extends Component {
 	}
 
 	render() {
-		const { filterCity } = this.props
+		const { filterCity, auth: { userLoading, userError } } = this.props
 
 		const styles = {
 			floatingLabelStyle: { 'color': '#b1adad' },
@@ -160,13 +160,13 @@ class RegistrationFormComponent extends Component {
 			<div>
 				<input
 					type='submit'
-					value='Зарегистрироваться'
+					value={ userLoading && !userError ? 'Загрузка' : 'Зарегистрироваться' }
 					className={ classNames({
 						'btnReg': true,
 						'button2': true,
-						'disabledButton': this.state.disabledButton
+						'disabledButton': this.state.disabledButton || (userLoading && !userError)
 					}) }
-					disabled={ this.state.disabledButton }
+					disabled={ this.state.disabledButton || (userLoading && !userError) }
 				/>
 			</div>
 		</Form>)
@@ -181,7 +181,8 @@ RegistrationFormComponent = reduxForm({
 
 const mapStateToProps = state => ({
 	filterCity: state.filterCity,
-	registrationForm: state.form.registrationForm
+	registrationForm: state.form.registrationForm,
+	auth: state.auth
 })
 
 export default connect(mapStateToProps, { ...authActions })(RegistrationFormComponent)
