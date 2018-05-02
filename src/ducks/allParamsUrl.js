@@ -3,6 +3,7 @@ import firebase from 'firebase'
 import { Record } from 'immutable'
 import moment from 'moment'
 import { reset } from 'redux-form'
+
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 import { actions as actionsPreloader } from '../ducks/preloader'
 
@@ -83,10 +84,12 @@ export const actions = {
 			
 			uploadTask.on('state_changed',
 				snapshot => {
-					let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-					dispatch(actionsPreloader.handleUpdateStateLoading(progress))
+					// let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
 				},
-				error => dispatch(actionsSnackbarReducer.handleSnackbar('Не правильный формат или файл больше 5 мб')),
+				error => {
+					dispatch({ type: types.ADD_ARTICLE_ERROR })
+					dispatch(actionsSnackbarReducer.handleSnackbar('Не правильный формат или файл больше 5 мб'))
+				},
 				() => {
 					const downloadURL = uploadTask.snapshot.downloadURL
 
@@ -141,6 +144,7 @@ export default (state = new initialState(), action) => {
 	case types.ADD_ARTICLE_REQUEST: return state.set('errorAdd', false).set('loadingAdd', true)
 	case types.ADD_ARTICLE_SUCCESS: return state.set('errorAdd', false).set('loadingAdd', false)
 	case types.ADD_ARTICLE_ERROR: return state.set('errorAdd', true).set('loadingAdd', false)
+
 	case types.FETCH_ARTICLES_REQUEST: return state.set('errorFetch', false).set('loadingFetch', true).set('articlesList', null)
 	case types.FETCH_ARTICLES_SUCCESS: return state.set('errorFetch', false).set('loadingFetch', false).set('articlesList', payload)
 	case types.FETCH_ARTICLES_ERROR: return state.set('errorFetch', true).set('loadingFetch', false).set('articlesList', null)

@@ -42,6 +42,8 @@ class LoginFormComponent extends Component {
 	}
 
 	render() {
+		const { auth: { userLoading, userError } } = this.props
+
 		return (
 			<Form onSubmit={ this.handleLogin } className='sendForm'>
 				<div className='wrapInputs'>
@@ -61,12 +63,12 @@ class LoginFormComponent extends Component {
 				<div>
 					<input
 						type='submit'
-						value='Войти'
+						value={ userLoading && !userError ? 'Загрузка' : 'Войти' }
 						className={ classNames({
 							'button2': true,
-							'disabledButton': this.state.disabledButton
+							'disabledButton': this.state.disabledButton || (userLoading && !userError)
 						}) }
-						disabled={ this.state.disabledButton }
+						disabled={ this.state.disabledButton || (userLoading && !userError) }
 					/>
 				</div>
 			</Form>
@@ -80,5 +82,6 @@ LoginFormComponent = reduxForm({
 })(LoginFormComponent)
 
 export default connect(state => ({
-	loginForm: state.form.loginForm
+	loginForm: state.form.loginForm,
+	auth: state.auth
 }), { ...authActions })(LoginFormComponent)

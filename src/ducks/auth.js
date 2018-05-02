@@ -12,7 +12,7 @@ export const moduleName = 'auth'
 const ReducerSchema = Record({
 	user: null,
 	userDatas: null,
-	userError: null,
+	userError: false,
 	userLoading: false
 })
 
@@ -52,10 +52,15 @@ export const actions = {
 			.then(() => dispatch(push('/')))
 			.catch(error => {
 				if (error.code === 'auth/user-not-found') {
+					dispatch({ type: types.SIGN_UP_ERROR })
 					dispatch(actionsSnackbarReducer.handleSnackbar('Пользователь не найден'))
+
 				} else if (error.code === 'auth/wrong-password') {
+					dispatch({ type: types.SIGN_UP_ERROR })
 					dispatch(actionsSnackbarReducer.handleSnackbar('Неверный пароль'))
+
 				} else {
+					dispatch({ type: types.SIGN_UP_ERROR })
 					dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка входа: ${ error.code }`))
 				}
 			})
@@ -82,8 +87,11 @@ export const actions = {
 			.then(() => dispatch(push('/')))
 			.catch(error => {
 				if (error.code === 'auth/email-already-in-use') {
+					dispatch({ type: types.SIGN_UP_ERROR })
 					dispatch(actionsSnackbarReducer.handleSnackbar('Пользователь с таким емейлом уже зарегистрирован'))
+
 				} else {
+					dispatch({ type: types.SIGN_UP_ERROR })
 					dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка регистрации: ${ error.code }`))
 				}
 			})
@@ -105,15 +113,15 @@ export default (state = new ReducerSchema(), action) => {
 	switch (type) {
 	case types.SIGN_UP_REQUEST: return state.set('userLoading', true).set('userError', false).set('user', null)
 	case types.SIGN_UP_SUCCESS: return state.set('userLoading', false).set('userError', false).set('user', payload)
-	case types.SIGN_UP_ERROR: return state.set('userError', error)
+	case types.SIGN_UP_ERROR: return state.set('userError', error).set('userLoading', false)
 
 	case types.SIGN_IN_REQUEST: return state.set('userLoading', true).set('userError', false)
 	case types.SIGN_IN_SUCCESS: return state.set('userLoading', false).set('userError', false).set('user', payload).set('userDatas', userDatas)
-	case types.SIGN_IN_ERROR: return state.set('userError', error)
+	case types.SIGN_IN_ERROR: return state.set('userError', error).set('userLoading', false)
 
 	case types.SIGN_OUT_REQUEST: return state.set('userLoading', true)
 	case types.SIGN_OUT_SUCCESS: return state.set('user', null).set('userError', null).set('userLoading', false).set('userDatas', null)
-	case types.SIGN_OUT_ERROR: return state.set('userError', error)	
+	case types.SIGN_OUT_ERROR: return state.set('userError', error).set('userLoading', false)
 
 	default: return state
 	}

@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
+import CircularProgress from 'material-ui/CircularProgress'
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 import { actions as actionsPhotosReducer } from '../../../ducks/photosReducer'
@@ -140,6 +141,7 @@ class AddCardFormComponent extends Component {
 		const {
 			filterCity,
 			addCardForm,
+			addCard,
 			handleAddPhoto_0,
 			handleAddPhoto_1,
 			handleAddPhoto_2,
@@ -306,7 +308,6 @@ class AddCardFormComponent extends Component {
 										type='text'
 										label='Название объявления'
 										name='title'
-										normalize={ normilizeText }
 										component={ renderField }
 									/>
 
@@ -319,10 +320,16 @@ class AddCardFormComponent extends Component {
 									/>
 
 									<Field
-										type='text'
+										type='textarea'
 										label='Описание объявления'
 										name='textArea'
-										normalize={ normilizeText }
+										
+										extra={ {
+											multiLine: true,
+											rows: 2,
+											rowsMax: 4
+										} }
+										
 										component={ renderField }
 									/>
 
@@ -353,7 +360,7 @@ class AddCardFormComponent extends Component {
 						<div>
 							<div className='wrapPhotos'>
 								<p className='subtitle'>Фотографии</p>
-								<p className='photoDescpipt'>Добавьте минимум одну фотографию <br /> Минимальное разрешение 1280 x 768 <br /> <b>Формат jpeg, jpg</b> </p>
+								<p className='photoDescpipt'>Добавьте минимум одну фотографию<br /><b>Формат jpeg, jpg</b></p>
 								<div className='buttonsAddPhoto'>
 									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_0 } photo={ images.file_0 } />
 									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_1 } photo={ images.file_1 } />
@@ -367,13 +374,14 @@ class AddCardFormComponent extends Component {
 							<button
 								className={ classNames({
 									btnPlace: true,
-									disabledButton: this.state.disabledButton
+									disabledButton: this.state.disabledButton || (addCard.loadingAdd && !addCard.errorAdd)
 								}) }
-								disabled={ this.state.disabledButton }
+								disabled={ this.state.disabledButton || (addCard.loadingAdd && !addCard.errorAdd) }
 								onClick={ this.handleSendForm }
 							>
 								<i className='fa fa-cloud-upload' aria-hidden='true' />
-								<span>Разместить</span>
+								<br />
+								<span>{ addCard.loadingAdd && !addCard.errorAdd ? <CircularProgress size={ 60 } thickness={ 7 } /> : 'Разместить' }</span>
 							</button>
 						</div>
 					</div>
@@ -396,11 +404,12 @@ export default connect(
 		filterCity: state.filterCity,
 		addCardForm: state.form.addCardForm,
 		addPhoto: state.photosReducer.addPhoto,
-		images: state.photosReducer
+		images: state.photosReducer,
+		addCard: state.allParamsUrl
 	}),
-	dispatch => bindActionCreators({
+	{
 		...actionsAllParamsUrl,
 		...actionsPhotosReducer,
 		...actionsSnackbarReducer
-	}, dispatch)
+	}
 )(AddCardFormComponent)
