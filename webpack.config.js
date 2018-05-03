@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const PROCESS_ENV = process.env.NODE_ENV
 // const URL_PATH = (PROCESS_ENV === 'development') ? 'http://localhost:8080' : 'https://still-anchorage-46659.herokuapp.com'
 //когда буду билдить на рабочий сервер, то вернуть верхнюю строку и в конце указать его
-const URL_PATH = (PROCESS_ENV === 'development') ? 'http://localhost:8080' : 'http://oblako.pet'
+const URL_PATH = (PROCESS_ENV === 'development') ? 'http://localhost:8090' : 'https://animals-bbfac.firebaseapp.com'
 
 const extractSass = new ExtractTextPlugin({
 	filename: '[name].css',
