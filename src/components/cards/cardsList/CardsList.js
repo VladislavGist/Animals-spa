@@ -21,20 +21,22 @@ class CardsList extends Component {
 				<article className={ classNames({ cardItems: true, indexPageClass: pathName === '/' }) }>
 					{
 						cardsList.length ? cardsList.map(card => <Card
-							addDate={ card.addDate }
-							cardId={ card.key }
 							key={ card.key }
-							title={ card.title }
-							briefDescription={ card.textArea }
+							view={ card.view }
 							city={ card.city }
-							userName={ card.userName }
-							phoneNumber={ card.phoneNumber }
+							cardId={ card.key }
 							price={ card.price }
+							title={ card.title }
 							imgPath={ card.images }
+							addDate={ card.addDate }
 							advType={ card.category }
+							userName={ card.userName }
+							userId={ card.userId }
+							phoneNumber={ card.phoneNumber }
+							briefDescription={ card.textArea }
+							views={ null }
 							rating={ null }
 							userStatus={ null }
-							views={ null }
 						/>) : <p className='noCardsTitle'>Объявлений нет</p>
 					}
 					{/* { datas.length > 0 && pathName !== '/' ?

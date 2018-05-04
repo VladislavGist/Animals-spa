@@ -164,8 +164,13 @@ class Menu extends Component {
 				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fdomesticbird.jpg?alt=media&token=94cbd183-326c-4b38-a251-8d159c011631',
 				title: 'Домашняя птица',
 				func:  this.props.onHandleDomesticbird
+			},
+			{
+				path: '/animals/other/buy',
+				image: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fother.png?alt=media&token=1d8fe29a-2fa3-418f-8e8d-1cc1a1a1901d',
+				title: 'Другие',
+				func:  this.props.onHandleAnother
 			}
-
 		]
 
 		return (

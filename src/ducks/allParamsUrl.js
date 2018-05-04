@@ -31,7 +31,9 @@ const initialState = Record({
 })
 
 export const actions = {
-	// updateCardView: cardId => () => axios(`${ process.env.URL_PATH }/updatecardviews/${ cardId }`),
+	updateCardView: (userId, cardId, cardView) => dispatch => {
+		firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({ view: cardView + 1 })
+	},
 
 	removeCardsInDb: () => dispatch => {
 		moment.locale('ru')
@@ -115,7 +117,8 @@ export const actions = {
 										phoneNumber,
 										price,
 										moderate: false,
-										compleate: false
+										compleate: false,
+										view: 0
 									}, error => {
 										if (error) {
 											dispatch({ type: types.ADD_ARTICLE_ERROR })

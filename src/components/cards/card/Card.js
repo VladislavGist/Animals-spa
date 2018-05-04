@@ -29,9 +29,11 @@ class Card extends Component {
 
 	//повышение счетчика просмотров
 	clickFunc = () => {
-		// if (this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname !== '/personalArea') {
-		// 	this.props.updateCardView( this.props.cardId )
-		// }
+		const { pathname, updateCardView, userId, cardId, view } = this.props
+
+		if ((pathname !== '/personalArea') && (pathname !== '/moderation')) {
+			updateCardView(userId, cardId, view)
+		}
 	}
 
 	handleAccepted = e => {
@@ -89,7 +91,7 @@ class Card extends Component {
 			userName,
 			title,
 			briefDescription,
-			views,
+			view,
 			imgPath,
 			deleted,
 			deleteInfo,
@@ -169,9 +171,9 @@ class Card extends Component {
 							<div className='buttonsList'>
 								{
 									pathname !== '/personalArea' &&
-									views && <div className='visibles'>
+									view && <div className='visibles'>
 										<i className='fa fa-eye' aria-hidden='true' />
-										<p>{ views }</p>
+										<p>{ view }</p>
 									</div>
 								}
 								<button className='btnReverse' onClick={ this.handleReverseCard }>
