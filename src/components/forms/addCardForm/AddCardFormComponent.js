@@ -58,7 +58,7 @@ class AddCardFormComponent extends Component {
 	menuItems01 = values => {
 		if (['cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare',
 			'guineapig', 'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish',
-			'insects', 'horse', 'cow', 'pig', 'goat', 'sheep', 'domesticbird'].indexOf(values) !== -1) {
+			'insects', 'horse', 'cow', 'pig', 'goat', 'sheep', 'domesticbird', 'other'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'buy' }
 				primaryText='Продать'
@@ -72,7 +72,7 @@ class AddCardFormComponent extends Component {
 	menuItems02 = values => {
 		if (['cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
 			'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish', 'insects', 'horse', 'cow',
-			'pig', 'goat', 'sheep', 'domesticbird'].indexOf(values) !== -1) {
+			'pig', 'goat', 'sheep', 'domesticbird', 'other'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'gift' }
 				primaryText='Даром'
@@ -85,7 +85,7 @@ class AddCardFormComponent extends Component {
 
 	menuItems03 = values => {
 		if (['cat', 'dog', 'parrot', 'guineapig', 'champ', 'snak', 'iguana', 'turtle',
-			'horse', 'cow', 'goat', 'sheep'].indexOf(values) !== -1) {
+			'horse', 'cow', 'goat', 'sheep', 'other'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'missing' }
 				primaryText='Пропажа'
@@ -98,7 +98,7 @@ class AddCardFormComponent extends Component {
 
 	menuItems04 = values => {
 		if (['cat', 'dog', 'parrot', 'guineapig', 'champ', 'snak', 'iguana', 'turtle',
-			'horse', 'cow', 'goat', 'sheep'].indexOf(values) !== -1) {
+			'horse', 'cow', 'goat', 'sheep', 'other'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'find' }
 				primaryText='Находка'
@@ -271,6 +271,10 @@ class AddCardFormComponent extends Component {
 										<MenuItem
 											value='domesticbird'
 											primaryText='Домашняя птица'
+										/>
+										<MenuItem
+											value='other'
+											primaryText='Другие'
 										/>
 									</Field>
 

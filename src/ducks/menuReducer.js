@@ -343,6 +343,23 @@ export const actions = {
 			}
 		]
 		return { type: types.SWITCH_MENU, payload: data }
+	},
+
+	onHandleAnother: () => {
+		const data = [
+			{
+				img: 'https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Fother.png?alt=media&token=1d8fe29a-2fa3-418f-8e8d-1cc1a1a1901d',
+				title: 'Другие',
+				text: '',
+				categoryNames: {
+					myLinks: ['/animals/other/buy', '/animals/other/find', '/animals/other/missing', '/animals/other/gift'],
+					names: ['Купить', 'Находка', 'Пропажа', 'Даром'],
+					icons: ['fa fa-heart', 'fa fa-bell-o', 'fa fa-exclamation-circle', 'fa fa-globe'],
+					key: ['e1gref322e3', '2ff3re3f2', 'f4354334', '4rf32gt434', '4r434gtr42']
+				}
+			}
+		]
+		return { type: types.SWITCH_MENU, payload: data }
 	}
 }
 

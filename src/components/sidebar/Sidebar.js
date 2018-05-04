@@ -50,7 +50,7 @@ class Sidebar extends Component {
 								alt='logotype'
 							/>
 						</Link>
-						<h1 className='h1'>Продай, купи, отдай в дар, сообщи о находке или размести объявление о пропаже любого животного.</h1>
+						<h1 className='h1'>Продай, купи, отдай в дар, сообщи о находке или пропаже животного</h1>
 					</div>
 
 					<LoginModal titleBtn={ filterCity.cityTopHeader } dialogModal='02' />
