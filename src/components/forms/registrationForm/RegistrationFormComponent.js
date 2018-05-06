@@ -103,6 +103,21 @@ class RegistrationFormComponent extends Component {
 					normalize={ normilizeText }
 					component={ renderField }
 				/>
+
+				<Field
+					type='text'
+					label='Email'
+					name='email'
+					component={ renderField }
+				/>
+				
+				<Field
+					type='password'
+					label='Пароль'
+					name='password'
+					component={ renderField }
+				/>
+				
 				<Field
 					type='tel'
 					label='Номер телефона'
@@ -110,12 +125,7 @@ class RegistrationFormComponent extends Component {
 					normalize={ normilizeNumber }
 					component={ renderField }
 				/>
-				<Field
-					type='password'
-					label='Пароль'
-					name='password'
-					component={ renderField }
-				/>
+
 				<Field
 					name='city'
 					component={ SelectField }
@@ -136,13 +146,6 @@ class RegistrationFormComponent extends Component {
 						/>)
 					}
 				</Field>
-
-				<Field
-					type='text'
-					label='Email'
-					name='email'
-					component={ renderField }
-				/>
 
 				<Field
 					type='checkbox'

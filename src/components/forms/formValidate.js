@@ -86,7 +86,7 @@ export const validate = values => {
 	if (!values.password) {
 		errors.password = 'Поле обязательно для заполнения!'
 	} else if (!values.password.match(validateInputs.password)) {
-		errors.password = 'Введите корректный пароль'
+		errors.password = 'Минимум 6 символов'
 	}
 
 	if (!values.name) {
