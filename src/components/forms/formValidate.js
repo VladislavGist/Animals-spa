@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
 import { validateInputs } from './validationsInputs'
@@ -86,7 +86,7 @@ export const validate = values => {
 	if (!values.password) {
 		errors.password = 'Поле обязательно для заполнения!'
 	} else if (!values.password.match(validateInputs.password)) {
-		errors.password = 'Введите корректный пароль'
+		errors.password = 'Минимум 6 символов'
 	}
 
 	if (!values.name) {
@@ -114,4 +114,16 @@ export const validate = values => {
 	}
 
 	return errors
+}
+
+renderField.propTypes = {
+	input: PropTypes.object.isRequired,
+	label: PropTypes.string,
+	type: PropTypes.string,
+	meta: PropTypes.shape({
+		touched: PropTypes.bool,
+		error: PropTypes.string
+	}),
+	children: PropTypes.object,
+	extra: PropTypes.object
 }

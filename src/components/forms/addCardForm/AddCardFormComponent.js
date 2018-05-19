@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
@@ -13,8 +13,8 @@ import { actions as actionsPhotosReducer } from '../../../ducks/photosReducer'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 
 import { renderField, validate } from '../formValidate'
-import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
 import AddPhotoInputComponent from './addPhotoInput/AddPhotoInputComponent'
+import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
 
 if (process.env.BROWSER) {
 	require('./PlaceAnAdStyles.sass')
@@ -149,7 +149,8 @@ class AddCardFormComponent extends Component {
 			handleAddPhoto_2,
 			handleAddPhoto_3,
 			handleAddPhoto_4,
-			images } = this.props
+			images,
+			handleSnackbar } = this.props
 
 		const style = {
 			floatingLabelStyle: { 'color': '#b1adad' },
@@ -371,11 +372,31 @@ class AddCardFormComponent extends Component {
 								<p className='subtitle'>Фотографии</p>
 								<p className='photoDescpipt'>Добавьте минимум одну фотографию<br /><b>Формат jpeg, jpg</b></p>
 								<div className='buttonsAddPhoto'>
-									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_0 } photo={ images.file_0 } />
-									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_1 } photo={ images.file_1 } />
-									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_2 } photo={ images.file_2 } />
-									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_3 } photo={ images.file_3 } />
-									<AddPhotoInputComponent handleAddPhoto={ handleAddPhoto_4 } photo={ images.file_4 } />
+									<AddPhotoInputComponent
+										handleAddPhoto={ handleAddPhoto_0 }
+										photo={ images.file_0 }
+										handleSnackbar={ handleSnackbar }
+									/>
+									<AddPhotoInputComponent
+										handleAddPhoto={ handleAddPhoto_1 }
+										photo={ images.file_1 }
+										handleSnackbar={ handleSnackbar }
+									/>
+									<AddPhotoInputComponent
+										handleAddPhoto={ handleAddPhoto_2 }
+										photo={ images.file_2 }
+										handleSnackbar={ handleSnackbar }
+									/>
+									<AddPhotoInputComponent
+										handleAddPhoto={ handleAddPhoto_3 }
+										photo={ images.file_3 }
+										handleSnackbar={ handleSnackbar }	
+									/>
+									<AddPhotoInputComponent
+										handleAddPhoto={ handleAddPhoto_4 }
+										photo={ images.file_4 }
+										handleSnackbar={ handleSnackbar }
+									/>
 								</div>
 							</div>
 						</div>
@@ -398,6 +419,23 @@ class AddCardFormComponent extends Component {
 			</div>
 		)
 	}
+}
+
+AddCardFormComponent.propTypes = {
+	filterCity: PropTypes.object.isRequired,
+	addCardForm: PropTypes.object,
+	addCard: PropTypes.object.isRequired,
+	userDatas: PropTypes.object.isRequired,
+	handleAddPhoto_0: PropTypes.func.isRequired,
+	handleAddPhoto_1: PropTypes.func.isRequired,
+	handleAddPhoto_2: PropTypes.func.isRequired,
+	handleAddPhoto_3: PropTypes.func.isRequired,
+	handleAddPhoto_4: PropTypes.func.isRequired,
+	handleSnackbar: PropTypes.func.isRequired,
+	uid: PropTypes.string.isRequired,
+	addArticle: PropTypes.func.isRequired,
+	handleResetPlace: PropTypes.func.isRequired,
+	images: PropTypes.object.isRequired
 }
 
 AddCardFormComponent = reduxForm({

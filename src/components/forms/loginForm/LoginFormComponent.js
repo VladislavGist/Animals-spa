@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
+import React, { Component, PropTypes } from 'react'
 import { Form, Field, reduxForm } from 'redux-form'
 
 import { actions as authActions } from '../../../ducks/auth'
@@ -74,6 +73,11 @@ class LoginFormComponent extends Component {
 			</Form>
 		)
 	}
+}
+
+LoginFormComponent.propTypes = {
+	loginForm: PropTypes.object,
+	auth: PropTypes.object
 }
 
 LoginFormComponent = reduxForm({

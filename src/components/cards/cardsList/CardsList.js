@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import { actions as actionsArticles } from '../../../ducks/articles'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
@@ -50,6 +50,16 @@ class CardsList extends Component {
 			</div>
 		)
 	}
+}
+
+CardsList.propTypes = {
+	cardsList: PropTypes.array,
+	pathName: PropTypes.string
+}
+
+CardsList.defaultProps = {
+	cardsList: [],
+	pathName: '/'
 }
 
 const mapStateToProps = state => ({

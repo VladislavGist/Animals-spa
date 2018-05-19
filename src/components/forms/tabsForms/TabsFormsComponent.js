@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
+import React, { Component, PropTypes } from 'react'
 
 import LoginFormComponent from '../loginForm/LoginFormComponent'
 import RegistrationFormComponent from '../registrationForm/RegistrationFormComponent'
@@ -76,4 +76,8 @@ export default class TabsForms extends Component {
 
 		</Tabs>)
 	}
+}
+
+TabsForms.propTypes = {
+	handleClose: PropTypes.func.isRequired
 }

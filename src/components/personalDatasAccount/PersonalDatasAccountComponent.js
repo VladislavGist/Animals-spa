@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
 
 import Card from '../cards/card/Card'
@@ -128,6 +128,11 @@ class PersonalDatasAccount extends Component {
 			</div>
 		)
 	}
+}
+
+PersonalDatasAccount.propTypes = {
+	resolveCards: PropTypes.array,
+	rejectedCards: PropTypes.array
 }
 
 export default connect(

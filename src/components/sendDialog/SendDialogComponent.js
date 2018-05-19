@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
 import Dialog from 'material-ui/Dialog'
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
+import React, { Component, PropTypes } from 'react'
 import FlatButton from 'material-ui/FlatButton'
 
 import { actions as actionsFilterCity } from '../../ducks/filterCity'
@@ -17,7 +16,6 @@ class LoginModal extends Component {
 	state = { open: false }
 
 	handleOpen = () => { this.setState({ open: true }) }
-
 	handleClose = () => { this.setState({ open: false }) }
 
 	render() {
@@ -89,9 +87,8 @@ class LoginModal extends Component {
 					<div className='modalCityWrap'>
 						<a href='javascript:void(0)' onClick={ handleCityTopHeader } className='allCitys'>Все регионы</a>
 						<div className='modalAllCity'>
-							{
-								citys.map((elem, idx) => <a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>)
-							}
+							{ citys.map((elem, idx) =>
+								<a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>) }
 						</div>
 					</div>
 				</Dialog>
@@ -113,9 +110,12 @@ class LoginModal extends Component {
 	}
 }
 
+LoginModal.propTypes = {
+	dispatchCityTopHeader: PropTypes.func.isRequired,
+	citys: PropTypes.array.isRequired
+}
+
 export default connect(
-	state => ({
-		citys: state.filterCity.citys
-	}),
+	state => ({ citys: state.filterCity.citys }),
 	{ ...actionsFilterCity }
 )(LoginModal)

@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
 import { SelectField } from 'redux-form-material-ui'
@@ -103,6 +103,21 @@ class RegistrationFormComponent extends Component {
 					normalize={ normilizeText }
 					component={ renderField }
 				/>
+
+				<Field
+					type='text'
+					label='Email'
+					name='email'
+					component={ renderField }
+				/>
+				
+				<Field
+					type='password'
+					label='Пароль'
+					name='password'
+					component={ renderField }
+				/>
+				
 				<Field
 					type='tel'
 					label='Номер телефона'
@@ -110,12 +125,7 @@ class RegistrationFormComponent extends Component {
 					normalize={ normilizeNumber }
 					component={ renderField }
 				/>
-				<Field
-					type='password'
-					label='Пароль'
-					name='password'
-					component={ renderField }
-				/>
+
 				<Field
 					name='city'
 					component={ SelectField }
@@ -136,13 +146,6 @@ class RegistrationFormComponent extends Component {
 						/>)
 					}
 				</Field>
-
-				<Field
-					type='text'
-					label='Email'
-					name='email'
-					component={ renderField }
-				/>
 
 				<Field
 					type='checkbox'
@@ -169,6 +172,13 @@ class RegistrationFormComponent extends Component {
 			</div>
 		</Form>)
 	}
+}
+
+RegistrationFormComponent.propTypes = {
+	filterCity: PropTypes.object.isRequired,
+	registrationForm: PropTypes.object,
+	auth: PropTypes.object,
+	handleClose: PropTypes.func.isRequired
 }
 
 RegistrationFormComponent = reduxForm({

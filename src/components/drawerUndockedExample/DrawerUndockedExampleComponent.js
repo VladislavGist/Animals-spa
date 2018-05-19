@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import Drawer from 'material-ui/Drawer'
@@ -104,6 +104,11 @@ class DrawerUndockedExample extends Component {
 			</div>
 		)
 	}
+}
+
+DrawerUndockedExample.propTypes = {
+	userDatas: PropTypes.object,
+	filterCity: PropTypes.object
 }
 
 export default connect(state => ({
