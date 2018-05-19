@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import { moduleName } from '../../../ducks/articles'
 import { actions as actionsArticles } from '../../../ducks/articles'
@@ -37,6 +37,20 @@ class PageCards extends Component {
 			</div>
 		)
 	}
+}
+
+PageCards.propTypes = {
+	getCards: PropTypes.func.isRequired,
+	params: PropTypes.object.isRequired,
+	filterCity: PropTypes.string.isRequired,
+	pathName: PropTypes.string.isRequired,
+	articlesList: PropTypes.array
+}
+
+PageCards.defaultProps = {
+	filterCity: 'Все регионы',
+	pathName: '/',
+	articlesList: []
 }
 
 export default connect(state => ({

@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
 import { SelectField } from 'redux-form-material-ui'
@@ -172,6 +172,13 @@ class RegistrationFormComponent extends Component {
 			</div>
 		</Form>)
 	}
+}
+
+RegistrationFormComponent.propTypes = {
+	filterCity: PropTypes.object.isRequired,
+	registrationForm: PropTypes.object,
+	auth: PropTypes.object,
+	handleClose: PropTypes.func.isRequired
 }
 
 RegistrationFormComponent = reduxForm({

@@ -1,8 +1,7 @@
 import classNames from 'classnames'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
+import React, { Component, PropTypes } from 'react'
 
 import { actions as menuReducer } from '../../ducks/menuReducer'
 
@@ -13,9 +12,11 @@ if (process.env.BROWSER) {
 class MaterialLink extends Component {
 
 	render() {
-		return <Link to={ this.props.valueLink } className='button4'>
-			{ this.props.children }
-			<i className={ this.props.icons } aria-hidden='true' />
+		const { children, icons, valueLink } = this.props
+
+		return <Link to={ valueLink } className='button4'>
+			{ children }
+			<i className={ icons } aria-hidden='true' />
 		</Link>
 	}
 }
@@ -33,10 +34,7 @@ class Menu extends Component {
 	}
 
 	render() {
-		const lin = this.props.state.menuReducer[0].categoryNames.myLinks,
-			name = this.props.state.menuReducer[0].categoryNames.names,
-			icons = this.props.state.menuReducer[0].categoryNames.icons,
-			key = this.props.state.menuReducer[0].categoryNames.key
+		const { lin, name, icons, keyElem, routing, img, title, text, myLinks } = this.props
 
 		const menuDatas = [
 			{
@@ -176,23 +174,25 @@ class Menu extends Component {
 		return (
 			<div>
 				{
-					['/placeAnAd', '/personalArea'].indexOf(this.props.state.routing.locationBeforeTransitions && this.props.state.routing.locationBeforeTransitions.pathname) === -1 &&
+					['/placeAnAd', '/personalArea'].indexOf(
+						routing.locationBeforeTransitions &&
+						routing.locationBeforeTransitions.pathname) === -1 &&
 						<div className={ classNames({ menu: true }) }>
 							<div className='img'>
-								<img src={ this.props.state.menuReducer[0].img } />
+								<img src={ img } />
 							</div>
 
 							<div className='menuText'>
-								<h2>{ this.props.state.menuReducer[0].title }</h2>
-								<p>{ this.props.state.menuReducer[0].text }</p>
+								<h2>{ title }</h2>
+								<p>{ text }</p>
 							</div>
 
 							<nav className='buttons'>
 								{
-									this.props.state.menuReducer[0].categoryNames.myLinks.map((elem, idx) => <MaterialLink
+									myLinks.map((elem, idx) => <MaterialLink
 										valueLink={ lin[idx] }
 										icons={ icons[idx] }
-										key={ key[idx] }
+										key={ keyElem[idx] }
 									>
 										{ name[idx] }
 									</MaterialLink>)
@@ -221,12 +221,44 @@ class Menu extends Component {
 					Все животные
 					<i className='fa fa-angle-down' aria-hidden='true' />
 				</a>
-
 			</div>
 		)
 	}
 }
 
-export default connect((state, routing) => ({ state, routing }),
-	dispatch => bindActionCreators({ ...menuReducer }, dispatch)
+MaterialLink.propTypes = {
+	children: PropTypes.string,
+	icons: PropTypes.string,
+	valueLink: PropTypes.string
+}
+
+Menu.propTypes = {
+	lin: PropTypes.array.isRequired,
+	name: PropTypes.array.isRequired,
+	icons: PropTypes.array.isRequired,
+	keyElem: PropTypes.array.isRequired,
+	img: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	text: PropTypes.string.isRequired,
+	myLinks: PropTypes.array.isRequired,
+	routing: PropTypes.object.isRequired
+}
+
+export default connect(
+	(state, routing) => {
+		const menuReducer = state.menuReducer && state.menuReducer[0]
+
+		return {
+			lin: menuReducer.categoryNames.myLinks,
+			name: menuReducer.categoryNames.names,
+			icons: menuReducer.categoryNames.icons,
+			keyElem: menuReducer.categoryNames.key,
+			img: menuReducer.img,
+			title: menuReducer.title,
+			text: menuReducer.text,
+			myLinks: menuReducer.categoryNames.myLinks,
+			routing
+		}
+	},
+	{ ...menuReducer }
 )(Menu)

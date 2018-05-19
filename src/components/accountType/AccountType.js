@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import { actions as authActions } from '../../ducks/auth'
 import { actions as actionsAccountType } from '../../ducks/accountType'
@@ -92,17 +92,21 @@ class AccountType extends Component {
 		)
 	}
 }
-/*
-	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "PERMANENT_SELLER" ? "active" : ""}`} onClick={this.handlePermanentSeller}>
-		<i className="fa fa-mobile" aria-hidden="true"></i>
-		<p>Постоянный <br /> продавец</p>
-	</a>
-	<a href="javascript:void(0)" className={`typeBtn ${this.props.state.accountType.type === "SHELTER" ? "active" : ""}`} onClick={this.onHandleShelter}>
-		<i className="fa fa-home" aria-hidden="true"></i>
-		<p>Приют</p>
-	</a>
-	<a href="javascript:void(0)" className="button1">Активировать</a>
-*/
+
+AccountType.propTypes = {
+	accountType: PropTypes.string.isRequired,
+	accountsTypes: PropTypes.object.isRequired,
+	handlePermanentSeller: PropTypes.func.isRequired,
+	loginFalse: PropTypes.func.isRequired,
+	handlePrivateSeller: PropTypes.func.isRequired,
+	handlePermanentSeller: PropTypes.func.isRequired,
+	handleShelter: PropTypes.func.isRequired
+}
+
+AccountType.defaultProps = {
+	accountType: 'PRIVATE_SELLER',
+	accountsTypes: {}
+}
 
 export default connect(
 	state => ({

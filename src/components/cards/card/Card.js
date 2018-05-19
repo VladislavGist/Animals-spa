@@ -2,7 +2,7 @@ import _ from 'lodash'
 import firebase from 'firebase'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
@@ -27,7 +27,6 @@ class Card extends Component {
 			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
-	//повышение счетчика просмотров
 	clickFunc = () => {
 		const { pathname, updateCardView, userId, cardId, view } = this.props
 
@@ -207,20 +206,27 @@ class Card extends Component {
 	}
 }
 
-// {
-// 	this.props.state.routing.locationBeforeTransitions.pathname === "/personalArea" ? null :
-// 	<div>
-// 		<div className="button3" title="Сделать репост в социальную сеть">
-// 			<a href="javascript:void(0)" className="buttonCircle">
-// 				<i className="fa fa-bullhorn" aria-hidden="true"></i>
-// 			</a>
-// 			<span>
-// 				<a href="javascript:void(0)"><i className="fa fa-vk" aria-hidden="true"></i></a>
-// 				<a href="javascript:void(0)"><i className="fa fa-odnoklassniki" aria-hidden="true"></i></a>
-// 			</span>
-// 		</div>
-// 	</div>
-// }
+Card.propTypes = {
+	addDate: PropTypes.string.isRequired,
+	price: PropTypes.string,
+	advType: PropTypes.string.isRequired,
+	rating: PropTypes.number,
+	phoneNumber: PropTypes.string.isRequired,
+	city: PropTypes.string.isRequired,
+	userStatus: PropTypes.string,
+	userName: PropTypes.string.isRequired,
+	title: PropTypes.string.isRequired,
+	briefDescription: PropTypes.string.isRequired,
+	view: PropTypes.number,
+	imgPath: PropTypes.object.isRequired,
+	deleted: PropTypes.bool,
+	deleteInfo: PropTypes.bool,
+	deleteDate: PropTypes.string,
+	moderate: PropTypes.bool,
+	compleate: PropTypes.bool,
+	pathname: PropTypes.string.isRequired,
+	uid: PropTypes.string
+}
 
 export default connect(
 	state => ({

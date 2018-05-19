@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import Card from '../cards/card/Card'
 import { actions as actionsArticles } from '../../ducks/articles'
@@ -9,7 +9,6 @@ class Moderate extends Component {
 
 	hancleDeleteCards = () => {
 		const { removeCardsInDb } = this.props
-
 		removeCardsInDb()
 	}
 
@@ -55,9 +54,12 @@ class Moderate extends Component {
 	}
 }
 
+Moderate.propTypes = {
+	removeCardsInDb: PropTypes.func.isRequired,
+	articlesList: PropTypes.object
+}
+
 export default connect(
-	state => ({
-		articlesList: state.articles.articlesList
-	}),
+	state => ({ articlesList: state.articles.articlesList }),
 	{ ...actionsArticles, ...actionsAllParamsUrl }
 )(Moderate)

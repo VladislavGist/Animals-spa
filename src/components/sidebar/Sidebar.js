@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import { moduleName } from '../../ducks/auth'
 
@@ -17,25 +17,18 @@ class Sidebar extends Component {
 		const { user, userDatas } = this.props
 
 		if (userDatas && userDatas.role === 'user') {
-			return (
-				<div className='userBtns'>
-					<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
-				</div>
-			)
+			return <div className='userBtns'>
+				<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
+			</div>
+
 		} else if (userDatas && userDatas.role === 'moderator') {
-			return (
-				<div className='userBtns'>
-					<Link to='/moderation' className='personalArea'>moderation</Link>
-				</div>
-			)
+			return <div className='userBtns'>
+				<Link to='/moderation' className='personalArea'>moderation</Link>
+			</div>
 		}
 	}
 
-	protected = () => {
-		if (!this.props.user) {
-			return false
-		}
-	}
+	protected = () => !this.props.user && false
 
 	render() {
 		const { user, filterCity } = this.props
@@ -74,15 +67,11 @@ class Sidebar extends Component {
 	}
 }
 
-// <div className="button3 repostBtn">
-// 	<a href="javascript:void(0)" className="buttonCircle">
-// 		<i className="fa fa-bullhorn" aria-hidden="true"></i>
-// 	</a>
-// 	<span>
-// 		<a href="javascript:void(0)"><i className="fa fa-vk" aria-hidden="true"></i></a>
-// 		<a href="javascript:void(0)"><i className="fa fa-odnoklassniki" aria-hidden="true"></i></a>
-// 	</span>
-// </div>
+Sidebar.propTypes = {
+	user: PropTypes.object,
+	userDatas: PropTypes.object,
+	filterCity: PropTypes.object.isRequired
+}
 
 export default connect(state => ({
 	user: state[moduleName].user,

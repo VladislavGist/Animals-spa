@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
 import MenuItem from 'material-ui/MenuItem'
+import React, { Component, PropTypes } from 'react'
 import { Form, Field, reduxForm } from 'redux-form'
 
 import { renderField, validate } from '../../forms/formValidate'
@@ -28,8 +28,7 @@ class TableRowsComponent extends Component {
 	disabledSubmitButton = nextProps => {
 		const { rows: { values } } = nextProps
 
-		if (
-			 Object.keys(values).length > 1 &&
+		if (Object.keys(values).length > 1 &&
 			(values.name ? values.name.match(validateInputs.name) : true) &&
 			(values.surName ? values.surName.match(validateInputs.surname) : true) &&
 			(values.email ? values.email.match(validateInputs.email) : true)
@@ -183,6 +182,16 @@ class TableRowsComponent extends Component {
 
 		</Form>
 	}
+}
+
+TableRowsComponent.propTypes = {
+	handleSnackbar: PropTypes.func.isRequired,
+	uid: PropTypes.string,
+	rows: PropTypes.object,
+	name: PropTypes.string,
+	surName: PropTypes.string,
+	email: PropTypes.string,
+	city: PropTypes.string
 }
 
 TableRowsComponent = reduxForm({

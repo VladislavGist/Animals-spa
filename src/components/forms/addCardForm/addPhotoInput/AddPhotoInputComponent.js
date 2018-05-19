@@ -1,8 +1,7 @@
 import classNames from 'classnames'
-import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
-class AddPhotoInputComponent extends Component {
+export default class AddPhotoInputComponent extends Component {
 
 	state = {
 		active: false,
@@ -10,23 +9,21 @@ class AddPhotoInputComponent extends Component {
 	}
 
 	changeInput = e => {
-		const { handleAddPhoto } = this.props
+		const { handleAddPhoto, handleSnackbar } = this.props
+		const target = e.target
 
-		if (e.target.value.length && e.target.files[0].type === 'image/jpeg') {
+		if (target.value.length && target.files[0].type === 'image/jpeg') {
 			this.setState({ active: true })
-			handleAddPhoto(e.target.files[0])
+			handleAddPhoto(target.files[0])
 		} else {
-			this.props.handleSnackbar('Формат изображения должен быть jpeg или jpg')
+			handleSnackbar('Формат изображения должен быть jpeg или jpg')
 			this.setState({ active: false })
 		}
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.photo) {
-			this.setState({ active: true })
-		} else {
-			this.setState({ active: false })
-		}
+		if (nextProps.photo) this.setState({ active: true })
+		else this.setState({ active: false })
 	}
 
 	componentWillUnmount() { this.setState({ active: false, unmountValue: '' }) }
@@ -57,4 +54,7 @@ class AddPhotoInputComponent extends Component {
 	}
 }
 
-export default connect(state => ({ state }))(AddPhotoInputComponent)
+AddPhotoInputComponent.propTypes = {
+	handleAddPhoto: PropTypes.func.isRequired,
+	handleSnackbar: PropTypes.func.isRequired
+}

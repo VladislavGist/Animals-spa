@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { Form, Field, reduxForm } from 'redux-form'
 
 import { renderField, validate } from '../formValidate'
@@ -126,12 +126,15 @@ class ContactsForm extends Component {
 					</Form>
 				</div>
 
-				<div className='author'>
-					
-				</div>
+				<div className='author'></div>
 			</div>
 		)
 	}
+}
+
+ContactsForm.propTypes = {
+	contactsForm: PropTypes.object,
+	handleSnackbar: PropTypes.func.isRequired
 }
 
 ContactsForm = reduxForm({
@@ -140,9 +143,6 @@ ContactsForm = reduxForm({
 })(ContactsForm)
 
 export default connect(
-	state => ({
-		state,
-		contactsForm: state.form.contactsForm
-	}),
+	state => ({ contactsForm: state.form.contactsForm }),
 	{ ...actionsContactFormStatus, ...actionsSnackbarReducer }
 )(ContactsForm)

@@ -1,15 +1,15 @@
 import classNames from 'classnames'
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
-import { normalizeFirebaseDatas } from './/ducks/utils'
+import { normalizeFirebaseDatas } from './ducks/utils'
 
 import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
 
 import './config'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 injectTapEventPlugin()
 
 if (process.env.BROWSER) {
@@ -37,9 +37,8 @@ class App extends Component {
 		return (
 			<MuiThemeProvider>
 				<div className='wrapApp'>
-					{
-						(preloaderLoading > 0 && preloaderLoading !== 100) && <LinearProgressExampleDeterminate className='progressBar' />
-					}
+					{ (preloaderLoading > 0 && preloaderLoading !== 100) &&
+						<LinearProgressExampleDeterminate className='progressBar' /> }
 					<div className='container'>
 						<Sidebar />
 						<div className='wrapBackground'>
@@ -55,6 +54,12 @@ class App extends Component {
 			</MuiThemeProvider>
 		)
 	}
+}
+
+App.propTypes = {
+	location: PropTypes.string,
+	preloaderLoading: PropTypes.number,
+	authError: PropTypes.bool
 }
 
 const mapStateToProps = (state, ownProps) => ({
