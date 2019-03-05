@@ -128,7 +128,7 @@ class Card extends Component {
 					<div className='contentWrap' onClick={ this.clickFunc }>
 						<div className='top' onClick={ this.handleReverseCard }>
 							<div>
-								<p className='price'>{ price && price > 0 && `${ price } руб.` }</p>
+								<p className='price'>{ price && price > 0 ? `${ price } руб.` : null }</p>
 							</div>
 							<div>
 								<div className='info'>
