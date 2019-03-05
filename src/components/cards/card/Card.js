@@ -2,6 +2,7 @@ import _ from 'lodash'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
+import moment from 'moment'
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
@@ -132,19 +133,22 @@ class Card extends Component {
 							<div>
 								<div className='info'>
 									<i className={ classNames({
-											'fa': true,
-											'fa-eur': advType === 'buy',
-											'fa-globe': advType === 'gift',
-											'fa-exclamation-triangle': advType === 'missing',
-											'fa-bell-o': advType === 'find'
-										}) }
-										aria-hidden='true'
+										'fa': true,
+										'fa-eur': advType === 'buy',
+										'fa-globe': advType === 'gift',
+										'fa-exclamation-triangle': advType === 'missing',
+										'fa-bell-o': advType === 'find'
+									}) }
+									aria-hidden='true'
 									/>
 									<span className='categoty'>{ this.stausesReplace(advType) }</span>
 								</div>
+
 								<p className='number'>{ phoneNumber }</p>
 								<p className='city'>{ city.indexOf('обл.') === -1 ? `г. ${ city }` : city }</p>
-								{ addDate && <p className='number'>{ addDate }</p> }
+
+								{ addDate && <p className='number'>{ moment(addDate).format('DD-MM-YYYY') }</p> }
+
 								<div className='userItem'>
 									{/* { mass } */}
 									{ userName && <p className={ `userName ${ (userStatus === 'seller') && 'gold' }` }>{ userName }</p> }
