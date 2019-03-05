@@ -61,7 +61,7 @@ class TableRowsComponent extends Component {
 
 	render() {
 		const {
-			citys,
+			cityList,
 			name,
 			surName,
 			email,
@@ -143,7 +143,7 @@ class TableRowsComponent extends Component {
 						} }
 					>
 						{
-							citys.map((elem, idx) => <MenuItem
+							cityList.map((elem, idx) => <MenuItem
 								className='selectItem'
 								name='selectItem'
 								value={ elem }
@@ -206,7 +206,7 @@ export default connect(
 
 		return {
 			rows: state.form.rows,
-			citys: state.filterCity.citys,
+			cityList: state.filterCity.cityList,
 			uid: user && user.uid,
 			name: userDatas && userDatas.name,
 			surName: userDatas && userDatas.surName,

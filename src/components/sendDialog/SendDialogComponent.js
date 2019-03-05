@@ -38,7 +38,7 @@ class LoginModal extends Component {
 			}
 		}
 
-		const { dispatchCityTopHeader, citys } = this.props
+		const { dispatchCityTopHeader, cityList } = this.props
 
 		const actions = [
 			<FlatButton
@@ -87,7 +87,7 @@ class LoginModal extends Component {
 					<div className='modalCityWrap'>
 						<a href='javascript:void(0)' onClick={ handleCityTopHeader } className='allCitys'>Все регионы</a>
 						<div className='modalAllCity'>
-							{ citys.map((elem, idx) =>
+							{ cityList.map((elem, idx) =>
 								<a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>) }
 						</div>
 					</div>
@@ -112,10 +112,10 @@ class LoginModal extends Component {
 
 LoginModal.propTypes = {
 	dispatchCityTopHeader: PropTypes.func.isRequired,
-	citys: PropTypes.array.isRequired
+	cityList: PropTypes.array.isRequired
 }
 
 export default connect(
-	state => ({ citys: state.filterCity.citys }),
+	state => ({ cityList: state.filterCity.cityList }),
 	{ ...actionsFilterCity }
 )(LoginModal)

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
 
 import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
+import { actions as actionsFilterCity } from '../src/ducks/filterCity'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -22,8 +23,18 @@ import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarEx
 
 class App extends Component {
 
+	componentWillMount() {
+		const { fetchCitysList } = this.props
+
+		fetchCitysList()
+	}
+
 	render() {
-		const { location, preloaderLoading, children } = this.props
+		const {
+			location,
+			preloaderLoading,
+			children
+		} = this.props
 
 		const classes = classNames({
 			spaContent: true,
@@ -72,4 +83,10 @@ const mapStateToProps = (state, ownProps) => {
 	}
 }
 
-export default connect(mapStateToProps, { ...actionsSnackbar })(App)
+export default connect(
+	mapStateToProps,
+	{
+		...actionsSnackbar,
+		...actionsFilterCity
+	}
+)(App)

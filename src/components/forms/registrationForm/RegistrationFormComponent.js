@@ -137,7 +137,7 @@ class RegistrationFormComponent extends Component {
 					selectedMenuItemStyle={ styles.floatingLabelFocusStyle }
 				>
 					{
-						filterCity.citys.map((elem, idx) => <MenuItem
+						filterCity.cityList.map((elem, idx) => <MenuItem
 							className='selectItem'
 							name='selectItem'
 							value={ elem }

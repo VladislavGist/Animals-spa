@@ -306,7 +306,7 @@ class AddCardFormComponent extends Component {
 										selectedMenuItemStyle={ style.floatingLabelFocusStyle }
 									>
 										{
-											filterCity.citys.map((elem, idx) => <MenuItem
+											filterCity.cityList.map((elem, idx) => <MenuItem
 												value={ elem }
 												primaryText={ elem }
 												key={ idx }
