@@ -305,13 +305,14 @@ class AddCardFormComponent extends Component {
 										hintText={ addCardForm && addCardForm.values.city }
 										selectedMenuItemStyle={ style.floatingLabelFocusStyle }
 									>
-										{
-											filterCity.cityList.map((elem, idx) => <MenuItem
+										{ filterCity && filterCity.cityList.length > 0
+											? filterCity.cityList.map((elem, idx) => <MenuItem
 												value={ elem }
 												primaryText={ elem }
 												key={ idx }
-											/>)
-										}
+											/>) : (
+												<CircularProgress size={ 60 }/>
+											) }
 									</Field>
 
 									<Field

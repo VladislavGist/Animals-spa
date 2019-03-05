@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import Dialog from 'material-ui/Dialog'
 import React, { Component, PropTypes } from 'react'
 import FlatButton from 'material-ui/FlatButton'
+import CircularProgress from 'material-ui/CircularProgress'
 
 import { actions as actionsFilterCity } from '../../ducks/filterCity'
 
@@ -87,8 +88,10 @@ class LoginModal extends Component {
 					<div className='modalCityWrap'>
 						<a href='javascript:void(0)' onClick={ handleCityTopHeader } className='allCitys'>Все регионы</a>
 						<div className='modalAllCity'>
-							{ cityList.map((elem, idx) =>
-								<a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>) }
+							{ cityList && cityList.length > 0
+								? cityList.map((elem, idx) =>
+									<a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>)
+								: <CircularProgress size={ 60 }/> }
 						</div>
 					</div>
 				</Dialog>
