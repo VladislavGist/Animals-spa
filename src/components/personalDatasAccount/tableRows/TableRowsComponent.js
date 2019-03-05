@@ -1,11 +1,10 @@
-import firebase from 'firebase'
 import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
 import React, { Component, PropTypes } from 'react'
 import { Form, Field, reduxForm } from 'redux-form'
 
 import { renderField, validate } from '../../forms/formValidate'
-import { normilizeNumber, validateInputs } from '../../forms/validationsInputs'
+import { validateInputs } from '../../forms/validationsInputs'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 
 class TableRowsComponent extends Component {
@@ -50,14 +49,14 @@ class TableRowsComponent extends Component {
 			city
 		} = this.props
 
-		firebase.database().ref(`users/${ uid }`).update({
-			name: values.name || name,
-			surName: values.surName || surName,
-			email: values.email || email,
-			city: values.city || city
-		})
-			.then(() => handleSnackbar('Изменено'))
-			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+		// firebase.database().ref(`users/${ uid }`).update({
+		// 	name: values.name || name,
+		// 	surName: values.surName || surName,
+		// 	email: values.email || email,
+		// 	city: values.city || city
+		// })
+		// 	.then(() => handleSnackbar('Изменено'))
+		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	render() {

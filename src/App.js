@@ -2,11 +2,7 @@ import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
 
-import { normalizeFirebaseDatas } from './ducks/utils'
-
 import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
-
-import './config'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -27,7 +23,7 @@ import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarEx
 class App extends Component {
 
 	render() {
-		const { location, preloaderLoading } = this.props
+		const { location, preloaderLoading, children } = this.props
 
 		const classes = classNames({
 			spaContent: true,
@@ -37,14 +33,17 @@ class App extends Component {
 		return (
 			<MuiThemeProvider>
 				<div className='wrapApp'>
-					{ (preloaderLoading > 0 && preloaderLoading !== 100) &&
-						<LinearProgressExampleDeterminate className='progressBar' /> }
+
+					{ (preloaderLoading > 0
+						&& preloaderLoading !== 100)
+						&& <LinearProgressExampleDeterminate className='progressBar' /> }
+
 					<div className='container'>
 						<Sidebar />
 						<div className='wrapBackground'>
 							<div className='wrapper'>
 								<Menu />
-								<div className={ classes }>{ this.props.children }</div>
+								<div className={ classes }>{ children }</div>
 							</div>
 							<Footer />
 						</div>
@@ -62,10 +61,15 @@ App.propTypes = {
 	authError: PropTypes.bool
 }
 
-const mapStateToProps = (state, ownProps) => ({
-	preloaderLoading: state.preloader.loading,
-	location: ownProps.location.pathname,
-	authError: state.auth.userError && state.auth.userError.code
-})
+const mapStateToProps = (state, ownProps) => {
+	const { preloader, auth } = state
+	const { location } = ownProps
+
+	return {
+		preloaderLoading: preloader.loading,
+		location: location.pathname,
+		authError: auth.userError && auth.userError.code
+	}
+}
 
 export default connect(mapStateToProps, { ...actionsSnackbar })(App)

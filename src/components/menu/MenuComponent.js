@@ -173,47 +173,41 @@ class Menu extends Component {
 
 		return (
 			<div>
-				{
-					['/placeAnAd', '/personalArea'].indexOf(
-						routing.locationBeforeTransitions &&
-						routing.locationBeforeTransitions.pathname) === -1 &&
-						<div className={ classNames({ menu: true }) }>
-							<div className='img'>
-								<img src={ img } />
-							</div>
-
-							<div className='menuText'>
-								<h2>{ title }</h2>
-								<p>{ text }</p>
-							</div>
-
-							<nav className='buttons'>
-								{
-									myLinks.map((elem, idx) => <MaterialLink
-										valueLink={ lin[idx] }
-										icons={ icons[idx] }
-										key={ keyElem[idx] }
-									>
-										{ name[idx] }
-									</MaterialLink>)
-								}
-							</nav>
+				{ ['/placeAnAd', '/personalArea'].indexOf(
+					routing.locationBeforeTransitions &&
+					routing.locationBeforeTransitions.pathname) === -1 &&
+					<div className={ classNames({ menu: true }) }>
+						<div className='img'>
+							<img src={ img } />
 						</div>
-				}
+
+						<div className='menuText'>
+							<h2>{ title }</h2>
+							<p>{ text }</p>
+						</div>
+
+						<nav className='buttons'>
+							{ myLinks.map((elem, idx) => <MaterialLink
+								valueLink={ lin[idx] }
+								icons={ icons[idx] }
+								key={ keyElem[idx] }
+							>
+								{ name[idx] }
+							</MaterialLink>) }
+						</nav>
+					</div> }
 
 				<div className={ classNames({
 					accordionContent: true,
 					visible: this.state.showMenu
 				}) } >
 					<div>
-						{
-							menuDatas.map((item, idx) => (
-								<Link to={ item.path } onClick={ item.func } key={ idx }>
-									<img src={ item.image } className='img' />
-									<h3>{ item.title }</h3>
-								</Link>
-							))
-						}
+						{ menuDatas.map((item, idx) => (
+							<Link to={ item.path } onClick={ item.func } key={ idx }>
+								<img src={ item.image } className='img' />
+								<h3>{ item.title }</h3>
+							</Link>
+						)) }
 					</div>
 				</div>
 

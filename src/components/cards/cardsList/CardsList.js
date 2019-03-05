@@ -19,34 +19,35 @@ class CardsList extends Component {
 		return (
 			<div className={ classNames({ wrapCardsContent: true, indexPageClassWrap: pathName === '/' }) }>
 				<article className={ classNames({ cardItems: true, indexPageClass: pathName === '/' }) }>
-					{
-						cardsList.length ? cardsList.map(card => <Card
-							key={ card.key }
-							view={ card.view }
-							city={ card.city }
-							cardId={ card.key }
-							price={ card.price }
-							title={ card.title }
-							imgPath={ card.images }
-							addDate={ card.addDate }
-							advType={ card.category }
-							userName={ card.userName }
-							userId={ card.userId }
-							phoneNumber={ card.phoneNumber }
-							briefDescription={ card.textArea }
-							views={ null }
-							rating={ null }
-							userStatus={ null }
-						/>) : <p className='noCardsTitle'>Объявлений нет</p>
-					}
+					{ cardsList.length ?
+						cardsList.map(card =>
+							<Card
+								key={ card._id }
+								city={ card.city }
+								cardId={ card._id }
+								price={ card.price }
+								title={ card.title }
+								imgPath={ card.imageUrl }
+								addDate={ card.createdAt }
+								advType={ card.postType }
+								userName={ card.creatorName }
+								userId={ card.creator }
+								phoneNumber={ card.phoneNumber }
+								briefDescription={ card.content }
+								views={ null }
+								rating={ null }
+								userStatus={ null }
+							/>) : (
+							<p className='noCardsTitle'>Объявлений нет</p>
+						) }
 					{/* { datas.length > 0 && pathName !== '/' ?
 						(state.toggleAddMoreBtn ?
 							<a href='javascript:void(0)' className='addMore button2' onClick={ this.addMoreCards }>Ещё объявления</a>
 							: null) : null } */}
 				</article>
-				<aside className='cardsBanners'>
+				{/* <aside className='cardsBanners'>
 					Здесь будет реклама Яндекс.Директ
-				</aside>
+				</aside> */}
 			</div>
 		)
 	}

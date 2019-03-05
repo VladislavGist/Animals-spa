@@ -20,12 +20,14 @@ class SnackbarExampleSimple extends React.Component {
 	}
 
 	render() {
-		return <Snackbar
-			open={ this.state.open }
-			message={ this.props.snackbarReducer }
-			autoHideDuration={ 4000 }
-			onRequestClose={ this.handleRequestClose }
-		/>
+		return (
+			<Snackbar
+				open={ this.state.open }
+				message={ this.props.snackbarReducer }
+				autoHideDuration={ 4000 }
+				onRequestClose={ this.handleRequestClose }
+			/>
+		)
 	}
 }
 

@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import firebase from 'firebase'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
@@ -8,6 +7,8 @@ import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 
 import SlickSlider from '../../slickSlider/SlickSliderComponent'
+
+import config from '../../../../config'
 
 if (process.env.BROWSER) {
 	require('./card.sass')
@@ -20,11 +21,11 @@ class Card extends Component {
 	handleDelete = () => {
 		const { handleSnackbar, uid, cardId } = this.props
 
-		firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
-			compleate: true
-		})
-			.then(() => handleSnackbar('Завершено'))
-			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+		// firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
+		// 	compleate: true
+		// })
+		// 	.then(() => handleSnackbar('Завершено'))
+		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	clickFunc = () => {
@@ -38,23 +39,23 @@ class Card extends Component {
 	handleAccepted = e => {
 		const { handleSnackbar, userId, cardId } = this.props
 
-		firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
-			moderate: 'resolve',
-			compleate: false
-		})
-			.then(() => handleSnackbar('Принято'))
-			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+		// firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
+		// 	moderate: 'resolve',
+		// 	compleate: false
+		// })
+		// 	.then(() => handleSnackbar('Принято'))
+		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	handleRejected = e => {
 		const { handleSnackbar, userId, cardId } = this.props
 
-		firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
-			moderate: 'rejected',
-			compleate: true
-		})
-			.then(() => handleSnackbar('Отклонено'))
-			.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+		// firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
+		// 	moderate: 'rejected',
+		// 	compleate: true
+		// })
+		// 	.then(() => handleSnackbar('Отклонено'))
+		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	stausesReplace = status => {
@@ -109,7 +110,10 @@ class Card extends Component {
 
 		let imagePath = []
 
-		_.forEach(imgPath, (value, key) => { imagePath.push(value) })
+		imgPath.forEach(path => {
+			let value = `${ config.payPetsApiUrl }/${ path }`
+			imagePath.push(value)
+		})
 
 		return (
 			<div className='cardItemWrap'>

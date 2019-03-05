@@ -14,7 +14,7 @@ if (process.env.BROWSER) {
 class Sidebar extends Component {
 
 	switchMenuRoles = () => {
-		const { user, userDatas } = this.props
+		const { userDatas } = this.props
 
 		if (userDatas && userDatas.role === 'user') {
 			return <div className='userBtns'>
@@ -50,15 +50,21 @@ class Sidebar extends Component {
 
 					{ !user ? <LoginModal titleBtn='Вход / регистрация' dialogModal='01' /> : this.switchMenuRoles() }
 
-					{
-						!user ?
-							<LoginModal
-								titleBtn='Подать объявление'
-								classNameMobile='needLoginMobile'
-								classesBtn='button2 needLoginMobile'
-								dialogModal='01'
-							/> : <Link to='/placeAnAd' className='button2 needLogin' onClick={ this.protected }>Подать объявление</Link>
-					}
+					{ !user ? (
+						<LoginModal
+							titleBtn='Подать объявление'
+							classNameMobile='needLoginMobile'
+							classesBtn='button2 needLoginMobile'
+							dialogModal='01'
+						/>
+					) : (
+						<Link
+							to='/placeAnAd'
+							className='button2 needLogin'
+							onClick={ this.protected }>
+								Подать объявление
+						</Link>
+					) }
 
 					<DrawerUndockedExample />
 				</div>

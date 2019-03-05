@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 export const types = {
@@ -8,14 +7,7 @@ export const types = {
 export const actions = {
 
 	connectMess: url => dispatch => {
-		axios({
-			method: 'post',
-			url
-		})
-			.then(
-				() => dispatch(actionsSnackbarReducer.handleSnackbar('Отправлено')),
-				() => dispatch(actionsSnackbarReducer.handleSnackbar('Не отправлено')))
-			.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера')))
+		
 	}
 }
 

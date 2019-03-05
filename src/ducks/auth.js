@@ -1,12 +1,9 @@
-import firebase from 'firebase'
 import { Record } from 'immutable'
 import { push } from 'react-router-redux'
 
-import { appName } from '../config'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
-import { normalizeFirebaseDatas } from '../ducks/utils'
-
+const appName = 'paypets'
 export const moduleName = 'auth'
 
 const ReducerSchema = Record({
@@ -34,75 +31,21 @@ export const actions = {
 	loginFalse: () => dispatch => {
 		dispatch({ type: types.SIGN_OUT_REQUEST })
 
-		firebase.auth().signOut()
-			.then(() => dispatch({ type: types.SIGN_OUT_SUCCESS }))
-			.then(() => dispatch(push('/')))
-			.catch(err => {
-				dispatch({ type: types.SIGN_OUT_ERROR, payload: err })
-			})
+
 	},
 
 	loginAction: ({ email, password }) => dispatch => {
 		dispatch({ type: types.SIGN_IN_REQUEST })
 
-		firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(user => {
-				dispatch({ type: types.SIGN_IN_SUCCESS, payload: { user } })
-			})
-			.then(() => dispatch(push('/')))
-			.catch(error => {
-				if (error.code === 'auth/user-not-found') {
-					dispatch({ type: types.SIGN_UP_ERROR })
-					dispatch(actionsSnackbarReducer.handleSnackbar('Пользователь не найден'))
-
-				} else if (error.code === 'auth/wrong-password') {
-					dispatch({ type: types.SIGN_UP_ERROR })
-					dispatch(actionsSnackbarReducer.handleSnackbar('Неверный пароль'))
-
-				} else {
-					dispatch({ type: types.SIGN_UP_ERROR })
-					dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка входа: ${ error.code }`))
-				}
-			})
 	},
 
 	signUp: ({ email, password, name, surName, city, phoneNumber }) => dispatch => {
 		dispatch({ type: types.SIGN_UP_REQUEST })
 
-		firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(user => {
-				firebase.database().ref(`users/${ user.uid }`).set({
-					articles: '',
-					name,
-					surName,
-					email,
-					city,
-					role: 'user',
-					accountType: 'PRIVATE_SELLER'
-				})
-				
-				dispatch({ type: types.SIGN_UP_SUCCESS, payload: { ...user } })
-				dispatch(actionsSnackbarReducer.handleSnackbar('Успешная регистрация'))
-			})
-			.then(() => dispatch(push('/')))
-			.catch(error => {
-				if (error.code === 'auth/email-already-in-use') {
-					dispatch({ type: types.SIGN_UP_ERROR })
-					dispatch(actionsSnackbarReducer.handleSnackbar('Пользователь с таким емейлом уже зарегистрирован'))
-
-				} else {
-					dispatch({ type: types.SIGN_UP_ERROR })
-					dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка регистрации: ${ error.code }`))
-				}
-			})
 	},
 
 	updateDatasTrue: url => dispatch => {
-		// axios.get(url)
-		// 	.then(
-		// 		response => dispatch({ type: types.LOGIN_TRUE, payload: response.data }),
-		// 		() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера при обновлении данных')))
-		// 	.catch(() => dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сервера updateDatasTruee')))
+
 	}
 
 }
@@ -126,16 +69,3 @@ export default (state = new ReducerSchema(), action) => {
 	default: return state
 	}
 }
-
-firebase.auth().onAuthStateChanged(user => {
-	const { store } = require('../routing')
-
-	if (user) {
-		firebase.database().ref(`users/${ user.uid }`).on('value', snapshot => {
-			let value = snapshot.val()
-			let articles = snapshot.val().articles
-
-			store.dispatch({ type: types.SIGN_IN_SUCCESS, payload: user, userDatas: { ...value, articles: normalizeFirebaseDatas(articles) } })
-		})
-	}
-})

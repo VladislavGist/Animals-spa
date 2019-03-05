@@ -1,106 +1,64 @@
 import { actions as actionsTypes } from './preloader'
-import { appName } from '../config'
-import firebase from 'firebase'
-import { Record } from 'immutable'
+import config from '../../config'
 
-import { generateId, normalizeFirebaseDatas } from '../ducks/utils'
-
+const appName = 'paypets'
 export const moduleName = 'articles'
 
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 export const types = {
-	FETCH_ARTICLES_REQUEST: `${ appName }/${ moduleName }/FETCH_ARTICLES_REQUEST`,
+	FETCH_ARTICLES_START: `${ appName }/${ moduleName }/FETCH_ARTICLES_START`,
 	FETCH_ARTICLES_SUCCESS: `${ appName }/${ moduleName }/FETCH_ARTICLES_SUCCESS`,
 	FETCH_ARTICLES_ERROR: `${ appName }/${ moduleName }/FETCH_ARTICLES_ERROR`,
 	FETCH_ARTICLES_CLEAR: `${ appName }/${ moduleName }/FETCH_ARTICLES_CLEAR`,
 }
 
-const initialState = Record({
+const initialState = {
 	errorFetch: false,
 	loadingFetch: false,
 	articlesList: []
-})
+}
 
-export default (state = new initialState(), action) => {
-	const { type, payload } = action
+export default (state = initialState, action) => {
+	const { type, articles } = action
 
 	switch (type) {
-	case types.FETCH_ARTICLES_REQUEST: return state.set('errorFetch', false).set('loadingFetch', true).set('articlesList', [])
-	case types.FETCH_ARTICLES_SUCCESS: return state.set('errorFetch', false).set('loadingFetch', false).set('articlesList', payload)
-	case types.FETCH_ARTICLES_ERROR: return state.set('errorFetch', true).set('loadingFetch', false).set('articlesList', [])
-	case types.FETCH_ARTICLES_CLEAR: return state.set('errorFetch', false).set('loadingFetch', false).set('articlesList', [])
-	default: return state	
+	case types.FETCH_ARTICLES_START: return {
+		errorFetch: false,
+		loadingFetch: true,
+		articlesList: []
+	}
+	case types.FETCH_ARTICLES_SUCCESS: return {
+		errorFetch: false,
+		loadingFetch: false,
+		articlesList: articles
+	}
+	case types.FETCH_ARTICLES_ERROR: return {
+		errorFetch: true,
+		loadingFetch: false,
+		articlesList: []
+	}
+	case types.FETCH_ARTICLES_CLEAR: return {
+		errorFetch: false,
+		loadingFetch: false,
+		articlesList: []
+	}
+	default: return state
 	}
 }
 
 export const actions = {
 	getCards: ({ moderate, type_cards, advertisment_cards, filterCity, role }) => dispatch => {
-		dispatch({ type: types.FETCH_ARTICLES_REQUEST })
+		dispatch({ type: types.FETCH_ARTICLES_START })
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
-		firebase.database().ref('users').on('value',
-			datas => {
-				let articlesList = []
-
-				normalizeFirebaseDatas(datas.val()).forEach(item => {
-					normalizeFirebaseDatas(item.articles).forEach(card => {
-						
-						let dunamicParamCity = false,
-							dynamicType = false,
-							dunamicAdvert = false,
-							dynamicRole = false
-
-						if (filterCity === 'Все регионы') {
-							dunamicParamCity = true
-						} else if (card.city === filterCity) {
-							dunamicParamCity = true
-						} else {
-							dunamicParamCity = false
-						}
-
-						if (!type_cards) {
-							dynamicType = true
-						} else if (card.animals === type_cards) {
-							dynamicType = true
-						} else {
-							dynamicType = false
-						}
-
-						if (!advertisment_cards) {
-							dunamicAdvert = true
-						} else if (card.category === advertisment_cards) {
-							dunamicAdvert = true
-						} else {
-							dunamicAdvert = false
-						}
-
-						if (!role) {
-							dynamicRole = true
-						} else if (card.role === role) {
-							dynamicRole = true
-						}
-
-						if (!moderate) {
-							if (card.moderate === moderate && !card.compleate) {
-								articlesList.push(card)
-							}
-						} else {
-							if (card.moderate === moderate && !card.compleate && dunamicParamCity && dynamicType && dunamicAdvert) {
-								articlesList.push(card)
-							}
-						}
-					})
-				})
-				
-				dispatch({ type: types.FETCH_ARTICLES_SUCCESS, payload: articlesList })
-				dispatch(actionsTypes.handleUpdateStateLoading(0))
-			},
-			() => {
-				dispatch({ type: types.ADD_ARTICLE_ERROR })
-				dispatch(actionsTypes.handleUpdateStateLoading(0))
-			}
-		)
+		fetch(`${ config.payPetsApiUrl }/api/feedRead/posts`)
+			.then(result => result.json())
+			.then(articles => dispatch({ type: types.FETCH_ARTICLES_SUCCESS, articles: articles.posts }))
+			.catch(err => {
+				dispatch({ type: types.FETCH_ARTICLES_ERROR })
+				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err }`))
+			})
 	},
 
 	onHandleClearState: () => ({ type: types.FETCH_ARTICLES_CLEAR })

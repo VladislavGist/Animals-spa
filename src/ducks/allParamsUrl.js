@@ -1,5 +1,3 @@
-import { appName } from '../config'
-import firebase from 'firebase'
 import { Record } from 'immutable'
 import moment from 'moment'
 import { reset } from 'redux-form'
@@ -7,8 +5,9 @@ import { reset } from 'redux-form'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 import { actions as actionsPreloader } from '../ducks/preloader'
 
-import { generateId, normalizeFirebaseDatas, normalizeImgs, getRandomInt } from '../ducks/utils'
+import { generateId, normalizeImgs, getRandomInt } from '../ducks/utils'
 
+const appName = 'paypets'
 export const moduleName = 'articles'
 
 export const types = {
@@ -39,35 +38,35 @@ export const actions = {
 		moment.locale('ru')
 		const nowDate = moment().format('DD-MM-YYYY')
 
-		firebase.database().ref('users').on('value', usersList => {
-			normalizeFirebaseDatas(usersList.val()).forEach(user => {
+		// firebase.database().ref('users').on('value', usersList => {
+		// 	normalizeFirebaseDatas(usersList.val()).forEach(user => {
 				
-				firebase.database().ref(`users/${ user.key }/articles`).on('value', articlesList => {
-					normalizeFirebaseDatas(articlesList.val()).forEach((article, idx, array) => {
+		// 		firebase.database().ref(`users/${ user.key }/articles`).on('value', articlesList => {
+		// 			normalizeFirebaseDatas(articlesList.val()).forEach((article, idx, array) => {
 
-						firebase.database().ref(`users/${ user.key }/articles/${ article.key }`).on('value', item => {
+		// 				firebase.database().ref(`users/${ user.key }/articles/${ article.key }`).on('value', item => {
 
-							firebase.database().ref(`users/${ user.key }/articles/${ article.key }/images`).on('value', img => {
+		// 					firebase.database().ref(`users/${ user.key }/articles/${ article.key }/images`).on('value', img => {
 							
-								normalizeImgs(img.val()).forEach(item => {
+		// 						normalizeImgs(img.val()).forEach(item => {
 									
-									if (moment(article.deleteDate, 'DD-MM-YYYY') === moment(nowDate, 'DD-MM-YYYY') || moment(article.deleteDate, 'DD-MM-YYYY') < moment(nowDate, 'DD-MM-YYYY')) {
-										firebase.database().ref(`users/${ user.key }/articles/${ article.key }`).set(null)
-											.then(() => {
+		// 							if (moment(article.deleteDate, 'DD-MM-YYYY') === moment(nowDate, 'DD-MM-YYYY') || moment(article.deleteDate, 'DD-MM-YYYY') < moment(nowDate, 'DD-MM-YYYY')) {
+		// 								firebase.database().ref(`users/${ user.key }/articles/${ article.key }`).set(null)
+		// 									.then(() => {
 
-												firebase.storage().ref().child('images').child(item.key).delete()
-													.then(res => console.log('removed'))
-													.catch(err => console.log(err))
-											})
-											.catch(err => {})
-									}
-								})
-							})
-						})
-					})
-				})
-			})
-		})
+		// 										firebase.storage().ref().child('images').child(item.key).delete()
+		// 											.then(res => console.log('removed'))
+		// 											.catch(err => console.log(err))
+		// 									})
+		// 									.catch(err => {})
+		// 							}
+		// 						})
+		// 					})
+		// 				})
+		// 			})
+		// 		})
+		// 	})
+		// })
 	},
 
 	addArticle: (handleResetPlace, { uid, userName, title, textArea, animals, category, city, price = null, phoneNumber, images }) => dispatch => {
@@ -95,43 +94,43 @@ export const actions = {
 				() => {
 					const downloadURL = uploadTask.snapshot.downloadURL
 
-					firebase.database().ref(`users/${ uid }/articles/${ adArticle }/images/${ imageName }`)
-						.set(downloadURL, error => {
-							if (error) {
-								dispatch({ type: types.ADD_ARTICLE_ERROR })
-								dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сети'))
-							}
+					// firebase.database().ref(`users/${ uid }/articles/${ adArticle }/images/${ imageName }`)
+					// 	.set(downloadURL, error => {
+					// 		if (error) {
+					// 			dispatch({ type: types.ADD_ARTICLE_ERROR })
+					// 			dispatch(actionsSnackbarReducer.handleSnackbar('Ошибка сети'))
+					// 		}
 
-							if (i === images.length - 1) {
-								firebase.database().ref(`users/${ uid }/articles/${ adArticle }`)
-									.update({
-										userId: uid,
-										userName,
-										addDate,
-										deleteDate,
-										title,
-										textArea,
-										animals,
-										category,
-										city,
-										phoneNumber,
-										price,
-										moderate: false,
-										compleate: false,
-										view: 0
-									}, error => {
-										if (error) {
-											dispatch({ type: types.ADD_ARTICLE_ERROR })
-											dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка при добавлении объявления ${ error }`))
-										}
+					// 		if (i === images.length - 1) {
+					// 			firebase.database().ref(`users/${ uid }/articles/${ adArticle }`)
+					// 				.update({
+					// 					userId: uid,
+					// 					userName,
+					// 					addDate,
+					// 					deleteDate,
+					// 					title,
+					// 					textArea,
+					// 					animals,
+					// 					category,
+					// 					city,
+					// 					phoneNumber,
+					// 					price,
+					// 					moderate: false,
+					// 					compleate: false,
+					// 					view: 0
+					// 				}, error => {
+					// 					if (error) {
+					// 						dispatch({ type: types.ADD_ARTICLE_ERROR })
+					// 						dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка при добавлении объявления ${ error }`))
+					// 					}
 
-										dispatch({ type: types.ADD_ARTICLE_SUCCESS })
-										dispatch(actionsSnackbarReducer.handleSnackbar('Успешно добавлено'))
-										handleResetPlace()
-										dispatch(reset('addCardForm'))
-									})
-							}
-						})
+					// 					dispatch({ type: types.ADD_ARTICLE_SUCCESS })
+					// 					dispatch(actionsSnackbarReducer.handleSnackbar('Успешно добавлено'))
+					// 					handleResetPlace()
+					// 					dispatch(reset('addCardForm'))
+					// 				})
+					// 		}
+					// 	})
 				}
 			)
 		}
