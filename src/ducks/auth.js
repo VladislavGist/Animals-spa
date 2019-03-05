@@ -3,6 +3,8 @@ import { push } from 'react-router-redux'
 
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
+import config from '../../config'
+
 const appName = 'paypets'
 export const moduleName = 'auth'
 
@@ -37,6 +39,20 @@ export const actions = {
 	loginAction: ({ email, password }) => dispatch => {
 		dispatch({ type: types.SIGN_IN_REQUEST })
 
+		fetch(`${ config.payPetsApiUrl }/api/auth/login`, {
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			method: 'POST',
+			body: JSON.stringify({ email, password })
+		})
+			.then(result => result.json())
+			.then(user => {
+				const { token } = user
+
+				localStorage.setItem('token', token)
+			})
+			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(err)))
 	},
 
 	signUp: ({ email, password, name, surName, city, phoneNumber }) => dispatch => {
