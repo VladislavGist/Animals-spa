@@ -10,7 +10,6 @@ export const moduleName = 'auth'
 
 const ReducerSchema = Record({
 	user: null,
-	userDatas: null,
 	userError: false,
 	userLoading: false
 })
