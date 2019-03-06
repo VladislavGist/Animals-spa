@@ -69,6 +69,8 @@ class RegistrationFormComponent extends Component {
 			city: params.inpCityReg,
 			phoneNumber: params.inpNumberReg
 		})
+
+		this.handleHideModal()
 	}
 
 	handleHideModal = () => {
