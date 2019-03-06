@@ -32,7 +32,21 @@ export const actions = {
 	loginFalse: () => dispatch => {
 		dispatch({ type: types.SIGN_OUT_REQUEST })
 
+	},
 
+	getUserData: storageToken => dispatch => {
+		fetch(`${ config.payPetsApiUrl }/api/auth/getUserData`, {
+			headers: {
+				'Authorization': `Bearer ${ storageToken }`
+			}
+		})
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(user => {
+				dispatch({ type: types.AUTH_SUCCESS, user })
+			})
 	},
 
 	loginAction: ({ email, password }) => dispatch => {

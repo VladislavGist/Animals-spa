@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react'
 
 import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
 import { actions as actionsFilterCity } from '../src/ducks/filterCity'
+import { actions as actionsAuth } from '../src/ducks/auth'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -24,8 +25,11 @@ import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarEx
 class App extends Component {
 
 	componentWillMount() {
-		const { fetchCitysList } = this.props
+		const { fetchCitysList, getUserData } = this.props
 
+		const storageToken = localStorage.getItem('token')
+
+		if (storageToken) getUserData(storageToken)
 		fetchCitysList()
 	}
 
@@ -87,6 +91,7 @@ export default connect(
 	mapStateToProps,
 	{
 		...actionsSnackbar,
-		...actionsFilterCity
+		...actionsFilterCity,
+		...actionsAuth
 	}
 )(App)
