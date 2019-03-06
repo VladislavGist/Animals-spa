@@ -30,6 +30,7 @@ export const actions = {
 	loginFalse: () => dispatch => {
 		dispatch({ type: types.LOGOUT_REQUEST })
 		localStorage.removeItem('token')
+		dispatch(push('/'))
 	},
 
 	getUserData: storageToken => dispatch => {
