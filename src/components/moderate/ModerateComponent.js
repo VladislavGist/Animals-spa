@@ -7,11 +7,6 @@ import { actions as actionsAllParamsUrl } from '../../ducks/allParamsUrl'
 
 class Moderate extends Component {
 
-	hancleDeleteCards = () => {
-		const { removeCardsInDb } = this.props
-		removeCardsInDb()
-	}
-
 	componentWillMount() {
 		const { getCards } = this.props
 		getCards({ moderate: false })
@@ -26,23 +21,20 @@ class Moderate extends Component {
 
 		return (
 			<div>
-				<a href='javascript:void(0)' onClick={ this.hancleDeleteCards }>Удалить объявления с прошедшей датой</a>
-				<br />
-				<br />
 				{
-					articlesList.length ? articlesList.map(card => <Card
-						addDate={ card.addDate }
-						userId={ card.userId }
-						cardId={ card.key }
-						key={ card.key }
+					articlesList.length > 0 ? articlesList.map(card => <Card
+						addDate={ card.createdAt }
+						userId={ card.creatorId }
+						cardId={ card._id }
+						key={ card._id }
 						title={ card.title }
-						briefDescription={ card.textArea }
+						briefDescription={ card.content }
 						city={ card.city }
-						userName={ card.userName }
+						userName={ card.creatorName }
 						phoneNumber={ card.phoneNumber }
 						price={ card.price }
-						imgPath={ card.images }
-						advType={ card.advType }
+						imgPath={ card.imageUrl }
+						advType={ card.postType }
 						views={ null }
 						rating={ null }
 						userStatus={ null }
@@ -60,6 +52,6 @@ Moderate.propTypes = {
 }
 
 export default connect(
-	state => ({ articlesList: state.articles.articlesList }),
+	state => ({ articlesList: state.auth.user.posts }),
 	{ ...actionsArticles, ...actionsAllParamsUrl }
 )(Moderate)

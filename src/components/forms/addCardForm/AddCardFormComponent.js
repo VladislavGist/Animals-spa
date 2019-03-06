@@ -111,8 +111,7 @@ class AddCardFormComponent extends Component {
 
 	handleSendForm = () => {
 		const {
-			uid,
-			userDatas,
+			user,
 			addCardForm,
 			addArticle,
 			handleResetPlace,
@@ -130,8 +129,7 @@ class AddCardFormComponent extends Component {
 		addArticle(
 			handleResetPlace,
 			{
-				uid,
-				userName: addCardForm.values.refreshName || `${ userDatas.name } ${ userDatas.surName }`,
+				user: addCardForm.values.refreshName || `${ user.name } ${ user.surName }`,
 				...addCardForm.values,
 				images: formData
 			}
@@ -143,7 +141,7 @@ class AddCardFormComponent extends Component {
 			filterCity,
 			addCardForm,
 			addCard,
-			userDatas,
+			user,
 			handleAddPhoto_0,
 			handleAddPhoto_1,
 			handleAddPhoto_2,
@@ -173,7 +171,7 @@ class AddCardFormComponent extends Component {
 								<Form onSubmit={ this.handleSendForm } className='newAnimalForm'>
 
 									{
-										userDatas.role === 'moderator' && <Field
+										user.role === 'moderator' && <Field
 											type='text'
 											label='Имя пользователя'
 											name='refreshName'
@@ -426,14 +424,13 @@ AddCardFormComponent.propTypes = {
 	filterCity: PropTypes.object.isRequired,
 	addCardForm: PropTypes.object,
 	addCard: PropTypes.object.isRequired,
-	userDatas: PropTypes.object.isRequired,
+	user: PropTypes.object.isRequired,
 	handleAddPhoto_0: PropTypes.func.isRequired,
 	handleAddPhoto_1: PropTypes.func.isRequired,
 	handleAddPhoto_2: PropTypes.func.isRequired,
 	handleAddPhoto_3: PropTypes.func.isRequired,
 	handleAddPhoto_4: PropTypes.func.isRequired,
 	handleSnackbar: PropTypes.func.isRequired,
-	uid: PropTypes.string.isRequired,
 	addArticle: PropTypes.func.isRequired,
 	handleResetPlace: PropTypes.func.isRequired,
 	images: PropTypes.object.isRequired
@@ -447,8 +444,7 @@ AddCardFormComponent = reduxForm({
 
 export default connect(
 	state => ({
-		uid: state.auth.user.uid,
-		userDatas: state.auth.userDatas,
+		user: state.auth.user,
 		filterCity: state.filterCity,
 		addCardForm: state.form.addCardForm,
 		addPhoto: state.photosReducer.addPhoto,

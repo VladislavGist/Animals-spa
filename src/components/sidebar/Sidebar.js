@@ -14,14 +14,14 @@ if (process.env.BROWSER) {
 class Sidebar extends Component {
 
 	switchMenuRoles = () => {
-		const { userDatas } = this.props
+		const { user } = this.props
 
-		if (userDatas && userDatas.role === 'user') {
+		if (user && user.role === 'user') {
 			return <div className='userBtns'>
 				<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
 			</div>
 
-		} else if (userDatas && userDatas.role === 'moderator') {
+		} else if (user && user.role === 'moderator') {
 			return <div className='userBtns'>
 				<Link to='/moderation' className='personalArea'>moderation</Link>
 			</div>
@@ -75,12 +75,10 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
 	user: PropTypes.object,
-	userDatas: PropTypes.object,
 	filterCity: PropTypes.object.isRequired
 }
 
 export default connect(state => ({
 	user: state[moduleName].user,
-	userDatas: state[moduleName].userDatas,
 	filterCity: state.filterCity,
 }))(Sidebar)
