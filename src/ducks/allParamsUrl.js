@@ -74,7 +74,7 @@ export const actions = {
 				animalType: animals,
 				postType: category,
 				city,
-				price: Number(price),
+				price: Number(price) ? Number(price) : 0,
 				phoneNumber,
 				file })
 	},

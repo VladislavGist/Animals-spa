@@ -129,8 +129,8 @@ class AddCardFormComponent extends Component {
 		addArticle(
 			handleResetPlace,
 			{
-				...addCardForm.values,
-				file
+				file,
+				...addCardForm.values
 			}
 		)
 	}
