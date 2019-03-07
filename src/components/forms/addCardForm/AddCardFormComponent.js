@@ -37,10 +37,13 @@ class AddCardFormComponent extends Component {
 	disabledSubmitButton = nextProps => {
 		const { addCardForm: { values }, addPhoto } = nextProps
 
+		console.log(['gift', 'find'].includes(values.category))
+
 		if (values &&
 			values.animals &&
 			values.category &&
 			values.city &&
+			(['gift', 'find'].includes(values.category) ? true : values.price) &&
 			values.title &&
 			values.phoneNumber &&
 			values.textArea &&
@@ -399,14 +402,14 @@ class AddCardFormComponent extends Component {
 							<button
 								className={ classNames({
 									btnPlace: true,
-									disabledButton: this.state.disabledButton || (addCard.loadingAdd && !addCard.errorAdd)
+									disabledButton: this.state.disabledButton || (addCard.fetchingAddingArticle && !addCard.errorAddingArticle)
 								}) }
-								disabled={ this.state.disabledButton || (addCard.loadingAdd && !addCard.errorAdd) }
+								disabled={ this.state.disabledButton || (addCard.fetchingAddingArticle && !addCard.errorAddingArticle) }
 								onClick={ this.handleSendForm }
 							>
 								<i className='fa fa-cloud-upload' aria-hidden='true' />
 								<br />
-								<span>{ addCard.loadingAdd && !addCard.errorAdd ? <CircularProgress size={ 60 } thickness={ 7 } /> : 'Разместить' }</span>
+								<span>{ addCard.fetchingAddingArticle && !addCard.errorAddingArticle ? <CircularProgress size={ 60 } thickness={ 7 } /> : 'Разместить' }</span>
 							</button>
 						</div>
 					</div>
