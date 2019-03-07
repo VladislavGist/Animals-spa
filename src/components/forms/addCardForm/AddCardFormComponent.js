@@ -1,5 +1,5 @@
-import classNames from 'classnames'
 import { Link } from 'react-router'
+import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
@@ -111,27 +111,25 @@ class AddCardFormComponent extends Component {
 
 	handleSendForm = () => {
 		const {
-			user,
 			addCardForm,
 			addArticle,
 			handleResetPlace,
 			images
 		} = this.props
 
-		const formData = []
+		const file = []
 
 		for (let i in images) {
 			if ((typeof images[i] === 'object') && images[i]) {
-				formData.push(images[i])
+				file.push(images[i])
 			}
 		}
 
 		addArticle(
 			handleResetPlace,
 			{
-				user: addCardForm.values.refreshName || `${ user.name } ${ user.surName }`,
 				...addCardForm.values,
-				images: formData
+				file
 			}
 		)
 	}
@@ -170,14 +168,12 @@ class AddCardFormComponent extends Component {
 								<p className='subtitle'>Данные</p>
 								<Form onSubmit={ this.handleSendForm } className='newAnimalForm'>
 
-									{
-										user.role === 'moderator' && <Field
-											type='text'
-											label='Имя пользователя'
-											name='refreshName'
-											component={ renderField }
-										/>
-									}
+									{ user.role === 'moderator' && <Field
+										type='text'
+										label='Имя пользователя'
+										name='refreshName'
+										component={ renderField }
+									/> }
 
 									<Field
 										name='animals'

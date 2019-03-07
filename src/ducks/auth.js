@@ -1,4 +1,3 @@
-import { Record } from 'immutable'
 import { push } from 'react-router-redux'
 
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'

@@ -12,11 +12,11 @@ export default class AddPhotoInputComponent extends Component {
 		const { handleAddPhoto, handleSnackbar } = this.props
 		const target = e.target
 
-		if (target.value.length && target.files[0].type === 'image/jpeg') {
+		if (target.value.length && ['image/jpeg', 'image/jpg', 'image/png'].includes(target.files[0].type)) {
 			this.setState({ active: true })
 			handleAddPhoto(target.files[0])
 		} else {
-			handleSnackbar('Формат изображения должен быть jpeg или jpg')
+			handleSnackbar('Формат изображения должен быть jpeg, jpg или png')
 			this.setState({ active: false })
 		}
 	}
@@ -45,7 +45,7 @@ export default class AddPhotoInputComponent extends Component {
 			/>
 			<input
 				type='file'
-				accept='image/jpeg,image/png'
+				accept='image/jpeg,image/jpg,image/png'
 				className={ `formImg` }
 				onChange={ this.changeInput }
 				value={ this.state.unmountValue }
