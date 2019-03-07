@@ -37,8 +37,6 @@ class AddCardFormComponent extends Component {
 	disabledSubmitButton = nextProps => {
 		const { addCardForm: { values }, addPhoto } = nextProps
 
-		console.log(['gift', 'find'].includes(values.category))
-
 		if (values &&
 			values.animals &&
 			values.category &&
