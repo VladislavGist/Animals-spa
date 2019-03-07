@@ -1,5 +1,6 @@
 import React from 'react'
-import { Route, IndexRoute } from 'react-router'
+import { Route } from 'react-router'
+import { connectedRouterRedirect } from 'redux-auth-wrapper/history3/redirect'
 
 import App from './App.js'
 import configureStore from './store'
@@ -12,21 +13,31 @@ import AddCardFormComponent from './components/forms/addCardForm/AddCardFormComp
 import ContactsForm from './components/forms/contactsForm/ContactsFormComponent'
 import PageCards from './components/cards/pageCards/PageCards'
 
-import { moduleName } from '../src/ducks/auth'
-
 const initialState = process.env.BROWSER ? window.__INITIAL_STATE__ : {}
 
 export const store = configureStore(initialState)
 
-const onEnterFunc = (nextState, replaceState) => !store.getState()[moduleName].user && replaceState('/')
+const userIsAuthenticated = connectedRouterRedirect({
+	redirectPath: '/',
+	authenticatedSelector: state => {
+		const { auth:
+			{
+				user,
+				userError,
+				userLoading
+			} } = state
+
+		return !userError && !userLoading && user !== null
+	}
+})
 
 export const routes = <Route component={ App } >
 	<Route path='/' component={ PageCards } />
 	<Route path='/conf' component={ Conf } />
 	<Route path='/contacts' component={ ContactsForm } />
 	<Route path='/animals/:type/:advertisment' component={ PageCards }/>
-	<Route path='/moderation' component={ Moderate } onEnter={ onEnterFunc } />
-	<Route path='/personalArea' component={ PersonalArea } onEnter={ onEnterFunc } />
-	<Route path='/placeAnAd' component={ AddCardFormComponent } onEnter={ onEnterFunc } />
+	<Route path='/moderation' component={ userIsAuthenticated(Moderate) } />
+	<Route path='/personalArea' component={ userIsAuthenticated(PersonalArea) } />
+	<Route path='/placeAnAd' component={ userIsAuthenticated(AddCardFormComponent) } />
 	<Route path='*' component={ NotFound } />
 </Route>

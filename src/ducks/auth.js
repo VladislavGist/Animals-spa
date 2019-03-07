@@ -8,12 +8,6 @@ import config from '../../config'
 const appName = 'paypets'
 export const moduleName = 'auth'
 
-const ReducerSchema = Record({
-	user: null,
-	userError: false,
-	userLoading: false
-})
-
 export const types = {
 	AUTH_REQUEST: `${ appName }/${ moduleName }/AUTH_REQUEST`,
 	AUTH_SUCCESS: `${ appName }/${ moduleName }/AUTH_SUCCESS`,
@@ -115,7 +109,13 @@ export const actions = {
 
 }
 
-export default (state = new ReducerSchema(), action) => {
+const initialState = {
+	user: null,
+	userError: false,
+	userLoading: false
+}
+
+export default (state = initialState, action) => {
 	const { type, user } = action
 
 	switch (type) {
