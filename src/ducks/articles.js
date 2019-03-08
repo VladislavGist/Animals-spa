@@ -70,7 +70,10 @@ export const actions = {
 
 		fetch(`${ config.payPetsApiUrl }/api/feedRead/posts?${resultSearchQuery}`)
 			.then(result => result.json())
-			.then(articles => dispatch({ type: types.FETCH_ARTICLES_SUCCESS, articles: articles.posts }))
+			.then(articles => {
+				dispatch(actionsTypes.handleUpdateStateLoading(100))
+				dispatch({ type: types.FETCH_ARTICLES_SUCCESS, articles: articles.posts })
+			})
 			.catch(err => {
 				dispatch({ type: types.FETCH_ARTICLES_ERROR })
 				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err.message }`))
