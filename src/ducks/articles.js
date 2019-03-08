@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
 }
 
 export const actions = {
-	getCards: ({ city, animalType, postType, page, active }) => dispatch => {
+	getCards: ({ city, animalType, postType, page, active, moderate }) => dispatch => {
 		dispatch({ type: types.FETCH_ARTICLES_START })
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
@@ -57,16 +57,46 @@ export const actions = {
 		const postTypeTypeQuerySearch = postType ? `postType=${ postType }&` : ''
 		const pageQuerySearch = page ? `page=${ page }&` : `page=1&`
 		const activeQuerySearch = active || active === false ? `active=${ active }&` : 'active=true&'
+		const moderateQuerySearch = moderate || moderate === false ? `moderate=${ moderate }&` : 'moderate=true&'
 
-		const resultSearchQuery = `${ cityQuerySearch }${ animalTypeQuerySearch }${ postTypeTypeQuerySearch }${ pageQuerySearch }${ activeQuerySearch }`
+		const resultSearchQuery = `
+			${ cityQuerySearch }
+			${ animalTypeQuerySearch }
+			${ postTypeTypeQuerySearch }
+			${ pageQuerySearch }
+			${ activeQuerySearch }
+			${ moderateQuerySearch }
+		`
 
 		fetch(`${ config.payPetsApiUrl }/api/feedRead/posts?${resultSearchQuery}`)
 			.then(result => result.json())
 			.then(articles => dispatch({ type: types.FETCH_ARTICLES_SUCCESS, articles: articles.posts }))
 			.catch(err => {
 				dispatch({ type: types.FETCH_ARTICLES_ERROR })
-				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err }`))
+				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err.message }`))
 			})
+	},
+
+	moderateCard: (url, cardId, status) => dispatch => {
+		const token = localStorage.getItem('token')
+
+		fetch(url, {
+			method: 'PUT',
+			headers: {
+				'Authorization': `Bearer ${ token }`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ postId: cardId, status })
+		})
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject('Не удалось изменить статус объявления')
+			})
+			.then(result => {
+				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+				dispatch(actions.getCards({ active: false }))
+			})
+			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(err.message)))
 	},
 
 	onHandleClearState: () => ({ type: types.FETCH_ARTICLES_CLEAR })

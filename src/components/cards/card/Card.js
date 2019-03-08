@@ -5,7 +5,6 @@ import React, { Component, PropTypes } from 'react'
 import moment from 'moment'
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
-import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 
 import SlickSlider from '../../slickSlider/SlickSliderComponent'
 
@@ -32,9 +31,9 @@ class Card extends Component {
 	clickFunc = () => {
 		const { pathname, updateCardView, userId, cardId, view } = this.props
 
-		if ((pathname !== '/personalArea') && (pathname !== '/moderation')) {
-			updateCardView(userId, cardId, view)
-		}
+		// if ((pathname !== '/personalArea') && (pathname !== '/moderation')) {
+		// 	updateCardView(userId, cardId, view)
+		// }
 	}
 
 	stausesReplace = status => {
@@ -58,6 +57,11 @@ class Card extends Component {
 
 	handleReverseCard = () => this.setState({ verticalRotate: !this.state.verticalRotate })
 
+	changeActiveStatusPostWapper = event => {
+		const { cardId, changeActiveStatusPost } = this.props
+		changeActiveStatusPost(cardId, event)
+	}
+
 	render() {
 		const {
 			addDate,
@@ -76,7 +80,8 @@ class Card extends Component {
 			deleteDate,
 			moderate,
 			compleate,
-			pathname
+			pathname,
+			changeActiveStatusPost
 		} = this.props
 
 		const imagePath = []
@@ -166,8 +171,20 @@ class Card extends Component {
 
 				{ deleted || deleteInfo ?
 					<div className='cardInfoInAccount'>
-						{ deleted && <a href='javascript:void(0)' className='button1' onClick={ this.handleDelete }>Завершить</a> }
-						{ deleteInfo && <p>Будет удалено: { deleteDate }</p> }
+
+						{ deleted ? (
+							<a
+								href='javascript:void(0)'
+								className='button1'
+								onClick={ this.handleDelete }>
+									Завершить
+							</a>
+						) : null }
+
+						{ deleteInfo ? (
+							<p>Будет удалено: { deleteDate }</p>
+						) : null }
+
 					</div> : null }
 
 				{ compleate ? (
@@ -178,8 +195,19 @@ class Card extends Component {
 
 				{ moderate ? (
 					<div className='moderation'>
-						<button className='btnAccepted' onClick={ this.handleAccepted }>Пропустить</button>
-						<button className='btnRejected' onClick={ this.handleRejected }>Отклонить</button>
+						<button
+							className='btnAccepted'
+							data-action='true'
+							onClick={ this.changeActiveStatusPostWapper }>
+								Пропустить
+						</button>
+
+						<button
+							className='btnRejected'
+							data-action='false'
+							onClick={ this.changeActiveStatusPostWapper }>
+								Отклонить
+						</button>
 					</div>
 				) : null }
 			</div>
@@ -206,13 +234,12 @@ Card.propTypes = {
 	moderate: PropTypes.bool,
 	compleate: PropTypes.bool,
 	pathname: PropTypes.string.isRequired,
-	handleAccepted: PropTypes.func,
-	handleRejected: PropTypes.func
+	changeActiveStatusPost: PropTypes.func
 }
 
 export default connect(
 	state => ({
 		pathname: state.routing.locationBeforeTransitions.pathname,
 	}),
-	{ ...actionsAllParamsUrl, ...actionsSnackbarReducer }
+	{ ...actionsAllParamsUrl }
 )(Card)
