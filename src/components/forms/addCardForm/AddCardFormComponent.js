@@ -2,7 +2,6 @@ import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import MenuItem from 'material-ui/MenuItem'
 import { Form, Field, reduxForm } from 'redux-form'
 import { SelectField } from 'redux-form-material-ui'
@@ -14,7 +13,7 @@ import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReduce
 
 import { renderField, validate } from '../formValidate'
 import AddPhotoInputComponent from './addPhotoInput/AddPhotoInputComponent'
-import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
+import { normilizeNumber, validateInputs } from '../validationsInputs'
 
 if (process.env.BROWSER) {
 	require('./PlaceAnAdStyles.sass')

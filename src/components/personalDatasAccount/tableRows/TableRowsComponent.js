@@ -1,17 +1,22 @@
 import { connect } from 'react-redux'
 import MenuItem from 'material-ui/MenuItem'
+import { SelectField } from 'redux-form-material-ui'
 import React, { Component, PropTypes } from 'react'
 import { Form, Field, reduxForm } from 'redux-form'
+import CircularProgress from 'material-ui/CircularProgress'
+import _ from 'lodash'
 
 import { renderField, validate } from '../../forms/formValidate'
 import { validateInputs } from '../../forms/validationsInputs'
-import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
+import { actions as actionsAuthReducer } from '../../../ducks/auth'
+
+import config from '../../../../config'
 
 class TableRowsComponent extends Component {
 
 	state = {
 		changeName: false,
-		changeSurName: false,
+		changeLastName: false,
 		changeEmail: false,
 		changeCity: false,
 
@@ -27,9 +32,9 @@ class TableRowsComponent extends Component {
 	disabledSubmitButton = nextProps => {
 		const { rows: { values } } = nextProps
 
-		if (Object.keys(values).length > 1 &&
+		if (values && Object.keys(values).length > 0 &&
 			(values.name ? values.name.match(validateInputs.name) : true) &&
-			(values.surName ? values.surName.match(validateInputs.surname) : true) &&
+			(values.lastName ? values.lastName.match(validateInputs.lastName) : true) &&
 			(values.email ? values.email.match(validateInputs.email) : true)
 		) {
 			this.setState({ disabledButton: false })
@@ -40,162 +45,151 @@ class TableRowsComponent extends Component {
 
 	handleSubmitForm = () => {
 		const {
-			handleSnackbar,
-			uid,
 			rows: { values },
-			name,
-			surName,
-			email,
-			city
+			updateUserData
 		} = this.props
 
-		// firebase.database().ref(`users/${ uid }`).update({
-		// 	name: values.name || name,
-		// 	surName: values.surName || surName,
-		// 	email: values.email || email,
-		// 	city: values.city || city
-		// })
-		// 	.then(() => handleSnackbar('Изменено'))
-		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+		updateUserData(`${ config.payPetsApiUrl }/api/auth/changeUserData`, values)
 	}
 
 	render() {
 		const {
 			cityList,
 			name,
-			surName,
+			lastName,
 			email,
 			city
 		} = this.props
 
 		const {
 			changeName,
-			changeSurName,
+			changeLastName,
 			changeCity,
 			changeEmail,
 
 			disabledButton
 		} = this.state
 
-		const styles = {
-			floatingLabelStyle: { 'color': '#b1adad' },
-			labelStyle: { 'color': '#7c7c7c', top: '7px' },
-			floatingLabelFocusStyle: { 'color': '#2396f1' }
-		}
-
-		return <Form onSubmit={ this.handleSubmitForm } className='registrationForm TableRowsComponent'>
-			<br />
-			<div>
-				<p>Ваше имя: { name }</p>
+		return (
+			<Form
+				onSubmit={ this.handleSubmitForm }
+				className='registrationForm TableRowsComponent'>
+				<br />
 				<div>
-					<a href='javascript:void(0)' onClick={ () => this.setState({ changeName: !changeName }) }>
-						{ changeName ? 'Свернуть' : 'Изменить' }
-					</a>
+					<p>Ваше имя: { name }</p>
+					<div>
+						<a
+							href='javascript:void(0)'
+							onClick={ () => this.setState({ changeName: !changeName }) }>
+							{ changeName ? 'Свернуть' : 'Изменить' }
+						</a>
+					</div>
+					{ changeName ? (
+						<Field
+							name='name'
+							type='text'
+							label='Новое имя пользователя'
+							component={ renderField }
+						/>
+					) : null }
 				</div>
-				{
-					changeName && <Field
-						name='name'
-						type='text'
-						label='Новое имя пользователя'
-						component={ renderField }
-					/>
-				}
-			</div>
-			<br />
+				<br />
 
-			<div>
-				<p>Ваша фамилия: { surName }</p>
 				<div>
-					<a href='javascript:void(0)' onClick={ () => this.setState({ changeSurName: !changeSurName }) }>
-						{ changeSurName ? 'Свернуть' : 'Изменить' }
-					</a>
+					<p>Ваша фамилия: { lastName }</p>
+					<div>
+						<a
+							href='javascript:void(0)'
+							onClick={ () => this.setState({ changeLastName: !changeLastName }) }>
+							{ changeLastName ? 'Свернуть' : 'Изменить' }
+						</a>
+					</div>
+					{ changeLastName ? (
+						<Field
+							name='lastName'
+							type='text'
+							label='Фамилия'
+							component={ renderField }
+						/>
+					) : null }
 				</div>
-				{
-					changeSurName && <Field
-						name='surName'
-						type='text'
-						label='Фамилия'
-						component={ renderField }
-					/>
-				}
-			</div>
-			<br />
+				<br />
 
-			<div>
-				<p>Город: { city }</p>
 				<div>
-					<a href='javascript:void(0)' onClick={ () => this.setState({ changeCity: !changeCity }) }>
-						{ changeCity ? 'Свернуть' : 'Изменить' }
-					</a>
-				</div>
-				{
-					changeCity && <Field
-						name='city'
-						component={ renderField }
-						type='select'
-						extra={ {
-							floatingLabelStyle: styles.floatingLabelStyle,
-							labelStyle: styles.labelStyle,
-							floatingLabelText: 'Город',
-							floatingLabelFixed: true,
-							hintText: this.props.rows && this.props.rows.values.city,
-							selectedMenuItemStyle: styles.floatingLabelFocusStyle
-						} }
-					>
-						{
-							cityList.map((elem, idx) => <MenuItem
-								className='selectItem'
-								name='selectItem'
-								value={ elem }
-								primaryText={ <option>{ elem }</option> }
-								key={ idx }
-							/>)
-						}
-					</Field>
-				}
-			</div>
-			<br />
+					<p>Город: { city }</p>
+					<div>
+						<a
+							href='javascript:void(0)'
+							onClick={ () => this.setState({ changeCity: !changeCity }) }>
+							{ changeCity ? 'Свернуть' : 'Изменить' }
+						</a>
+					</div>
 
-			<div>
-				<p>Email: { email }</p>
+					{ cityList ? (
+						changeCity ? (
+							<Field
+								name='city'
+								component={ SelectField }
+								floatingLabelText='Город'
+							>
+								{ cityList.map((elem, idx) => <MenuItem
+									className='selectItem'
+									name='selectItem'
+									value={ elem }
+									primaryText={ <option>{ elem }</option> }
+									key={ idx }
+								/>) }
+							</Field>
+						) : null
+					) : <CircularProgress size={ 60 }/> }
+				</div>
+				<br />
+
 				<div>
-					<a href='javascript:void(0)' onClick={ () => this.setState({ changeEmail: !changeEmail }) }>
-						{ changeEmail ? 'Свернуть' : 'Изменить' }
-					</a>
+					<p>Email: { email }</p>
+					<div>
+						<a
+							href='javascript:void(0)'
+							onClick={ () => this.setState({ changeEmail: !changeEmail }) }>
+							{ changeEmail ? 'Свернуть' : 'Изменить' }
+						</a>
+					</div>
+
+					{ changeEmail ? (
+						<Field
+							name='email'
+							type='text'
+							label='Новый email'
+							component={ renderField }
+						/>
+					) : null }
 				</div>
-				{
-					changeEmail && <Field
-						name='email'
-						type='text'
-						label='Новый email'
-						component={ renderField }
-					/>
-				}
-			</div>
-			<br />
+				<br />
 
-			<div>
-				<br/>
-				{ !disabledButton && <a href='javascript:void(0)'onClick={ this.handleSubmitForm }>Применить</a> }
-			</div>
+				<div>
+					<br/>
+					{ !disabledButton ? (
+						<a
+							href='javascript:void(0)'
+							onClick={ this.handleSubmitForm }>
+							Применить
+						</a>
+					) : null }
+				</div>
 
-		</Form>
-	}
+			</Form>) }
 }
 
 TableRowsComponent.propTypes = {
-	handleSnackbar: PropTypes.func.isRequired,
-	uid: PropTypes.string,
 	rows: PropTypes.object,
 	name: PropTypes.string,
-	surName: PropTypes.string,
+	lastName: PropTypes.string,
 	email: PropTypes.string,
 	city: PropTypes.string
 }
 
 TableRowsComponent = reduxForm({
 	form: 'rows',
-	initialValues: { city: 'Москва' },
 	validate
 })(TableRowsComponent)
 
@@ -207,10 +201,10 @@ export default connect(
 			rows: state.form.rows,
 			cityList: state.filterCity.cityList,
 			name: user && user.name,
-			surName: user && user.lastName,
+			lastName: user && user.lastName,
 			email: user && user.email,
 			city: user && user.city
 		}
 	},
-	{ ...actionsSnackbarReducer })
+	{ ...actionsAuthReducer })
 (TableRowsComponent)

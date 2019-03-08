@@ -95,10 +95,10 @@ export const validate = values => {
 		errors.name = 'Введите корректное имя'
 	}
 
-	if (!values.surname) {
-		errors.surname = 'Поле обязательно для заполнения!'
-	} else if (!values.surname.match(validateInputs.surname)) {
-		errors.surname = 'Введите корректную фамилию'
+	if (!values.lastName) {
+		errors.lastName = 'Поле обязательно для заполнения!'
+	} else if (!values.lastName.match(validateInputs.lastName)) {
+		errors.lastName = 'Введите корректную фамилию'
 	}
 
 	if (!values.email) {

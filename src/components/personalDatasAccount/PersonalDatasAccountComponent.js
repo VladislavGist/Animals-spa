@@ -10,7 +10,6 @@ if (process.env.BROWSER) {
 	require('../personalArea/PersonalAreaStyles.sass')
 	require('../cards/cardsList/cardsList.sass')
 }
-
 class PersonalDatasAccount extends Component {
 
 	state = { value: '0', slideIndex: 0 }
@@ -66,28 +65,26 @@ class PersonalDatasAccount extends Component {
 							onActive={ this.handleActive }
 						>
 							<div>
-								{
-									resolveCards && resolveCards.length > 0 ?
-										resolveCards.map(card => <Card
-											key={ card._id }
-											addDate={ card.createdAt }
-											city={ card.city }
-											cardId={ card._id }
-											title={ card.title }
-											price={ card.price }
-											imgPath={ card.imageUrl }
-											advType={ card.postType }
-											userName={ card.creatorName }
-											deleteDate={ card.deleteDate }
-											phoneNumber={ card.phoneNumber }
-											briefDescription={ card.content }
-											views={ null }
-											rating={ null }
-											deleted={ true }
-											userStatus={ null }
-											// deleteInfo={ true }
-										/>) : <p>Активных объявлений нет</p>
-								}
+								{ resolveCards && resolveCards.length > 0 ?
+									resolveCards.map(card => <Card
+										key={ card._id }
+										addDate={ card.createdAt }
+										city={ card.city }
+										cardId={ card._id }
+										title={ card.title }
+										price={ card.price }
+										imgPath={ card.imageUrl }
+										advType={ card.postType }
+										userName={ card.creatorName }
+										deleteDate={ card.deleteDate }
+										phoneNumber={ card.phoneNumber }
+										briefDescription={ card.content }
+										views={ null }
+										rating={ null }
+										deleted={ true }
+										userStatus={ null }
+										// deleteInfo={ true }
+									/>) : <p>Активных объявлений нет</p> }
 							</div>
 
 						</Tab>
@@ -100,26 +97,24 @@ class PersonalDatasAccount extends Component {
 							onActive={ this.handleActive }
 						>
 							<div>
-								{
-									rejectedCards && rejectedCards.length > 0 ?
-										rejectedCards.map(card => <Card
-											key={ card._id }
-											addDate={ card.createdAt }
-											city={ card.city }
-											cardId={ card._id }
-											title={ card.title }
-											price={ card.price }
-											imgPath={ card.imageUrl }
-											advType={ card.postType }
-											userName={ card.creatorName }
-											deleteDate={ card.deleteDate }
-											phoneNumber={ card.phoneNumber }
-											briefDescription={ card.content }
-											views={ null }
-											rating={ null }
-											userStatus={ null }
-										/>) : <p>Завершенных объявлений нет</p>
-								}
+								{ rejectedCards && rejectedCards.length > 0 ?
+									rejectedCards.map(card => <Card
+										key={ card._id }
+										addDate={ card.createdAt }
+										city={ card.city }
+										cardId={ card._id }
+										title={ card.title }
+										price={ card.price }
+										imgPath={ card.imageUrl }
+										advType={ card.postType }
+										userName={ card.creatorName }
+										deleteDate={ card.deleteDate }
+										phoneNumber={ card.phoneNumber }
+										briefDescription={ card.content }
+										views={ null }
+										rating={ null }
+										userStatus={ null }
+									/>) : <p>Завершенных объявлений нет</p>}
 							</div>
 						</Tab>
 

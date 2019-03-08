@@ -16,6 +16,10 @@ export const types = {
 	REGISTRATION_SUCCESS: `${ appName }/${ moduleName }/REGISTRATION_SUCCESS`,
 	REGISTRATION_ERROR: `${ appName }/${ moduleName }/REGISTRATION_ERROR`,
 
+	UPDATE_USER_DATA_REQUEST: `${ appName }/${ moduleName }/UPDATE_USER_DATA_REQUEST`,
+	UPDATE_USER_DATA_SUCCESS: `${ appName }/${ moduleName }/UPDATE_USER_DATA_SUCCESS`,
+	UPDATE_USER_DATA_ERROR: `${ appName }/${ moduleName }/UPDATE_USER_DATA_ERROR`,
+
 	LOGOUT_REQUEST: `${ appName }/${ moduleName }/LOGOUT_REQUEST`
 }
 
@@ -69,7 +73,7 @@ export const actions = {
 			})
 	},
 
-	signUp: ({ email, password, name, surName, city }) => dispatch => {
+	signUp: ({ email, password, name, lastName, city }) => dispatch => {
 		dispatch({ type: types.REGISTRATION_REQUEST })
 
 		fetch(`${ config.payPetsApiUrl }/api/auth/signup`, {
@@ -81,7 +85,7 @@ export const actions = {
 				email,
 				password,
 				name,
-				lastName: surName,
+				lastName,
 				city
 			})
 		})
@@ -101,10 +105,35 @@ export const actions = {
 			})
 	},
 
-	updateDatasTrue: url => dispatch => {
+	updateUserData: (url, values) => dispatch => {
+		dispatch({ type: types.UPDATE_USER_DATA_REQUEST })
 
+		const token = localStorage.getItem('token')
+
+		fetch(url, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${ token }`
+			},
+			body: JSON.stringify(values)
+		})
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(updateUserData => {
+				dispatch({ type: types.UPDATE_USER_DATA_SUCCESS, updateUserData })
+				dispatch(actionsSnackbarReducer.handleSnackbar('Данные успешно изменены'))
+			})
+			.catch(err => {
+				err
+					.than(res => {
+						dispatch({ type: types.UPDATE_USER_DATA_ERROR })
+						dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					})
+			})
 	}
-
 }
 
 const initialState = {
@@ -127,6 +156,7 @@ export default (state = initialState, action) => {
 		user
 	}
 	case types.AUTH_ERROR: return {
+		...state,
 		userError: true,
 		userLoading: false
 	}
@@ -140,6 +170,26 @@ export default (state = initialState, action) => {
 		userError: false
 	}
 	case types.REGISTRATION_ERROR: return {
+		userError: true,
+		userLoading: false
+	}
+
+	case types.UPDATE_USER_DATA_REQUEST: return {
+		...state,
+		userError: false,
+		userLoading: true
+	}
+	case types.UPDATE_USER_DATA_SUCCESS: return {
+		...state,
+		user: {
+			...state.user,
+			...action.updateUserData
+		},
+		userError: false,
+		userLoading: false
+	}
+	case types.UPDATE_USER_DATA_ERROR: return {
+		...state,
 		userError: true,
 		userLoading: false
 	}

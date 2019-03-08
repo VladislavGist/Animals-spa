@@ -4,7 +4,7 @@ export const validateInputs = {
 	password: /^.{6,200}$/,
 	name: /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я ]+[a-zA-Zа-яА-Я]?$/u,
 	title: /^[a-zA-Zа-яА-Я-0-9 ]{10,57}$/,
-	surname: /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я ]+[a-zA-Zа-яА-Я]?$/u,
+	lastName: /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я ]+[a-zA-Zа-яА-Я]?$/u,
 	email: /^([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z]{2,6}$/,
 	price: /^[0-9]{2,6}$/
 }

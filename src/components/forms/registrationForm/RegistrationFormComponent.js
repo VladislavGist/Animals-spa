@@ -29,11 +29,11 @@ class RegistrationFormComponent extends Component {
 		if (values &&
 			values.check &&
 			values.name &&
-			values.surname &&
+			values.lastName &&
 			values.password &&
 			values.email &&
 			values.name.match(validateInputs.name) &&
-			values.surname.match(validateInputs.surname) &&
+			values.lastName.match(validateInputs.lastName) &&
 			values.password.match(validateInputs.password) &&
 			values.email.match(validateInputs.email)) {
 
@@ -50,7 +50,7 @@ class RegistrationFormComponent extends Component {
 
 		let params = {
 			inpName: registrationForm.values.name,
-			inpSurname: registrationForm.values.surname,
+			inpLastName: registrationForm.values.lastName,
 			inpPasswordReg: registrationForm.values.password,
 			inpCityReg: registrationForm.values.city,
 			inpEmailReg: registrationForm.values.email
@@ -60,7 +60,7 @@ class RegistrationFormComponent extends Component {
 			email: params.inpEmailReg,
 			password: params.inpPasswordReg,
 			name: params.inpName,
-			surName: params.inpSurname,
+			lastName: params.inpLastName,
 			city: params.inpCityReg
 		})
 
@@ -95,7 +95,7 @@ class RegistrationFormComponent extends Component {
 				<Field
 					type='text'
 					label='Фамилия'
-					name='surname'
+					name='lastName'
 					normalize={ normilizeText }
 					component={ renderField }
 				/>
