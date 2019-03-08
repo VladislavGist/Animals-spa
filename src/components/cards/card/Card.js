@@ -37,28 +37,6 @@ class Card extends Component {
 		}
 	}
 
-	handleAccepted = e => {
-		const { handleSnackbar, userId, cardId } = this.props
-
-		// firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
-		// 	moderate: 'resolve',
-		// 	compleate: false
-		// })
-		// 	.then(() => handleSnackbar('Принято'))
-		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
-	}
-
-	handleRejected = e => {
-		const { handleSnackbar, userId, cardId } = this.props
-
-		// firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
-		// 	moderate: 'rejected',
-		// 	compleate: true
-		// })
-		// 	.then(() => handleSnackbar('Отклонено'))
-		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
-	}
-
 	stausesReplace = status => {
 		switch(status) {
 		case 'buy': return 'Продажа'; break
@@ -85,7 +63,6 @@ class Card extends Component {
 			addDate,
 			price,
 			advType,
-			rating,
 			phoneNumber,
 			city,
 			userStatus,
@@ -99,17 +76,10 @@ class Card extends Component {
 			deleteDate,
 			moderate,
 			compleate,
-
 			pathname
 		} = this.props
 
-		// const mass = []
-
-		// for (let i = 0; i < rating; i++) {
-		// 	mass.push(<i className='fa fa-star' aria-hidden='true' key={ i } />)
-		// }
-
-		let imagePath = []
+		const imagePath = []
 
 		imgPath.forEach(path => {
 			let value = `${ config.payPetsApiUrl }/${ path }`
@@ -158,6 +128,7 @@ class Card extends Component {
 								</div>
 							</div>
 						</div>
+
 						<div className='bottom'>
 							<div>
 								<h3 className='title'>{ title }</h3>
@@ -166,9 +137,11 @@ class Card extends Component {
 
 						</div>
 					</div>
+
 					<div className='img'>
 						<img src={ imagePath[0] } />
 					</div>
+
 					<div className='reverseFace'>
 						<div className='sliderItem'>
 							<SlickSlider imagesItems={ imagePath } />
@@ -190,25 +163,25 @@ class Card extends Component {
 						</div>
 					</div>
 				</div>
-				{
-					deleted || deleteInfo ?
-						<div className='cardInfoInAccount'>
-							{ deleted && <a href='javascript:void(0)' className='button1' onClick={ this.handleDelete }>Завершить</a> }
-							{ deleteInfo && <p>Будет удалено: { deleteDate }</p> }
-						</div> : null
-				}
-				{
-					compleate && <div className='cardInfoInAccount'>
+
+				{ deleted || deleteInfo ?
+					<div className='cardInfoInAccount'>
+						{ deleted && <a href='javascript:void(0)' className='button1' onClick={ this.handleDelete }>Завершить</a> }
+						{ deleteInfo && <p>Будет удалено: { deleteDate }</p> }
+					</div> : null }
+
+				{ compleate ? (
+					<div className='cardInfoInAccount'>
 						<p>Будет удалено: { deleteDate }</p>
 					</div>
-				}
-				{
-					moderate &&
-						<div className='moderation'>
-							<button className='btnAccepted' onClick={ this.handleAccepted }>Пропустить</button>
-							<button className='btnRejected' onClick={ this.handleRejected }>Отклонить</button>
-						</div>
-				}
+				) : null }
+
+				{ moderate ? (
+					<div className='moderation'>
+						<button className='btnAccepted' onClick={ this.handleAccepted }>Пропустить</button>
+						<button className='btnRejected' onClick={ this.handleRejected }>Отклонить</button>
+					</div>
+				) : null }
 			</div>
 		)
 	}
@@ -233,13 +206,13 @@ Card.propTypes = {
 	moderate: PropTypes.bool,
 	compleate: PropTypes.bool,
 	pathname: PropTypes.string.isRequired,
-	uid: PropTypes.string
+	handleAccepted: PropTypes.func,
+	handleRejected: PropTypes.func
 }
 
 export default connect(
 	state => ({
 		pathname: state.routing.locationBeforeTransitions.pathname,
-		uid: state.auth.user && state.auth.user.uid
 	}),
 	{ ...actionsAllParamsUrl, ...actionsSnackbarReducer }
 )(Card)

@@ -9,11 +9,33 @@ class Moderate extends Component {
 
 	componentWillMount() {
 		const { getCards } = this.props
-		getCards({ moderate: false })
+		getCards({ active: false })
 	}
 
 	componentWillUnmount() {
 		this.props.onHandleClearState()
+	}
+
+	handleAccepted = e => {
+		const { handleSnackbar, userId, cardId } = this.props
+
+		// firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
+		// 	moderate: 'resolve',
+		// 	compleate: false
+		// })
+		// 	.then(() => handleSnackbar('Принято'))
+		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+	}
+
+	handleRejected = e => {
+		const { handleSnackbar, userId, cardId } = this.props
+
+		// firebase.database().ref(`users/${ userId }/articles/${ cardId }`).update({
+		// 	moderate: 'rejected',
+		// 	compleate: true
+		// })
+		// 	.then(() => handleSnackbar('Отклонено'))
+		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
 	}
 
 	render() {
@@ -39,6 +61,8 @@ class Moderate extends Component {
 						rating={ null }
 						userStatus={ null }
 						moderate={ true }
+						handleAccepted={ this.handleAccepted }
+						handleRejected={ this.handleRejected }
 					/>) : <p>Объявлений на модерацию нет</p>
 				}
 			</div>
@@ -52,6 +76,8 @@ Moderate.propTypes = {
 }
 
 export default connect(
-	state => ({ articlesList: state.auth.user.posts }),
+	state => ({
+		articlesList: state.articles.articlesList
+	}),
 	{ ...actionsArticles, ...actionsAllParamsUrl }
 )(Moderate)
