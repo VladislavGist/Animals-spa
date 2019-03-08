@@ -5,8 +5,6 @@
 * Webpack 3
 * React 15
 * Redux
-* Firebase
-* Nodejs (Firebase functions)
 
 ### Frontend:
 * dev: yarn run dev
