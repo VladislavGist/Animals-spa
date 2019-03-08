@@ -69,7 +69,7 @@ export const actions = {
 			})
 	},
 
-	signUp: ({ email, password, name, surName, city, phoneNumber }) => dispatch => {
+	signUp: ({ email, password, name, surName, city }) => dispatch => {
 		dispatch({ type: types.REGISTRATION_REQUEST })
 
 		fetch(`${ config.payPetsApiUrl }/api/auth/signup`, {
@@ -82,8 +82,7 @@ export const actions = {
 				password,
 				name,
 				lastName: surName,
-				city,
-				phoneNumber
+				city
 			})
 		})
 			.then(response => {

@@ -8,9 +8,7 @@ import { SelectField } from 'redux-form-material-ui'
 
 import { renderField, validate } from '../formValidate'
 import { actions as authActions } from '../../../ducks/auth'
-import { normilizeNumber, normilizeText, validateInputs } from '../validationsInputs'
-
-import LoginModal from '../../sendDialog/SendDialogComponent'
+import { normilizeText, validateInputs } from '../validationsInputs'
 
 class RegistrationFormComponent extends Component {
 
@@ -32,12 +30,10 @@ class RegistrationFormComponent extends Component {
 			values.check &&
 			values.name &&
 			values.surname &&
-			values.phoneNumber &&
 			values.password &&
 			values.email &&
 			values.name.match(validateInputs.name) &&
 			values.surname.match(validateInputs.surname) &&
-			values.phoneNumber.match(validateInputs.phoneNumber) &&
 			values.password.match(validateInputs.password) &&
 			values.email.match(validateInputs.email)) {
 
@@ -55,7 +51,6 @@ class RegistrationFormComponent extends Component {
 		let params = {
 			inpName: registrationForm.values.name,
 			inpSurname: registrationForm.values.surname,
-			inpNumberReg: registrationForm.values.phoneNumber,
 			inpPasswordReg: registrationForm.values.password,
 			inpCityReg: registrationForm.values.city,
 			inpEmailReg: registrationForm.values.email
@@ -66,8 +61,7 @@ class RegistrationFormComponent extends Component {
 			password: params.inpPasswordReg,
 			name: params.inpName,
 			surName: params.inpSurname,
-			city: params.inpCityReg,
-			phoneNumber: params.inpNumberReg
+			city: params.inpCityReg
 		})
 
 		this.handleHideModal()
@@ -117,14 +111,6 @@ class RegistrationFormComponent extends Component {
 					type='password'
 					label='Пароль'
 					name='password'
-					component={ renderField }
-				/>
-				
-				<Field
-					type='tel'
-					label='Номер телефона'
-					name='phoneNumber'
-					normalize={ normilizeNumber }
 					component={ renderField }
 				/>
 
