@@ -197,14 +197,14 @@ class Card extends Component {
 					<div className='moderation'>
 						<button
 							className='btnAccepted'
-							data-action='true'
+							data-action='resolve'
 							onClick={ this.changeActiveStatusPostWapper }>
 								Пропустить
 						</button>
 
 						<button
 							className='btnRejected'
-							data-action='false'
+							data-action='reject'
 							onClick={ this.changeActiveStatusPostWapper }>
 								Отклонить
 						</button>

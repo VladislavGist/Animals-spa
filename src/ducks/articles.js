@@ -57,7 +57,7 @@ export const actions = {
 		const postTypeTypeQuerySearch = postType ? `postType=${ postType }&` : ''
 		const pageQuerySearch = page ? `page=${ page }&` : `page=1&`
 		const activeQuerySearch = active || active === false ? `active=${ active }&` : 'active=true&'
-		const moderateQuerySearch = moderate || moderate === false ? `moderate=${ moderate }&` : 'moderate=true&'
+		const moderateQuerySearch = moderate ? `moderate=${ moderate }&` : 'moderate=resolve&'
 
 		const resultSearchQuery = `
 			${ cityQuerySearch }
@@ -94,7 +94,7 @@ export const actions = {
 			})
 			.then(result => {
 				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
-				dispatch(actions.getCards({ active: false }))
+				dispatch(actions.getCards({ moderate: 'pending' }))
 			})
 			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(err.message)))
 	},

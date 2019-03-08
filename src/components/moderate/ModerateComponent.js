@@ -10,7 +10,7 @@ class Moderate extends Component {
 
 	componentWillMount() {
 		const { getCards } = this.props
-		getCards({ active: true, moderate: false })
+		getCards({ active: true, moderate: 'pending' })
 	}
 
 	componentWillUnmount() {
@@ -22,11 +22,7 @@ class Moderate extends Component {
 			moderateCard
 		} = this.props
 
-		const active = event.target.getAttribute('data-action')
-		let status
-
-		if (active === 'true') status = true
-		else status = false
+		const status = event.target.getAttribute('data-action')
 
 		moderateCard(`${ config.payPetsApiUrl }/api/feed/moderatePost`, cardId, status)
 	}
