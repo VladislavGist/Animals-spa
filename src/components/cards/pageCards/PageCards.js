@@ -13,8 +13,8 @@ class PageCards extends Component {
 
 		getCards({
 			city: filterCity,
-			animalType: 'all',
-			postType: 'all',
+			animalType: '',
+			postType: '',
 			page: 1
 		})
 	}

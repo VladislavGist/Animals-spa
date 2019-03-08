@@ -52,7 +52,7 @@ export const actions = {
 		dispatch({ type: types.FETCH_ARTICLES_START })
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
-		const cityQuerySearch = city ? `city=${ city }&` : ''
+		const cityQuerySearch = city && city !== 'Все регионы' ? `city=${ city }&` : ''
 		const animalTypeQuerySearch = animalType ? `animalType=${ animalType }&` : ''
 		const postTypeTypeQuerySearch = postType ? `postType=${ postType }&` : ''
 		const pageQuerySearch = page ? `page=${ page }` : 1
