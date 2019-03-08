@@ -48,11 +48,17 @@ export default (state = initialState, action) => {
 }
 
 export const actions = {
-	getCards: ({ moderate, type_cards, advertisment_cards, filterCity, role }) => dispatch => {
+	getCards: ({ city, animalType, postType, page }) => dispatch => {
 		dispatch({ type: types.FETCH_ARTICLES_START })
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
-		fetch(`${ config.payPetsApiUrl }/api/feedRead/posts`)
+		const cityQuerySearch = city ? `city=${ city }&` : ''
+		const animalTypeQuerySearch = animalType ? `animalType=${ animalType }&` : ''
+		const postTypeTypeQuerySearch = postType ? `postType=${ postType }&` : ''
+		const pageQuerySearch = page ? `page=${ page }` : 1
+		const resultSearchQuery = `${ cityQuerySearch }${ animalTypeQuerySearch }${ postTypeTypeQuerySearch }${ pageQuerySearch }`
+
+		fetch(`${ config.payPetsApiUrl }/api/feedRead/posts?${resultSearchQuery}`)
 			.then(result => result.json())
 			.then(articles => dispatch({ type: types.FETCH_ARTICLES_SUCCESS, articles: articles.posts }))
 			.catch(err => {

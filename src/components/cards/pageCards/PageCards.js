@@ -9,21 +9,36 @@ import CardsList from '../cardsList/CardsList'
 class PageCards extends Component {
 
 	componentDidMount() {
-		const { getCards, params, filterCity } = this.props
+		const { getCards, filterCity } = this.props
 
-		// index page cards
-		if (!params.type) getCards({ moderate: 'resolve', filterCity })
-
-		// all pages cards
-		getCards({ moderate: 'resolve', type_cards: params.type, advertisment_cards: params.advertisment, filterCity })
+		getCards({
+			city: filterCity,
+			animalType: 'all',
+			postType: 'all',
+			page: 1
+		})
 	}
 
 	componentWillReceiveProps(next) {
-		const { pathName, filterCity } = this.props
+		const {
+			pathName,
+			filterCity
+		} = this.props
 
-		// all pages cards
-		if ((next.pathName !== pathName) || (next.filterCity !== filterCity)) {
-			next.getCards({ moderate: 'resolve', type_cards: next.params.type, advertisment_cards: next.params.advertisment, filterCity: next.filterCity })
+		const {
+			pathName: nextPathName,
+			filterCity: nextFilterCity,
+			getCards,
+			params
+		} = next
+
+		if ((nextPathName !== pathName) || (nextFilterCity !== filterCity)) {
+			getCards({
+				animalType: params.type,
+				postType: params.advertisment,
+				city: next.filterCity,
+				page: 1
+			})
 		}
 	}
 
