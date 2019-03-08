@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
+import _ from 'lodash'
 
 import Card from '../cards/card/Card'
 import TableRowsComponent from './tableRows/TableRowsComponent'
@@ -68,23 +69,23 @@ class PersonalDatasAccount extends Component {
 								{
 									resolveCards && resolveCards.length > 0 ?
 										resolveCards.map(card => <Card
-											key={ card.key }
-											addDate={ card.addDate }
+											key={ card._id }
+											addDate={ card.createdAt }
 											city={ card.city }
-											cardId={ card.key }
+											cardId={ card._id }
 											title={ card.title }
 											price={ card.price }
-											imgPath={ card.images }
-											advType={ card.category }
-											userName={ card.userName }
+											imgPath={ card.imageUrl }
+											advType={ card.postType }
+											userName={ card.creatorName }
 											deleteDate={ card.deleteDate }
 											phoneNumber={ card.phoneNumber }
-											briefDescription={ card.textArea }
+											briefDescription={ card.content }
 											views={ null }
 											rating={ null }
 											deleted={ true }
 											userStatus={ null }
-											deleteInfo={ true }
+											// deleteInfo={ true }
 										/>) : <p>Активных объявлений нет</p>
 								}
 							</div>
@@ -102,19 +103,18 @@ class PersonalDatasAccount extends Component {
 								{
 									rejectedCards && rejectedCards.length > 0 ?
 										rejectedCards.map(card => <Card
-											addDate={ card.addDate }
-											key={ card.key }
+											key={ card._id }
+											addDate={ card.createdAt }
 											city={ card.city }
-											cardId={ card.key }
+											cardId={ card._id }
 											title={ card.title }
 											price={ card.price }
-											imgPath={ card.images }
-											advType={ card.category }
-											userName={ card.userName }
+											imgPath={ card.imageUrl }
+											advType={ card.postType }
+											userName={ card.creatorName }
 											deleteDate={ card.deleteDate }
 											phoneNumber={ card.phoneNumber }
-											briefDescription={ card.textArea }
-											compleate={ card.compleate }
+											briefDescription={ card.content }
 											views={ null }
 											rating={ null }
 											userStatus={ null }
@@ -137,11 +137,11 @@ PersonalDatasAccount.propTypes = {
 
 export default connect(
 	state => {
-		let articles = state.auth.userDatas && state.auth.userDatas.articles
+		let articles = _.get(state, 'auth.user.posts')
 
 		return {
-			resolveCards: articles && articles.filter(card => card.moderate === 'resolve' && !card.compleate),
-			rejectedCards: articles && articles.filter(card => (card.moderate === 'rejected' || !card.moderate) || (card.moderate === 'resolve' && card.compleate))
+			resolveCards: articles && articles.filter(card => card.moderate === 'resolve' && card.active),
+			rejectedCards: articles && articles.filter(card => (card.moderate === 'reject' || !card.active) || (card.moderate === 'resolve' && !card.active))
 		}
 	}
 )(PersonalDatasAccount)

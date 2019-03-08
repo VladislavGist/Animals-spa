@@ -2,8 +2,10 @@ import classNames from 'classnames'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
+import _ from 'lodash'
 
 import { actions as menuReducer } from '../../ducks/menuReducer'
+import { get } from 'http';
 
 if (process.env.BROWSER) {
 	require('./MenuStyles.sass')
@@ -34,7 +36,7 @@ class Menu extends Component {
 	}
 
 	render() {
-		const { lin, name, icons, keyElem, routing, img, title, text, myLinks } = this.props
+		const { lin, name, icons, keyElem, pathname, img, title, text, myLinks } = this.props
 
 		const menuDatas = [
 			{
@@ -170,12 +172,10 @@ class Menu extends Component {
 				func:  this.props.onHandleAnother
 			}
 		]
-
+		
 		return (
 			<div>
-				{ ['/placeAnAd', '/personalArea'].indexOf(
-					routing.locationBeforeTransitions &&
-					routing.locationBeforeTransitions.pathname) === -1 &&
+				{ !['/placeAnAd', '/personalArea'].includes(pathname) ? (
 					<div className={ classNames({ menu: true }) }>
 						<div className='img'>
 							<img src={ img } />
@@ -195,7 +195,8 @@ class Menu extends Component {
 								{ name[idx] }
 							</MaterialLink>) }
 						</nav>
-					</div> }
+					</div>
+				) : null }
 
 				<div className={ classNames({
 					accordionContent: true,
@@ -235,12 +236,12 @@ Menu.propTypes = {
 	title: PropTypes.string.isRequired,
 	text: PropTypes.string.isRequired,
 	myLinks: PropTypes.array.isRequired,
-	routing: PropTypes.object.isRequired
+	pathname: PropTypes.string.isRequired
 }
 
 export default connect(
-	(state, routing) => {
-		const menuReducer = state.menuReducer && state.menuReducer[0]
+	state => {
+		const menuReducer = _.get(state, 'menuReducer.0')
 
 		return {
 			lin: menuReducer.categoryNames.myLinks,
@@ -251,7 +252,7 @@ export default connect(
 			title: menuReducer.title,
 			text: menuReducer.text,
 			myLinks: menuReducer.categoryNames.myLinks,
-			routing
+			pathname: _.get(state, 'routing.locationBeforeTransitions.pathname')
 		}
 	},
 	{ ...menuReducer }

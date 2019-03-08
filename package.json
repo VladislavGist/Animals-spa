@@ -13,6 +13,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "history": "^3.x.x",
+    "lodash": "^4.17.11",
     "material-ui": "0.16.7",
     "moment": "2.18.1",
     "react": "15.x.x",

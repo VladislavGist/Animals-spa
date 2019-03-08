@@ -201,17 +201,15 @@ TableRowsComponent = reduxForm({
 
 export default connect(
 	state => {
-		let user = state.auth.user,
-			userDatas = state.auth.userDatas
+		let user = state.auth.user
 
 		return {
 			rows: state.form.rows,
 			cityList: state.filterCity.cityList,
-			uid: user && user.uid,
-			name: userDatas && userDatas.name,
-			surName: userDatas && userDatas.surName,
-			email: userDatas && userDatas.email,
-			city: userDatas && userDatas.city
+			name: user && user.name,
+			surName: user && user.lastName,
+			email: user && user.email,
+			city: user && user.city
 		}
 	},
 	{ ...actionsSnackbarReducer })
