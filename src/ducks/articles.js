@@ -75,6 +75,7 @@ export const actions = {
 				dispatch({ type: types.FETCH_ARTICLES_SUCCESS, articles: articles.posts })
 			})
 			.catch(err => {
+				dispatch(actionsTypes.handleUpdateStateLoading(100))
 				dispatch({ type: types.FETCH_ARTICLES_ERROR })
 				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err.message }`))
 			})

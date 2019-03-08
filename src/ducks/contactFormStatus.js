@@ -1,5 +1,3 @@
-import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
-
 export const types = {
 	TOOLTIP: 'CONT_FORM_STATUS/TOOLTIP'
 }

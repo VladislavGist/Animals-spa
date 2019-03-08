@@ -1,9 +1,5 @@
-import { reset } from 'redux-form'
-
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
-import { actions as actionsPreloader } from '../ducks/preloader'
 
-import { normalizeImgs } from '../ducks/utils'
 import config from '../../config'
 
 const appName = 'paypets'

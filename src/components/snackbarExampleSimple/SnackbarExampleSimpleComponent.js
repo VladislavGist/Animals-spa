@@ -2,8 +2,6 @@ import { connect } from 'react-redux'
 import React, { PropTypes } from 'react'
 import Snackbar from 'material-ui/Snackbar'
 
-import { actions as actionsSnackbarReducer } from '../../ducks/snackbarReducer'
-
 class SnackbarExampleSimple extends React.Component {
 
 	state = { open: false }
@@ -36,6 +34,5 @@ SnackbarExampleSimple.propTypes = {
 }
 
 export default connect(
-	state => ({ snackbarReducer: state.snackbarReducer }),
-	{ ...actionsSnackbarReducer }
+	state => ({ snackbarReducer: state.snackbarReducer })
 )(SnackbarExampleSimple)

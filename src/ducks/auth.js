@@ -1,5 +1,6 @@
 import { push } from 'react-router-redux'
 
+import { actions as actionsPreloader } from '../ducks/preloader'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 import config from '../../config'
@@ -46,6 +47,7 @@ export const actions = {
 	},
 
 	loginAction: ({ email, password }) => dispatch => {
+		dispatch(actionsPreloader.handleUpdateStateLoading(80))
 		dispatch({ type: types.AUTH_REQUEST })
 
 		fetch(`${ config.payPetsApiUrl }/api/auth/login`, {
@@ -61,12 +63,14 @@ export const actions = {
 			})
 			.then(user => {
 				const { token } = user
+				dispatch(actionsPreloader.handleUpdateStateLoading(100))
 
 				localStorage.setItem('token', token)
 				dispatch({ type: types.AUTH_SUCCESS, user })
 			})
 			.catch(err => {
 				err.then(res => {
+					dispatch(actionsPreloader.handleUpdateStateLoading(100))
 					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
 					dispatch({ type: types.AUTH_ERROR })
 				})
@@ -74,6 +78,7 @@ export const actions = {
 	},
 
 	signUp: ({ email, password, name, lastName, city }) => dispatch => {
+		dispatch(actionsPreloader.handleUpdateStateLoading(80))
 		dispatch({ type: types.REGISTRATION_REQUEST })
 
 		fetch(`${ config.payPetsApiUrl }/api/auth/signup`, {
@@ -94,11 +99,13 @@ export const actions = {
 				return Promise.reject(response.json())
 			})
 			.then(result => {
+				dispatch(actionsPreloader.handleUpdateStateLoading(100))
 				dispatch({ type: types.REGISTRATION_SUCCESS })
 				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
 			})
 			.catch(err => {
 				err.then(res => {
+					dispatch(actionsPreloader.handleUpdateStateLoading(100))
 					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
 					dispatch({ type: types.REGISTRATION_ERROR })
 				})
@@ -107,6 +114,7 @@ export const actions = {
 
 	updateUserData: (url, values) => dispatch => {
 		dispatch({ type: types.UPDATE_USER_DATA_REQUEST })
+		dispatch(actionsPreloader.handleUpdateStateLoading(80))
 
 		const token = localStorage.getItem('token')
 
@@ -124,12 +132,14 @@ export const actions = {
 			})
 			.then(updateUserData => {
 				dispatch({ type: types.UPDATE_USER_DATA_SUCCESS, updateUserData })
+				dispatch(actionsPreloader.handleUpdateStateLoading(100))
 				dispatch(actionsSnackbarReducer.handleSnackbar('Данные успешно изменены'))
 			})
 			.catch(err => {
 				err
 					.than(res => {
 						dispatch({ type: types.UPDATE_USER_DATA_ERROR })
+						dispatch(actionsPreloader.handleUpdateStateLoading(100))
 						dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
 					})
 			})

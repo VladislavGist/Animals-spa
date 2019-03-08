@@ -7,7 +7,6 @@ import { Form, Field, reduxForm } from 'redux-form'
 import { renderField, validate } from '../formValidate'
 import { normilizeText, validateInputs } from '../validationsInputs'
 
-import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 import { actions as actionsContactFormStatus } from '../../../ducks/contactFormStatus'
 
 if (process.env.BROWSER) {
@@ -144,5 +143,5 @@ ContactsForm = reduxForm({
 
 export default connect(
 	state => ({ contactsForm: state.form.contactsForm }),
-	{ ...actionsContactFormStatus, ...actionsSnackbarReducer }
+	{ ...actionsContactFormStatus }
 )(ContactsForm)
