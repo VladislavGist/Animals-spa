@@ -48,7 +48,7 @@ class Moderate extends Component {
 
 Moderate.propTypes = {
 	removeCardsInDb: PropTypes.func.isRequired,
-	articlesList: PropTypes.object
+	articlesList: PropTypes.array
 }
 
 export default connect(

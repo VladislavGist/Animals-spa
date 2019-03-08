@@ -216,7 +216,7 @@ class Card extends Component {
 
 Card.propTypes = {
 	addDate: PropTypes.string.isRequired,
-	price: PropTypes.string,
+	price: PropTypes.number,
 	advType: PropTypes.string.isRequired,
 	rating: PropTypes.number,
 	phoneNumber: PropTypes.string.isRequired,
@@ -226,7 +226,7 @@ Card.propTypes = {
 	title: PropTypes.string.isRequired,
 	briefDescription: PropTypes.string.isRequired,
 	view: PropTypes.number,
-	imgPath: PropTypes.object.isRequired,
+	imgPath: PropTypes.array.isRequired,
 	deleted: PropTypes.bool,
 	deleteInfo: PropTypes.bool,
 	deleteDate: PropTypes.string,
