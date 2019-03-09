@@ -9,6 +9,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 import { actions as actionsPhotosReducer } from '../../../ducks/photosReducer'
+import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
 
 import { renderField, validate } from '../formValidate'
 import AddPhotoInputComponent from './addPhotoInput/AddPhotoInputComponent'
@@ -448,6 +449,7 @@ export default connect(
 	}),
 	{
 		...actionsAllParamsUrl,
-		...actionsPhotosReducer
+		...actionsPhotosReducer,
+		...actionsSnackbarReducer
 	}
 )(AddCardFormComponent)
