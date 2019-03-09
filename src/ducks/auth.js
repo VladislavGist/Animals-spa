@@ -170,6 +170,32 @@ export const actions = {
 					dispatch({ type: types.RESET_PASSWORD_ERROR })
 				})
 			})
+	},
+
+	addNewPassword: ({ url, password, token }) => dispatch => {
+		fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ password, token })
+		})
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(result => {
+				dispatch(actionsPreloader.handleUpdateStateLoading(100))
+				// dispatch({ type: types.RESET_PASSWORD_SUCCESS })
+				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+			})
+			.catch(err => {
+				err.then(res => {
+					dispatch(actionsPreloader.handleUpdateStateLoading(100))
+					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					// dispatch({ type: types.RESET_PASSWORD_ERROR })
+				})
+			})
 	}
 }
 
