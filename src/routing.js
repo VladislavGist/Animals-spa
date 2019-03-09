@@ -12,6 +12,7 @@ import PersonalArea from './components/personalArea/PersonalAreaComponent'
 import AddCardFormComponent from './components/forms/addCardForm/AddCardFormComponent'
 import ContactsForm from './components/forms/contactsForm/ContactsFormComponent'
 import PageCards from './components/cards/pageCards/PageCards'
+import ResetPassword from './components/forms/ResetPassword'
 
 const initialState = process.env.BROWSER ? window.__INITIAL_STATE__ : {}
 
@@ -34,6 +35,7 @@ export const routes = <Route component={ App } >
 	<Route path='/' component={ PageCards } />
 	<Route path='/conf' component={ Conf } />
 	<Route path='/contacts' component={ ContactsForm } />
+	<Route path='/resetPassword' component={ ResetPassword } />
 	<Route path='/animals/:type/:advertisment' component={ PageCards }/>
 	<Route path='/moderation' component={ userIsAuthenticated(Moderate) } />
 	<Route path='/personalArea' component={ userIsAuthenticated(PersonalArea) } />

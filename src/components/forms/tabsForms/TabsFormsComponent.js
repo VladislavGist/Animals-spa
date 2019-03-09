@@ -1,5 +1,6 @@
 import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 
 import LoginFormComponent from '../loginForm/LoginFormComponent'
 import RegistrationFormComponent from '../registrationForm/RegistrationFormComponent'
@@ -29,7 +30,7 @@ export default class TabsForms extends Component {
 				color: '#add1ed',
 				height: 'auto'
 			},
-			active_tab:{
+			active_tab: {
 				backgroundColor: '#2397f3',
 				color: 'white'
 			},
@@ -59,6 +60,13 @@ export default class TabsForms extends Component {
 			>
 				<div>
 					<LoginFormComponent />
+					<Link
+						to='/resetPassword'
+						className='stylesResetPassBtn'
+						onClick={ () => handleClose() }
+					>
+						Восстановить пароль
+					</Link>
 				</div>
 			</Tab>
 
@@ -73,7 +81,6 @@ export default class TabsForms extends Component {
 					<RegistrationFormComponent handleClose={ handleClose } />
 				</div>
 			</Tab>
-
 		</Tabs>)
 	}
 }

@@ -6,7 +6,7 @@ import { Form, Field, reduxForm } from 'redux-form'
 import { actions as authActions } from '../../../ducks/auth'
 
 import { renderField, validate } from '../formValidate'
-import { normilizeNumber, validateInputs } from '../validationsInputs'
+import { validateInputs } from '../validationsInputs'
 
 class LoginFormComponent extends Component {
 

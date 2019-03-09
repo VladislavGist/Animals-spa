@@ -21,6 +21,10 @@ export const types = {
 	UPDATE_USER_DATA_SUCCESS: `${ appName }/${ moduleName }/UPDATE_USER_DATA_SUCCESS`,
 	UPDATE_USER_DATA_ERROR: `${ appName }/${ moduleName }/UPDATE_USER_DATA_ERROR`,
 
+	RESET_PASSWORD_REQUEST: `${ appName }/${ moduleName }/RESET_PASSWORD_REQUEST`,
+	RESET_PASSWORD_SUCCESS: `${ appName }/${ moduleName }/RESET_PASSWORD_SUCCESS`,
+	RESET_PASSWORD_ERROR: `${ appName }/${ moduleName }/RESET_PASSWORD_ERROR`,
+
 	LOGOUT_REQUEST: `${ appName }/${ moduleName }/LOGOUT_REQUEST`
 }
 
@@ -143,13 +147,38 @@ export const actions = {
 						dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
 					})
 			})
+	},
+
+	resetPassword: url => dispatch => {
+		dispatch(actionsPreloader.handleUpdateStateLoading(80))
+		dispatch({ type: types.RESET_PASSWORD_REQUEST })
+
+		fetch(url)
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(() => {
+				dispatch(actionsPreloader.handleUpdateStateLoading(100))
+				dispatch({ type: types.RESET_PASSWORD_SUCCESS })
+			})
+			.catch(err => {
+				err.then(res => {
+					dispatch(actionsPreloader.handleUpdateStateLoading(100))
+					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					dispatch({ type: types.RESET_PASSWORD_ERROR })
+				})
+			})
 	}
 }
 
 const initialState = {
 	user: null,
 	userError: false,
-	userLoading: false
+	userLoading: false,
+
+	fetchingResetPassword: false,
+	errorFetchingResetPassword: false
 }
 
 export default (state = initialState, action) => {
@@ -157,10 +186,12 @@ export default (state = initialState, action) => {
 
 	switch (type) {
 	case types.AUTH_REQUEST: return {
+		...state,
 		userLoading: true,
 		userError: false
 	}
 	case types.AUTH_SUCCESS: return {
+		...state,
 		userLoading: false,
 		userError: false,
 		user
@@ -202,6 +233,22 @@ export default (state = initialState, action) => {
 		...state,
 		userError: true,
 		userLoading: false
+	}
+
+	case types.RESET_PASSWORD_REQUEST: return {
+		...state,
+		fetchingResetPassword: true,
+		errorFetchingResetPassword: false
+	}
+	case types.RESET_PASSWORD_SUCCESS: return {
+		...state,
+		fetchingResetPassword: false,
+		errorFetchingResetPassword: false
+	}
+	case types.RESET_PASSWORD_ERROR: return {
+		...state,
+		fetchingResetPassword: true,
+		errorFetchingResetPassword: true
 	}
 
 	case types.LOGOUT_REQUEST: return {
