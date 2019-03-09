@@ -76,7 +76,7 @@ class TableRowsComponent extends Component {
 				className='registrationForm TableRowsComponent'>
 				<br />
 				<div>
-					<p>Ваше имя: { name }</p>
+					<p><em>Ваше имя:</em> { name }</p>
 					<div>
 						<a
 							href='javascript:void(0)'
@@ -171,6 +171,7 @@ class TableRowsComponent extends Component {
 					{ !disabledButton ? (
 						<a
 							href='javascript:void(0)'
+							className='button1'
 							onClick={ this.handleSubmitForm }>
 							Применить
 						</a>

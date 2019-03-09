@@ -62,7 +62,7 @@ class AccountType extends Component {
 
 	render() {
 		const { accountType, accountsTypes} = this.props
-		const { handlePermanentSeller, loginFalse } = this.props
+		const { loginFalse } = this.props
 
 		return (
 			<div className='accountType'>
