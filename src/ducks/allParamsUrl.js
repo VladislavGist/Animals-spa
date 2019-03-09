@@ -1,4 +1,5 @@
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
+import { actions as actionsAuthReducer } from '../ducks/auth'
 
 import config from '../../config'
 
@@ -9,6 +10,10 @@ export const types = {
 	ADD_ARTICLE_REQUEST: `${ appName }/${ moduleName }/ADD_ARTICLE_REQUEST`,
 	ADD_ARTICLE_SUCCESS: `${ appName }/${ moduleName }/ADD_ARTICLE_SUCCESS`,
 	ADD_ARTICLE_ERROR: `${ appName }/${ moduleName }/ADD_ARTICLE_ERROR`,
+
+	STOP_ARTICLE_REQUEST: `${ appName }/${ moduleName }/STOP_ARTICLE_REQUEST`,
+	STOP_ARTICLE_SUCCESS: `${ appName }/${ moduleName }/STOP_ARTICLE_SUCCESS`,
+	STOP_ARTICLE_ERROR: `${ appName }/${ moduleName }/STOP_ARTICLE_ERROR`,
 }
 
 export const actions = {
@@ -75,18 +80,42 @@ export const actions = {
 				file })
 	},
 
-	updateCardView: (userId, cardId, cardView) => dispatch => {
-		
-	},
+	stopArticle: (url, values) => dispatch => {
+		dispatch({ type: types.STOP_ARTICLE_REQUEST })
+		const token = localStorage.getItem('token')
 
-	removeCardsInDb: () => dispatch => {
-
+		fetch(url, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${ token }`
+			},
+			body: JSON.stringify(values)
+		})
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(result => {
+				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+				dispatch({ type: types.STOP_ARTICLE_SUCCESS })
+				dispatch(actionsAuthReducer.getUserData(token))
+			})
+			.catch(err => {
+				err.then(res => {
+					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					dispatch({ type: types.STOP_ARTICLE_ERROR })
+				})
+			})
 	}
 }
 
 const initialState = {
 	fetchingAddingArticle: false,
-	errorAddingArticle: false
+	errorAddingArticle: false,
+
+	fetchingStopAtricle: false,
+	errorStopArticle: false
 }
 
 export default (state = initialState, action) => {
@@ -94,16 +123,35 @@ export default (state = initialState, action) => {
 
 	switch (type) {
 	case types.ADD_ARTICLE_REQUEST: return {
+		...state,
 		fetchingAddingArticle: true,
 		errorAddingArticle: false
 	}
 	case types.ADD_ARTICLE_SUCCESS: return {
+		...state,
 		fetchingAddingArticle: false,
 		errorAddingArticle: false
 	}
 	case types.ADD_ARTICLE_ERROR: return {
+		...state,
 		fetchingAddingArticle: false,
 		errorAddingArticle: true
+	}
+
+	case types.STOP_ARTICLE_REQUEST: return {
+		...state,
+		fetchingStopAtricle: true,
+		errorStopArticle: false
+	}
+	case types.STOP_ARTICLE_SUCCESS: return {
+		...state,
+		fetchingStopAtricle: false,
+		errorStopArticle: false
+	}
+	case types.STOP_ARTICLE_ERROR: return {
+		...state,
+		fetchingStopAtricle: false,
+		errorStopArticle: true
 	}
 
 	default: return state

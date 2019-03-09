@@ -10,7 +10,6 @@ class SnackbarExampleSimple extends React.Component {
 
 	handleRequestClose = () => {
 		this.setState({ open: false })
-		this.props.handleSnackbar('')
 	}
 
 	componentWillReceiveProps(nextProps) {

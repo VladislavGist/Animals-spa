@@ -18,14 +18,10 @@ class Card extends Component {
 
 	state = { verticalRotate: false }
 
-	handleDelete = () => {
-		const { handleSnackbar, uid, cardId } = this.props
+	stopArticle = () => {
+		const { cardId, stopArticle } = this.props
 
-		// firebase.database().ref(`users/${ uid }/articles/${ cardId }`).update({
-		// 	compleate: true
-		// })
-		// 	.then(() => handleSnackbar('Завершено'))
-		// 	.catch(err => handleSnackbar(`Ошибка: ${ err }`))
+		stopArticle(`${ config.payPetsApiUrl }/api/feed/post/${ cardId }`, { active: false })
 	}
 
 	clickFunc = () => {
@@ -176,7 +172,7 @@ class Card extends Component {
 							<a
 								href='javascript:void(0)'
 								className='button1'
-								onClick={ this.handleDelete }>
+								onClick={ this.stopArticle }>
 									Завершить
 							</a>
 						) : null }
