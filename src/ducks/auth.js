@@ -158,9 +158,10 @@ export const actions = {
 				if (response.ok) return response.json()
 				return Promise.reject(response.json())
 			})
-			.then(() => {
+			.then(result => {
 				dispatch(actionsPreloader.handleUpdateStateLoading(100))
 				dispatch({ type: types.RESET_PASSWORD_SUCCESS })
+				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
 			})
 			.catch(err => {
 				err.then(res => {
