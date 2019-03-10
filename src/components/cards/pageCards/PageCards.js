@@ -9,35 +9,41 @@ import CardsList from '../cardsList/CardsList'
 class PageCards extends Component {
 
 	componentDidMount() {
-		const { getCards, filterCity } = this.props
+		const { getCards, filterCity, currentPagePagination } = this.props
 
 		getCards({
 			city: filterCity,
 			animalType: '',
 			postType: '',
-			page: 1
+			page: currentPagePagination
 		})
 	}
 
 	componentWillReceiveProps(next) {
 		const {
 			pathName,
-			filterCity
+			filterCity,
+			currentPagePagination
 		} = this.props
 
 		const {
 			pathName: nextPathName,
 			filterCity: nextFilterCity,
 			getCards,
-			params
+			params,
+			currentPagePagination: nextCurrentPagePagination
 		} = next
 
-		if ((nextPathName !== pathName) || (nextFilterCity !== filterCity)) {
+		if (
+			(nextPathName !== pathName)
+			|| (nextFilterCity !== filterCity)
+			|| (nextCurrentPagePagination !== currentPagePagination)
+		) {
 			getCards({
 				animalType: params.type,
 				postType: params.advertisment,
 				city: next.filterCity,
-				page: 1
+				page: nextCurrentPagePagination
 			})
 		}
 	}
@@ -59,7 +65,8 @@ PageCards.propTypes = {
 	params: PropTypes.object.isRequired,
 	filterCity: PropTypes.string.isRequired,
 	pathName: PropTypes.string.isRequired,
-	articlesList: PropTypes.array
+	articlesList: PropTypes.array,
+	currentPagePagination: PropTypes.number.isRequired
 }
 
 PageCards.defaultProps = {
@@ -71,5 +78,6 @@ PageCards.defaultProps = {
 export default connect(state => ({
 	pathName: state.routing.locationBeforeTransitions.pathname,
 	articlesList: state[moduleName].articlesList,
-	filterCity: state.filterCity.cityTopHeader
+	filterCity: state.filterCity.cityTopHeader,
+	currentPagePagination: state.articles.currentPagePagination
 }), { ...actionsArticles })(PageCards)

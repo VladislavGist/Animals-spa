@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import PaginationUI from 'material-ui-pagination'
 import { connect } from 'react-redux'
+
+import { actions as actionsArticlesReducer } from '../../ducks/articles'
 
 if (process.env.BROWSER) {
 	require('./pagination.sass')
@@ -8,17 +10,30 @@ if (process.env.BROWSER) {
 
 class Pagination extends Component {
 
+	static defaultProps = {
+		allPages: 10
+	}
+
+	static propTypes = {
+		changePage: PropTypes.func.isRequired,
+		allPages: PropTypes.number
+	}
+
 	handleChangePage = pageNumber => {
-		console.log({ pageNumber })
+		const { changePage } = this.props
+
+		changePage(pageNumber)
 	}
 
 	render() {
+		const { allPages } = this.props
+
 		return (
 			<div className='centeringElement Pagination__mTop'>
 				<PaginationUI
-					total = { 10 }
+					total = { allPages }
 					current = { 1 }
-					display = { 10 }
+					display = { allPages }
 					onChange = { this.handleChangePage }
 				/>
 			</div>
@@ -26,5 +41,5 @@ class Pagination extends Component {
 	}
 }
 
-export default connect(() => {})(Pagination)
+export default connect(null, actionsArticlesReducer)(Pagination)
 

@@ -11,38 +11,51 @@ export const types = {
 	FETCH_ARTICLES_SUCCESS: `${ appName }/${ moduleName }/FETCH_ARTICLES_SUCCESS`,
 	FETCH_ARTICLES_ERROR: `${ appName }/${ moduleName }/FETCH_ARTICLES_ERROR`,
 	FETCH_ARTICLES_CLEAR: `${ appName }/${ moduleName }/FETCH_ARTICLES_CLEAR`,
+
+	CHANGE_CURRENT_PAGE_PAGINATION: `${ appName }/${ moduleName }/CHANGE_CURRENT_PAGE_PAGINATION`,
 }
 
 const initialState = {
 	errorFetch: false,
 	loadingFetch: false,
+	currentPagePagination: 1,
 	articlesList: []
 }
 
 export default (state = initialState, action) => {
-	const { type, articles } = action
+	const { type, articles, currentPagePagination } = action
 
 	switch (type) {
 	case types.FETCH_ARTICLES_START: return {
+		...state,
 		errorFetch: false,
 		loadingFetch: true,
 		articlesList: []
 	}
 	case types.FETCH_ARTICLES_SUCCESS: return {
+		...state,
 		errorFetch: false,
 		loadingFetch: false,
 		articlesList: articles
 	}
 	case types.FETCH_ARTICLES_ERROR: return {
+		...state,
 		errorFetch: true,
 		loadingFetch: false,
 		articlesList: []
 	}
 	case types.FETCH_ARTICLES_CLEAR: return {
+		...state,
 		errorFetch: false,
 		loadingFetch: false,
 		articlesList: []
 	}
+
+	case types.CHANGE_CURRENT_PAGE_PAGINATION: return {
+		...state,
+		currentPagePagination: currentPagePagination
+	}
+
 	default: return state
 	}
 }
@@ -101,6 +114,10 @@ export const actions = {
 				dispatch(actions.getCards({ moderate: 'pending' }))
 			})
 			.catch(err => dispatch(actionsSnackbarReducer.handleSnackbar(err.message)))
+	},
+
+	changePage: currentPagePagination => dispatch => {
+		dispatch({ type: types.CHANGE_CURRENT_PAGE_PAGINATION, currentPagePagination })
 	},
 
 	onHandleClearState: () => ({ type: types.FETCH_ARTICLES_CLEAR })
