@@ -175,7 +175,7 @@ class Menu extends Component {
 		
 		return (
 			<div>
-				{ !['/placeAnAd', '/personalArea'].includes(pathname) ? (
+				{ !['/', '/placeAnAd', '/personalArea'].includes(pathname) ? (
 					<div className={ classNames({ menu: true }) }>
 						<div className='img'>
 							<img src={ img } />

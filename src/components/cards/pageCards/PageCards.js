@@ -10,7 +10,13 @@ import CardsList from '../cardsList/CardsList'
 class PageCards extends Component {
 
 	componentDidMount() {
-		const { getCards, filterCity, currentPagePagination, params } = this.props
+		const {
+			getCards,
+			filterCity,
+			currentPagePagination,
+			params,
+			changePage
+		} = this.props
 
 		const animalKind = _.get(params, 'type')
 		const postType = _.get(params, 'advertisment')
@@ -21,6 +27,8 @@ class PageCards extends Component {
 			postType: postType ? postType : '',
 			page: currentPagePagination
 		})
+
+		changePage(1)
 	}
 
 	componentWillReceiveProps(next) {
