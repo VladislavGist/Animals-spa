@@ -61,7 +61,11 @@ class App extends Component {
 								<Menu />
 								<div className={ classes }>
 									{ children }
-									<Pagination />
+
+									{ ['/'].includes(location) || location.search(/animals/i) > 0 ? (
+										<Pagination />
+									) : null }
+									
 								</div>
 							</div>
 							<Footer />

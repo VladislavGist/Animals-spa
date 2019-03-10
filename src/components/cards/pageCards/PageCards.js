@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
+import _ from 'lodash'
 
 import { moduleName } from '../../../ducks/articles'
 import { actions as actionsArticles } from '../../../ducks/articles'
@@ -9,12 +10,15 @@ import CardsList from '../cardsList/CardsList'
 class PageCards extends Component {
 
 	componentDidMount() {
-		const { getCards, filterCity, currentPagePagination } = this.props
+		const { getCards, filterCity, currentPagePagination, params } = this.props
+
+		const animalKind = _.get(params, 'type')
+		const postType = _.get(params, 'advertisment')
 
 		getCards({
 			city: filterCity,
-			animalType: '',
-			postType: '',
+			animalType: animalKind ? animalKind : '',
+			postType: postType ? postType : '',
 			page: currentPagePagination
 		})
 	}
