@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
 		...state,
 		isFetching: false,
 		errorFetching: false,
-		cityList: action.cityList.citysList
+		cityList: action.cityList.finalList
 	}
 	case types.ERROR_FETCH_CITYS_LIST: return {
 		...state,

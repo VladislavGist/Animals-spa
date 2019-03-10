@@ -135,8 +135,8 @@ class TableRowsComponent extends Component {
 								{ cityList.map((elem, idx) => <MenuItem
 									className='selectItem'
 									name='selectItem'
-									value={ elem }
-									primaryText={ <option>{ elem }</option> }
+									value={ elem.city }
+									primaryText={ <option>{ elem.city }</option> }
 									key={ idx }
 								/>) }
 							</Field>
