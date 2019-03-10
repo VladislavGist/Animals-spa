@@ -128,8 +128,8 @@ class RegistrationFormComponent extends Component {
 						filterCity.cityList.map((elem, idx) => <MenuItem
 							className='selectItem'
 							name='selectItem'
-							value={ elem }
-							primaryText={ elem }
+							value={ elem.city }
+							primaryText={ elem.city }
 							key={ idx }
 						/>)
 					}

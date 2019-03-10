@@ -89,8 +89,16 @@ class LoginModal extends Component {
 						<a href='javascript:void(0)' onClick={ handleCityTopHeader } className='allCitys'>Все регионы</a>
 						<div className='modalAllCity'>
 							{ cityList && cityList.length > 0
-								? cityList.map((elem, idx) =>
-									<a href='javascript:void(0)' key={ idx } onClick={ handleCityTopHeader }>{ elem }</a>)
+								? cityList.map(elem =>
+									<div style={ { display: 'flex' } } key={ Math.random() }>
+										<a
+											href='javascript:void(0)'
+											onClick={ handleCityTopHeader }>
+											{ elem.city }
+										</a>
+										<p>- { elem.count } объявлений</p>
+									</div>
+								)
 								: <CircularProgress size={ 60 }/> }
 						</div>
 					</div>

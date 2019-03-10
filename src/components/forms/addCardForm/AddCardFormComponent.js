@@ -301,8 +301,8 @@ class AddCardFormComponent extends Component {
 									>
 										{ filterCity && filterCity.cityList.length > 0
 											? filterCity.cityList.map((elem, idx) => <MenuItem
-												value={ elem }
-												primaryText={ elem }
+												value={ elem.city }
+												primaryText={ elem.city }
 												key={ idx }
 											/>) : (
 												<CircularProgress size={ 60 }/>
