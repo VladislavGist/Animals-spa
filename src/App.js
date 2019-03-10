@@ -21,6 +21,7 @@ import Menu from './components/menu/MenuComponent.js'
 import Footer from './components/footer/FooterComponent.js'
 import LinearProgressExampleDeterminate from './components/progressBar/ProgressBarComponent.js'
 import SnackbarExampleSimple from './components/snackbarExampleSimple/SnackbarExampleSimpleComponent.js'
+import Pagination from './components/pagination/Pagination'
 
 class App extends Component {
 
@@ -58,7 +59,10 @@ class App extends Component {
 						<div className='wrapBackground'>
 							<div className='wrapper'>
 								<Menu />
-								<div className={ classes }>{ children }</div>
+								<div className={ classes }>
+									{ children }
+									<Pagination />
+								</div>
 							</div>
 							<Footer />
 						</div>

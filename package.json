@@ -15,6 +15,7 @@
     "history": "^3.x.x",
     "lodash": "^4.17.11",
     "material-ui": "0.16.7",
+    "material-ui-pagination": "^1.1.6",
     "moment": "2.18.1",
     "react": "15.x.x",
     "react-dom": "15.6.1",
