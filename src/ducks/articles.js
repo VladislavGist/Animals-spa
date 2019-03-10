@@ -19,36 +19,43 @@ const initialState = {
 	errorFetch: false,
 	loadingFetch: false,
 	currentPagePagination: 1,
-	articlesList: []
+	articlesList: [],
+	totalItems: 0
 }
 
 export default (state = initialState, action) => {
-	const { type, articles, currentPagePagination } = action
+	const { type, articles, totalItems, currentPagePagination } = action
 
 	switch (type) {
 	case types.FETCH_ARTICLES_START: return {
 		...state,
 		errorFetch: false,
 		loadingFetch: true,
-		articlesList: []
+		articlesList: [],
+		totalItems: 0
 	}
 	case types.FETCH_ARTICLES_SUCCESS: return {
 		...state,
 		errorFetch: false,
 		loadingFetch: false,
-		articlesList: articles
+		articlesList: articles,
+		totalItems
 	}
 	case types.FETCH_ARTICLES_ERROR: return {
 		...state,
 		errorFetch: true,
 		loadingFetch: false,
-		articlesList: []
+		currentPagePagination: 1,
+		articlesList: [],
+		totalItems: 0
 	}
 	case types.FETCH_ARTICLES_CLEAR: return {
 		...state,
 		errorFetch: false,
 		loadingFetch: false,
-		articlesList: []
+		articlesList: [],
+		currentPagePagination: 1,
+		totalItems: 0
 	}
 
 	case types.CHANGE_CURRENT_PAGE_PAGINATION: return {
@@ -85,7 +92,11 @@ export const actions = {
 			.then(result => result.json())
 			.then(articles => {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))
-				dispatch({ type: types.FETCH_ARTICLES_SUCCESS, articles: articles.posts })
+				dispatch({
+					type: types.FETCH_ARTICLES_SUCCESS,
+					articles: articles.posts,
+					totalItems: articles.totalItems
+				})
 			})
 			.catch(err => {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))

@@ -23,7 +23,8 @@ class PageCards extends Component {
 		const {
 			pathName,
 			filterCity,
-			currentPagePagination
+			currentPagePagination,
+			changePage
 		} = this.props
 
 		const {
@@ -45,6 +46,10 @@ class PageCards extends Component {
 				city: next.filterCity,
 				page: nextCurrentPagePagination
 			})
+
+			if (nextCurrentPagePagination === currentPagePagination) {
+				changePage(1)
+			}
 		}
 	}
 

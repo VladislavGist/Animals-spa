@@ -10,13 +10,10 @@ if (process.env.BROWSER) {
 
 class Pagination extends Component {
 
-	static defaultProps = {
-		allPages: 10
-	}
-
 	static propTypes = {
 		changePage: PropTypes.func.isRequired,
-		allPages: PropTypes.number
+		totalItems: PropTypes.number.isRequired,
+		currentPagePagination: PropTypes.number.isRequired,
 	}
 
 	handleChangePage = pageNumber => {
@@ -26,14 +23,19 @@ class Pagination extends Component {
 	}
 
 	render() {
-		const { allPages } = this.props
+		const {
+			totalItems,
+			currentPagePagination
+		} = this.props
+
+		const pagesCounter = Math.ceil(totalItems / 10)
 
 		return (
 			<div className='centeringElement Pagination__mTop'>
 				<PaginationUI
-					total = { allPages }
-					current = { 1 }
-					display = { allPages }
+					total = { pagesCounter }
+					current = { currentPagePagination }
+					display = { pagesCounter }
 					onChange = { this.handleChangePage }
 				/>
 			</div>
@@ -41,5 +43,15 @@ class Pagination extends Component {
 	}
 }
 
-export default connect(null, actionsArticlesReducer)(Pagination)
+export default connect(state => {
+	const { articles: {
+		totalItems,
+		currentPagePagination
+	} } = state
+
+	return {
+		totalItems,
+		currentPagePagination
+	}
+}, actionsArticlesReducer)(Pagination)
 
