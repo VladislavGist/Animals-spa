@@ -36,32 +36,37 @@ class Menu extends Component {
 	}
 
 	render() {
-		const { lin, name, icons, keyElem, pathname, img, title, text, myLinks, categories, categoriesFetch, categoriesError } = this.props
+		const {
+			menu,
+			categories,
+			categoriesFetch,
+			categoriesError,
+			pathname
+		} = this.props
 
 		return (
 			<div>
-				{ !['/', '/placeAnAd', '/personalArea'].includes(pathname) ? (
-					<div className={ classNames({ menu: true }) }>
-						<div className='img'>
-							<img src={ img } />
-						</div>
+				{ menu && Object.keys(menu).length > 0
+					&& !['/', '/placeAnAd', '/personalArea'].includes(pathname) ? (
+						<div className={ classNames({ menu: true }) }>
+							<div className='img'>
+								<img src={ menu.img } />
+							</div>
 
-						<div className='menuText'>
-							<h2>{ title }</h2>
-							<p>{ text }</p>
-						</div>
+							<div className='menuText'>
+								<h2>{ menu.title }</h2>
+							</div>
 
-						<nav className='buttons'>
-							{ myLinks.map((elem, idx) => <MaterialLink
-								valueLink={ lin[idx] }
-								icons={ icons[idx] }
-								key={ keyElem[idx] }
-							>
-								{ name[idx] }
-							</MaterialLink>) }
-						</nav>
-					</div>
-				) : null }
+							<nav className='buttons'>
+								{ menu.categoryNames.myLinks.map((elem, idx) => <MaterialLink
+									valueLink={ elem }
+									key={ idx }
+								>
+									{ `${ menu.categoryNames.names[idx].translate }: ${ menu.categoryNames.names[idx].count }` }
+								</MaterialLink>) }
+							</nav>
+						</div>
+					) : null }
 
 				<div className={ classNames({
 					accordionContent: true,
@@ -98,38 +103,21 @@ class Menu extends Component {
 
 MaterialLink.propTypes = {
 	children: PropTypes.string,
-	icons: PropTypes.string,
 	valueLink: PropTypes.string
 }
 
 Menu.propTypes = {
-	lin: PropTypes.array.isRequired,
-	name: PropTypes.array.isRequired,
-	icons: PropTypes.array.isRequired,
-	keyElem: PropTypes.array.isRequired,
-	img: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	text: PropTypes.string.isRequired,
-	myLinks: PropTypes.array.isRequired,
-	pathname: PropTypes.string.isRequired
+	pathname: PropTypes.string.isRequired,
+	menu: PropTypes.object
 }
 
 export default connect(
 	state => {
-		const menuReducer = _.get(state, 'menuReducer.0')
-
 		return {
 			categories: _.get(state, 'menuReducer.categories'),
 			categoriesFetch: _.get(state, 'menuReducer.fetchingCategories'),
 			categoriesError: _.get(state, 'menuReducer.errorFetchCategories'),
-			lin: menuReducer.categoryNames.myLinks,
-			name: menuReducer.categoryNames.names,
-			icons: menuReducer.categoryNames.icons,
-			keyElem: menuReducer.categoryNames.key,
-			img: menuReducer.img,
-			title: menuReducer.title,
-			text: menuReducer.text,
-			myLinks: menuReducer.categoryNames.myLinks,
+			menu: _.get(state, 'menuReducer.menu'),
 			pathname: _.get(state, 'routing.locationBeforeTransitions.pathname')
 		}
 	},

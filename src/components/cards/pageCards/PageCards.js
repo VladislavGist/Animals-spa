@@ -17,7 +17,8 @@ class PageCards extends Component {
 			currentPagePagination,
 			params,
 			changePage,
-			getCategories
+			getCategories,
+			getMenu
 		} = this.props
 
 		const animalKind = _.get(params, 'type')
@@ -32,6 +33,8 @@ class PageCards extends Component {
 
 		changePage(1)
 		getCategories(filterCity)
+
+		if (animalKind) getMenu(filterCity, animalKind)
 	}
 
 	componentWillReceiveProps(next) {
@@ -41,7 +44,8 @@ class PageCards extends Component {
 			filterCity,
 			currentPagePagination,
 			changePage,
-			getCategories
+			getCategories,
+			getMenu
 		} = this.props
 
 		const {
@@ -58,14 +62,20 @@ class PageCards extends Component {
 			|| (nextCurrentPagePagination !== currentPagePagination)
 		) {
 			getCards({
-				animalType: params.type,
-				postType: params.advertisment,
+				animalType: nextParams.type,
+				postType: nextParams.advertisment,
 				city: next.filterCity,
 				page: nextCurrentPagePagination
 			})
 
-			if (nextParams.type !== params.type) {
+			if (nextParams.type
+				&& (
+					(nextParams.type !== params.type)
+					|| (nextFilterCity !== filterCity)
+				)
+			) {
 				getCategories(nextFilterCity)
+				getMenu(nextFilterCity, nextParams.type)
 			}
 
 			if (nextCurrentPagePagination === currentPagePagination) {
