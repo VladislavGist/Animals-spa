@@ -85,9 +85,15 @@ class Menu extends Component {
 					<div>
 						{ categories && !categoriesFetch && !categoriesError ? (
 							<div className='categories'>
-								<Link to='/'>
-									<span>Вернуться на главную</span>
-								</Link>
+								{ Object.keys(params).length ? (
+									<Link
+										to='/'
+										className={ classNames({
+											'categories__backLink': Object.keys(params).length
+										}) }>
+										<span>Вернуться на главную</span>
+									</Link>
+								) : null }
 								
 								{ categories.map((category, idx) => (
 									<Link
