@@ -35,8 +35,8 @@
 	padding: 20px 0
 	border-top: 1px solid rgba(0, 0, 0, 0.1)
 	background: white
-	display: flex
-	justify-content: center
+	// display: flex
+	// justify-content: center
 	align-items: center
 	span
 		line-height: 13px
@@ -50,36 +50,17 @@
 		i
 			margin-top: 5px
 
-.accordionContent
-	background: white
-	overflow: hidden
-	display: none
-	width: 100%
-	& > div
-		display: flex
-		flex-wrap: wrap
-		justify-content: space-between
-		padding: 20px 30px
-		width: 100%
-		@media screen and (max-width: 600px)
-			justify-content: space-around
-		a
-			text-decoration: none
-			margin: 10px
-			@media screen and (max-width: 600px)
-				margin: 5px
-				display: flex
-				flex-direction: column
-				align-items: center
-	.img
-		width: 165px
-		min-width: 165px
-		height: 165px
-		border-radius: 50%
-		overflow: hidden
-		min-width: 165px
-	h3
-		text-align: center
+.categories
+	display: flex
+	justify-content: space-between
+	flex-wrap: wrap
+	padding: 20px 30px
+	&__backLink
+		color: salmon
+		font-weight: bolder
+	a
+		flex: 1
+		flex-basis: 200px
 
 @media screen and (max-width: 992px)
 	.menu

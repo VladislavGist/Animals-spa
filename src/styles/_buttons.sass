@@ -108,9 +108,12 @@
 	@extend .shadowMaterial1
 	@extend .transition
 	&:hover
-		color: white
+		color: white !important
 	i
 		margin-left: 8px
+	&__active
+		background-color: salmon
+		color: white
 	@media screen and (max-width: 992px)
 		width: 146px
 

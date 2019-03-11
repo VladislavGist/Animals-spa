@@ -4,6 +4,7 @@ import _ from 'lodash'
 
 import { moduleName } from '../../../ducks/articles'
 import { actions as actionsArticles } from '../../../ducks/articles'
+import { actions as actionsMenu } from '../../../ducks/menuReducer'
 
 import CardsList from '../cardsList/CardsList'
 
@@ -15,7 +16,9 @@ class PageCards extends Component {
 			filterCity,
 			currentPagePagination,
 			params,
-			changePage
+			changePage,
+			getCategories,
+			getMenu
 		} = this.props
 
 		const animalKind = _.get(params, 'type')
@@ -29,21 +32,27 @@ class PageCards extends Component {
 		})
 
 		changePage(1)
+		getCategories(filterCity)
+
+		if (animalKind) getMenu(filterCity, animalKind)
 	}
 
 	componentWillReceiveProps(next) {
 		const {
 			pathName,
+			params,
 			filterCity,
 			currentPagePagination,
-			changePage
+			changePage,
+			getCategories,
+			getMenu
 		} = this.props
 
 		const {
 			pathName: nextPathName,
 			filterCity: nextFilterCity,
 			getCards,
-			params,
+			params: nextParams,
 			currentPagePagination: nextCurrentPagePagination
 		} = next
 
@@ -53,11 +62,21 @@ class PageCards extends Component {
 			|| (nextCurrentPagePagination !== currentPagePagination)
 		) {
 			getCards({
-				animalType: params.type,
-				postType: params.advertisment,
+				animalType: nextParams.type,
+				postType: nextParams.advertisment,
 				city: next.filterCity,
 				page: nextCurrentPagePagination
 			})
+
+			if (nextParams.type
+				&& (
+					(nextParams.type !== params.type)
+					|| (nextFilterCity !== filterCity)
+				)
+			) {
+				getCategories(nextFilterCity)
+				getMenu(nextFilterCity, nextParams.type)
+			}
 
 			if (nextCurrentPagePagination === currentPagePagination) {
 				changePage(1)
@@ -97,4 +116,7 @@ export default connect(state => ({
 	articlesList: state[moduleName].articlesList,
 	filterCity: state.filterCity.cityTopHeader,
 	currentPagePagination: state.articles.currentPagePagination
-}), { ...actionsArticles })(PageCards)
+}), {
+	...actionsArticles,
+	...actionsMenu
+})(PageCards)

@@ -26,7 +26,10 @@ import Pagination from './components/pagination/Pagination'
 class App extends Component {
 
 	componentWillMount() {
-		const { fetchCitysList, getUserData } = this.props
+		const {
+			fetchCitysList,
+			getUserData
+		} = this.props
 
 		const storageToken = localStorage.getItem('token')
 
@@ -37,6 +40,7 @@ class App extends Component {
 	render() {
 		const {
 			location,
+			params,
 			preloaderLoading,
 			children
 		} = this.props
@@ -58,7 +62,7 @@ class App extends Component {
 						<Sidebar />
 						<div className='wrapBackground'>
 							<div className='wrapper'>
-								<Menu />
+								<Menu params={ params } />
 								<div className={ classes }>
 									{ children }
 
@@ -85,13 +89,15 @@ App.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	const { preloader, auth } = state
-	const { location } = ownProps
+	const { preloader, auth, filterCity } = state
+	const { location, params } = ownProps
 
 	return {
 		preloaderLoading: preloader.loading,
 		location: location.pathname,
-		authError: auth.userError && auth.userError.code
+		params,
+		authError: auth.userError && auth.userError.code,
+		cityTopHeader: filterCity.cityTopHeader
 	}
 }
 
