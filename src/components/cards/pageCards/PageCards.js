@@ -37,6 +37,7 @@ class PageCards extends Component {
 	componentWillReceiveProps(next) {
 		const {
 			pathName,
+			params,
 			filterCity,
 			currentPagePagination,
 			changePage,
@@ -47,7 +48,7 @@ class PageCards extends Component {
 			pathName: nextPathName,
 			filterCity: nextFilterCity,
 			getCards,
-			params,
+			params: nextParams,
 			currentPagePagination: nextCurrentPagePagination
 		} = next
 
@@ -63,11 +64,13 @@ class PageCards extends Component {
 				page: nextCurrentPagePagination
 			})
 
+			if (nextParams.type !== params.type) {
+				getCategories(nextFilterCity)
+			}
+
 			if (nextCurrentPagePagination === currentPagePagination) {
 				changePage(1)
 			}
-
-			getCategories(nextFilterCity)
 		}
 	}
 
