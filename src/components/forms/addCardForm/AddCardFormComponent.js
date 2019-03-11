@@ -56,9 +56,8 @@ class AddCardFormComponent extends Component {
 	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
 
 	menuItems01 = values => {
-		if (['cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare',
-			'guineapig', 'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish',
-			'insects', 'horse', 'cow', 'pig', 'goat', 'sheep', 'domesticbird', 'other'].indexOf(values) !== -1) {
+		if (['cat', 'dog', 'parrot', 'hare', 'champ', 'fish', 'chAnimals', 'rodents',
+			'replites', 'other'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'buy' }
 				primaryText='Продать'
@@ -70,9 +69,8 @@ class AddCardFormComponent extends Component {
 	}
 
 	menuItems02 = values => {
-		if (['cat', 'dog', 'parrot', 'hamster', 'mouse', 'hare', 'guineapig',
-			'champ', 'snak', 'iguana', 'turtle', 'snail', 'fish', 'insects', 'horse', 'cow',
-			'pig', 'goat', 'sheep', 'domesticbird', 'other'].indexOf(values) !== -1) {
+		if (['cat', 'dog', 'parrot', 'hare', 'champ', 'fish', 'chAnimals', 'rodents',
+			'replites', 'other'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'gift' }
 				primaryText='Даром'
@@ -84,8 +82,7 @@ class AddCardFormComponent extends Component {
 	}
 
 	menuItems03 = values => {
-		if (['cat', 'dog', 'parrot', 'guineapig', 'champ', 'snak', 'iguana', 'turtle',
-			'horse', 'cow', 'goat', 'sheep', 'other'].indexOf(values) !== -1) {
+		if (['cat', 'dog', 'parrot', 'champ', 'chAnimals', 'replites', 'other'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'missing' }
 				primaryText='Пропажа'
@@ -97,8 +94,7 @@ class AddCardFormComponent extends Component {
 	}
 
 	menuItems04 = values => {
-		if (['cat', 'dog', 'parrot', 'guineapig', 'champ', 'snak', 'iguana', 'turtle',
-			'horse', 'cow', 'goat', 'sheep', 'other'].indexOf(values) !== -1) {
+		if (['cat', 'dog', 'parrot', 'champ', 'rodents', 'replites', 'other'].indexOf(values) !== -1) {
 			return <MenuItem
 				value={ 'find' }
 				primaryText='Находка'
