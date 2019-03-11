@@ -424,14 +424,14 @@ export default (state = initialState, action) => {
 	}
 	case types.GET_CATEGORIES_SUCCESS: return {
 		...state,
-		fetchingCategories: true,
+		fetchingCategories: false,
 		errorFetchCategories: false,
 		categories: payload
 	}
-	case types.GET_CATEGORIES_REQUEST: return {
+	case types.GET_CATEGORIES_ERROR: return {
 		...state,
-		fetchingCategories: true,
-		errorFetchCategories: false,
+		fetchingCategories: false,
+		errorFetchCategories: true,
 		categories: []
 	}
 

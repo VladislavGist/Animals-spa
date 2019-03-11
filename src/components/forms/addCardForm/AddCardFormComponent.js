@@ -146,7 +146,9 @@ class AddCardFormComponent extends Component {
 			handleAddPhoto_3,
 			handleAddPhoto_4,
 			images,
-			handleSnackbar } = this.props
+			handleSnackbar,
+			animalCategories
+		} = this.props
 
 		const style = {
 			floatingLabelStyle: { 'color': '#b1adad' },
@@ -184,93 +186,15 @@ class AddCardFormComponent extends Component {
 										floatingLabelFixed={ true }
 										hintText='Кошки'
 									>
-										<MenuItem
-											value='cat'
-											primaryText='Кошки'
-										/>
-											
-										<MenuItem
-											value='dog'
-											primaryText='Собаки'
-										/>
-
-										<MenuItem
-											value='parrot'
-											primaryText='Попугаи'
-										/>
-										
-										<MenuItem
-											value='hamster'
-											primaryText='Хомяки'
-										/>
-										<MenuItem
-											value='mouse'
-											primaryText='Мыши / крысы'
-										/>
-										<MenuItem
-											value='hare'
-											primaryText='Зайцы / кролики'
-										/>
-										<MenuItem
-											value='guineapig'
-											primaryText='Морские свинки'
-										/>
-										<MenuItem
-											value='champ'
-											primaryText='Хорьки'
-										/>
-										<MenuItem
-											value='snak'
-											primaryText='Змеи'
-										/>
-										<MenuItem
-											value='iguana'
-											primaryText='Игуаны'
-										/>
-										<MenuItem
-											value='turtle'
-											primaryText='Черепахи'
-										/>
-										<MenuItem
-											value='snail'
-											primaryText='Улитки'
-										/>
-										<MenuItem
-											value='fish'
-											primaryText='Рыбки'
-										/>
-										<MenuItem
-											value='insects'
-											primaryText='Насекомые'
-										/>
-										<MenuItem
-											value='horse'
-											primaryText='Лошади'
-										/>
-										<MenuItem
-											value='cow'
-											primaryText='Коровы / быки'
-										/>
-										<MenuItem
-											value='pig'
-											primaryText='Свиньи'
-										/>
-										<MenuItem
-											value='goat'
-											primaryText='Козы'
-										/>
-										<MenuItem
-											value='sheep'
-											primaryText='Овцы'
-										/>
-										<MenuItem
-											value='domesticbird'
-											primaryText='Домашняя птица'
-										/>
-										<MenuItem
-											value='other'
-											primaryText='Другие'
-										/>
+										{ animalCategories && animalCategories.length > 0 ? (
+											animalCategories.map((category, idx) => {
+												return <MenuItem
+													key={ idx }
+													value={ category.type }
+													primaryText={ category.translate }
+												/>
+											})
+										) : <CircularProgress size={ 60 }/> }
 									</Field>
 
 									<Field
@@ -385,7 +309,7 @@ class AddCardFormComponent extends Component {
 									<AddPhotoInputComponent
 										handleAddPhoto={ handleAddPhoto_3 }
 										photo={ images.file_3 }
-										handleSnackbar={ handleSnackbar }	
+										handleSnackbar={ handleSnackbar }
 									/>
 									<AddPhotoInputComponent
 										handleAddPhoto={ handleAddPhoto_4 }
@@ -418,6 +342,7 @@ class AddCardFormComponent extends Component {
 
 AddCardFormComponent.propTypes = {
 	filterCity: PropTypes.object.isRequired,
+	animalCategories: PropTypes.array.isRequired,
 	addCardForm: PropTypes.object,
 	addCard: PropTypes.object.isRequired,
 	user: PropTypes.object.isRequired,
@@ -442,10 +367,11 @@ export default connect(
 	state => ({
 		user: state.auth.user,
 		filterCity: state.filterCity,
+		animalCategories: state.menuReducer.categories,
 		addCardForm: state.form.addCardForm,
 		addPhoto: state.photosReducer.addPhoto,
 		images: state.photosReducer,
-		addCard: state.allParamsUrl
+		addCard: state.allParamsUrl,
 	}),
 	{
 		...actionsAllParamsUrl,

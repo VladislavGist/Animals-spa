@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
+import CircularProgress from 'material-ui/CircularProgress'
 import _ from 'lodash'
 
 import { actions as menuReducer } from '../../ducks/menuReducer'
@@ -35,7 +36,7 @@ class Menu extends Component {
 	}
 
 	render() {
-		const { lin, name, icons, keyElem, pathname, img, title, text, myLinks, categories } = this.props
+		const { lin, name, icons, keyElem, pathname, img, title, text, myLinks, categories, categoriesFetch, categoriesError } = this.props
 
 		return (
 			<div>
@@ -66,21 +67,23 @@ class Menu extends Component {
 					accordionContent: true,
 					visible: this.state.showMenu
 				}) } >
-					<div className='categories'>
-						{ <Link
-							to='/'
-						>
-							<span>Вернуться на главную</span>
-						</Link> }
-						
-						{ categories && categories.map((category, idx) => (
-							<Link
-								to={ `/animals/${ category.type }/buy` }
-								key={ idx }
-							>
-								<span>{ category.translate } - { category.count } объявл.</span>
-							</Link>
-						)) }
+					<div>
+						{ categories && !categoriesFetch && !categoriesError ? (
+							<div className='categories'>
+								<Link to='/'>
+									<span>Вернуться на главную</span>
+								</Link>
+								
+								{ categories.map((category, idx) => (
+									<Link
+										to={ `/animals/${ category.type }/buy` }
+										key={ idx }
+									>
+										<span>{ category.translate } - { category.count } объявл.</span>
+									</Link>
+								)) }
+							</div>
+						) : <CircularProgress size={ 60 }/> }
 					</div>
 				</div>
 
@@ -117,6 +120,8 @@ export default connect(
 
 		return {
 			categories: _.get(state, 'menuReducer.categories'),
+			categoriesFetch: _.get(state, 'menuReducer.fetchingCategories'),
+			categoriesError: _.get(state, 'menuReducer.errorFetchCategories'),
 			lin: menuReducer.categoryNames.myLinks,
 			name: menuReducer.categoryNames.names,
 			icons: menuReducer.categoryNames.icons,
