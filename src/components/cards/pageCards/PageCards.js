@@ -44,7 +44,6 @@ class PageCards extends Component {
 			filterCity,
 			currentPagePagination,
 			changePage,
-			getCategories,
 			getMenu
 		} = this.props
 
@@ -68,13 +67,9 @@ class PageCards extends Component {
 				page: nextCurrentPagePagination
 			})
 
-			if (nextParams.type
-				&& (
-					(nextParams.type !== params.type)
-					|| (nextFilterCity !== filterCity)
-				)
+			if (nextParams.type && (((nextParams.type !== params.type))
+				|| (nextFilterCity !== filterCity))
 			) {
-				getCategories(nextFilterCity)
 				getMenu(nextFilterCity, nextParams.type)
 			}
 

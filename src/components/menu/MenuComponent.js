@@ -36,7 +36,7 @@ class Menu extends Component {
 	state = { showMenu: false }
 
 	componentWillReceiveProps() {
-		this.setState({ showMenu: false })
+		// this.setState({ showMenu: false })
 	}
 
 	handleOpenMenu = () => {

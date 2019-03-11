@@ -5,6 +5,7 @@ import React, { Component, PropTypes } from 'react'
 import { actions as actionsSnackbar } from '../src/ducks/snackbarReducer'
 import { actions as actionsFilterCity } from '../src/ducks/filterCity'
 import { actions as actionsAuth } from '../src/ducks/auth'
+import { actions as actionsMenu } from '../src/ducks/menuReducer'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -35,6 +36,21 @@ class App extends Component {
 
 		if (storageToken) getUserData(storageToken)
 		fetchCitysList()
+	}
+
+	componentWillReceiveProps(next) {
+		const {
+			cityTopHeader,
+			getCategories
+		} = this.props
+
+		const {
+			cityTopHeader: nextFilterCity,
+		} = next
+
+		if (nextFilterCity !== cityTopHeader) {
+			getCategories(nextFilterCity)
+		}
 	}
 
 	render() {
@@ -106,6 +122,7 @@ export default connect(
 	{
 		...actionsSnackbar,
 		...actionsFilterCity,
-		...actionsAuth
+		...actionsAuth,
+		...actionsMenu
 	}
 )(App)
