@@ -26,7 +26,10 @@ import Pagination from './components/pagination/Pagination'
 class App extends Component {
 
 	componentWillMount() {
-		const { fetchCitysList, getUserData } = this.props
+		const {
+			fetchCitysList,
+			getUserData
+		} = this.props
 
 		const storageToken = localStorage.getItem('token')
 
@@ -85,13 +88,14 @@ App.propTypes = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	const { preloader, auth } = state
+	const { preloader, auth, filterCity } = state
 	const { location } = ownProps
 
 	return {
 		preloaderLoading: preloader.loading,
 		location: location.pathname,
-		authError: auth.userError && auth.userError.code
+		authError: auth.userError && auth.userError.code,
+		cityTopHeader: filterCity.cityTopHeader
 	}
 }
 

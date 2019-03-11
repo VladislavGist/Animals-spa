@@ -1,9 +1,40 @@
+import config from '../../config'
+
+import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
+
+const appName = 'paypets'
+const moduleName = 'menu'
+
 export const types = {
+	GET_CATEGORIES_REQUEST: `${ appName }/${ moduleName }/GET_CATEGORIES_REQUEST`,
+	GET_CATEGORIES_SUCCESS: `${ appName }/${ moduleName }/GET_CATEGORIES_SUCCESS`,
+	GET_CATEGORIES_ERROR: `${ appName }/${ moduleName }/GET_CATEGORIES_ERROR`,
+
 	SWITCH_MENU: 'MENU_REDUCER/SWITCH_MENU',
 	SWITCH_MENU_CLEAR: 'MENU_REDUCER/SWITCH_MENU_CLEAR'
 }
 
 export const actions = {
+	getCategories: city => dispatch => {
+		dispatch({ type: types.GET_CATEGORIES_REQUEST })
+
+		const cityQuerySearch = city && city !== 'Все регионы' ? `city=${ city }` : ''
+
+		fetch(`${ config.payPetsApiUrl }/api/menu/getAnimalCategories?${ cityQuerySearch }`)
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(payload => {
+				dispatch({ type: types.GET_CATEGORIES_SUCCESS, payload })
+			})
+			.catch(err => {
+				err.then(res => {
+					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					dispatch({ type: types.GET_CATEGORIES_ERROR })
+				})
+			})
+	},
 
 	onHandleCat: () => {
 		const data = [
@@ -373,14 +404,40 @@ const initialState = [
 			names: ['Купить', 'Находка', 'Пропажа', 'Даром'],
 			icons: ['fa fa-heart', 'fa fa-bell-o', 'fa fa-exclamation-circle', 'fa fa-globe'],
 			key: ['e12e3', '2f3f2', 'f434', '4r434']
-		}
+		},
+		fetchingCategories: false,
+		errorFetchCategories: false,
+		categories: []
 	}
 ]
 
 export default (state = initialState, action) => {
-	switch (action.type) {
-	case types.SWITCH_MENU: return action.payload
+	const { type, payload } = action
+
+	switch (type) {
+
+	case types.GET_CATEGORIES_REQUEST: return {
+		...state,
+		fetchingCategories: true,
+		errorFetchCategories: false,
+		categories: []
+	}
+	case types.GET_CATEGORIES_SUCCESS: return {
+		...state,
+		fetchingCategories: true,
+		errorFetchCategories: false,
+		categories: payload
+	}
+	case types.GET_CATEGORIES_REQUEST: return {
+		...state,
+		fetchingCategories: true,
+		errorFetchCategories: false,
+		categories: []
+	}
+
+	case types.SWITCH_MENU: return payload
 	case types.SWITCH_MENU_CLEAR: return []
+
 	default: return state
 	}
 }
