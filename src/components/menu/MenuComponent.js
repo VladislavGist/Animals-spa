@@ -14,12 +14,20 @@ if (process.env.BROWSER) {
 class MaterialLink extends Component {
 
 	render() {
-		const { children, icons, valueLink } = this.props
+		const { children, icons, valueLink, active } = this.props
 
-		return <Link to={ valueLink } className='button4'>
-			{ children }
-			<i className={ icons } aria-hidden='true' />
-		</Link>
+		return (
+			<Link
+				to={ valueLink }
+				className={ classNames({
+					button4: true,
+					'button4__active': active
+				}) }
+			>
+				{ children }
+				<i className={ icons } aria-hidden='true' />
+			</Link>
+		)
 	}
 }
 
@@ -41,7 +49,8 @@ class Menu extends Component {
 			categories,
 			categoriesFetch,
 			categoriesError,
-			pathname
+			pathname,
+			params
 		} = this.props
 
 		return (
@@ -61,6 +70,7 @@ class Menu extends Component {
 								{ menu.categoryNames.myLinks.map((elem, idx) => <MaterialLink
 									valueLink={ elem }
 									key={ idx }
+									active={ _.get(params, 'advertisment') === menu.categoryNames.names[idx].type }
 								>
 									{ `${ menu.categoryNames.names[idx].translate }: ${ menu.categoryNames.names[idx].count }` }
 								</MaterialLink>) }
