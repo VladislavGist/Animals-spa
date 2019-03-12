@@ -166,7 +166,7 @@ class AddCardFormComponent extends Component {
 								<p className='subtitle'>Данные</p>
 								<Form onSubmit={ this.handleSendForm } className='newAnimalForm'>
 
-									{ user.role === 'moderator' && <Field
+									{ user && user.role === 'moderator' && <Field
 										type='text'
 										label='Имя пользователя'
 										name='refreshName'
@@ -285,7 +285,7 @@ class AddCardFormComponent extends Component {
 						<div>
 							<div className='wrapPhotos'>
 								<p className='subtitle'>Фотографии</p>
-								<p className='photoDescpipt'>Добавьте минимум одну фотографию<br /><b>Формат jpeg, jpg, png</b></p>
+								<p className='photoDescpipt'>Добавьте минимум одну фотографию<br />. <b>Формат jpeg, jpg, png</b>. Макс. размер 3 мб</p>
 								<div className='buttonsAddPhoto'>
 									<AddPhotoInputComponent
 										handleAddPhoto={ handleAddPhoto_0 }
@@ -334,6 +334,11 @@ class AddCardFormComponent extends Component {
 			</div>
 		)
 	}
+}
+
+AddCardFormComponent.defaultProps = {
+	animalCategories: [],
+	user: {}
 }
 
 AddCardFormComponent.propTypes = {

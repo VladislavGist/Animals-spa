@@ -1,5 +1,7 @@
+console.log(process.env.API_URL)
+
 const config = {
-	payPetsApiUrl: 'http://localhost:8080'
+	payPetsApiUrl: process.env.API_URL
 }
 
 module.exports = config

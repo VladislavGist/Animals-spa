@@ -23,7 +23,8 @@ class Sidebar extends Component {
 
 		} else if (user && user.role === 'moderator') {
 			return <div className='userBtns'>
-				<Link to='/moderation' className='personalArea'>moderation</Link>
+				<Link to='/moderation'>Модерация</Link>
+				<Link to='/personalArea'>Лк</Link>
 			</div>
 		}
 	}

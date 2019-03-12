@@ -25,10 +25,13 @@ const userIsAuthenticated = connectedRouterRedirect({
 		const { auth:
 			{
 				user,
-				userError
+				userError,
+				userLoading
 			} } = state
 
-		return !userError && user !== null
+		console.log(userLoading === false || userError === false || user !== null)
+
+		return userLoading === false && userError === false && user !== null
 	}
 })
 

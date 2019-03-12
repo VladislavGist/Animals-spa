@@ -30,6 +30,7 @@ class DrawerUndockedExample extends Component {
 			} else if (user.role === 'moderator') {
 				return (
 					<div className='userBtns'>
+						<Link to='/personalArea' className='mobileBtnPersonalArea'>Лк</Link>
 						<Link to='/moderation' className='mobileBtnPersonalArea'>moderation</Link>
 					</div>
 				)

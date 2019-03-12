@@ -2,10 +2,9 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-const PROCESS_ENV = process.env.NODE_ENV
-// const URL_PATH = (PROCESS_ENV === 'development') ? 'http://localhost:8080' : 'https://still-anchorage-46659.herokuapp.com'
-//когда буду билдить на рабочий сервер, то вернуть верхнюю строку и в конце указать его
-const URL_PATH = (PROCESS_ENV === 'development') ? 'http://localhost:8090' : 'https://animals-bbfac.firebaseapp.com'
+const NODE_ENV = process.env.NODE_ENV
+const EXTERNAL_API_URL = process.env.EXTERNAL_API_URL
+const API_URL = (NODE_ENV === 'development' && !EXTERNAL_API_URL) ? 'http://localhost:8080' : EXTERNAL_API_URL
 
 const extractSass = new ExtractTextPlugin({
 	filename: '[name].css',
@@ -67,8 +66,8 @@ module.exports = {
 		new webpack.DefinePlugin({
 			'process.env': {
 				BROWSER: JSON.stringify(true),
-				NODE_ENV: JSON.stringify(PROCESS_ENV),
-				URL_PATH: JSON.stringify(URL_PATH)
+				NODE_ENV: JSON.stringify(NODE_ENV),
+				API_URL: JSON.stringify(API_URL)
 			}
 		}),
 		new webpack.optimize.UglifyJsPlugin()
