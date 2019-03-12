@@ -1,9 +1,11 @@
+import _ from 'lodash'
 import classNames from 'classnames'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import MediaQuery from 'react-responsive'
 import React, { Component, PropTypes } from 'react'
+
 import CircularProgress from 'material-ui/CircularProgress'
-import _ from 'lodash'
 
 import { actions as menuReducer } from '../../ducks/menuReducer'
 
@@ -53,6 +55,8 @@ class Menu extends Component {
 			params
 		} = this.props
 
+		const { showMenu } = this.state
+
 		return (
 			<div>
 				{ menu && Object.keys(menu).length > 0
@@ -62,9 +66,11 @@ class Menu extends Component {
 								<img src={ menu.img } />
 							</div>
 
-							<div className='menuText'>
-								<h2>{ menu.title }</h2>
-							</div>
+							<MediaQuery minWidth='1024px'>
+								<div className='menuText'>
+									<h2>{ menu.title }</h2>
+								</div>
+							</MediaQuery>
 
 							<nav className='buttons'>
 								{ menu.categoryNames.myLinks.map((elem, idx) => <MaterialLink
@@ -78,11 +84,8 @@ class Menu extends Component {
 						</div>
 					) : null }
 
-				<div className={ classNames({
-					accordionContent: true,
-					visible: this.state.showMenu
-				}) } >
-					<div>
+				{ showMenu ? (
+					<div className='accordionContent'>
 						{ categories && !categoriesFetch && !categoriesError ? (
 							<div className='categories'>
 								{ Object.keys(params).length ? (
@@ -106,8 +109,8 @@ class Menu extends Component {
 							</div>
 						) : <CircularProgress size={ 60 }/> }
 					</div>
-				</div>
-
+				) : null }
+				
 				<a href='javascript:void(0)' className='moreInfo' onClick={ this.handleOpenMenu }>
 					Все животные
 					<i className='fa fa-angle-down' aria-hidden='true' />

@@ -1,5 +1,6 @@
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import MediaQuery from 'react-responsive'
 import React, { Component, PropTypes } from 'react'
 
 import { moduleName } from '../../ducks/auth'
@@ -13,33 +14,49 @@ if (process.env.BROWSER) {
 
 class Sidebar extends Component {
 
-	switchMenuRoles = () => {
+	switchMenuDependensiesRoles = () => {
 		const { user } = this.props
 
-		if (user && user.role === 'user') {
-			return <div className='userBtns'>
-				<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
-			</div>
-
-		} else if (user && user.role === 'moderator') {
-			return <div className='userBtns'>
-				<Link to='/moderation'>Модерация</Link>
-				<Link to='/personalArea'>Лк</Link>
-			</div>
+		if (!user) {
+			return (
+				<div className='userBtns'>
+					<LoginModal
+						titleBtn='Вход / регистрация'
+						dialogModal='01'
+					/>
+					<LoginModal
+						titleBtn='Подать объявление'
+						classesBtn='button2'
+						dialogModal='01'
+					/>
+				</div>
+			)
+		} else {
+			return (
+				<div className='userBtns'>
+					<Link to='/personalArea' className='personalArea'>Личный кабинет</Link>
+					{ user.role === 'moderator' ? (
+						<Link to='/moderation'>Модерация</Link>
+					) : null }
+					<Link
+						to='/placeAnAd'
+						className='button2'>
+							Подать объявление
+					</Link>
+				</div>
+			)
 		}
 	}
 
-	protected = () => !this.props.user && false
-
 	render() {
-		const { user, filterCity } = this.props
+		const { filterCity } = this.props
 
 		return (
 			<header>
 				<div className='menuHeader'>
 					<div className='top_logo'>
 						<Link to='/'>
-							<img src='https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Flogo2.png?alt=media&token=bb1bf9a9-419b-475d-b28a-4a60b8d6783c'
+							<img src=''
 								width='120'
 								alt='logotype'
 							/>
@@ -47,27 +64,17 @@ class Sidebar extends Component {
 						<h1 className='h1'>Продай, купи, отдай в дар, сообщи о находке или пропаже животного</h1>
 					</div>
 
-					<LoginModal titleBtn={ filterCity.cityTopHeader } dialogModal='02' />
+					<MediaQuery minWidth='1024px'>
+						<LoginModal titleBtn={ filterCity.cityTopHeader } dialogModal='02' />
+					</MediaQuery>
 
-					{ !user ? <LoginModal titleBtn='Вход / регистрация' dialogModal='01' /> : this.switchMenuRoles() }
+					<MediaQuery minWidth='1024px'>
+						{ this.switchMenuDependensiesRoles() }
+					</MediaQuery>
 
-					{ !user ? (
-						<LoginModal
-							titleBtn='Подать объявление'
-							classNameMobile='needLoginMobile'
-							classesBtn='button2 needLoginMobile'
-							dialogModal='01'
-						/>
-					) : (
-						<Link
-							to='/placeAnAd'
-							className='button2 needLogin'
-							onClick={ this.protected }>
-								Подать объявление
-						</Link>
-					) }
-
-					<DrawerUndockedExample />
+					<MediaQuery maxWidth='1023px'>
+						<DrawerUndockedExample />
+					</MediaQuery>
 				</div>
 			</header>
 		)

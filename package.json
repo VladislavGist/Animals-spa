@@ -5,8 +5,8 @@
   "main": "public/index.html",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base public --port 8090 --host localhost",
-	"devMobile": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base public --port 8090 --host 192.168.1.64",
-	"buildTest": "NODE_ENV=development webpack -p",
+    "devMobile": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base public --port 8090 --host 192.168.1.64",
+    "buildTest": "NODE_ENV=development webpack -p",
     "build": "NODE_ENV=production webpack -p"
   },
   "author": "Vladislav Druzhbinskiy",
@@ -21,6 +21,7 @@
     "react": "15.x.x",
     "react-dom": "15.6.1",
     "react-redux": "4.4.6",
+    "react-responsive": "5.0.0",
     "react-router": "3.0.2",
     "react-router-redux": "4.0.8",
     "react-slick": "0.14.8",

@@ -107,7 +107,7 @@ class LoginModal extends Component {
 		}
 
 		return (
-			<div className={ `regionsBtn ${ this.props.classNameMobile }` }>
+			<div className='regionsBtn'>
 				<a
 					href='javascript:void(0)'
 					onTouchTap={ this.handleOpen }

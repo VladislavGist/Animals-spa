@@ -1,9 +1,6 @@
 @import ../../styles/vars
 @import ../../styles/theme
 
-.mobileBtnPersonalArea
-	display: none
-
 .button2.mobileBtnPersonalArea
 	padding: 11px 18px
 	font-size: 15px
@@ -37,9 +34,9 @@ header
 			display: flex
 			justify-content: space-between
 			align-items: center
-			a
-				margin-right: 10px
-			a:last-child
+			& > div
+				margin-right: 1em
+			& > div:last-child
 				margin-right: 0
 			.userName
 				font-family: 'RobotoBold'
@@ -55,8 +52,6 @@ header
 				&:hover
 					color: #ff9800
 					text-decoration: none
-		.mobileMenuBtn
-			display: none !important
 				
 @media screen and (max-width: 1200px)
 	.menuHeader
@@ -68,14 +63,7 @@ header
 		.menuHeader
 			.top_logo a
 				display: block
-			.regionsBtn
-				display: none
-			.personalArea
-				display: none
-			.repostBtn
-				display: none
-			.mobileMenuBtn
-				display: block !important
+				
 			.regionsBtnMobile
 				display: block
 				a
@@ -99,8 +87,9 @@ header
 				width: 100%
 				text-decoration: none
 				color: $colorLead
-			.needLoginMobile
-				display: block
+			.userBtns
+				flex-direction: column
+				align-items: flex-start
 
 	.mobileBtnPersonalArea
 		display: block !important
@@ -134,10 +123,6 @@ header
 					text-align: center
 					font-size: 15px
 					line-height: 16px
-			.needLogin
-				display: none
-			.needLoginMobile
-				display: none
 
 @media screen and (max-width: 600px)
 	header

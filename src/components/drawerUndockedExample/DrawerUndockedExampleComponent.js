@@ -14,28 +14,67 @@ class DrawerUndockedExample extends Component {
 	state = { open: false }
 
 	handleToggle = () => this.setState({ open: !this.state.open })
-
 	handleClose = () => this.setState({ open: false })
 
-	render() {
-		const { user, filterCity } = this.props
+	handleRequestChange = open => this.setState({ open })
 
-		const loginFalse = () => {
-			if (user.role === 'user') {
-				return (
-					<div className='userBtns'>
-						<Link to='/personalArea' className='mobileBtnPersonalArea'>Личный кабинет</Link>
-					</div>
-				)
-			} else if (user.role === 'moderator') {
-				return (
-					<div className='userBtns'>
-						<Link to='/personalArea' className='mobileBtnPersonalArea'>Лк</Link>
-						<Link to='/moderation' className='mobileBtnPersonalArea'>moderation</Link>
-					</div>
-				)
-			}
+	restUserMenu = () => {
+		const { user } = this.props
+
+		if (!user) {
+			return (
+				<div>
+					<MenuItem onTouchTap={ this.handleClose }>
+						<LoginModal
+							titleBtn='Вход / регистрация'
+							dialogModal='01'
+						/>
+					</MenuItem>
+
+					<MenuItem onTouchTap={ this.handleClose }>
+						<LoginModal
+							titleBtn='Подать объявление'
+							classesBtn='button2'
+							dialogModal='01'
+						/>
+					</MenuItem>
+				</div>
+			)
+		} else {
+			return (
+				<div className='userBtns'>
+					<MenuItem onTouchTap={ this.handleClose }>
+						<Link
+							to='/personalArea'
+							className='button2'>
+								Личный кабинет
+						</Link>
+					</MenuItem>
+
+					{ user.role === 'moderator' ? (
+						<MenuItem onTouchTap={ this.handleClose }>
+							<Link
+								to='/moderation'
+								className='button2'>
+									Moderation
+							</Link>
+						</MenuItem>
+					) : null }
+
+					<MenuItem onTouchTap={ this.handleClose }>
+						<Link
+							to='/placeAnAd'
+							className='button2'>
+								Подать объявление
+						</Link>
+					</MenuItem>
+				</div>
+			)
 		}
+	}
+
+	render() {
+		const { filterCity } = this.props
 
 		let style = {
 			RaisedBtn: {
@@ -62,45 +101,18 @@ class DrawerUndockedExample extends Component {
 
 				<Drawer
 					docked={ false }
-					width={ 200 }
+					width={ 250 }
 					open={ this.state.open }
-					onRequestChange={ open => this.setState({ open }) }
+					onRequestChange={ this.handleRequestChange }
 				>
-					<MenuItem>
+					<MenuItem onTouchTap={ this.handleClose }>
 						<LoginModal
 							titleBtn={ filterCity.cityTopHeader }
-							classNameMobile='regionsBtnMobile'
 							dialogModal='02'
 						/>
 					</MenuItem>
 
-					<MenuItem onTouchTap={ this.handleClose }>
-						{
-							!user ?
-								<LoginModal
-									classesBtn='accountBtnMobile'
-									classNameMobile='mobileSign'
-									titleBtn='Вход / регистрация'
-									dialogModal='01'
-								/>
-								: loginFalse()
-						}
-					</MenuItem>
-
-					<MenuItem onTouchTap={ this.handleClose }>
-						{
-							!user ?
-								<LoginModal
-									titleBtn='Подать объявление'
-									classesBtn='button2 mobileBtnPersonalArea'
-									classNameMobile='mobilePersonal'
-									dialogModal='01' /> :
-								<Link to='/placeAnAd'
-									className='button2 mobileBtnPersonalArea'>
-										Подать объявление
-								</Link>
-						}
-					</MenuItem>
+					{ this.restUserMenu() }
 				</Drawer>
 			</div>
 		)
