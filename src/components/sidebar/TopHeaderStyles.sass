@@ -34,6 +34,7 @@ header
 			display: flex
 			justify-content: space-between
 			align-items: center
+			flex: 0.7
 			a
 				margin-right: 1em
 			a:last-child
@@ -58,9 +59,12 @@ header
 					text-decoration: none
 				
 @media screen and (max-width: 1200px)
-	.menuHeader
-		.top_logo a
-			display: none
+	header
+		.menuHeader
+			.top_logo a
+				display: none
+			.userBtns
+				flex: initial
 
 @media screen and (max-width: 992px)
 	header
