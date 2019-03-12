@@ -285,7 +285,7 @@ class AddCardFormComponent extends Component {
 						<div>
 							<div className='wrapPhotos'>
 								<p className='subtitle'>Фотографии</p>
-								<p className='photoDescpipt'>Добавьте минимум одну фотографию<br /><b>Формат jpeg, jpg</b></p>
+								<p className='photoDescpipt'>Добавьте минимум одну фотографию<br /><b>Формат jpeg, jpg, png</b></p>
 								<div className='buttonsAddPhoto'>
 									<AddPhotoInputComponent
 										handleAddPhoto={ handleAddPhoto_0 }
