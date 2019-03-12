@@ -76,8 +76,7 @@ class Card extends Component {
 			deleteDate,
 			moderate,
 			compleate,
-			pathname,
-			changeActiveStatusPost
+			pathname
 		} = this.props
 
 		const imagePath = []
@@ -125,7 +124,7 @@ class Card extends Component {
 									{ userName && <p className={ `userName ${ (userStatus === 'seller') && 'gold' }` }>{ userName }</p> }
 								</div>
 								<div className='priceMobile'>
-									<p className='price'>{ price && price > 0 && `${ price } руб.` }</p>
+									<p className='price'>{ price && price > 0 ? `${ price } руб.` : null }</p>
 								</div>
 							</div>
 						</div>
