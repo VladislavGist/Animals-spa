@@ -123,7 +123,10 @@ export const actions = {
 		`
 
 		fetch(`${ config.payPetsApiUrl }/api/feedRead/posts?${ resultSearchQuery }`)
-			.then(result => result.json())
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
 			.then(articles => {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))
 				dispatch({
@@ -133,9 +136,12 @@ export const actions = {
 				})
 			})
 			.catch(err => {
-				dispatch(actionsTypes.handleUpdateStateLoading(100))
-				dispatch({ type: types.FETCH_ARTICLES_ERROR })
-				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err.message }`))
+				err
+					.then(res => {
+						dispatch(actionsTypes.handleUpdateStateLoading(100))
+						dispatch({ type: types.FETCH_ARTICLES_ERROR })
+						dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					})
 			})
 	},
 
@@ -148,7 +154,6 @@ export const actions = {
 				if (response.ok) return response.json()
 				return Promise.reject(response.json())
 			})
-			.then(result => result.json())
 			.then(openedCard => {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))
 				dispatch({
