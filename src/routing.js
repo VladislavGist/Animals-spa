@@ -12,6 +12,7 @@ import PersonalArea from './components/personalArea/PersonalAreaComponent'
 import AddCardFormComponent from './components/forms/addCardForm/AddCardFormComponent'
 import ContactsForm from './components/forms/contactsForm/ContactsFormComponent'
 import PageCards from './components/cards/pageCards/PageCards'
+import Advertisement from './components/cards/advertisement/Advertisement'
 import ResetPassword from './components/forms/ResetPassword'
 import AddNewPassword from './components/forms/AddNewPassword'
 
@@ -37,6 +38,7 @@ export const routes = <Route component={ App } >
 	<Route path='/' component={ PageCards } />
 	<Route path='/conf' component={ Conf } />
 	<Route path='/contacts' component={ ContactsForm } />
+	<Route path='/adv/:id' component={ Advertisement } />
 	<Route path='/resetPassword' component={ ResetPassword } />
 	<Route path='/addNewPassword/:token' component={ AddNewPassword } />
 	<Route path='/animals/:type/:advertisment' component={ PageCards }/>

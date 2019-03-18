@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
@@ -16,20 +17,12 @@ if (process.env.BROWSER) {
 
 class Card extends Component {
 
-	state = { verticalRotate: false }
+	// state = { verticalRotate: false }
 
 	stopArticle = () => {
 		const { cardId, stopArticle } = this.props
 
 		stopArticle(`${ config.payPetsApiUrl }/api/feed/post/${ cardId }`, { active: false })
-	}
-
-	clickFunc = () => {
-		const { pathname, updateCardView, userId, cardId, view } = this.props
-
-		// if ((pathname !== '/personalArea') && (pathname !== '/moderation')) {
-		// 	updateCardView(userId, cardId, view)
-		// }
 	}
 
 	stausesReplace = status => {
@@ -51,7 +44,7 @@ class Card extends Component {
 		return text
 	}
 
-	handleReverseCard = () => this.setState({ verticalRotate: !this.state.verticalRotate })
+	// handleReverseCard = () => this.setState({ verticalRotate: !this.state.verticalRotate })
 
 	changeActiveStatusPostWapper = event => {
 		const { cardId, changeActiveStatusPost } = this.props
@@ -69,6 +62,7 @@ class Card extends Component {
 			userName,
 			title,
 			briefDescription,
+			cardId,
 			view,
 			imgPath,
 			deleted,
@@ -87,16 +81,19 @@ class Card extends Component {
 		})
 
 		return (
-			<div className='cardItemWrap'>
+			<Link
+				to={ `/adv/${ cardId }` }
+				className='cardItemWrap'
+			>
 				<div
 					className={ classNames({
 						'cardItem': true,
 						'horizontalBig': true,
-						'verticalRotate': this.state.verticalRotate
+						// 'verticalRotate': this.state.verticalRotate
 					}) }
 				>
-					<div className='contentWrap' onClick={ this.clickFunc }>
-						<div className='top' onClick={ this.handleReverseCard }>
+					<div className='contentWrap'>
+						<div className='top'>
 							<div>
 								<p className='price'>{ price && price > 0 ? `${ price } руб.` : null }</p>
 							</div>
@@ -142,7 +139,7 @@ class Card extends Component {
 						<img src={ imagePath[0] } />
 					</div>
 
-					<div className='reverseFace'>
+					{/* <div className='reverseFace'>
 						<div className='sliderItem'>
 							<SlickSlider imagesItems={ imagePath } />
 						</div>
@@ -161,7 +158,7 @@ class Card extends Component {
 								</button>
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 
 				{ deleted || deleteInfo ?
@@ -205,7 +202,7 @@ class Card extends Component {
 						</button>
 					</div>
 				) : null }
-			</div>
+			</Link>
 		)
 	}
 }
