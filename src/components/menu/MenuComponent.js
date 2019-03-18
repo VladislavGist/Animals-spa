@@ -60,7 +60,7 @@ class Menu extends Component {
 		return (
 			<div>
 				{ menu && Object.keys(menu).length > 0
-					&& !['/', '/placeAnAd', '/personalArea'].includes(pathname) ? (
+					&& pathname.search(/adv|placeAnAd|personalArea|\/$/g) < 0 ? (
 						<div className={ classNames({ menu: true }) }>
 							<div className='img'>
 								<img src={ menu.img } />

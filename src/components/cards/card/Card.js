@@ -17,8 +17,6 @@ if (process.env.BROWSER) {
 
 class Card extends Component {
 
-	// state = { verticalRotate: false }
-
 	stopArticle = () => {
 		const { cardId, stopArticle } = this.props
 
@@ -44,8 +42,6 @@ class Card extends Component {
 		return text
 	}
 
-	// handleReverseCard = () => this.setState({ verticalRotate: !this.state.verticalRotate })
-
 	changeActiveStatusPostWapper = event => {
 		const { cardId, changeActiveStatusPost } = this.props
 		changeActiveStatusPost(cardId, event)
@@ -63,14 +59,12 @@ class Card extends Component {
 			title,
 			briefDescription,
 			cardId,
-			view,
 			imgPath,
 			deleted,
 			deleteInfo,
 			deleteDate,
 			moderate,
-			compleate,
-			pathname
+			compleate
 		} = this.props
 
 		const imagePath = []
@@ -88,8 +82,7 @@ class Card extends Component {
 				<div
 					className={ classNames({
 						'cardItem': true,
-						'horizontalBig': true,
-						// 'verticalRotate': this.state.verticalRotate
+						'horizontalBig': true
 					}) }
 				>
 					<div className='contentWrap'>
@@ -117,7 +110,6 @@ class Card extends Component {
 								{ addDate && <p className='number'>{ moment(addDate).format('DD-MM-YYYY') }</p> }
 
 								<div className='userItem'>
-									{/* { mass } */}
 									{ userName && <p className={ `userName ${ (userStatus === 'seller') && 'gold' }` }>{ userName }</p> }
 								</div>
 								<div className='priceMobile'>

@@ -17,7 +17,6 @@ class PageCards extends Component {
 			currentPagePagination,
 			params,
 			changePage,
-			getCategories,
 			getMenu
 		} = this.props
 
@@ -32,7 +31,6 @@ class PageCards extends Component {
 		})
 
 		changePage(1)
-		getCategories(filterCity)
 
 		if (animalKind) getMenu(filterCity, animalKind)
 	}

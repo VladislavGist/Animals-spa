@@ -29,13 +29,16 @@ class App extends Component {
 	componentWillMount() {
 		const {
 			fetchCitysList,
-			getUserData
+			getUserData,
+			getCategories,
+			cityTopHeader
 		} = this.props
 
 		const storageToken = localStorage.getItem('token')
 
 		if (storageToken) getUserData(storageToken)
 		fetchCitysList()
+		getCategories(cityTopHeader)
 	}
 
 	componentWillReceiveProps(next) {
@@ -45,7 +48,7 @@ class App extends Component {
 		} = this.props
 
 		const {
-			cityTopHeader: nextFilterCity,
+			cityTopHeader: nextFilterCity
 		} = next
 
 		if (nextFilterCity !== cityTopHeader) {
