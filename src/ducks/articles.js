@@ -13,6 +13,10 @@ export const types = {
 	FETCH_ARTICLES_CLEAR: `${ appName }/${ moduleName }/FETCH_ARTICLES_CLEAR`,
 
 	CHANGE_CURRENT_PAGE_PAGINATION: `${ appName }/${ moduleName }/CHANGE_CURRENT_PAGE_PAGINATION`,
+
+	FETCH_OPENED_CARD_START: `${ appName }/${ moduleName }/FETCH_OPENED_CARD_START`,
+	FETCH_OPENED_CARD_SUCCESS: `${ appName }/${ moduleName }/FETCH_OPENED_CARD_SUCCESS`,
+	FETCH_OPENED_CARD_ERROR: `${ appName }/${ moduleName }/FETCH_OPENED_CARD_ERROR`
 }
 
 const initialState = {
@@ -20,11 +24,20 @@ const initialState = {
 	loadingFetch: false,
 	currentPagePagination: 1,
 	articlesList: [],
-	totalItems: 0
+	totalItems: 0,
+	fetchingOpenedCard: false,
+	errorFetchOpenedCard: false,
+	openedCard: {}
 }
 
 export default (state = initialState, action) => {
-	const { type, articles, totalItems, currentPagePagination } = action
+	const {
+		type,
+		articles,
+		totalItems,
+		currentPagePagination,
+		openedCard
+	} = action
 
 	switch (type) {
 	case types.FETCH_ARTICLES_START: return {
@@ -63,6 +76,27 @@ export default (state = initialState, action) => {
 		currentPagePagination: currentPagePagination
 	}
 
+	case types.FETCH_OPENED_CARD_START: return {
+		...state,
+		fetchingOpenedCard: true,
+		errorFetchOpenedCard: false,
+		openedCard: {}
+	}
+
+	case types.FETCH_OPENED_CARD_SUCCESS: return {
+		...state,
+		fetchingOpenedCard: false,
+		errorFetchOpenedCard: false,
+		openedCard
+	}
+
+	case types.FETCH_OPENED_CARD_ERROR: return {
+		...state,
+		fetchingOpenedCard: false,
+		errorFetchOpenedCard: true,
+		openedCard: {}
+	}
+
 	default: return state
 	}
 }
@@ -88,7 +122,7 @@ export const actions = {
 			${ moderateQuerySearch }
 		`
 
-		fetch(`${ config.payPetsApiUrl }/api/feedRead/posts?${resultSearchQuery}`)
+		fetch(`${ config.payPetsApiUrl }/api/feedRead/posts?${ resultSearchQuery }`)
 			.then(result => result.json())
 			.then(articles => {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))
@@ -102,6 +136,33 @@ export const actions = {
 				dispatch(actionsTypes.handleUpdateStateLoading(100))
 				dispatch({ type: types.FETCH_ARTICLES_ERROR })
 				dispatch(actionsSnackbarReducer.handleSnackbar(`Ошибка ${ err.message }`))
+			})
+	},
+
+	getOpenedCard: id => dispatch => {
+		dispatch({ type: types.FETCH_OPENED_CARD_START })
+		dispatch(actionsTypes.handleUpdateStateLoading(80))
+
+		fetch(`${ config.payPetsApiUrl }/api/feedRead/post/${ id }`)
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(result => result.json())
+			.then(openedCard => {
+				dispatch(actionsTypes.handleUpdateStateLoading(100))
+				dispatch({
+					type: types.FETCH_OPENED_CARD_SUCCESS,
+					openedCard
+				})
+			})
+			.catch(err => {
+				err
+					.then(res => {
+						dispatch(actionsTypes.handleUpdateStateLoading(100))
+						dispatch({ type: types.FETCH_OPENED_CARD_ERROR })
+						dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					})
 			})
 	},
 

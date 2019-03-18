@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
+import { actions as articlesActions } from '../../../ducks/articles'
+
 class Advertisement extends Component {
 
 	static propTypes = {
@@ -11,17 +13,21 @@ class Advertisement extends Component {
 		id: ''
 	}
 
+	componentWillMount() {
+		const { id, getOpenedCard } = this.props
+
+		getOpenedCard(id)
+	}
+
 	render() {
-		const { id } = this.props
+		const {
+			
+		} = this.props
 
 		return (
-			!id ? (
-				<p>Такого объявления нет</p>
-			) : (
-				<div>
-					{ id }
-				</div>
-			)
+			<div>
+				my text
+			</div>
 		)
 	}
 }
@@ -30,8 +36,7 @@ export default connect(
 	(state, ownProps) => {
 		const { params: { id } } = ownProps
 
-		return {
-			id
-		}
-	}
+		return { id }
+	},
+	{ ...articlesActions }
 )(Advertisement)
