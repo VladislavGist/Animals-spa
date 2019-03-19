@@ -63,8 +63,6 @@ class PageCards extends Component {
 				page: nextCurrentPagePagination
 			})
 
-			console.log({ nextCurrentPagePagination })
-
 			if (nextParams.type && (((nextParams.type !== params.type))
 				|| (nextFilterCity !== filterCity))
 			) {

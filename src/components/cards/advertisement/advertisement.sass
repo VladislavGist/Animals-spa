@@ -69,3 +69,24 @@
 		
 		.advDescription
 			padding-top: 20px
+
+	@media screen and (max-width: 1024px)
+		.advContent
+			flex-direction: column
+
+			.advContacts
+				margin-top: 20px
+
+				& > div
+					padding: 0
+
+	@media screen and (max-width: 600px)
+		.advHeader
+			flex-direction: column
+			
+			h2
+				font-size: 18px
+
+		.advPrice
+			margin-top: 10px
+			font-size: 15px
