@@ -14,7 +14,6 @@ class PageCards extends Component {
 		const {
 			getCards,
 			filterCity,
-			currentPagePagination,
 			params,
 			changePage,
 			getMenu
@@ -23,14 +22,13 @@ class PageCards extends Component {
 		const animalKind = _.get(params, 'type')
 		const postType = _.get(params, 'advertisment')
 
+		changePage(1)
+
 		getCards({
 			city: filterCity,
 			animalType: animalKind ? animalKind : '',
-			postType: postType ? postType : '',
-			page: currentPagePagination
+			postType: postType ? postType : ''
 		})
-
-		changePage(1)
 
 		if (animalKind) getMenu(filterCity, animalKind)
 	}
@@ -64,6 +62,8 @@ class PageCards extends Component {
 				city: next.filterCity,
 				page: nextCurrentPagePagination
 			})
+
+			console.log({ nextCurrentPagePagination })
 
 			if (nextParams.type && (((nextParams.type !== params.type))
 				|| (nextFilterCity !== filterCity))

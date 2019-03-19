@@ -62,7 +62,7 @@ class Advertisement extends Component {
 			imagePath.push({
 				original: value,
 				thumbnail: value,
-				thumbnailClass: 'customClass'	
+				thumbnailClass: 'customClass'
 			})
 		})
 
@@ -84,13 +84,25 @@ class Advertisement extends Component {
 					) : null }
 				</div>
 				<div className='advContent'>
-					<div className='slider'>
+					<div>
 						<ImageGallery imagesItems={ imagePath } />
 					</div>
 					<div className='advContacts'>
-						<p>{ openedCard.phoneNumber }</p>
-						<p>{ openedCard.creatorName }</p>
-						<p>{ openedCard.city }</p>
+						<div>
+							<div className='advPhone'>
+								<p className='advPhoneNumberTitle'>Номер телефона</p>
+								<p>{ openedCard.phoneNumber }</p>
+							</div>
+							<div className='advPerson'>
+								<p className='advPersonTitle'>Контактное лицо</p>
+								<p>{ openedCard.creatorName }</p>
+							</div>
+							
+							<div className='advCity'>
+								<p className='advCityTitle'>Город</p>
+								<p>{ openedCard.city }</p>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div className='advSubArticle'>
