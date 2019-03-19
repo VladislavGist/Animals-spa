@@ -6,6 +6,8 @@ import _ from 'lodash'
 import Card from '../cards/card/Card'
 import TableRowsComponent from './tableRows/TableRowsComponent'
 
+import { actions as actionsAuth } from '../../ducks/auth'
+
 if (process.env.BROWSER) {
 	require('../personalArea/PersonalAreaStyles.sass')
 	require('../cards/cardsList/cardsList.sass')
@@ -13,6 +15,13 @@ if (process.env.BROWSER) {
 class PersonalDatasAccount extends Component {
 
 	state = { value: '0', slideIndex: 0 }
+
+	componentWillMount() {
+		const { getUserData } = this.props
+		const storageToken = localStorage.getItem('token')
+
+		if (storageToken) getUserData(storageToken)
+	}
 
 	handleChange = value => this.setState({ value: value })
 
@@ -161,7 +170,8 @@ class PersonalDatasAccount extends Component {
 PersonalDatasAccount.propTypes = {
 	resolveCards: PropTypes.array,
 	rejectedCards: PropTypes.array,
-	moderatingCards: PropTypes.array
+	moderatingCards: PropTypes.array,
+	getUserData: PropTypes.func
 }
 
 export default connect(
@@ -173,5 +183,6 @@ export default connect(
 			rejectedCards: articles && articles.filter(card => (card.moderate === 'reject' || !card.active) || (card.moderate === 'resolve' && !card.active)),
 			moderatingCards: articles && articles.filter(card => card.moderate === 'pending' && card.active)
 		}
-	}
+	},
+	{ ...actionsAuth }
 )(PersonalDatasAccount)

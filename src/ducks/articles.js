@@ -162,7 +162,6 @@ export const actions = {
 				})
 			})
 			.catch(err => {
-				console.log({err})
 				err
 					.then(res => {
 						dispatch(actionsTypes.handleUpdateStateLoading(100))
