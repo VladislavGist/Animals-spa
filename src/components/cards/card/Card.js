@@ -22,6 +22,12 @@ class Card extends Component {
 		stopArticle(`${ config.payPetsApiUrl }/api/feed/post/${ cardId }`, { active: false })
 	}
 
+	deleteArticle = () => {
+		const { cardId } = this.props
+
+		console.log({ cardId })
+	}
+
 	stausesReplace = status => {
 		switch(status) {
 		case 'buy': return 'Продажа'; break
@@ -60,10 +66,10 @@ class Card extends Component {
 			cardId,
 			imgPath,
 			deleted,
-			deleteInfo,
+			stoppedInfo,
+			stopped,
 			deleteDate,
-			moderate,
-			compleate
+			moderate
 		} = this.props
 
 		const imagePath = []
@@ -130,10 +136,9 @@ class Card extends Component {
 					</div>
 				</Link>
 
-				{ deleted || deleteInfo ?
-					<div className='cardInfoInAccount'>
-
-						{ deleted ? (
+				<div className='cardInfoInAccount'>
+					<div className='cardInfoBtns'>
+						{ stopped ? (
 							<a
 								href='javascript:void(0)'
 								className='button1'
@@ -142,17 +147,20 @@ class Card extends Component {
 							</a>
 						) : null }
 
-						{ deleteInfo ? (
-							<p>Будет удалено: { moment(deleteDate).format('DD-MM-YYYY, h:mm:ss a') }</p>
+						{ deleted ? (
+							<a
+								href='javascript:void(0)'
+								className='button1'
+								onClick={ this.deleteArticle }>
+									Удалить
+							</a>
 						) : null }
-
-					</div> : null }
-
-				{ compleate ? (
-					<div className='cardInfoInAccount'>
-						<p>Будет удалено: { moment(deleteDate).format('DD-MM-YYYY, h:mm:ss a') }</p>
 					</div>
-				) : null }
+
+					{ stoppedInfo ? (
+						<p>Будет остановлено: { moment(deleteDate).format('DD-MM-YYYY, h:mm:ss a') }</p>
+					) : null }
+				</div>
 
 				{ moderate ? (
 					<div className='moderation'>
@@ -190,7 +198,8 @@ Card.propTypes = {
 	view: PropTypes.number,
 	imgPath: PropTypes.array.isRequired,
 	deleted: PropTypes.bool,
-	deleteInfo: PropTypes.bool,
+	stopped: PropTypes.bool,
+	stoppedInfo: PropTypes.bool,
 	deleteDate: PropTypes.string,
 	moderate: PropTypes.bool,
 	compleate: PropTypes.bool,

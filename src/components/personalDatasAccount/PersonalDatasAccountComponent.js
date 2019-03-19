@@ -19,7 +19,11 @@ class PersonalDatasAccount extends Component {
 	handleActive = e => this.setState({ slideIndex: e.props.value })
 
 	render() {
-		const { resolveCards, rejectedCards } = this.props
+		const {
+			resolveCards,
+			rejectedCards,
+			moderatingCards
+		} = this.props
 
 		const styles = {
 			inkBarStyle: { backgroundColor: false },
@@ -38,7 +42,10 @@ class PersonalDatasAccount extends Component {
 		styles.tab = []
 		styles.tab[0] = styles.default_tab
 		styles.tab[1] = styles.default_tab
+		styles.tab[2] = styles.default_tab
 		styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[ this.state.slideIndex ], styles.active_tab)
+
+		console.log({moderatingCards})
 
 		return (
 			<div className='personalDatasAccount'>
@@ -81,16 +88,15 @@ class PersonalDatasAccount extends Component {
 										briefDescription={ card.content }
 										views={ null }
 										rating={ null }
-										deleted={ true }
 										userStatus={ null }
-										deleteInfo={ true }
+										stopped={ true }
+										stoppedInfo={ true }
 									/>) : <p>Активных объявлений нет</p> }
 							</div>
-
 						</Tab>
 
 						<Tab
-							label={ `Завершенные/Отклоненные ${ rejectedCards && rejectedCards.length }` }
+							label={ `Заверш./Отклон. ${ rejectedCards && rejectedCards.length }` }
 							value='1'
 							className='tabBtn'
 							style={ styles.tab[1] }
@@ -108,13 +114,42 @@ class PersonalDatasAccount extends Component {
 										imgPath={ card.imageUrl }
 										advType={ card.postType }
 										userName={ card.creatorName }
-										deleteDate={ card.deleteDate }
 										phoneNumber={ card.phoneNumber }
 										briefDescription={ card.content }
 										views={ null }
 										rating={ null }
 										userStatus={ null }
+										deleted={ true }
 									/>) : <p>Завершенных объявлений нет</p>}
+							</div>
+						</Tab>
+
+						<Tab
+							label={ `На модерации ${ moderatingCards && moderatingCards.length }` }
+							value='2'
+							className='tabBtn'
+							style={ styles.tab[2] }
+							onActive={ this.handleActive }
+						>
+							<div>
+								{ moderatingCards && moderatingCards.length > 0 ?
+									moderatingCards.map(card => <Card
+										key={ card._id }
+										addDate={ card.createdAt }
+										city={ card.city }
+										cardId={ card._id }
+										title={ card.title }
+										price={ card.price }
+										imgPath={ card.imageUrl }
+										advType={ card.postType }
+										userName={ card.creatorName }
+										phoneNumber={ card.phoneNumber }
+										briefDescription={ card.content }
+										views={ null }
+										rating={ null }
+										deleted={ true }
+										stopped={ null }
+									/>) : <p>Активных объявлений нет</p> }
 							</div>
 						</Tab>
 
@@ -127,7 +162,8 @@ class PersonalDatasAccount extends Component {
 
 PersonalDatasAccount.propTypes = {
 	resolveCards: PropTypes.array,
-	rejectedCards: PropTypes.array
+	rejectedCards: PropTypes.array,
+	moderatingCards: PropTypes.array
 }
 
 export default connect(
@@ -136,7 +172,8 @@ export default connect(
 
 		return {
 			resolveCards: articles && articles.filter(card => card.moderate === 'resolve' && card.active),
-			rejectedCards: articles && articles.filter(card => (card.moderate === 'reject' || !card.active) || (card.moderate === 'resolve' && !card.active))
+			rejectedCards: articles && articles.filter(card => (card.moderate === 'reject' || !card.active) || (card.moderate === 'resolve' && !card.active)),
+			moderatingCards: articles && articles.filter(card => card.moderate === 'pending' && card.active)
 		}
 	}
 )(PersonalDatasAccount)
