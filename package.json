@@ -20,6 +20,7 @@
     "moment": "2.18.1",
     "react": "15.x.x",
     "react-dom": "15.6.1",
+    "react-image-gallery": "^0.8.14",
     "react-redux": "4.4.6",
     "react-responsive": "5.0.0",
     "react-router": "3.0.2",

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
 import CircularProgress from 'material-ui/CircularProgress'
 
-import SlickSlider from '../../slickSlider/SlickSliderComponent'
+import ImageGallery from '../../imageGallery/ImageGalleryComponent'
 
 import config from '../../../../config'
 
@@ -59,7 +59,11 @@ class Advertisement extends Component {
 
 		openedCard.imageUrl.forEach(path => {
 			let value = `${ config.payPetsApiUrl }/${ path }`
-			imagePath.push(value)
+			imagePath.push({
+				original: value,
+				thumbnail: value,
+				thumbnailClass: 'customClass'	
+			})
 		})
 
 		const animalType = _.find(categories, o => o.type === openedCard.animalType)
@@ -80,13 +84,9 @@ class Advertisement extends Component {
 					) : null }
 				</div>
 				<div className='advContent'>
-					{/* <div className='cardItem horizontalBig'>
-						<div className='reverseFace'> */}
-					<div>
-						<SlickSlider imagesItems={ imagePath } />
+					<div className='slider'>
+						<ImageGallery imagesItems={ imagePath } />
 					</div>
-					{/* </div>
-					</div> */}
 					<div className='advContacts'>
 						<p>{ openedCard.phoneNumber }</p>
 						<p>{ openedCard.creatorName }</p>

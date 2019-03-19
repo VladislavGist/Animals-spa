@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
@@ -6,8 +5,6 @@ import React, { Component, PropTypes } from 'react'
 import moment from 'moment'
 
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
-
-import SlickSlider from '../../slickSlider/SlickSliderComponent'
 
 import config from '../../../../config'
 

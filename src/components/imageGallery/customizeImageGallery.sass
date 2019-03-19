@@ -1,0 +1,26 @@
+.image-gallery.fullscreen-modal
+	.image-gallery-image
+		display: flex
+		justify-content: center
+		& > img
+			width: auto
+			max-height: 600px !important
+			height: 100%
+
+.image-gallery-slide
+	.image-gallery-image
+		position: relative
+		height: 500px
+		background-color: #717171
+		overflow: hidden
+
+		img
+			position: absolute
+			right: -9999px
+			left: -9999px
+			top: -9999px
+			bottom: -9999px
+			margin: auto
+			max-height: 519px !important
+			height: 100vh !important
+			width: auto !important
