@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
 import moment from 'moment'
 
+moment.locale('ru')
+
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 
 import config from '../../../../config'
@@ -141,14 +143,14 @@ class Card extends Component {
 						) : null }
 
 						{ deleteInfo ? (
-							<p>Будет удалено: { deleteDate }</p>
+							<p>Будет удалено: { moment(deleteDate).format('DD-MM-YYYY, h:mm:ss a') }</p>
 						) : null }
 
 					</div> : null }
 
 				{ compleate ? (
 					<div className='cardInfoInAccount'>
-						<p>Будет удалено: { deleteDate }</p>
+						<p>Будет удалено: { moment(deleteDate).format('DD-MM-YYYY, h:mm:ss a') }</p>
 					</div>
 				) : null }
 

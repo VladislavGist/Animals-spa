@@ -76,14 +76,14 @@ class PersonalDatasAccount extends Component {
 										imgPath={ card.imageUrl }
 										advType={ card.postType }
 										userName={ card.creatorName }
-										deleteDate={ card.deleteDate }
+										deleteDate={ card.stopDate }
 										phoneNumber={ card.phoneNumber }
 										briefDescription={ card.content }
 										views={ null }
 										rating={ null }
 										deleted={ true }
 										userStatus={ null }
-										// deleteInfo={ true }
+										deleteInfo={ true }
 									/>) : <p>Активных объявлений нет</p> }
 							</div>
 
