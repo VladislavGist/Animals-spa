@@ -72,83 +72,61 @@ class Card extends Component {
 		})
 
 		return (
-			<Link
-				to={ `/adv/${ cardId }` }
-				className='cardItemWrap'
-			>
-				<div
-					className={ classNames({
-						'cardItem': true,
-						'horizontalBig': true
-					}) }
-				>
-					<div className='contentWrap'>
-						<div className='top'>
-							<div>
-								<p className='price'>{ price && price > 0 ? `${ price } руб.` : null }</p>
-							</div>
-							<div>
-								<div className='info'>
-									<i className={ classNames({
-										'fa': true,
-										'fa-eur': advType === 'buy',
-										'fa-globe': advType === 'gift',
-										'fa-exclamation-triangle': advType === 'missing',
-										'fa-bell-o': advType === 'find'
-									}) }
-									aria-hidden='true'
-									/>
-									<span className='categoty'>{ this.stausesReplace(advType) }</span>
-								</div>
-
-								<p className='number'>{ phoneNumber }</p>
-								<p className='city'>{ city.indexOf('обл.') === -1 ? `г. ${ city }` : city }</p>
-
-								{ addDate && <p className='number'>{ moment(addDate).format('DD-MM-YYYY') }</p> }
-
-								<div className='userItem'>
-									{ userName && <p className={ `userName ${ (userStatus === 'seller') && 'gold' }` }>{ userName }</p> }
-								</div>
-								<div className='priceMobile'>
+			<div className='cardItemWrap'>
+				<Link to={ `/adv/${ cardId }` }>
+					<div
+						className={ classNames({
+							'cardItem': true,
+							'horizontalBig': true
+						}) }
+					>
+						<div className='contentWrap'>
+							<div className='top'>
+								<div>
 									<p className='price'>{ price && price > 0 ? `${ price } руб.` : null }</p>
 								</div>
-							</div>
-						</div>
-
-						<div className='bottom'>
-							<div>
-								<h3 className='title'>{ title }</h3>
-								<p className='subTitle'>{ this.dottsText(briefDescription) }</p>
-							</div>
-
-						</div>
-					</div>
-
-					<div className='img'>
-						<img src={ imagePath[0] } />
-					</div>
-
-					{/* <div className='reverseFace'>
-						<div className='sliderItem'>
-							<SlickSlider imagesItems={ imagePath } />
-						</div>
-						<div className='textItem'>
-							<p className='subTitleReverse'>{ briefDescription }</p>
-							<div className='buttonsList'>
-								{
-									pathname !== '/personalArea' &&
-									view && <div className='visibles'>
-										<i className='fa fa-eye' aria-hidden='true' />
-										<p>{ view }</p>
+								<div>
+									<div className='info'>
+										<i className={ classNames({
+											'fa': true,
+											'fa-eur': advType === 'buy',
+											'fa-globe': advType === 'gift',
+											'fa-exclamation-triangle': advType === 'missing',
+											'fa-bell-o': advType === 'find'
+										}) }
+										aria-hidden='true'
+										/>
+										<span className='categoty'>{ this.stausesReplace(advType) }</span>
 									</div>
-								}
-								<button className='btnReverse' onClick={ this.handleReverseCard }>
-									<i className='fa fa-reply' aria-hidden='true' />
-								</button>
+
+									<p className='number'>{ phoneNumber }</p>
+									<p className='city'>{ city.indexOf('обл.') === -1 ? `г. ${ city }` : city }</p>
+
+									{ addDate && <p className='number'>{ moment(addDate).format('DD-MM-YYYY') }</p> }
+
+									<div className='userItem'>
+										{ userName && <p className={ `userName ${ (userStatus === 'seller') && 'gold' }` }>{ userName }</p> }
+									</div>
+									<div className='priceMobile'>
+										<p className='price'>{ price && price > 0 ? `${ price } руб.` : null }</p>
+									</div>
+								</div>
+							</div>
+
+							<div className='bottom'>
+								<div>
+									<h3 className='title'>{ title }</h3>
+									<p className='subTitle'>{ this.dottsText(briefDescription) }</p>
+								</div>
+
 							</div>
 						</div>
-					</div> */}
-				</div>
+
+						<div className='img'>
+							<img src={ imagePath[0] } />
+						</div>
+					</div>
+				</Link>
 
 				{ deleted || deleteInfo ?
 					<div className='cardInfoInAccount'>
@@ -191,7 +169,7 @@ class Card extends Component {
 						</button>
 					</div>
 				) : null }
-			</Link>
+			</div>
 		)
 	}
 }
