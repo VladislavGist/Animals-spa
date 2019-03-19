@@ -23,9 +23,9 @@ class Card extends Component {
 	}
 
 	deleteArticle = () => {
-		const { cardId } = this.props
+		const { cardId, deleteArticle } = this.props
 
-		console.log({ cardId })
+		deleteArticle(`${ config.payPetsApiUrl }/api/feed/post/${ cardId }`)
 	}
 
 	stausesReplace = status => {
@@ -204,7 +204,9 @@ Card.propTypes = {
 	moderate: PropTypes.bool,
 	compleate: PropTypes.bool,
 	pathname: PropTypes.string.isRequired,
-	changeActiveStatusPost: PropTypes.func
+	changeActiveStatusPost: PropTypes.func,
+	stopArticle: PropTypes.func.isRequired,
+	deleteArticle: PropTypes.func.isRequired
 }
 
 export default connect(

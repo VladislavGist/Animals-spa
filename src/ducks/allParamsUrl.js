@@ -14,6 +14,10 @@ export const types = {
 	STOP_ARTICLE_REQUEST: `${ appName }/${ moduleName }/STOP_ARTICLE_REQUEST`,
 	STOP_ARTICLE_SUCCESS: `${ appName }/${ moduleName }/STOP_ARTICLE_SUCCESS`,
 	STOP_ARTICLE_ERROR: `${ appName }/${ moduleName }/STOP_ARTICLE_ERROR`,
+
+	DELETE_ARTICLE_REQUEST: `${ appName }/${ moduleName }/DELETE_ARTICLE_REQUEST`,
+	DELETE_ARTICLE_SUCCESS: `${ appName }/${ moduleName }/DELETE_ARTICLE_SUCCESS`,
+	DELETE_ARTICLE_ERROR: `${ appName }/${ moduleName }/DELETE_ARTICLE_ERROR`,
 }
 
 export const actions = {
@@ -43,7 +47,6 @@ export const actions = {
 				} else {
 					formData.append(name, data[name])
 				}
-				
 			}
 
 			fetch(url, {
@@ -107,6 +110,34 @@ export const actions = {
 					dispatch({ type: types.STOP_ARTICLE_ERROR })
 				})
 			})
+	},
+
+	deleteArticle: url => dispatch => {
+		dispatch({ type: types.DELETE_ARTICLE_REQUEST })
+		const token = localStorage.getItem('token')
+
+		fetch(url, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${ token }`
+			}
+		})
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(result => {
+				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+				dispatch({ type: types.DELETE_ARTICLE_SUCCESS })
+				dispatch(actionsAuthReducer.getUserData(token))
+			})
+			.catch(err => {
+				err.then(res => {
+					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					dispatch({ type: types.DELETE_ARTICLE_ERROR })
+				})
+			})
 	}
 }
 
@@ -115,7 +146,10 @@ const initialState = {
 	errorAddingArticle: false,
 
 	fetchingStopAtricle: false,
-	errorStopArticle: false
+	errorStopArticle: false,
+
+	fetchingDeleteAtricle: false,
+	errorDeleteArticle: false
 }
 
 export default (state = initialState, action) => {
@@ -152,6 +186,22 @@ export default (state = initialState, action) => {
 		...state,
 		fetchingStopAtricle: false,
 		errorStopArticle: true
+	}
+
+	case types.DELETE_ARTICLE_REQUEST: return {
+		...state,
+		fetchingDeleteAtricle: true,
+		errorDeleteArticle: false
+	}
+	case types.DELETE_ARTICLE_SUCCESS: return {
+		...state,
+		fetchingDeleteAtricle: false,
+		errorDeleteArticle: false
+	}
+	case types.DELETE_ARTICLE_ERROR: return {
+		...state,
+		fetchingDeleteAtricle: true,
+		errorDeleteArticle: true
 	}
 
 	default: return state

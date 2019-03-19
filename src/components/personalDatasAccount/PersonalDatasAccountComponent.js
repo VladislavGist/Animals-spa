@@ -45,8 +45,6 @@ class PersonalDatasAccount extends Component {
 		styles.tab[2] = styles.default_tab
 		styles.tab[this.state.slideIndex] = Object.assign({}, styles.tab[ this.state.slideIndex ], styles.active_tab)
 
-		console.log({moderatingCards})
-
 		return (
 			<div className='personalDatasAccount'>
 				<div>
