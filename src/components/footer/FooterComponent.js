@@ -8,9 +8,8 @@ if (process.env.BROWSER) {
 const Footer = () => (
 	<footer>
 		<Link to='/' className='footerLogo'>
-			<img src='https://firebasestorage.googleapis.com/v0/b/animals-bbfac.appspot.com/o/menu%2Flogo2.png?alt=media&token=bb1bf9a9-419b-475d-b28a-4a60b8d6783c' width='120' alt='logotype' />
+			<img src='/images/app/PPLogo.svg' width='120' alt='logotype' />
 		</Link>
-		<br />
 		<div className='linksFooter'>
 			<Link to='/contacts'>Контакты</Link>
 		</div>
