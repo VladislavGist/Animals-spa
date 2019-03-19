@@ -31,7 +31,8 @@ class App extends Component {
 			fetchCitysList,
 			getUserData,
 			getCategories,
-			cityTopHeader
+			cityTopHeader,
+			getTypesList
 		} = this.props
 
 		const storageToken = localStorage.getItem('token')
@@ -39,6 +40,7 @@ class App extends Component {
 		if (storageToken) getUserData(storageToken)
 		fetchCitysList()
 		getCategories(cityTopHeader)
+		getTypesList()
 	}
 
 	componentWillReceiveProps(next) {

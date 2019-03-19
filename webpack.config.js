@@ -39,6 +39,13 @@ module.exports = {
 				})
 			},
 			{
+				test: /\.css$/,
+				use: ExtractTextPlugin.extract({
+					fallback: 'style-loader',
+					use: 'css-loader'
+				})
+			},
+			{
 				test: /\.((woff2?|svg)(\?v=[0-9]\.[0-9]\.[0-9]))|(woff2?|svg|jpe?g|png|gif|ico)$/,
 				use: 'url-loader?limit=10000'
 			},

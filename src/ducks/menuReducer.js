@@ -15,7 +15,11 @@ export const types = {
 	GET_MENU_ERROR: `${ appName }/${ moduleName }/GET_MENU_ERROR`,
 
 	SWITCH_MENU: 'MENU_REDUCER/SWITCH_MENU',
-	SWITCH_MENU_CLEAR: 'MENU_REDUCER/SWITCH_MENU_CLEAR'
+	SWITCH_MENU_CLEAR: 'MENU_REDUCER/SWITCH_MENU_CLEAR',
+
+	GET_TYPES_LIST_REQUEST: `${ appName }/${ moduleName }/GET_TYPES_LIST_REQUEST`,
+	GET_TYPES_LIST_SUCCESS: `${ appName }/${ moduleName }/GET_TYPES_LIST_SUCCESS`,
+	GET_TYPES_LIST_ERROR: `${ appName }/${ moduleName }/GET_TYPES_LIST_ERROR`
 }
 
 export const actions = {
@@ -58,6 +62,24 @@ export const actions = {
 					dispatch({ type: types.GET_MENU_ERROR })
 				})
 			})
+	},
+	getTypesList: () => dispatch => {
+		dispatch({ type: types.GET_TYPES_LIST_REQUEST })
+
+		fetch(`${ config.payPetsApiUrl }/api/menu/typesList`)
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(payload => {
+				dispatch({ type: types.GET_TYPES_LIST_SUCCESS, payload })
+			})
+			.catch(err => {
+				err.then(res => {
+					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					dispatch({ type: types.GET_TYPES_LIST_ERROR })
+				})
+			})
 	}
 }
 
@@ -69,7 +91,11 @@ const initialState = [
 
 		fetchingCategories: false,
 		errorFetchCategories: false,
-		categories: []
+		categories: [],
+
+		fetchingTypesList: false,
+		errorFetchTypesList: false,
+		typesList: []
 	}
 ]
 
@@ -118,6 +144,25 @@ export default (state = initialState, action) => {
 
 	case types.SWITCH_MENU: return payload
 	case types.SWITCH_MENU_CLEAR: return []
+
+	case types.GET_TYPES_LIST_REQUEST: return {
+		...state,
+		fetchingTypesList: true,
+		errorFetchTypesList: false,
+		typesList: []
+	}
+	case types.GET_TYPES_LIST_SUCCESS: return {
+		...state,
+		fetchingTypesList: false,
+		errorFetchTypesList: false,
+		typesList: payload
+	}
+	case types.GET_TYPES_LIST_ERROR: return {
+		...state,
+		fetchingTypesList: false,
+		errorFetchTypesList: true,
+		typesList: []
+	}
 
 	default: return state
 	}
