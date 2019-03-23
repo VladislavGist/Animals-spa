@@ -5,7 +5,6 @@ import { actions as authActions } from '../../ducks/auth'
 import { actions as actionsAccountType } from '../../ducks/accountType'
 
 class AccountType extends Component {
-
 	componentWillMount() {
 		const { accountType } = this.props
 		const { handlePrivateSeller, handlePermanentSeller, handleShelter } = this.props
