@@ -5,7 +5,6 @@ import React, { Component, PropTypes } from 'react'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageGallery from '../../imageGallery/ImageGalleryComponent'
-
 import config from '../../../../config'
 
 import { actions as articlesActions } from '../../../ducks/articles'
