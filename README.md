@@ -6,5 +6,5 @@
 * Redux
 
 ### Frontend:
-* dev: yarn run dev
-* build: yarn run build (build in /public)
+* dev: npm run dev
+* build: npm run build (build in /public)
