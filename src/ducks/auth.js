@@ -164,6 +164,7 @@ export const actions = {
 				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
 			})
 			.catch(err => {
+				console.log({err})
 				err.then(res => {
 					dispatch(actionsPreloader.handleUpdateStateLoading(100))
 					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
