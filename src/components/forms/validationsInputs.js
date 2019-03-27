@@ -1,6 +1,6 @@
 export const validateInputs = {
 	phoneNumber: /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/,
-	textArea: /^[a-zA-Zа-яА-Я-0-9 ]{10,200}$/,
+	textArea: /^.{10,200}$/,
 	password: /^.{6,200}$/,
 	name: /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я ]+[a-zA-Zа-яА-Я]?$/u,
 	title: /^[a-zA-Zа-яА-Я-0-9 ]{10,57}$/,
