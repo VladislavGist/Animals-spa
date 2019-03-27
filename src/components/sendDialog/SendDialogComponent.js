@@ -96,7 +96,7 @@ class LoginModal extends Component {
 											onClick={ handleCityTopHeader }>
 											{ elem.city }
 										</a>
-										<p>- { elem.count } объявлений</p>
+										<p>{ elem.count }</p>
 									</div>
 								)
 								: <CircularProgress size={ 60 }/> }
