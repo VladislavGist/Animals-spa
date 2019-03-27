@@ -324,8 +324,8 @@ class AddCardFormComponent extends Component {
 								disabled={ this.state.disabledButton || (addCard.fetchingAddingArticle && !addCard.errorAddingArticle) }
 								onClick={ this.handleSendForm }
 							>
-								<i className='fa fa-cloud-upload' aria-hidden='true' />
-								<br />
+								{/* <i className='fa fa-cloud-upload' aria-hidden='true' />
+								<br /> */}
 								<span>{ addCard.fetchingAddingArticle && !addCard.errorAddingArticle ? <CircularProgress size={ 60 } thickness={ 7 } /> : 'Разместить' }</span>
 							</button>
 						</div>
