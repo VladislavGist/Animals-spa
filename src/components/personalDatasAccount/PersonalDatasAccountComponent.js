@@ -31,7 +31,8 @@ class PersonalDatasAccount extends Component {
 		const {
 			resolveCards,
 			rejectedCards,
-			moderatingCards
+			moderatingCards,
+			loginFalse
 		} = this.props
 
 		const styles = {
@@ -61,6 +62,15 @@ class PersonalDatasAccount extends Component {
 						<p>Персональные данные</p>
 					</div>
 					<TableRowsComponent />
+
+					<div>
+						<a href='javascript:void(0)'
+							className='exitBtn button2'
+							onClick={ loginFalse }
+						>
+							Выйти из аккаунта
+						</a>
+					</div>
 				</div>
 				<div className='tabsBlock'>
 					<p>Мои объявления</p>

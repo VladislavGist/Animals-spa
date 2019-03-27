@@ -9,7 +9,7 @@ if (process.env.BROWSER) {
 
 const PersonalArea = () => <div className='personalArea'>
 	<PersonalDatasAccount />
-	<AccountType />
+	{/* <AccountType /> */}
 </div>
 
 export default PersonalArea
