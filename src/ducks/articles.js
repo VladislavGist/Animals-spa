@@ -149,7 +149,16 @@ export const actions = {
 		dispatch({ type: types.FETCH_OPENED_CARD_START })
 		dispatch(actionsTypes.handleUpdateStateLoading(80))
 
-		fetch(`${ config.payPetsApiUrl }/api/feedRead/post/${ id }`)
+		const token = localStorage.getItem('token')
+
+		const headers = {
+			'Authorization': `Bearer ${ token }`,
+			'Content-Type': 'application/json'
+		}
+
+		fetch(`${ config.payPetsApiUrl }/api/feedRead/post/${ id }`, {
+			headers: token ? headers : {}
+		})
 			.then(response => {
 				if (response.ok) return response.json()
 				return Promise.reject(response.json())
