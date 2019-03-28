@@ -69,7 +69,7 @@ class Advertisement extends Component {
 		const advType = _.find(typesList, o => o.type === openedCard.postType)
 
 		return (
-			<div className='adv'>
+			<div className='advContentItem'>
 				<div className='advHeader'>
 					<div>
 						<h2>{ openedCard.title }</h2>
