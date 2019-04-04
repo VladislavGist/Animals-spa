@@ -73,8 +73,6 @@ class TableRowsComponent extends Component {
 			disabledButton
 		} = this.state
 
-		console.log({disabledButton})
-
 		return (
 			<Form
 				onSubmit={ this.handleSubmitForm }
