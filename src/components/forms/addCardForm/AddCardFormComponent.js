@@ -521,6 +521,7 @@ AddCardFormComponent.propTypes = {
 
 AddCardFormComponent = reduxForm({
 	form: 'addCardForm',
+	destroyOnUnmount: true,
 	validate
 })(AddCardFormComponent)
 

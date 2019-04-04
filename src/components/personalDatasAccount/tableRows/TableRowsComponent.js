@@ -24,7 +24,7 @@ class TableRowsComponent extends Component {
 	}
 
 	componentWillUpdate(nextProps) {
-		if (nextProps !== this.props) {
+		if (!_.isEqual(nextProps, this.props)) {
 			this.disabledSubmitButton(nextProps)
 		}
 	}
@@ -32,10 +32,13 @@ class TableRowsComponent extends Component {
 	disabledSubmitButton = nextProps => {
 		const { rows: { values } } = nextProps
 
-		if (values && Object.keys(values).length > 0 &&
-			(values.name ? values.name.match(validateInputs.name) : true) &&
-			(values.lastName ? values.lastName.match(validateInputs.lastName) : true) &&
-			(values.email ? values.email.match(validateInputs.email) : true)
+		let valuesValues = values && Object.values(values)
+		let checkNull = values && valuesValues.length && _.compact(valuesValues.map(i => i)).length
+
+		if (checkNull
+			&& (values.name ? Boolean(values.name.match(validateInputs.name)) : true)
+			&& (values.lastName ? Boolean(values.lastName.match(validateInputs.lastName)) : true)
+			&& (values.email ? Boolean(values.email.match(validateInputs.email)) : true)
 		) {
 			this.setState({ disabledButton: false })
 		} else {
@@ -69,6 +72,8 @@ class TableRowsComponent extends Component {
 
 			disabledButton
 		} = this.state
+
+		console.log({disabledButton})
 
 		return (
 			<Form
