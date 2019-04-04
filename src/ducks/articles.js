@@ -4,6 +4,8 @@ import config from '../../config'
 const appName = 'paypets'
 export const moduleName = 'articles'
 
+import { types as allParamsUrlTypes } from '../ducks/allParamsUrl'
+import { actions as actionsAuth } from '../ducks/auth'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
 export const types = {
@@ -197,5 +199,101 @@ export const actions = {
 		dispatch({ type: types.CHANGE_CURRENT_PAGE_PAGINATION, currentPagePagination })
 	},
 
-	onHandleClearState: () => ({ type: types.FETCH_ARTICLES_CLEAR })
+	onHandleClearState: () => ({ type: types.FETCH_ARTICLES_CLEAR }),
+
+	editArticle: ({
+		changePostId,
+		title,
+		textArea,
+		animals,
+		category,
+		city,
+		price,
+		phoneNumber,
+		file
+	}) => dispatch => {
+		dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_REQUEST })
+
+		const token = localStorage.getItem('token')
+
+		function sendData(url, data) {
+			const formData  = new FormData()
+			
+			for(let name in data) {
+				if (typeof data[name] === 'object') {
+					data[name].forEach(file => {
+						formData.append('file', file)
+					})
+					
+				} else {
+					formData.append(name, data[name])
+				}
+			}
+
+			fetch(url, {
+				method: 'PUT',
+				headers: {
+					Authorization: `Bearer ${ token }`
+				},
+				body: formData
+			})
+				.then(response => {
+					if (response.ok) return response.json()
+					return Promise.reject(response.json())
+				})
+				.then(result => {
+					dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+					dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_SUCCESS })
+
+					dispatch(actionsAuth.getUserData(token))
+				})
+				.catch(err => {
+					err.then(res => {
+						dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+						dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_ERROR })
+					})
+				})
+		}
+
+		sendData(`${ config.payPetsApiUrl }/api/feed/post/${ changePostId }`,
+			{ title,
+				content: textArea,
+				animalType: animals,
+				postType: category,
+				city,
+				price: Number(price) ? Number(price) : 0,
+				phoneNumber,
+				file })
+	},
+
+	deleteImage: ({ changePostId, path }) => dispatch => {
+		const token = localStorage.getItem('token')
+
+		dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_REQUEST })
+
+		fetch(`${ config.payPetsApiUrl }/api/feed/deletePostImage/${ changePostId }`, {
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${ token }`,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ imageUrl: path })
+		})
+			.then(response => {
+				if (response.ok) return response.json()
+				return Promise.reject(response.json())
+			})
+			.then(result => {
+				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+				dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_SUCCESS })
+
+				dispatch(actionsAuth.getUserData(token))
+			})
+			.catch(err => {
+				err.then(res => {
+					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
+					dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_ERROR })
+				})
+			})
+	}
 }

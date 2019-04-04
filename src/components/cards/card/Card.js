@@ -69,7 +69,8 @@ class Card extends Component {
 			stoppedInfo,
 			stopped,
 			deleteDate,
-			moderate
+			moderate,
+			edit
 		} = this.props
 
 		const imagePath = []
@@ -155,6 +156,15 @@ class Card extends Component {
 									Удалить
 							</a>
 						) : null }
+
+						{ edit ? (
+							<Link
+								to={ `advEdit/${ cardId }` }
+								className='button1'
+							>
+									Редактировать
+							</Link>
+						) : null }
 					</div>
 
 					{ stoppedInfo ? (
@@ -206,7 +216,8 @@ Card.propTypes = {
 	pathname: PropTypes.string.isRequired,
 	changeActiveStatusPost: PropTypes.func,
 	stopArticle: PropTypes.func.isRequired,
-	deleteArticle: PropTypes.func.isRequired
+	deleteArticle: PropTypes.func.isRequired,
+	edit: PropTypes.bool
 }
 
 export default connect(

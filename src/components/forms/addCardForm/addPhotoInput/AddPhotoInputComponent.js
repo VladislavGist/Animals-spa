@@ -1,6 +1,9 @@
 import classNames from 'classnames'
 import React, { Component, PropTypes } from 'react'
 
+
+import config from '../../../../../config'
+
 export default class AddPhotoInputComponent extends Component {
 
 	state = {
@@ -28,33 +31,64 @@ export default class AddPhotoInputComponent extends Component {
 
 	componentWillUnmount() { this.setState({ active: false, unmountValue: '' }) }
 
+	handleDeleteImage = () => {
+		const { url, deleteImage } = this.props
+
+		deleteImage(url)
+	}
+
 	render() {
-		return <div className={
-			classNames({
-				loadingPhoto: true,
-				activeLabel: this.state.active
-			}) }
-		>
-			<i className={
-				classNames({
-					fa: true,
-					'fa-check': this.state.active,
-					'modifyColor': this.state.active,
-					'fa-plus': !this.state.active
-				}) }
-			/>
-			<input
-				type='file'
-				accept='image/jpeg,image/jpg,image/png'
-				className={ `formImg` }
-				onChange={ this.changeInput }
-				value={ this.state.unmountValue }
-			/>
-		</div>
+		const {
+			url
+		} = this.props
+
+		const {
+			active,
+			unmountValue
+		} = this.state
+
+		return (
+			url ? (
+				<div className='loadingPhoto'>
+					<div className='loadingPhotoWrapperImage'>
+						<div
+							className='loadingPhotoDelete'
+							onClick={ this.handleDeleteImage }
+						>
+							x
+						</div>
+						<img src={ `${ config.payPetsApiUrl }/${ url }` } />
+					</div>
+				</div>
+			) : (
+				<div className={
+					classNames({
+						loadingPhoto: true,
+						activeLabel: active
+					}) }
+				>
+					<i className={
+						classNames({
+							fa: true,
+							'fa-check': active,
+							'modifyColor': active,
+							'fa-plus': !active
+						}) }
+					/>
+					<input
+						type='file'
+						accept='image/jpeg,image/jpg,image/png'
+						className={ `formImg` }
+						onChange={ this.changeInput }
+						value={ unmountValue }
+					/>
+				</div>
+			)
+		)
 	}
 }
 
 AddPhotoInputComponent.propTypes = {
-	handleAddPhoto: PropTypes.func.isRequired,
+	handleAddPhoto: PropTypes.func,
 	handleSnackbar: PropTypes.func.isRequired
 }

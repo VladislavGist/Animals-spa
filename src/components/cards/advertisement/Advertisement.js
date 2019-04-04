@@ -2,6 +2,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 import CircularProgress from 'material-ui/CircularProgress'
 
 import ImageGallery from '../../imageGallery/ImageGalleryComponent'
@@ -22,7 +23,8 @@ class Advertisement extends Component {
 		fetchingOpenedCard: PropTypes.bool.isRequired,
 		errorFetchOpenedCard: PropTypes.bool.isRequired,
 		categories: PropTypes.array.isRequired,
-		typesList: PropTypes.array.isRequired
+		typesList: PropTypes.array.isRequired,
+		userPosts: PropTypes.array
 	}
 
 	static defaultProps = {
@@ -49,9 +51,11 @@ class Advertisement extends Component {
 
 	contentIfSuccessLoadingData = () => {
 		const {
+			id,
 			openedCard,
 			categories,
-			typesList
+			typesList,
+			userPosts
 		} = this.props
 
 		const imagePath = []
@@ -67,9 +71,20 @@ class Advertisement extends Component {
 
 		const animalType = _.find(categories, o => o.type === openedCard.animalType)
 		const advType = _.find(typesList, o => o.type === openedCard.postType)
+		const showChangesButton = Boolean(_.find(userPosts, o => o._id === id))
 
 		return (
 			<div className='advContentItem'>
+				{showChangesButton ? (
+					<div className='advContentUserButtons'>
+						<Link
+							to={ `advEdit/${ id }` }
+							className='button1'
+						>
+								Редактировать
+						</Link>
+					</div>
+				) : null}
 				<div className='advHeader'>
 					<div>
 						<h2>{ openedCard.title }</h2>
@@ -153,7 +168,8 @@ export default connect(
 			fetchingOpenedCard,
 			errorFetchOpenedCard,
 			categories,
-			typesList
+			typesList,
+			userPosts: _.get(state, 'auth.user.posts')
 		}
 	},
 	{ ...articlesActions }

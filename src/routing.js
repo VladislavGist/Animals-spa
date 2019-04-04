@@ -39,6 +39,7 @@ export const routes = <Route component={ App } >
 	<Route path='/conf' component={ Conf } />
 	<Route path='/contacts' component={ ContactsForm } />
 	<Route path='/adv/:id' component={ Advertisement } />
+	<Route path='/advEdit/:id' component={ userIsAuthenticated(AddCardFormComponent) } />
 	<Route path='/resetPassword' component={ ResetPassword } />
 	<Route path='/addNewPassword/:token' component={ AddNewPassword } />
 	<Route path='/animals/:type/:advertisment' component={ PageCards }/>

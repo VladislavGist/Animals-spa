@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { Link } from 'react-router'
 import classNames from 'classnames'
 import { connect } from 'react-redux'
@@ -10,6 +11,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 import { actions as actionsPhotosReducer } from '../../../ducks/photosReducer'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
+import { actions as actionsArticlesReducer } from '../../../ducks/articles'
 
 import { renderField, validate } from '../formValidate'
 import AddPhotoInputComponent from './addPhotoInput/AddPhotoInputComponent'
@@ -21,10 +23,21 @@ if (process.env.BROWSER) {
 
 class AddCardFormComponent extends Component {
 
-	state = { disabledButton: true }
+	state = {
+		disabledButton: true,
+		edit: false
+	}
+
+	componentWillMount() {
+		const { changePostId } = this.props
+
+		if (changePostId) {
+			this.setState({ edit: true })
+		}
+	}
 
 	componentWillUpdate(nextProps) {
-		if (nextProps !== this.props) {
+		if (!_.isEqual(nextProps, this.props)) {
 			this.disabledSubmitButton(nextProps)
 		}
 	}
@@ -32,28 +45,6 @@ class AddCardFormComponent extends Component {
 	componentWillUnmount() {
 		this.props.handleResetPlace()
 	}
-
-	disabledSubmitButton = nextProps => {
-		const { addCardForm: { values }, addPhoto } = nextProps
-
-		if (values &&
-			values.animals &&
-			values.category &&
-			values.city &&
-			(['gift', 'find'].includes(values.category) ? true : values.price) &&
-			values.title &&
-			values.phoneNumber &&
-			values.textArea &&
-			values.check &&
-			values.title.match(validateInputs.title) &&
-			values.textArea.match(validateInputs.textArea) &&
-			values.phoneNumber.match(validateInputs.phoneNumber) &&
-			addPhoto
-		) { this.setState({ disabledButton: false }) }
-		else { this.setState({ disabledButton: true }) }
-	}
-
-	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
 
 	menuItems01 = values => {
 		if (['cat', 'dog', 'parrot', 'hare', 'champ', 'fish', 'chAnimals', 'rodents',
@@ -105,13 +96,48 @@ class AddCardFormComponent extends Component {
 		}
 	}
 
+	handleDeleteImage = path => {
+		const { deleteImage, changePostId } = this.props
+
+		deleteImage({ changePostId, path })
+	}
+
+	disabledSubmitButton = nextProps => {
+		const { addCardForm: { values }, addPhoto, imageUrl } = nextProps
+		const { edit } = this.state
+		
+		if (values &&
+			values.animals &&
+			values.category &&
+			values.city &&
+			(['gift', 'find'].includes(values.category) ? true : values.price) &&
+			values.title &&
+			values.phoneNumber &&
+			values.textArea &&
+			values.check &&
+			values.title.match(validateInputs.title) &&
+			values.textArea.match(validateInputs.textArea) &&
+			values.phoneNumber.match(validateInputs.phoneNumber) &&
+			(edit ? (imageUrl.length || addPhoto) ? true : false : addPhoto)
+		) { this.setState({ disabledButton: false }) }
+		else { this.setState({ disabledButton: true }) }
+	}
+
+	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
+
 	handleSendForm = () => {
 		const {
 			addCardForm,
 			addArticle,
 			handleResetPlace,
-			images
+			images,
+			editArticle,
+			changePostId
 		} = this.props
+
+		const {
+			edit
+		} = this.state
 
 		const file = []
 
@@ -121,13 +147,21 @@ class AddCardFormComponent extends Component {
 			}
 		}
 
-		addArticle(
-			handleResetPlace,
-			{
+		if (edit) {
+			editArticle({
 				file,
+				changePostId,
 				...addCardForm.values
-			}
-		)
+			})
+		} else {
+			addArticle(
+				handleResetPlace,
+				{
+					file,
+					...addCardForm.values
+				}
+			)
+		}
 	}
 
 	render() {
@@ -143,8 +177,14 @@ class AddCardFormComponent extends Component {
 			handleAddPhoto_4,
 			images,
 			handleSnackbar,
-			animalCategories
+			animalCategories,
+			initialValues,
+			imageUrl
 		} = this.props
+
+		const {
+			edit
+		} = this.state
 
 		const style = {
 			floatingLabelStyle: { 'color': '#b1adad' },
@@ -154,10 +194,18 @@ class AddCardFormComponent extends Component {
 			checkbox: { marginTop: '20px' }
 		}
 
+		const imageUrl0 = _.get(imageUrl, '0')
+		const imageUrl1 = _.get(imageUrl, '1')
+		const imageUrl2 = _.get(imageUrl, '2')
+		const imageUrl3 = _.get(imageUrl, '3')
+		const imageUrl4 = _.get(imageUrl, '4')
+
 		return (
 			<div className='placeAnAd'>
 				<div className='placeTop'>
-					<p className='modifyTitle'>Разместить объявление</p>
+					<p className='modifyTitle'>{edit ? (
+						`Редактирование: ${ initialValues.title }`
+					) : 'Разместить объявление'}</p>
 				</div>
 				<div className='placeContent'>
 					<div>
@@ -287,31 +335,105 @@ class AddCardFormComponent extends Component {
 								<p className='subtitle'>Фотографии</p>
 								<p className='photoDescpipt'>Добавьте минимум одну фотографию<br />. <b>Формат jpeg, jpg, png</b>. Макс. размер 3 мб</p>
 								<div className='buttonsAddPhoto'>
-									<AddPhotoInputComponent
-										handleAddPhoto={ handleAddPhoto_0 }
-										photo={ images.file_0 }
-										handleSnackbar={ handleSnackbar }
-									/>
-									<AddPhotoInputComponent
-										handleAddPhoto={ handleAddPhoto_1 }
-										photo={ images.file_1 }
-										handleSnackbar={ handleSnackbar }
-									/>
-									<AddPhotoInputComponent
-										handleAddPhoto={ handleAddPhoto_2 }
-										photo={ images.file_2 }
-										handleSnackbar={ handleSnackbar }
-									/>
-									<AddPhotoInputComponent
-										handleAddPhoto={ handleAddPhoto_3 }
-										photo={ images.file_3 }
-										handleSnackbar={ handleSnackbar }
-									/>
-									<AddPhotoInputComponent
-										handleAddPhoto={ handleAddPhoto_4 }
-										photo={ images.file_4 }
-										handleSnackbar={ handleSnackbar }
-									/>
+
+									{edit ? (
+										<div>
+											{ imageUrl0 ? (
+												<AddPhotoInputComponent
+													deleteImage={ this.handleDeleteImage }
+													url={ imageUrl0 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) : (
+												<AddPhotoInputComponent
+													handleAddPhoto={ handleAddPhoto_0 }
+													photo={ images.file_0 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) }
+											{ imageUrl1 ? (
+												<AddPhotoInputComponent
+													deleteImage={ this.handleDeleteImage }
+													url={ imageUrl1 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) : (
+												<AddPhotoInputComponent
+													handleAddPhoto={ handleAddPhoto_1 }
+													photo={ images.file_1 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) }
+											{ imageUrl2 ? (
+												<AddPhotoInputComponent
+													deleteImage={ this.handleDeleteImage }
+													url={ imageUrl2 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) : (
+												<AddPhotoInputComponent
+													handleAddPhoto={ handleAddPhoto_2 }
+													photo={ images.file_2 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) }
+											{ imageUrl3 ? (
+												<AddPhotoInputComponent
+													deleteImage={ this.handleDeleteImage }
+													url={ imageUrl3 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) : (
+												<AddPhotoInputComponent
+													handleAddPhoto={ handleAddPhoto_3 }
+													photo={ images.file_3 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) }
+											{ imageUrl4 ? (
+												<AddPhotoInputComponent
+													deleteImage={ this.handleDeleteImage }
+													url={ imageUrl4 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) : (
+												<AddPhotoInputComponent
+													handleAddPhoto={ handleAddPhoto_4 }
+													photo={ images.file_4 }
+													handleSnackbar={ handleSnackbar }
+												/>
+											) }
+										</div>
+									) : (
+										<div>
+											<AddPhotoInputComponent
+												handleAddPhoto={ handleAddPhoto_0 }
+												photo={ images.file_0 }
+												handleSnackbar={ handleSnackbar }
+											/>
+
+											<AddPhotoInputComponent
+												handleAddPhoto={ handleAddPhoto_1 }
+												photo={ images.file_1 }
+												handleSnackbar={ handleSnackbar }
+											/>
+											<AddPhotoInputComponent
+												handleAddPhoto={ handleAddPhoto_2 }
+												photo={ images.file_2 }
+												handleSnackbar={ handleSnackbar }
+											/>
+											<AddPhotoInputComponent
+												handleAddPhoto={ handleAddPhoto_3 }
+												photo={ images.file_3 }
+												handleSnackbar={ handleSnackbar }
+											/>
+											<AddPhotoInputComponent
+												handleAddPhoto={ handleAddPhoto_4 }
+												photo={ images.file_4 }
+												handleSnackbar={ handleSnackbar }
+											/>
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
@@ -326,7 +448,13 @@ class AddCardFormComponent extends Component {
 							>
 								{/* <i className='fa fa-cloud-upload' aria-hidden='true' />
 								<br /> */}
-								<span>{ addCard.fetchingAddingArticle && !addCard.errorAddingArticle ? <CircularProgress size={ 60 } thickness={ 7 } /> : 'Разместить' }</span>
+								<span>{
+									addCard.fetchingAddingArticle
+									&& !addCard.errorAddingArticle ? (
+											<CircularProgress size={ 60 } thickness={ 7 } />
+										) : (
+											edit ? 'Отправить' : 'Разместить'
+										) }</span>
 							</button>
 						</div>
 					</div>
@@ -355,28 +483,64 @@ AddCardFormComponent.propTypes = {
 	handleSnackbar: PropTypes.func.isRequired,
 	addArticle: PropTypes.func.isRequired,
 	handleResetPlace: PropTypes.func.isRequired,
-	images: PropTypes.object.isRequired
+	images: PropTypes.object.isRequired,
+	editArticle: PropTypes.func.isRequired,
+	deleteImage: PropTypes.func.isRequired
 }
 
 AddCardFormComponent = reduxForm({
 	form: 'addCardForm',
-	initialValues: { city: 'Москва', category: 'buy', animals: 'cat', check: true },
+	// enableReinitialize: true,
 	validate
 })(AddCardFormComponent)
 
 export default connect(
-	state => ({
-		user: state.auth.user,
-		filterCity: state.filterCity,
-		animalCategories: state.menuReducer.categories,
-		addCardForm: state.form.addCardForm,
-		addPhoto: state.photosReducer.addPhoto,
-		images: state.photosReducer,
-		addCard: state.allParamsUrl,
-	}),
+	(state, ownProps) => {
+		let initialValues = null
+		const changePostId = ownProps.params.id
+		const user = state.auth.user
+		const images = state.photosReducer
+		let imageUrl = []
+		const post = _.find(user.posts, o => o._id === changePostId)
+		
+		let getInitialValues = () => {
+			if (!changePostId) {
+				initialValues = { city: 'Москва', category: 'buy', animals: 'cat', check: true }
+			} else {
+				initialValues = {
+					city: post.city,
+					category: post.postType,
+					animals: post.animalType,
+					phoneNumber: post.phoneNumber,
+					title: post.title,
+					textArea: post.content,
+					price: String(post.price),
+					check: true
+				}
+
+				imageUrl = post.imageUrl
+			}
+		}
+
+		getInitialValues()
+
+		return {
+			user,
+			initialValues,
+			filterCity: state.filterCity,
+			animalCategories: state.menuReducer.categories,
+			addCardForm: state.form.addCardForm,
+			addPhoto: state.photosReducer.addPhoto,
+			images,
+			addCard: state.allParamsUrl,
+			changePostId,
+			imageUrl
+		}
+	},
 	{
 		...actionsAllParamsUrl,
 		...actionsPhotosReducer,
-		...actionsSnackbarReducer
+		...actionsSnackbarReducer,
+		...actionsArticlesReducer
 	}
 )(AddCardFormComponent)
