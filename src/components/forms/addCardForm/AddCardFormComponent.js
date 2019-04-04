@@ -103,24 +103,50 @@ class AddCardFormComponent extends Component {
 	}
 
 	disabledSubmitButton = nextProps => {
-		const { addCardForm: { values }, addPhoto, imageUrl } = nextProps
+		const {
+			addCardForm: { values },
+			addPhoto,
+			initialValues
+		} = nextProps
 		const { edit } = this.state
-		
-		if (values &&
-			values.animals &&
-			values.category &&
-			values.city &&
-			(['gift', 'find'].includes(values.category) ? true : values.price) &&
-			values.title &&
-			values.phoneNumber &&
-			values.textArea &&
-			values.check &&
-			values.title.match(validateInputs.title) &&
-			values.textArea.match(validateInputs.textArea) &&
-			values.phoneNumber.match(validateInputs.phoneNumber) &&
-			(edit ? (imageUrl.length || addPhoto) ? true : false : addPhoto)
-		) { this.setState({ disabledButton: false }) }
-		else { this.setState({ disabledButton: true }) }
+
+		if (edit) {
+			if (!_.isEqual(initialValues, values) || addPhoto) {
+				if (values &&
+					values.animals &&
+					values.category &&
+					values.city &&
+					(['gift', 'find'].includes(values.category) ? true : values.price) &&
+					values.title &&
+					values.phoneNumber &&
+					values.textArea &&
+					values.check &&
+					values.title.match(validateInputs.title) &&
+					values.textArea.match(validateInputs.textArea) &&
+					values.phoneNumber.match(validateInputs.phoneNumber)
+				) { this.setState({ disabledButton: false }) }
+				else { this.setState({ disabledButton: true }) }
+
+			} else {
+				this.setState({ disabledButton: true })
+			}
+		} else {
+			if (values &&
+				values.animals &&
+				values.category &&
+				values.city &&
+				(['gift', 'find'].includes(values.category) ? true : values.price) &&
+				values.title &&
+				values.phoneNumber &&
+				values.textArea &&
+				values.check &&
+				values.title.match(validateInputs.title) &&
+				values.textArea.match(validateInputs.textArea) &&
+				values.phoneNumber.match(validateInputs.phoneNumber) &&
+				addPhoto
+			) { this.setState({ disabledButton: false }) }
+			else { this.setState({ disabledButton: true }) }
+		}
 	}
 
 	handleChangeCity = (event, index, value) => this.setState({ city: { value } })
