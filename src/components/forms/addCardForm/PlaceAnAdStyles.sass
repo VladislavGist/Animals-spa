@@ -68,18 +68,36 @@
 					line-height: 18px
 					color: #7c7c7c
 					margin-bottom: 21px
-				.buttonsAddPhoto
+				.buttonsAddPhoto > div
 					display: flex
 					flex-direction: row
 					flex-wrap: wrap
 					.loadingPhoto
 						min-width: 120px
 						max-width: 120px
+						width: 120px
+						height: 120px
 						border-radius: 4px
 						position: relative
 						margin: 0 15px 15px 0
 						@extend .transition
 						@extend .shadowMaterial1
+						.loadingPhotoWrapperImage
+							width: 100%
+							height: 100%
+							overflow: hidden
+							.loadingPhotoDelete
+								position: absolute
+								top: 5px
+								right: 5px
+								color: white
+								font-size: 18px
+								background-color: black
+								width: 10px
+								height: 10px
+								border-radius: 100%
+							img
+								width: 100%
 						.fa
 							position: absolute
 							top: 40%

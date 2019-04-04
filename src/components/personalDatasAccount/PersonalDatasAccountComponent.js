@@ -108,6 +108,7 @@ class PersonalDatasAccount extends Component {
 										userStatus={ null }
 										stopped={ true }
 										stoppedInfo={ true }
+										edit={ true }
 									/>) : <p>Активных объявлений нет</p> }
 							</div>
 						</Tab>
@@ -137,6 +138,7 @@ class PersonalDatasAccount extends Component {
 										rating={ null }
 										userStatus={ null }
 										deleted={ true }
+										edit={ true }
 									/>) : <p>Завершенных объявлений нет</p>}
 							</div>
 						</Tab>
@@ -166,6 +168,7 @@ class PersonalDatasAccount extends Component {
 										rating={ null }
 										deleted={ true }
 										stopped={ null }
+										edit={ true }
 									/>) : <p>Активных объявлений нет</p> }
 							</div>
 						</Tab>

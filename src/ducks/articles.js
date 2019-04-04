@@ -197,5 +197,11 @@ export const actions = {
 		dispatch({ type: types.CHANGE_CURRENT_PAGE_PAGINATION, currentPagePagination })
 	},
 
-	onHandleClearState: () => ({ type: types.FETCH_ARTICLES_CLEAR })
+	onHandleClearState: () => ({ type: types.FETCH_ARTICLES_CLEAR }),
+
+	editArticle: cardId => {
+		const token = localStorage.getItem('token')
+		
+		console.log({cardId})
+	}
 }
