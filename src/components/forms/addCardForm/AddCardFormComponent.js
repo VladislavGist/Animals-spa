@@ -148,11 +148,12 @@ class AddCardFormComponent extends Component {
 		}
 
 		if (edit) {
-			editArticle({
-				file,
-				changePostId,
-				...addCardForm.values
-			})
+			editArticle(
+				handleResetPlace, {
+					file,
+					changePostId,
+					...addCardForm.values
+				})
 		} else {
 			addArticle(
 				handleResetPlace,

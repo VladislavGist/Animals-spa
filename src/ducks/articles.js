@@ -201,17 +201,18 @@ export const actions = {
 
 	onHandleClearState: () => ({ type: types.FETCH_ARTICLES_CLEAR }),
 
-	editArticle: ({
-		changePostId,
-		title,
-		textArea,
-		animals,
-		category,
-		city,
-		price,
-		phoneNumber,
-		file
-	}) => dispatch => {
+	editArticle: (
+		handleResetPlace, {
+			changePostId,
+			title,
+			textArea,
+			animals,
+			category,
+			city,
+			price,
+			phoneNumber,
+			file
+		}) => dispatch => {
 		dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_REQUEST })
 
 		const token = localStorage.getItem('token')
@@ -246,6 +247,7 @@ export const actions = {
 					dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_SUCCESS })
 
 					dispatch(actionsAuth.getUserData(token))
+					dispatch(handleResetPlace())
 				})
 				.catch(err => {
 					err.then(res => {
