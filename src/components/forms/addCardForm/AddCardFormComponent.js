@@ -241,12 +241,14 @@ class AddCardFormComponent extends Component {
 								<p className='subtitle'>Данные</p>
 								<Form onSubmit={ this.handleSendForm } className='newAnimalForm'>
 
-									{ user && user.role === 'moderator' && <Field
-										type='text'
-										label='Имя пользователя'
-										name='refreshName'
-										component={ renderField }
-									/> }
+									{ _.get(user, 'role') === 'moderator' ? (
+										<Field
+											type='text'
+											label='Имя пользователя'
+											name='refreshName'
+											component={ renderField }
+										/>
+									) : null }
 
 									<Field
 										name='animals'
@@ -335,13 +337,15 @@ class AddCardFormComponent extends Component {
 
 									{
 										(addCardForm && addCardForm.values.category === 'gift') ||
-										(addCardForm && addCardForm.values.category === 'find') ? '' : <Field
-												type='text'
-												label='Цена'
-												name='price'
-												normalize={ normilizeNumber }
-												component={ renderField }
-											/>
+										(addCardForm && addCardForm.values.category === 'find') ? null : (
+												<Field
+													type='text'
+													label='Цена'
+													name='price'
+													normalize={ normilizeNumber }
+													component={ renderField }
+												/>
+											)
 									}
 
 									<Field
@@ -517,7 +521,6 @@ AddCardFormComponent.propTypes = {
 
 AddCardFormComponent = reduxForm({
 	form: 'addCardForm',
-	// enableReinitialize: true,
 	validate
 })(AddCardFormComponent)
 

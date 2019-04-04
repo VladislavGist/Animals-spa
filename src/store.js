@@ -1,9 +1,8 @@
 import thunk from 'redux-thunk'
-import { reducer } from 'redux-form'
-import { combineReducers } from 'redux'
 import { hashHistory } from 'react-router'
 import { routerReducer } from 'react-router-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { reducer, change, actionTypes } from 'redux-form'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { routerMiddleware } from 'react-router-redux'
 
@@ -35,7 +34,14 @@ const reducers = combineReducers({
 	toggleAddMoreBtn
 })
 
-const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(routerMiddleware(hashHistory), thunk))(createStore)
+const deleteInregisteredFields = ({ dispatch }) => next => action => {
+	if (action.type === actionTypes.UNREGISTER_FIELD) {
+		dispatch(change(action.meta.form, action.payload.name, null))
+	}
+	next(action)
+}
+
+const createStoreWithMiddleware = composeWithDevTools(applyMiddleware(routerMiddleware(hashHistory), deleteInregisteredFields, thunk))(createStore)
 
 export default function configureStore(initialState) {
 	const store = createStoreWithMiddleware(reducers, initialState)

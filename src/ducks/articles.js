@@ -225,7 +225,6 @@ export const actions = {
 					data[name].forEach(file => {
 						formData.append('file', file)
 					})
-					
 				} else {
 					formData.append(name, data[name])
 				}
@@ -256,14 +255,16 @@ export const actions = {
 		}
 
 		sendData(`${ config.payPetsApiUrl }/api/feed/post/${ changePostId }`,
-			{ title,
+			{
+				title,
 				content: textArea,
 				animalType: animals,
 				postType: category,
 				city,
 				price: Number(price) ? Number(price) : 0,
 				phoneNumber,
-				file })
+				file
+			})
 	},
 
 	deleteImage: ({ changePostId, path }) => dispatch => {
