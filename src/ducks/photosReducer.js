@@ -7,11 +7,11 @@ export const types = {
 }
 
 export const actions = {
-	handleAddPhoto_0: file => ({ type: types.ADD_PHOTO_0, payload: true, file_0: file }),
-	handleAddPhoto_1: file => ({ type: types.ADD_PHOTO_1, payload: true, file_1: file }),
-	handleAddPhoto_2: file => ({ type: types.ADD_PHOTO_2, payload: true, file_2: file }),
-	handleAddPhoto_3: file => ({ type: types.ADD_PHOTO_3, payload: true, file_3: file }),
-	handleAddPhoto_4: file => ({ type: types.ADD_PHOTO_4, payload: true, file_4: file }),
+	handleAddPhoto_0: file => dispatch => dispatch({ type: types.ADD_PHOTO_0, payload: true, file_0: file }),
+	handleAddPhoto_1: file => dispatch => dispatch({ type: types.ADD_PHOTO_1, payload: true, file_1: file }),
+	handleAddPhoto_2: file => dispatch => dispatch({ type: types.ADD_PHOTO_2, payload: true, file_2: file }),
+	handleAddPhoto_3: file => dispatch => dispatch({ type: types.ADD_PHOTO_3, payload: true, file_3: file }),
+	handleAddPhoto_4: file => dispatch => dispatch({ type: types.ADD_PHOTO_4, payload: true, file_4: file }),
 
 	handleResetPlace: () => dispatch => {
 		dispatch({ type: types.ADD_PHOTO_0, payload: false, file_0: null })

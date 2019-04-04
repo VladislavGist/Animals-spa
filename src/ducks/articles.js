@@ -247,13 +247,11 @@ export const actions = {
 					dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_SUCCESS })
 
 					dispatch(actionsAuth.getUserData(token))
-					dispatch(handleResetPlace())
+					dispatch(handleResetPlace)
 				})
 				.catch(err => {
-					err.then(res => {
-						dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
-						dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_ERROR })
-					})
+					dispatch(actionsSnackbarReducer.handleSnackbar(err.message))
+					dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_ERROR })
 				})
 		}
 
