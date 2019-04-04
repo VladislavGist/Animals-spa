@@ -11,6 +11,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 import { actions as actionsAllParamsUrl } from '../../../ducks/allParamsUrl'
 import { actions as actionsPhotosReducer } from '../../../ducks/photosReducer'
 import { actions as actionsSnackbarReducer } from '../../../ducks/snackbarReducer'
+import { actions as actionsArticlesReducer } from '../../../ducks/articles'
 
 import { renderField, validate } from '../formValidate'
 import AddPhotoInputComponent from './addPhotoInput/AddPhotoInputComponent'
@@ -36,7 +37,7 @@ class AddCardFormComponent extends Component {
 	}
 
 	componentWillUpdate(nextProps) {
-		if (nextProps !== this.props) {
+		if (!_.isEqual(nextProps, this.props)) {
 			this.disabledSubmitButton(nextProps)
 		}
 	}
@@ -96,12 +97,15 @@ class AddCardFormComponent extends Component {
 	}
 
 	handleDeleteImage = path => {
-		console.log('delete image', path)
+		const { deleteImage, changePostId } = this.props
+
+		deleteImage({ changePostId, path })
 	}
 
 	disabledSubmitButton = nextProps => {
-		const { addCardForm: { values }, addPhoto } = nextProps
-
+		const { addCardForm: { values }, addPhoto, imageUrl } = nextProps
+		const { edit } = this.state
+		
 		if (values &&
 			values.animals &&
 			values.category &&
@@ -114,7 +118,7 @@ class AddCardFormComponent extends Component {
 			values.title.match(validateInputs.title) &&
 			values.textArea.match(validateInputs.textArea) &&
 			values.phoneNumber.match(validateInputs.phoneNumber) &&
-			addPhoto
+			(edit ? (imageUrl.length || addPhoto) ? true : false : addPhoto)
 		) { this.setState({ disabledButton: false }) }
 		else { this.setState({ disabledButton: true }) }
 	}
@@ -126,8 +130,14 @@ class AddCardFormComponent extends Component {
 			addCardForm,
 			addArticle,
 			handleResetPlace,
-			images
+			images,
+			editArticle,
+			changePostId
 		} = this.props
+
+		const {
+			edit
+		} = this.state
 
 		const file = []
 
@@ -137,13 +147,21 @@ class AddCardFormComponent extends Component {
 			}
 		}
 
-		addArticle(
-			handleResetPlace,
-			{
+		if (edit) {
+			editArticle({
 				file,
+				changePostId,
 				...addCardForm.values
-			}
-		)
+			})
+		} else {
+			addArticle(
+				handleResetPlace,
+				{
+					file,
+					...addCardForm.values
+				}
+			)
+		}
 	}
 
 	render() {
@@ -186,7 +204,7 @@ class AddCardFormComponent extends Component {
 			<div className='placeAnAd'>
 				<div className='placeTop'>
 					<p className='modifyTitle'>{edit ? (
-						`Редактирование объявления: ${ initialValues.title }`
+						`Редактирование: ${ initialValues.title }`
 					) : 'Разместить объявление'}</p>
 				</div>
 				<div className='placeContent'>
@@ -341,8 +359,8 @@ class AddCardFormComponent extends Component {
 												/>
 											) : (
 												<AddPhotoInputComponent
-													handleAddPhoto={ handleAddPhoto_0 }
-													photo={ images.file_0 }
+													handleAddPhoto={ handleAddPhoto_1 }
+													photo={ images.file_1 }
 													handleSnackbar={ handleSnackbar }
 												/>
 											) }
@@ -354,8 +372,8 @@ class AddCardFormComponent extends Component {
 												/>
 											) : (
 												<AddPhotoInputComponent
-													handleAddPhoto={ handleAddPhoto_0 }
-													photo={ images.file_0 }
+													handleAddPhoto={ handleAddPhoto_2 }
+													photo={ images.file_2 }
 													handleSnackbar={ handleSnackbar }
 												/>
 											) }
@@ -367,8 +385,8 @@ class AddCardFormComponent extends Component {
 												/>
 											) : (
 												<AddPhotoInputComponent
-													handleAddPhoto={ handleAddPhoto_0 }
-													photo={ images.file_0 }
+													handleAddPhoto={ handleAddPhoto_3 }
+													photo={ images.file_3 }
 													handleSnackbar={ handleSnackbar }
 												/>
 											) }
@@ -380,8 +398,8 @@ class AddCardFormComponent extends Component {
 												/>
 											) : (
 												<AddPhotoInputComponent
-													handleAddPhoto={ handleAddPhoto_0 }
-													photo={ images.file_0 }
+													handleAddPhoto={ handleAddPhoto_4 }
+													photo={ images.file_4 }
 													handleSnackbar={ handleSnackbar }
 												/>
 											) }
@@ -465,12 +483,14 @@ AddCardFormComponent.propTypes = {
 	handleSnackbar: PropTypes.func.isRequired,
 	addArticle: PropTypes.func.isRequired,
 	handleResetPlace: PropTypes.func.isRequired,
-	images: PropTypes.object.isRequired
+	images: PropTypes.object.isRequired,
+	editArticle: PropTypes.func.isRequired,
+	deleteImage: PropTypes.func.isRequired
 }
 
 AddCardFormComponent = reduxForm({
 	form: 'addCardForm',
-	enableReinitialize: true,
+	// enableReinitialize: true,
 	validate
 })(AddCardFormComponent)
 
@@ -481,13 +501,12 @@ export default connect(
 		const user = state.auth.user
 		const images = state.photosReducer
 		let imageUrl = []
+		const post = _.find(user.posts, o => o._id === changePostId)
 		
 		let getInitialValues = () => {
 			if (!changePostId) {
 				initialValues = { city: 'Москва', category: 'buy', animals: 'cat', check: true }
 			} else {
-				const post = _.find(user.posts, o => o._id === changePostId)
-
 				initialValues = {
 					city: post.city,
 					category: post.postType,
@@ -495,7 +514,7 @@ export default connect(
 					phoneNumber: post.phoneNumber,
 					title: post.title,
 					textArea: post.content,
-					price: post.price,
+					price: String(post.price),
 					check: true
 				}
 
@@ -521,6 +540,7 @@ export default connect(
 	{
 		...actionsAllParamsUrl,
 		...actionsPhotosReducer,
-		...actionsSnackbarReducer
+		...actionsSnackbarReducer,
+		...actionsArticlesReducer
 	}
 )(AddCardFormComponent)

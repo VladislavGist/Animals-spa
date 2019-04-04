@@ -23,9 +23,9 @@
 		.modifyTitle
 			font-family: "RobotoBold"
 			text-transform: uppercase
-			width: 290px
-			font-size: 40.96px
-			line-height: 38px
+			width: 100%
+			font-size: 20px
+			line-height: 28px
 			color: #7c7c7c
 
 
@@ -72,56 +72,64 @@
 					display: flex
 					flex-direction: row
 					flex-wrap: wrap
-					.loadingPhoto
-						min-width: 120px
-						max-width: 120px
-						width: 120px
-						height: 120px
-						border-radius: 4px
-						position: relative
-						margin: 0 15px 15px 0
-						@extend .transition
-						@extend .shadowMaterial1
-						.loadingPhotoWrapperImage
-							width: 100%
-							height: 100%
-							overflow: hidden
-							.loadingPhotoDelete
-								position: absolute
-								top: 5px
-								right: 5px
-								color: white
-								font-size: 18px
-								background-color: black
-								width: 10px
-								height: 10px
-								border-radius: 100%
-							img
-								width: 100%
-						.fa
+				.loadingPhoto
+					min-width: 120px
+					max-width: 120px
+					width: 120px
+					height: 120px
+					border-radius: 4px
+					position: relative
+					margin: 0 15px 15px 0
+					@extend .transition
+					@extend .shadowMaterial1
+					.loadingPhotoWrapperImage
+						width: 100%
+						height: 100%
+						overflow: hidden
+						display: flex
+						justify-content: center
+						align-items: center
+						background-color: #0000008c
+						.loadingPhotoDelete
 							position: absolute
-							top: 40%
-							left: 45%
-							font-size: 20px
-							color: #e8e8e8
-							&:hover
-								cursor: pointer
+							display: flex
+							justify-content: center
+							align-items: center
+							top: 5px
+							right: 5px
+							color: white
+							font-size: 16px
+							background-color: #0000008c
+							width: 25px
+							height: 25px
+							border-radius: 100%
+							cursor: pointer
+						img
+							width: 100%
+					.fa
+						position: absolute
+						top: 40%
+						left: 45%
+						font-size: 20px
+						color: #e8e8e8
+						&:hover
+							cursor: pointer
+					input
+						height: 120px
+						width: 120px
+						opacity: 0
+						&:hover
+							cursor: pointer
+					i
+						&.modifyColor
+							@extend .transition
+							color: $colorLead
+					&.activeLabel
+						border: 1px solid $colorLead
+						box-shadow: none !important
 						input
-							height: 120px
-							width: 120px
-							opacity: 0
 							&:hover
-								cursor: pointer
-						i
-							&.modifyColor
-								@extend .transition
-								color: $colorLead
-						&.activeLabel
-							border: 1px solid $colorLead
-							box-shadow: none !important
-							input
-								&:hover
-									cursor: default
+								cursor: default
 			.btnPlace
 				height: 260px
 				width: 260px

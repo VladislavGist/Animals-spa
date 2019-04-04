@@ -89,6 +89,6 @@ export default class AddPhotoInputComponent extends Component {
 }
 
 AddPhotoInputComponent.propTypes = {
-	handleAddPhoto: PropTypes.func.isRequired,
+	handleAddPhoto: PropTypes.func,
 	handleSnackbar: PropTypes.func.isRequired
 }
