@@ -122,6 +122,7 @@ class AddCardFormComponent extends Component {
 					values.textArea &&
 					values.check &&
 					values.title.match(validateInputs.title) &&
+					values.address.match(validateInputs.address) &&
 					values.textArea.match(validateInputs.textArea) &&
 					values.phoneNumber.match(validateInputs.phoneNumber)
 				) { this.setState({ disabledButton: false }) }
@@ -140,6 +141,7 @@ class AddCardFormComponent extends Component {
 				values.phoneNumber &&
 				values.textArea &&
 				values.check &&
+				values.address.match(validateInputs.address) &&
 				values.title.match(validateInputs.title) &&
 				values.textArea.match(validateInputs.textArea) &&
 				values.phoneNumber.match(validateInputs.phoneNumber) &&
@@ -305,6 +307,13 @@ class AddCardFormComponent extends Component {
 												<CircularProgress size={ 60 }/>
 											) }
 									</Field>
+
+									<Field
+										type='text'
+										label='Адрес'
+										name='address'
+										component={ renderField }
+									/>
 
 									<Field
 										type='text'

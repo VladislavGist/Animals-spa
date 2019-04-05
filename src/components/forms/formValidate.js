@@ -96,6 +96,12 @@ export const validate = values => {
 		errors.name = 'Введите корректное имя'
 	}
 
+	if (!values.address) {
+		errors.address = 'Поле обязательно для заполнения!'
+	} else if (!values.address.match(validateInputs.address)) {
+		errors.address = 'Введите корректное название'
+	}
+
 	if (!values.lastName) {
 		errors.lastName = 'Поле обязательно для заполнения!'
 	} else if (!values.lastName.match(validateInputs.lastName)) {
