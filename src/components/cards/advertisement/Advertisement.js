@@ -14,6 +14,8 @@ if (process.env.BROWSER) {
 	require('./advertisement.sass')
 }
 
+moment.locale('ru')
+
 class Advertisement extends Component {
 
 	static propTypes = {
@@ -71,8 +73,6 @@ class Advertisement extends Component {
 		const advType = _.find(typesList, o => o.type === openedCard.postType)
 		const showChangesButton = Boolean(_.find(userPosts, o => o._id === id))
 
-		moment.locale('ru')
-
 		return (
 			<div className='advContentItem'>
 				{showChangesButton ? (
@@ -88,7 +88,7 @@ class Advertisement extends Component {
 				<div className='advHeader'>
 					<div>
 						<h2>{ openedCard.title }</h2>
-						<p className='advTime'>Дата размещения: { moment(openedCard.createdAt).format('DD-MM-YYYY, h:mm:ss a') }</p>
+						<p className='advTime'>Дата размещения: { moment(openedCard.createdAt).format('MMMM Do YYYY') }</p>
 					</div>
 
 					{ openedCard.price ? (
