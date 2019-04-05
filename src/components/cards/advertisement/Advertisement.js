@@ -88,7 +88,7 @@ class Advertisement extends Component {
 				<div className='advHeader'>
 					<div>
 						<h2>{ openedCard.title }</h2>
-						<p className='advTime'>Дата размещения: { moment(openedCard.createdAt).format('MMMM Do YYYY') }</p>
+						<p className='advTime'>Дата размещения: { moment(openedCard.createdAt).format('MM-DD-YYYY') }</p>
 					</div>
 
 					{ openedCard.price ? (
