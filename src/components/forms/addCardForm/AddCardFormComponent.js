@@ -329,7 +329,7 @@ class AddCardFormComponent extends Component {
 										extra={ {
 											multiLine: true,
 											rows: 2,
-											rowsMax: 4
+											rowsMax: 8
 										} }
 										
 										component={ renderField }

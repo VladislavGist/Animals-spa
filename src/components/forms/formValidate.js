@@ -43,6 +43,7 @@ export const renderField = ({
 		return (
 			<TextField
 				{ ...input }
+				{ ...{ value: input.value.replace(/\r|\n/g, '') } }
 				name={ label }
 				hintText={ label }
 				floatingLabelText={ label }

@@ -1,4 +1,21 @@
-.image-gallery.fullscreen-modal
+.image-gallery-content
+	&.fullscreen
+		.image-gallery-fullscreen-button
+			top: -20%
+			right: 0
+			height: 60px
+			width: 60px
+			cursor: pointer
+
+			&.active::before
+				content: '×'
+
+	.image-gallery-fullscreen-button
+		&::before
+			content: ''
+		height: 100%
+		width: 100%
+
 	.image-gallery-image
 		display: flex
 		justify-content: center
@@ -22,7 +39,7 @@
 			bottom: -9999px
 			margin: auto
 			max-height: 519px !important
-			height: 100vh !important
+			height: 100% !important
 			width: auto !important
 
 	@media screen and (max-width: 768px)

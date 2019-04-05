@@ -103,7 +103,7 @@ class Menu extends Component {
 										to={ `/animals/${ category.type }/buy` }
 										key={ idx }
 									>
-										<span>{ category.translate } - { category.count } объявл.</span>
+										<span>{ category.translate } - { category.count }</span>
 									</Link>
 								)) }
 							</div>
