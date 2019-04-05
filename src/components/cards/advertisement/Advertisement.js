@@ -116,6 +116,11 @@ class Advertisement extends Component {
 								<p className='advCityTitle'>Город</p>
 								<p>{ openedCard.city }</p>
 							</div>
+
+							<div className='advCity'>
+								<p className='advCityTitle'>Адрес</p>
+								<p>{ openedCard.address }</p>
+							</div>
 						</div>
 					</div>
 				</div>

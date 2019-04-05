@@ -29,6 +29,7 @@ export const actions = {
 		city,
 		price,
 		phoneNumber,
+		address,
 		file
 	}) => dispatch => {
 		dispatch({ type: types.ADD_ARTICLE_REQUEST })
@@ -78,6 +79,7 @@ export const actions = {
 				animalType: animals,
 				postType: category,
 				city,
+				address,
 				price: Number(price) ? Number(price) : 0,
 				phoneNumber,
 				file })

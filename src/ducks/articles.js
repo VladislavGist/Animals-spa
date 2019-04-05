@@ -209,6 +209,7 @@ export const actions = {
 			animals,
 			category,
 			city,
+			address,
 			price,
 			phoneNumber,
 			file
@@ -261,6 +262,7 @@ export const actions = {
 				animalType: animals,
 				postType: category,
 				city,
+				address,
 				price: Number(price) ? Number(price) : 0,
 				phoneNumber,
 				file

@@ -122,7 +122,7 @@ class AddCardFormComponent extends Component {
 					values.textArea &&
 					values.check &&
 					values.title.match(validateInputs.title) &&
-					values.address.match(validateInputs.address) &&
+					(values.address ? values.address.match(validateInputs.address) : true) &&
 					values.textArea.match(validateInputs.textArea) &&
 					values.phoneNumber.match(validateInputs.phoneNumber)
 				) { this.setState({ disabledButton: false }) }
@@ -141,7 +141,7 @@ class AddCardFormComponent extends Component {
 				values.phoneNumber &&
 				values.textArea &&
 				values.check &&
-				values.address.match(validateInputs.address) &&
+				(values.address ? values.address.match(validateInputs.address) : true) &&
 				values.title.match(validateInputs.title) &&
 				values.textArea.match(validateInputs.textArea) &&
 				values.phoneNumber.match(validateInputs.phoneNumber) &&
@@ -555,6 +555,7 @@ export default connect(
 					title: post.title,
 					textArea: post.content,
 					price: String(post.price),
+					address: post.address,
 					check: true
 				}
 
