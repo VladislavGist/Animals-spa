@@ -7,7 +7,7 @@
     "dev": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base public --port 8090 --host localhost",
     "devMobile": "NODE_ENV=development webpack-dev-server --debug --devtool eval-sourse-map --output-pathinfo --watch --colors --inline --hot --content-base public --port 8090 --host 192.168.1.64",
     "buildTest": "NODE_ENV=development webpack -p",
-    "build": "NODE_ENV=production webpack -p"
+    "build": "EXTERNAL_API_URL=https://pay-pets.ru NODE_ENV=production webpack -p"
   },
   "author": "Vladislav Druzhbinskiy",
   "license": "MIT",
