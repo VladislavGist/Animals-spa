@@ -14,8 +14,6 @@ if (process.env.BROWSER) {
 	require('./advertisement.sass')
 }
 
-moment.locale('ru')
-
 class Advertisement extends Component {
 
 	static propTypes = {
@@ -72,6 +70,8 @@ class Advertisement extends Component {
 		const animalType = _.find(categories, o => o.type === openedCard.animalType)
 		const advType = _.find(typesList, o => o.type === openedCard.postType)
 		const showChangesButton = Boolean(_.find(userPosts, o => o._id === id))
+
+		moment.locale('ru')
 
 		return (
 			<div className='advContentItem'>
