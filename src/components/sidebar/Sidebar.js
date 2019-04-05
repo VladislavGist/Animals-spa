@@ -56,7 +56,7 @@ class Sidebar extends Component {
 				<div className='menuHeader'>
 					<div className='top_logo'>
 						<Link to='/'>
-							<img src='/images/app/PPLogo.svg'
+							<img src='/images/app/PPLogo.png'
 								width='120'
 								alt='logotype'
 							/>

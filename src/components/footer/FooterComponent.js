@@ -8,7 +8,7 @@ if (process.env.BROWSER) {
 const Footer = () => (
 	<footer>
 		<Link to='/' className='footerLogo'>
-			<img src='/images/app/PPLogo.svg' width='120' alt='logotype' />
+			<img src='/images/app/PPLogo.png' width='120' alt='logotype' />
 		</Link>
 		<div className='linksFooter'>
 			<Link to='/contacts'>Контакты</Link>
