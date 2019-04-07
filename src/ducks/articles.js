@@ -250,7 +250,7 @@ export const actions = {
 
 					dispatch(actionsAuth.getUserData(token))
 					dispatch(handleResetPlace)
-					tgCreatePost()
+					tgCreatePost('CHANGE_POST')
 				})
 				.catch(err => {
 					dispatch(actionsSnackbarReducer.handleSnackbar(err.message))

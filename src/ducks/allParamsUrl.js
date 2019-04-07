@@ -65,7 +65,7 @@ export const actions = {
 				.then(result => {
 					dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
 					dispatch({ type: types.ADD_ARTICLE_SUCCESS })
-					tgCreatePost()
+					tgCreatePost('CREATE_POST')
 				})
 				.catch(err => {
 					err.then(res => {
