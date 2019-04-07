@@ -8,7 +8,7 @@ import { types as allParamsUrlTypes } from '../ducks/allParamsUrl'
 import { actions as actionsAuth } from '../ducks/auth'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
-import { tgCreatePost } from '../../analytics'
+import { tgReachGoal } from '../../analytics'
 
 export const types = {
 	FETCH_ARTICLES_START: `${ appName }/${ moduleName }/FETCH_ARTICLES_START`,
@@ -250,7 +250,7 @@ export const actions = {
 
 					dispatch(actionsAuth.getUserData(token))
 					dispatch(handleResetPlace)
-					tgCreatePost('CHANGE_POST')
+					tgReachGoal('CHANGE_POST')
 				})
 				.catch(err => {
 					dispatch(actionsSnackbarReducer.handleSnackbar(err.message))

@@ -1,7 +1,7 @@
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 import { actions as actionsAuthReducer } from '../ducks/auth'
 
-import { tgCreatePost } from '../../analytics'
+import { tgReachGoal } from '../../analytics'
 import config from '../../config'
 
 const appName = 'paypets'
@@ -65,7 +65,7 @@ export const actions = {
 				.then(result => {
 					dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
 					dispatch({ type: types.ADD_ARTICLE_SUCCESS })
-					tgCreatePost('CREATE_POST')
+					tgReachGoal('CREATE_POST')
 				})
 				.catch(err => {
 					err.then(res => {

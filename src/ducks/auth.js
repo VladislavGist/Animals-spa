@@ -3,6 +3,7 @@ import { push } from 'react-router-redux'
 import { actions as actionsPreloader } from '../ducks/preloader'
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 
+import { tgReachGoal } from '../../analytics'
 import config from '../../config'
 
 const appName = 'paypets'
@@ -106,12 +107,14 @@ export const actions = {
 				dispatch(actionsPreloader.handleUpdateStateLoading(100))
 				dispatch({ type: types.REGISTRATION_SUCCESS })
 				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+				tgReachGoal('REGISTRATION_SUCCESS')
 			})
 			.catch(err => {
 				err.then(res => {
 					dispatch(actionsPreloader.handleUpdateStateLoading(100))
 					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
 					dispatch({ type: types.REGISTRATION_ERROR })
+					tgReachGoal('REGISTRATION_FAIL')
 				})
 			})
 	},
@@ -162,9 +165,11 @@ export const actions = {
 				dispatch(actionsPreloader.handleUpdateStateLoading(100))
 				dispatch({ type: types.RESET_PASSWORD_SUCCESS })
 				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+				tgReachGoal('RESET_PASSWORD_SUCCESS')
+
 			})
 			.catch(err => {
-				console.log({err})
+				tgReachGoal('RESET_PASSWORD_FAIL')
 				err.then(res => {
 					dispatch(actionsPreloader.handleUpdateStateLoading(100))
 					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
@@ -187,14 +192,14 @@ export const actions = {
 			})
 			.then(result => {
 				dispatch(actionsPreloader.handleUpdateStateLoading(100))
-				// dispatch({ type: types.RESET_PASSWORD_SUCCESS })
 				dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
+				tgReachGoal('ADD_NEW_PASSWORD_SUCCESS')
 			})
 			.catch(err => {
+				tgReachGoal('ADD_NEW_PASSWORD_FAIL')
 				err.then(res => {
 					dispatch(actionsPreloader.handleUpdateStateLoading(100))
 					dispatch(actionsSnackbarReducer.handleSnackbar(res.message))
-					// dispatch({ type: types.RESET_PASSWORD_ERROR })
 				})
 			})
 	}
