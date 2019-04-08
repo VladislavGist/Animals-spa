@@ -558,6 +558,7 @@ export default connect(
 					textArea: post.content,
 					price: String(post.price),
 					address: post.address,
+					refreshName: post.creatorName,
 					check: true
 				}
 

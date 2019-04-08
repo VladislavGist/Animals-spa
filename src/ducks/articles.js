@@ -214,7 +214,8 @@ export const actions = {
 			address,
 			price,
 			phoneNumber,
-			file
+			file,
+			refreshName
 		}) => dispatch => {
 		dispatch({ type: allParamsUrlTypes.ADD_ARTICLE_REQUEST })
 
@@ -268,6 +269,7 @@ export const actions = {
 				address,
 				price: Number(price) ? Number(price) : 0,
 				phoneNumber,
+				refreshName,
 				file
 			})
 	},

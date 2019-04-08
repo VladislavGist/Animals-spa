@@ -31,7 +31,8 @@ export const actions = {
 		price,
 		phoneNumber,
 		address,
-		file
+		file,
+		refreshName
 	}) => dispatch => {
 		dispatch({ type: types.ADD_ARTICLE_REQUEST })
 
@@ -84,6 +85,7 @@ export const actions = {
 				address,
 				price: Number(price) ? Number(price) : 0,
 				phoneNumber,
+				refreshName,
 				file })
 	},
 
