@@ -1,3 +1,5 @@
+import { push } from 'react-router-redux'
+
 import { actions as actionsSnackbarReducer } from '../ducks/snackbarReducer'
 import { actions as actionsAuthReducer } from '../ducks/auth'
 
@@ -66,6 +68,7 @@ export const actions = {
 				.then(result => {
 					dispatch(actionsSnackbarReducer.handleSnackbar(result.message))
 					dispatch({ type: types.ADD_ARTICLE_SUCCESS })
+					dispatch(push('personalArea'))
 					tgReachGoal('CREATE_POST')
 				})
 				.catch(err => {
