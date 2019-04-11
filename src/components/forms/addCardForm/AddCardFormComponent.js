@@ -324,6 +324,19 @@ class AddCardFormComponent extends Component {
 										component={ renderField }
 									/>
 
+									{
+										(addCardForm && addCardForm.values.category === 'gift') ||
+										(addCardForm && addCardForm.values.category === 'find') ? null : (
+												<Field
+													type='text'
+													label='Укажите стоимость'
+													name='price'
+													normalize={ normilizeNumber }
+													component={ renderField }
+												/>
+											)
+									}
+
 									<Field
 										type='tel'
 										label='Номер телефона'
@@ -345,19 +358,6 @@ class AddCardFormComponent extends Component {
 										
 										component={ renderField }
 									/>
-
-									{
-										(addCardForm && addCardForm.values.category === 'gift') ||
-										(addCardForm && addCardForm.values.category === 'find') ? null : (
-												<Field
-													type='text'
-													label='Цена'
-													name='price'
-													normalize={ normilizeNumber }
-													component={ renderField }
-												/>
-											)
-									}
 
 									<Field
 										type='checkbox'
